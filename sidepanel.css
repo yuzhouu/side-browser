@@ -1,0 +1,28 @@
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;overflow:hidden}
+body{display:flex;flex-direction:column;background:#f8f7f4;color:#344139;font:12px -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
+header{display:flex;align-items:center;gap:2px;height:36px;padding:4px 5px;border-bottom:1px solid #e5e6e1;flex-shrink:0}
+button{display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;width:26px;height:26px;padding:0;border:0;border-radius:4px;background:none;color:#6b756e;cursor:pointer;font:inherit}
+button svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}
+button:hover:not(:disabled){background:#e9ece6;color:#344139}
+button:disabled{opacity:.3;cursor:default}
+button:focus-visible,form:focus-within{outline:2px solid #78947d;outline-offset:0}
+form{display:flex;flex:1;min-width:0;height:26px;margin:0 2px;border:1px solid transparent;border-radius:4px;background:#efefea}
+form:hover{border-color:#dedfd8}
+form:focus-within{background:#fff}
+input{flex:1;width:0;min-width:0;border:0;outline:none;padding:0 7px;color:#344139;background:transparent;font:inherit}
+input::placeholder{color:#919790}
+#current{width:auto;padding:0 6px;font-size:11px;white-space:nowrap}
+#more-menu{position:fixed;inset:34px 5px auto auto;width:202px;max-width:calc(100vw - 10px);margin:0;padding:4px;border:1px solid #dedfd8;border-radius:7px;background:#fafbf8;color:#344139;box-shadow:0 5px 18px #283b2b1a}
+#more-menu::backdrop{background:transparent}
+#more-menu button{justify-content:flex-start;gap:9px;width:100%;height:30px;padding:0 8px;font-size:12px;text-align:left;white-space:nowrap}
+main{position:relative;display:flex;justify-content:center;flex:1;min-height:0;overflow:hidden;background:#e9ece6}
+#viewport{position:relative;flex:none;height:100%;overflow:hidden}
+#web{position:absolute;left:0;top:0;display:block;width:100%;height:100%;max-width:none;border:0;background:white;transform-origin:top left}
+#notice{display:flex;align-items:center;gap:8px;padding:7px 10px;font-size:11px;line-height:1.6;background:#f4e9d9;color:#77502f;flex-shrink:0}
+#notice span{flex:1}
+#notice button{width:auto;min-width:26px;height:22px;font-size:11px;text-decoration:underline}
+#empty{position:absolute;inset:0;display:flex;flex-direction:column;gap:10px;align-items:center;justify-content:center;padding:20px;color:#777b75;background:#f8f7f4;pointer-events:none;text-align:center}
+#empty strong{font-size:15px;font-weight:500;color:#465b4b}
+#empty span{font-size:12px;line-height:1.7}
+[hidden]{display:none!important}

@@ -1,0 +1,9 @@
+{
+  "name": "sidebrowser-extension",
+  "version": "1.6.5",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/*.test.js"
+  }
+}

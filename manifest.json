@@ -1,0 +1,67 @@
+{
+  "manifest_version": 3,
+  "name": "伴页 · SideBrowser",
+  "version": "1.6.5",
+  "description": "原生侧边栏小浏览器，同一窗口共用一个网页，切换标签保留运行状态，支持地址搜索、手机视口适配和 UA。",
+  "minimum_chrome_version": "145",
+  "permissions": [
+    "storage",
+    "tabs",
+    "sidePanel",
+    "contextMenus",
+    "scripting",
+    "declarativeNetRequestWithHostAccess"
+  ],
+  "host_permissions": [
+    "http://*/*",
+    "https://*/*"
+  ],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "action": {
+    "default_title": "伴页 · 打开侧边栏",
+    "default_icon": {
+      "16": "icons/16.png",
+      "32": "icons/32.png",
+      "48": "icons/48.png",
+      "128": "icons/128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/16.png",
+    "32": "icons/32.png",
+    "48": "icons/48.png",
+    "128": "icons/128.png"
+  },
+  "options_ui": {
+    "page": "help.html",
+    "open_in_tab": true
+  },
+  "commands": {
+    "open-current": {
+      "suggested_key": {
+        "default": "Alt+Shift+P",
+        "mac": "Alt+Shift+P"
+      },
+      "description": "在伴页中打开当前网页"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "http://*/*",
+        "https://*/*"
+      ],
+      "js": [
+        "frame-navigation.js"
+      ],
+      "all_frames": true,
+      "run_at": "document_start"
+    }
+  ],
+  "side_panel": {
+    "default_path": "sidepanel.html"
+  }
+}
