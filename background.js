@@ -1,14 +1,14 @@
 import { parseInput, validMode, isWebUrl } from './config.js';
 import { frameDestination } from './embedding.js';
 import { LAST_KEY, WINDOWS_KEY, MODE_KEY, restorePanel, navigatePanel } from './sidepanel-state.js';
-import { RECENT_KEY, restoreRecentUrls, rememberRecentUrl } from './recent-urls.js';
+import { RECENT_KEY, RECENT_TITLES_KEY, restoreRecentUrls, rememberRecentUrl, restoreRecentTitles, normalizeRecentTitle } from './recent-urls.js';
 import { PANEL_RULE_IDS, panelRules } from './network-rules.js';
 import { t } from './i18n.js';
 import { userError } from './errors.js';
 
 const SHELL = chrome.runtime.getURL('sidepanel.html');
 const MOBILE_SCRIPTS = ['pocket-mobile-gate', 'pocket-mobile-main'];
-let windows = {}, last, mode, recentUrls = [], queue = Promise.resolve();
+let windows = {}, last, mode, recentUrls = [], recentTitles = {}, queue = Promise.resolve();
 const ports = new Map();
 async function rules() {
   const registered = await chrome.scripting.getRegisteredContentScripts({ ids: MOBILE_SCRIPTS });
@@ -25,12 +25,13 @@ async function rules() {
 }
 const ready = (async () => {
   const [local, session] = await Promise.all([
-    chrome.storage.local.get([LAST_KEY, MODE_KEY, RECENT_KEY, 'pocket-global-overlay-v1']),
+    chrome.storage.local.get([LAST_KEY, MODE_KEY, RECENT_KEY, RECENT_TITLES_KEY, 'pocket-global-overlay-v1']),
     chrome.storage.session.get(WINDOWS_KEY)
   ]);
   last = restorePanel(local[LAST_KEY] || local['pocket-global-overlay-v1']);
   mode = validMode(local[MODE_KEY] ?? last.mode);
   recentUrls = restoreRecentUrls(local[RECENT_KEY]);
+  recentTitles = restoreRecentTitles(local[RECENT_TITLES_KEY], recentUrls);
   for (const [id, saved] of Object.entries(session[WINDOWS_KEY] || {})) windows[id] = restorePanel(saved);
   await rules();
   await chrome.sidePanel.setPanelBehavior({ openPanelOnActionClick: true });
@@ -41,7 +42,7 @@ function update(task) {
 }
 function getState(windowId) {
   windows[windowId] ||= restorePanel(last);
-  return { ...structuredClone(windows[windowId]), mode, recentUrls: [...recentUrls] };
+  return { ...structuredClone(windows[windowId]), mode, recentUrls: [...recentUrls], recentTitles: { ...recentTitles } };
 }
 async function save(windowId, value) {
   windows[windowId] = restorePanel({ ...value, mode }); last = windows[windowId];
@@ -60,15 +61,17 @@ async function verify(sender, windowId) {
 function publish(windowId, message) {
   try { ports.get(windowId)?.postMessage(message); } catch { ports.delete(windowId); }
 }
-async function saveRecent(urls) {
-  await chrome.storage.local.set({ [RECENT_KEY]: urls });
-  recentUrls = urls;
-  for (const id of ports.keys()) publish(id, { type: 'recent', urls: [...recentUrls] });
+async function saveRecent(urls, titles = recentTitles) {
+  titles = restoreRecentTitles(titles, urls);
+  await chrome.storage.local.set({ [RECENT_KEY]: urls, [RECENT_TITLES_KEY]: titles });
+  recentUrls = urls; recentTitles = titles;
+  for (const id of ports.keys()) publish(id, { type: 'recent', urls: [...recentUrls], titles: { ...recentTitles } });
   return [...recentUrls];
 }
-async function navigate(windowId, input) {
+async function navigate(windowId, input, sourceTitle) {
   const state = getState(windowId), url = frameDestination(input, parseInput);
-  await saveRecent(rememberRecentUrl(recentUrls, url));
+  const title = normalizeRecentTitle(sourceTitle);
+  await saveRecent(rememberRecentUrl(recentUrls, url), title ? { ...recentTitles, [url]: title } : recentTitles);
   if (url === state.url) return getState(windowId);
   navigatePanel(state, url); await save(windowId, state);
   publish(windowId, { type: 'navigate', state: getState(windowId) });
@@ -83,6 +86,13 @@ chrome.runtime.onMessage.addListener((message, sender, reply) => {
       case 'PANEL_SAVE': return save(message.windowId, message.state);
       case 'PANEL_NAVIGATE': return navigate(message.windowId, message.input);
       case 'PANEL_CLEAR_RECENT': return saveRecent([]);
+      case 'PANEL_REMOVE_RECENT': return saveRecent(recentUrls.filter(url => url !== message.url));
+      case 'PANEL_RECENT_TITLE': {
+        const title = normalizeRecentTitle(message.title);
+        if (title && recentUrls.includes(message.url) && getState(message.windowId).url === message.pageUrl && recentTitles[message.url] !== title)
+          await saveRecent(recentUrls, { ...recentTitles, [message.url]: title });
+        return { ...recentTitles };
+      }
       case 'PANEL_MODE':
         mode = validMode(message.mode); await rules();
         await chrome.storage.local.set({ [MODE_KEY]: mode });
@@ -92,7 +102,7 @@ chrome.runtime.onMessage.addListener((message, sender, reply) => {
       case 'PANEL_CURRENT': {
         const tab = (await chrome.tabs.query({ active: true, windowId: message.windowId }))[0];
         if (!isWebUrl(tab?.url)) throw userError('errorCurrentPage');
-        return navigate(message.windowId, tab.url);
+        return navigate(message.windowId, tab.url, tab.title);
       }
       case 'PANEL_EXTERNAL': {
         const url = getState(message.windowId).url;
@@ -127,18 +137,19 @@ chrome.runtime.onInstalled.addListener(() => {
     if (previous?.tabId) await chrome.tabs.sendMessage(previous.tabId, { type: 'POCKET_REMOVE', id: previous.id }, { frameId: 0 }).catch(() => {});
     await chrome.storage.session.remove(key);
     await chrome.contextMenus.removeAll();
-    chrome.contextMenus.create({ id: 'open-pocket', title: t('contextOpen'), contexts: ['page', 'link'], documentUrlPatterns: ['http://*/*', 'https://*/*'] });
+    chrome.contextMenus.create({ id: 'open-pocket', title: t('contextOpen'), contexts: ['page', 'link', 'action'], documentUrlPatterns: ['http://*/*', 'https://*/*'] });
   }).catch(() => {});
 });
-function openFromGesture(windowId, input) {
+function openFromGesture(windowId, input, title) {
   // Call open before any await so Chrome retains the user's gesture.
   const opened = chrome.sidePanel.open({ windowId });
-  void update(() => navigate(windowId, input)).catch(() => {});
+  void update(() => navigate(windowId, input, title)).catch(() => {});
   void opened.catch(() => {});
 }
 chrome.contextMenus.onClicked.addListener((info, tab) => {
-  if (info.menuItemId === 'open-pocket' && tab?.windowId) openFromGesture(tab.windowId, info.linkUrl || tab.url);
+  if (info.menuItemId === 'open-pocket' && tab?.windowId)
+    openFromGesture(tab.windowId, info.linkUrl || tab.url, !info.linkUrl || info.linkUrl === tab.url ? tab.title : undefined);
 });
 chrome.commands.onCommand.addListener((name, tab) => {
-  if (name === 'open-current' && isWebUrl(tab?.url)) openFromGesture(tab.windowId, tab.url);
+  if (name === 'open-current' && isWebUrl(tab?.url)) openFromGesture(tab.windowId, tab.url, tab.title);
 });

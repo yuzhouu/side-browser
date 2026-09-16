@@ -6,18 +6,19 @@
   const documentId = Array.from(crypto.getRandomValues(new Uint32Array(4)), n => n.toString(16)).join('-');
   const viewport = () => Array.from(document.querySelectorAll('meta'))
     .filter(meta => meta.name.toLowerCase() === 'viewport').slice(0, 64).map(meta => meta.content.slice(0, 4096));
-  const report = (type = 'POCKET_LOCATION') => parent.postMessage({ type, url: location.href, documentId, viewport: viewport() }, origin);
+  const report = (type = 'POCKET_LOCATION') => parent.postMessage({ type, url: location.href, title: document.title.slice(0, 512), documentId, viewport: viewport() }, origin);
   report();
-  let lastViewport = JSON.stringify(viewport());
-  const observeViewport = () => {
+  let lastViewport = JSON.stringify(viewport()), lastTitle = document.title;
+  const observeMetadata = () => {
     const next = JSON.stringify(viewport());
     if (next !== lastViewport) { lastViewport = next; report('POCKET_VIEWPORT'); }
+    if (document.title !== lastTitle) { lastTitle = document.title; report('POCKET_TITLE'); }
   };
   // Observe metadata, not the frequently changing website body.
-  const headObserver = new MutationObserver(observeViewport);
+  const headObserver = new MutationObserver(observeMetadata);
   const watchHead = () => { if (!document.head) return false;
-    headObserver.observe(document.head, { childList: true, subtree: true, attributes: true, attributeFilter: ['name', 'content'] });
-    observeViewport(); return true;
+    headObserver.observe(document.head, { childList: true, subtree: true, characterData: true, attributes: true, attributeFilter: ['name', 'content'] });
+    observeMetadata(); return true;
   };
   if (!watchHead()) {
     const start = new MutationObserver(() => { if (watchHead()) start.disconnect(); });
