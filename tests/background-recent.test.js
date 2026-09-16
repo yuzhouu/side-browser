@@ -32,9 +32,16 @@ const a = 'https://a.example/',
 let generation = 0;
 async function background(context, localValues = {}) {
   const previous = Object.getOwnPropertyDescriptor(globalThis, 'chrome');
+  const previousNavigator = Object.getOwnPropertyDescriptor(globalThis, 'navigator');
+  Object.defineProperty(globalThis, 'navigator', {
+    configurable: true,
+    value: { userAgent: 'Mozilla/5.0 Chrome/149.0.0.0 Safari/537.36' }
+  });
   context.after(() => {
     if (previous) Object.defineProperty(globalThis, 'chrome', previous);
     else delete globalThis.chrome;
+    if (previousNavigator) Object.defineProperty(globalThis, 'navigator', previousNavigator);
+    else delete globalThis.navigator;
   });
   const shell = 'chrome-extension://test/sidepanel.html';
   const sender = { id: 'test', url: shell, documentId: 'panel-document' };
@@ -49,7 +56,10 @@ async function background(context, localValues = {}) {
       onStartup: event(),
       onInstalled: event()
     },
-    scripting: { getRegisteredContentScripts: async () => [] },
+    scripting: {
+      getRegisteredContentScripts: async () => [],
+      registerContentScripts: async () => {}
+    },
     declarativeNetRequest: { updateSessionRules: async () => {} },
     sidePanel: { setPanelBehavior: async () => {}, open: async () => {} },
     windows: { get: async () => ({ type: 'normal' }), onRemoved: event() },
@@ -71,8 +81,93 @@ async function background(context, localValues = {}) {
       });
     });
   await request('PANEL_READY');
-  return { chrome, request, sender };
+  const settingsRequest = (
+    type,
+    data = {},
+    from = { id: 'test', url: 'chrome-extension://test/options.html', tab: { id: 42 } }
+  ) =>
+    new Promise((resolve, reject) => {
+      chrome.runtime.onMessage.listeners[0]({ type, ...data }, from, response => {
+        if (response.ok) resolve(response.data);
+        else reject(Object.assign(new Error(response.error), { code: response.errorCode }));
+      });
+    });
+  return { chrome, request, sender, settingsRequest };
 }
+
+test('settings change the shared mode and clear recents without replacing window navigation', async context => {
+  const { chrome, request, sender, settingsRequest } = await background(context);
+  await request('PANEL_NAVIGATE', { input: a });
+  await request('PANEL_NAVIGATE', { input: b }, 2);
+  const first = await request('PANEL_READY');
+  const second = await request('PANEL_READY', {}, 2);
+  const messages = [];
+  chrome.runtime.onConnect.emit({
+    name: 'pocket-sidepanel:2',
+    sender,
+    onDisconnect: event(),
+    postMessage: message => messages.push(structuredClone(message))
+  });
+  assert.deepEqual(await settingsRequest('SETTINGS_GET'), { mode: 'desktop', recentCount: 2 });
+  assert.deepEqual(await settingsRequest('SETTINGS_MODE', { mode: 'mobile' }), {
+    mode: 'mobile',
+    recentCount: 2
+  });
+  assert.equal(chrome.storage.local.values[MODE_KEY], 'mobile');
+  assert(messages.some(message => message.type === 'mode' && message.mode === 'mobile'));
+  assert.deepEqual(await settingsRequest('SETTINGS_CLEAR_RECENT'), {
+    mode: 'mobile',
+    recentCount: 0
+  });
+  await request('PANEL_SAVE', { state: first });
+  for (const [id, before] of [
+    [1, first],
+    [2, second]
+  ]) {
+    const after = await request('PANEL_READY', {}, id);
+    assert.equal(after.mode, 'mobile');
+    assert.equal(after.url, before.url);
+    assert.deepEqual(after.history, before.history);
+    assert.deepEqual(after.recentUrls, []);
+  }
+  assert.deepEqual(chrome.storage.local.values[RECENT_TITLES_KEY], {});
+  assert(messages.some(message => message.type === 'recent' && message.urls.length === 0));
+});
+
+test('settings operations require the settings page and do not grant panel navigation access', async context => {
+  const { request, sender, settingsRequest } = await background(context, { [RECENT_KEY]: [a] });
+  for (const from of [
+    sender,
+    { id: 'test', url: 'https://example.com/' },
+    { id: 'other', url: 'chrome-extension://test/options.html' },
+    { id: 'test', url: 'chrome-extension://test/help.html' }
+  ]) {
+    await assert.rejects(settingsRequest('SETTINGS_CLEAR_RECENT', {}, from), {
+      code: 'errorSettingsOnly'
+    });
+  }
+  await assert.rejects(settingsRequest('PANEL_NAVIGATE', { windowId: 1, input: b }), {
+    code: 'errorPanelOnly'
+  });
+  assert.deepEqual((await request('PANEL_READY')).recentUrls, [a]);
+});
+
+test('a failed settings mode change preserves the preference and can be retried', async context => {
+  const { chrome, settingsRequest } = await background(context);
+  const original = chrome.declarativeNetRequest.updateSessionRules;
+  let fail = true;
+  chrome.declarativeNetRequest.updateSessionRules = async () => {
+    if (fail) {
+      fail = false;
+      throw new Error('Rules unavailable');
+    }
+  };
+  await assert.rejects(settingsRequest('SETTINGS_MODE', { mode: 'mobile' }), /Rules unavailable/);
+  assert.equal((await settingsRequest('SETTINGS_GET')).mode, 'desktop');
+  assert.equal(chrome.storage.local.values[MODE_KEY], 'desktop');
+  chrome.declarativeNetRequest.updateSessionRules = original;
+  assert.equal((await settingsRequest('SETTINGS_MODE', { mode: 'mobile' })).mode, 'mobile');
+});
 
 test('restore, internal location reports and history traversal never populate recent addresses', async context => {
   const { request } = await background(context, { [LAST_KEY]: { url: a, history: [a] } });

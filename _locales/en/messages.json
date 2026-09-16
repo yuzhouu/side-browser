@@ -133,69 +133,144 @@
     "message": "Something went wrong. Try again."
   },
   "helpTitle": {
-    "message": "SideBrowser · Help"
+    "message": "SideBrowser · About & help"
   },
   "helpIntro": {
-    "message": "SideBrowser $version$ · One shared sidebar per browser window.",
-    "placeholders": {
-      "version": {
-        "content": "$1",
-        "example": "1.6.5"
-      }
-    }
+    "message": "SideBrowser · A browser in your sidebar."
   },
   "helpLanguage": {
-    "message": "The interface follows Chrome’s display language. Simplified Chinese, Traditional Chinese, English, Japanese, German, French, and Spanish are supported; other languages use English."
+    "message": "The interface language follows Chrome automatically."
   },
   "helpHeading": {
-    "message": "Switch tabs. Keep your page."
+    "message": "About & help"
   },
   "helpStartHeading": {
     "message": "Getting started"
   },
   "helpStartNavigation": {
-    "message": "Click the extension icon to open the sidebar. The 36px navigation bar contains Open current page, a separator, Back, Forward, Reload, an address field, and “⋯”, in that order. Enter an address or Google search term and press Enter. The clock in the address field lists your last 10 explicitly opened addresses with page titles and website icons. Click an entry to switch, use its remove button to delete it, or clear the whole list. Reopening an address moves it to the top. The list is shared across windows and survives restarts; in-page navigation, redirects, reloads, Back, and Forward do not add entries. The “⋯” menu lets you open the sidebar page in a new tab or switch between mobile and desktop modes. Menus float over the page without reducing its height. Press Escape or click outside to close them."
+    "message": "Click the SideBrowser extension icon to open the sidebar. Enter an address or Google search term and press Enter. Use “Open current page” to open the active tab’s address in the sidebar."
   },
   "helpStartShortcut": {
-    "message": "Right-click the SideBrowser toolbar icon or a page and choose “Open in SideBrowser” to open the current page; right-click a link to open that link instead. The keyboard shortcut is Alt + Shift + P, or ⌥ + ⇧ + P on Mac. Chrome controls the sidebar’s position, width, and close button."
+    "message": "Right-click a page or link and choose “Open in SideBrowser” for quick access. View or change your keyboard shortcut in Settings. Drag the sidebar edge to adjust its width."
   },
   "helpStateHeading": {
-    "message": "Page state"
+    "message": "Switching tabs and restoring pages"
   },
   "helpStatePersistence": {
-    "message": "Switching tabs, reloading the main tab, or closing the source tab does not recreate the sidebar page. Form inputs, scroll position, and running page state stay in place. Each browser window has its own page and navigation history. No helper tab is needed."
+    "message": "Your sidebar page stays open when you switch tabs or close the source tab. Each browser window can have its own sidebar page."
   },
   "helpStateRestore": {
-    "message": "Closing the sidebar, window, extension, or browser may discard the live page state. Reopening restores the saved address and navigation history. Mobile or desktop mode is shared across the extension. Switching modes reloads the page in every open sidebar."
-  },
-  "helpStateFullscreen": {
-    "message": "Chrome window fullscreen has been tested. Fullscreen for individual page elements or videos needs separate testing. The sidebar cannot float above other desktop apps or be dragged freely like a page overlay."
+    "message": "After closing the sidebar or browser, reopening restores the saved address. Unsaved form input, playback progress, and other live page state may be lost."
   },
   "helpMobileHeading": {
-    "message": "Mobile view and embedded pages"
+    "message": "Display modes and troubleshooting"
   },
   "helpMobileViewport": {
-    "message": "Mobile mode preserves mouse, hover, scroll-wheel, and native touch behavior. Pages use their declared viewport width, then scale to fit the sidebar. NGA’s 525px layout fits in full; responsive pages use the available width. Resizing the sidebar does not recreate the page."
-  },
-  "helpMobileIdentity": {
-    "message": "Mobile mode also supplies a mobile User-Agent, Client Hints, and screen information visible to page scripts. Resources and fetch requests use the mobile User-Agent too. Switching to desktop mode reloads the page and restores native display and device information. Regular browser tabs and their resources are unchanged."
-  },
-  "helpMobileLimits": {
-    "message": "This is viewport adaptation within the extension, not DevTools device emulation. Screen rasterization, CSS device-resolution queries, nested frames, and other behavior are not fully emulated. Pinch zoom and a virtual keyboard are not included."
+    "message": "Switch between mobile and desktop modes in Settings or the sidebar’s “⋯” menu. Mobile mode suits a narrow sidebar and still supports your mouse and scroll wheel. The layout depends on the website."
   },
   "helpEmbeddingLimits": {
-    "message": "X-Frame-Options is removed only from embedded frame documents within the sidebar. If a CSP header contains frame-ancestors, that entire CSP header is removed. Login requirements, cookies, DRM, and frame detection may still prevent embedding. Use “⋯” to open the page in a new tab."
-  },
-  "helpUpdateHeading": {
-    "message": "Updating the extension"
-  },
-  "helpUpdate": {
-    "message": "Chrome 145 or later is required. Replace the files in the existing extension folder, then reload the original extension at chrome://extensions. Keeping the same extension identity preserves saved addresses, history, and mode. If an old page overlay remains, reload that web page once. Do not enable old and new versions at the same time."
+    "message": "If a page loads slowly, try reloading it. Some websites, sign-in flows, or videos may not work in the sidebar. Use “⋯” to open the current page in a new tab."
   },
   "helpPrivacyHeading": {
-    "message": "Permissions and data"
+    "message": "Privacy and data"
   },
   "helpPrivacy": {
-    "message": "sidePanel hosts the interface. Website access and scripting permissions support embedded pages. tabs reads the source address when you ask to open it. storage saves navigation and preferences. There are no debugging sessions, proxy servers, telemetry, or remote extension scripts. Browsing history is not uploaded to the developer."
+    "message": "Preferences, recently opened addresses and titles, and addresses and navigation history used to restore pages are stored on your device and are not uploaded to the developer. Clearing recently opened entries only removes that list; it does not delete saved page addresses, navigation history, or website data. Websites and search providers have their own privacy policies."
+  },
+  "settingsTitle": {
+    "message": "SideBrowser · Settings"
+  },
+  "settingsHeading": {
+    "message": "Settings"
+  },
+  "settingsNavigation": {
+    "message": "Settings and help"
+  },
+  "settingsIntro": {
+    "message": "Manage your browsing preferences. Changes are saved automatically."
+  },
+  "settingsBrowsing": {
+    "message": "Browsing preferences"
+  },
+  "settingsMode": {
+    "message": "Page display mode"
+  },
+  "settingsModeDescription": {
+    "message": "Shared across all windows. Switching modes reloads the page in every open sidebar."
+  },
+  "settingsMobile": {
+    "message": "Mobile"
+  },
+  "settingsDesktop": {
+    "message": "Desktop"
+  },
+  "settingsLanguage": {
+    "message": "Interface language"
+  },
+  "settingsFollowBrowser": {
+    "message": "Follow Chrome"
+  },
+  "settingsShortcut": {
+    "message": "Open current page"
+  },
+  "settingsShortcutDescription": {
+    "message": "Open the active tab in the sidebar. You can change this shortcut in Chrome."
+  },
+  "settingsManageShortcut": {
+    "message": "Manage shortcuts"
+  },
+  "settingsShortcutUnset": {
+    "message": "No shortcut assigned"
+  },
+  "settingsData": {
+    "message": "Browsing records"
+  },
+  "settingsRecentDescription": {
+    "message": "Keep your last 10 explicitly opened addresses for easy access. Clearing the list does not close your page or sign you out of websites."
+  },
+  "settingsRecentCount": {
+    "message": "$count$ saved entries",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      }
+    }
+  },
+  "settingsClearConfirmation": {
+    "message": "Clear all recently opened entries? This cannot be undone."
+  },
+  "settingsCancel": {
+    "message": "Cancel"
+  },
+  "settingsConfirmClear": {
+    "message": "Confirm clear"
+  },
+  "settingsSaving": {
+    "message": "Saving…"
+  },
+  "settingsSaved": {
+    "message": "Saved"
+  },
+  "settingsCleared": {
+    "message": "Recently opened entries cleared"
+  },
+  "errorSettingsOnly": {
+    "message": "Open SideBrowser settings to perform this action."
+  },
+  "helpRecent": {
+    "message": "Click the clock in the address bar to see recently opened pages. Select an entry to reopen it, remove individual entries, or clear the list. The list is shared across windows and stays available after restarting your browser."
+  },
+  "helpFeedback": {
+    "message": "Feedback & suggestions"
+  },
+  "helpFeedbackDescription": {
+    "message": "Found a problem or have an idea? Let us know on GitHub."
+  },
+  "helpFeedbackLink": {
+    "message": "Give feedback on GitHub"
+  },
+  "helpAuthor": {
+    "message": "Author"
   }
 }

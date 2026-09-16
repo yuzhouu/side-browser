@@ -133,69 +133,144 @@
     "message": "Ein Fehler ist aufgetreten. Versuche es erneut."
   },
   "helpTitle": {
-    "message": "SideBrowser · Hilfe"
+    "message": "SideBrowser · Über & Hilfe"
   },
   "helpIntro": {
-    "message": "SideBrowser $version$ · Eine gemeinsame Seitenleiste pro Browserfenster.",
-    "placeholders": {
-      "version": {
-        "content": "$1",
-        "example": "1.6.5"
-      }
-    }
+    "message": "SideBrowser · Ein Browser in deiner Seitenleiste."
   },
   "helpLanguage": {
-    "message": "Die Oberfläche folgt der Anzeigesprache von Chrome. Unterstützt werden vereinfachtes und traditionelles Chinesisch, Englisch, Japanisch, Deutsch, Französisch und Spanisch. Bei anderen Sprachen wird Englisch verwendet."
+    "message": "Die Sprache richtet sich automatisch nach Chrome."
   },
   "helpHeading": {
-    "message": "Tabs wechseln. Die Seite bleibt."
+    "message": "Über & Hilfe"
   },
   "helpStartHeading": {
     "message": "Erste Schritte"
   },
   "helpStartNavigation": {
-    "message": "Klicke auf das Erweiterungssymbol, um die Seitenleiste zu öffnen. Die 36px hohe Navigationsleiste enthält in dieser Reihenfolge: Aktuelle Seite öffnen, eine Trennlinie, Zurück, Vorwärts, Neu laden, ein Adressfeld und „⋯“. Gib eine Adresse oder einen Google-Suchbegriff ein und drücke die Eingabetaste. Die Uhr im Adressfeld zeigt die letzten 10 Adressen, die du selbst geöffnet hast, mit Seitentiteln und Website-Symbolen. Klicke auf einen Eintrag, um die Seite zu wechseln. Du kannst Einträge einzeln entfernen oder die gesamte Liste löschen. Erneut geöffnete Adressen rücken nach oben. Die Liste wird zwischen Fenstern geteilt und bleibt nach einem Neustart erhalten. Navigation innerhalb einer Seite, Weiterleitungen, Neuladen, Zurück und Vorwärts fügen keine Einträge hinzu. Über „⋯“ kannst du die Seite aus der Seitenleiste in einem neuen Tab öffnen oder zwischen Mobil- und Desktopansicht wechseln. Menüs liegen über der Seite, ohne deren Höhe zu verringern. Drücke Escape oder klicke außerhalb, um sie zu schließen."
+    "message": "Klicke auf das SideBrowser-Symbol, um die Seitenleiste zu öffnen. Gib eine Adresse oder einen Google-Suchbegriff ein und drücke Enter. Mit „Aktuelle Seite öffnen“ öffnest du die Adresse des aktiven Tabs in der Seitenleiste."
   },
   "helpStartShortcut": {
-    "message": "Klicke mit der rechten Maustaste auf das SideBrowser-Symbol in der Symbolleiste oder auf eine Seite und wähle „In SideBrowser öffnen“, um die aktuelle Seite zu öffnen. Bei einem Rechtsklick auf einen Link wird stattdessen dieser Link geöffnet. Das Tastenkürzel ist Alt + Shift + P, auf dem Mac ⌥ + ⇧ + P. Position, Breite und Schließen-Schaltfläche der Seitenleiste werden von Chrome verwaltet."
+    "message": "Klicke mit der rechten Maustaste auf eine Seite oder einen Link und wähle „In SideBrowser öffnen“. Dein Tastenkürzel kannst du in den Einstellungen ansehen und ändern. Ziehe am Rand der Seitenleiste, um ihre Breite anzupassen."
   },
   "helpStateHeading": {
-    "message": "Seitenzustand"
+    "message": "Tabs wechseln und Seiten wiederherstellen"
   },
   "helpStatePersistence": {
-    "message": "Beim Wechseln von Tabs, Neuladen des Haupt-Tabs oder Schließen des Quell-Tabs wird die Seite in der Seitenleiste nicht neu erstellt. Formulareingaben, Scrollposition und der laufende Seitenzustand bleiben erhalten. Jedes Browserfenster hat seine eigene Seite und seinen eigenen Navigationsverlauf. Ein Hilfs-Tab ist nicht nötig."
+    "message": "Die Seite in der Seitenleiste bleibt geöffnet, wenn du Tabs wechselst oder den ursprünglichen Tab schließt. Jedes Browserfenster kann eine eigene Seite in der Seitenleiste haben."
   },
   "helpStateRestore": {
-    "message": "Beim Schließen der Seitenleiste, des Fensters, der Erweiterung oder des Browsers kann der laufende Seitenzustand verloren gehen. Beim erneuten Öffnen werden die gespeicherte Adresse und der Navigationsverlauf wiederhergestellt. Die Einstellung für Mobil- oder Desktopansicht gilt für die gesamte Erweiterung. Ein Ansichtswechsel lädt die Seite in allen geöffneten Seitenleisten neu."
-  },
-  "helpStateFullscreen": {
-    "message": "Der Vollbildmodus des Chrome-Fensters wurde getestet. Der Vollbildmodus einzelner Seitenelemente oder Videos muss gesondert geprüft werden. Die Seitenleiste kann nicht über anderen Desktop-Apps schweben oder wie ein schwebendes Seitenelement frei verschoben werden."
+    "message": "Nach dem Schließen der Seitenleiste oder des Browsers wird beim erneuten Öffnen die gespeicherte Adresse geladen. Nicht gesendete Eingaben, Wiedergabepositionen und andere Seitenzustände können verloren gehen."
   },
   "helpMobileHeading": {
-    "message": "Mobilansicht und eingebettete Seiten"
+    "message": "Anzeigemodi und Hilfe bei Problemen"
   },
   "helpMobileViewport": {
-    "message": "Die Mobilansicht behält das Verhalten von Maus, Hover, Mausrad und nativer Touch-Eingabe bei. Seiten werden mit ihrer angegebenen Viewport-Breite dargestellt und proportional an die Seitenleiste angepasst. Das 525px-Layout von NGA wird vollständig angezeigt; responsive Seiten nutzen die verfügbare Breite. Eine Größenänderung der Seitenleiste erstellt die Seite nicht neu."
-  },
-  "helpMobileIdentity": {
-    "message": "Die Mobilansicht stellt außerdem einen mobilen User-Agent, Client Hints und für Seitenskripte lesbare Bildschirminformationen bereit. Auch Ressourcen und fetch-Anfragen verwenden den mobilen User-Agent. Beim Wechsel zur Desktopansicht wird die Seite neu geladen und die native Anzeige sowie die ursprünglichen Geräteinformationen werden wiederhergestellt. Normale Browser-Tabs und ihre Ressourcen bleiben unverändert."
-  },
-  "helpMobileLimits": {
-    "message": "Dies ist eine Viewport-Anpassung innerhalb der Erweiterung, keine Geräteemulation mit DevTools. Bildschirmrasterung, CSS-Abfragen zur Geräteauflösung, verschachtelte Frames und weitere Verhaltensweisen werden nicht vollständig emuliert. Pinch-Zoom und eine virtuelle Tastatur sind nicht enthalten."
+    "message": "Wechsle in den Einstellungen oder im Menü „⋯“ zwischen Mobil- und Desktop-Modus. Der Mobilmodus eignet sich für schmale Seitenleisten und unterstützt weiterhin Maus und Mausrad. Das Layout hängt von der Website ab."
   },
   "helpEmbeddingLimits": {
-    "message": "X-Frame-Options wird nur aus Dokumenten eingebetteter Frames in der Seitenleiste entfernt. Enthält ein CSP-Header frame-ancestors, wird dieser gesamte CSP-Header entfernt. Anmeldeanforderungen, Cookies, DRM und Frame-Erkennung können das Einbetten weiterhin verhindern. Öffne die Seite dann über „⋯“ in einem neuen Tab."
-  },
-  "helpUpdateHeading": {
-    "message": "Erweiterung aktualisieren"
-  },
-  "helpUpdate": {
-    "message": "Chrome 145 oder neuer ist erforderlich. Ersetze die Dateien im bestehenden Erweiterungsordner und lade die ursprüngliche Erweiterung unter chrome://extensions neu. Wenn die Erweiterungs-ID gleich bleibt, bleiben gespeicherte Adressen, Verlauf und Ansichtsmodus erhalten. Falls noch ein altes schwebendes Seitenelement angezeigt wird, lade die betreffende Webseite einmal neu. Aktiviere alte und neue Versionen nicht gleichzeitig."
+    "message": "Wenn eine Seite langsam lädt, lade sie erneut. Manche Websites, Anmeldungen oder Videos funktionieren möglicherweise nicht in der Seitenleiste. Öffne die aktuelle Seite über „⋯“ in einem neuen Tab."
   },
   "helpPrivacyHeading": {
-    "message": "Berechtigungen und Daten"
+    "message": "Datenschutz und Daten"
   },
   "helpPrivacy": {
-    "message": "sidePanel stellt die Oberfläche bereit. Website-Zugriff und Skriptberechtigungen ermöglichen eingebettete Seiten. tabs liest die Quelladresse, wenn du sie öffnen möchtest. storage speichert Navigation und Einstellungen. Es gibt keine Debugging-Sitzungen, Proxyserver, Telemetrie oder extern geladenen Erweiterungsskripte. Der Browserverlauf wird nicht an den Entwickler übermittelt."
+    "message": "Einstellungen, zuletzt geöffnete Adressen und Titel sowie Adressen und Navigationsverläufe zur Wiederherstellung werden auf deinem Gerät gespeichert und nicht an den Entwickler übertragen. Das Leeren der Liste entfernt nur die zuletzt geöffneten Einträge, nicht die gespeicherten Seitenadressen, Navigationsverläufe oder Website-Daten. Für Websites und Suchanbieter gelten deren eigene Datenschutzrichtlinien."
+  },
+  "settingsTitle": {
+    "message": "SideBrowser · Einstellungen"
+  },
+  "settingsHeading": {
+    "message": "Einstellungen"
+  },
+  "settingsNavigation": {
+    "message": "Einstellungen und Hilfe"
+  },
+  "settingsIntro": {
+    "message": "Verwalte deine Browser-Einstellungen. Änderungen werden automatisch gespeichert."
+  },
+  "settingsBrowsing": {
+    "message": "Browser-Einstellungen"
+  },
+  "settingsMode": {
+    "message": "Anzeigemodus"
+  },
+  "settingsModeDescription": {
+    "message": "Gilt für alle Fenster. Ein Moduswechsel lädt die Seite in jeder geöffneten Seitenleiste neu."
+  },
+  "settingsMobile": {
+    "message": "Mobil"
+  },
+  "settingsDesktop": {
+    "message": "Desktop"
+  },
+  "settingsLanguage": {
+    "message": "Sprache"
+  },
+  "settingsFollowBrowser": {
+    "message": "Wie in Chrome"
+  },
+  "settingsShortcut": {
+    "message": "Aktuelle Seite öffnen"
+  },
+  "settingsShortcutDescription": {
+    "message": "Öffne den aktiven Tab in der Seitenleiste. Das Tastenkürzel lässt sich in Chrome ändern."
+  },
+  "settingsManageShortcut": {
+    "message": "Tastenkürzel verwalten"
+  },
+  "settingsShortcutUnset": {
+    "message": "Kein Tastenkürzel festgelegt"
+  },
+  "settingsData": {
+    "message": "Gespeicherte Seiten"
+  },
+  "settingsRecentDescription": {
+    "message": "Die letzten 10 von dir geöffneten Adressen bleiben schnell erreichbar. Das Leeren der Liste schließt keine Seite und meldet dich nicht von Websites ab."
+  },
+  "settingsRecentCount": {
+    "message": "$count$ gespeicherte Einträge",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      }
+    }
+  },
+  "settingsClearConfirmation": {
+    "message": "Alle zuletzt geöffneten Einträge löschen? Dies kann nicht rückgängig gemacht werden."
+  },
+  "settingsCancel": {
+    "message": "Abbrechen"
+  },
+  "settingsConfirmClear": {
+    "message": "Löschen bestätigen"
+  },
+  "settingsSaving": {
+    "message": "Wird gespeichert…"
+  },
+  "settingsSaved": {
+    "message": "Gespeichert"
+  },
+  "settingsCleared": {
+    "message": "Zuletzt geöffnete Einträge gelöscht"
+  },
+  "errorSettingsOnly": {
+    "message": "Öffne die SideBrowser-Einstellungen für diese Aktion."
+  },
+  "helpRecent": {
+    "message": "Klicke auf die Uhr in der Adressleiste, um zuletzt geöffnete Seiten zu sehen. Wähle einen Eintrag zum Öffnen, entferne einzelne Einträge oder leere die Liste. Die Liste gilt für alle Fenster und bleibt nach einem Browser-Neustart erhalten."
+  },
+  "helpFeedback": {
+    "message": "Feedback & Vorschläge"
+  },
+  "helpFeedbackDescription": {
+    "message": "Ein Problem gefunden oder eine Idee? Teile sie uns auf GitHub mit."
+  },
+  "helpFeedbackLink": {
+    "message": "Feedback auf GitHub"
+  },
+  "helpAuthor": {
+    "message": "Autor"
   }
 }

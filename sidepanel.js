@@ -212,6 +212,9 @@ document.querySelector('#current').onclick = () => {
 document.querySelector('#external').onclick = () => {
   void serial(() => request('PANEL_EXTERNAL'));
 };
+document.querySelector('#help').onclick = () => {
+  void serial(() => chrome.tabs.create({ windowId, url: chrome.runtime.getURL('help.html') }));
+};
 moreMenu.addEventListener('click', event => {
   if (event.target.closest('button:not(:disabled)')) moreMenu.hidePopover();
 });

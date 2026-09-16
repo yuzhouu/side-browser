@@ -133,69 +133,144 @@
     "message": "Une erreur s’est produite. Réessayez."
   },
   "helpTitle": {
-    "message": "SideBrowser · Aide"
+    "message": "SideBrowser · À propos et aide"
   },
   "helpIntro": {
-    "message": "SideBrowser $version$ · Un panneau latéral partagé par fenêtre de navigateur.",
-    "placeholders": {
-      "version": {
-        "content": "$1",
-        "example": "1.6.5"
-      }
-    }
+    "message": "SideBrowser · Un navigateur dans votre panneau latéral."
   },
   "helpLanguage": {
-    "message": "L’interface suit la langue d’affichage de Chrome. Le chinois simplifié, le chinois traditionnel, l’anglais, le japonais, l’allemand, le français et l’espagnol sont pris en charge. Pour les autres langues, l’anglais est utilisé."
+    "message": "La langue de l’interface suit automatiquement celle de Chrome."
   },
   "helpHeading": {
-    "message": "Changez d’onglet. Gardez votre page."
+    "message": "À propos et aide"
   },
   "helpStartHeading": {
     "message": "Premiers pas"
   },
   "helpStartNavigation": {
-    "message": "Cliquez sur l’icône de l’extension pour ouvrir le panneau latéral. La barre de navigation de 36px contient, dans l’ordre : Ouvrir la page actuelle, un séparateur, Précédent, Suivant, Actualiser, un champ d’adresse et « ⋯ ». Saisissez une adresse ou des termes de recherche Google, puis appuyez sur Entrée. L’horloge dans le champ d’adresse affiche les 10 dernières adresses que vous avez ouvertes vous-même, avec les titres des pages et les icônes des sites. Cliquez sur une entrée pour changer de page, supprimez une entrée ou effacez toute la liste. Une adresse rouverte remonte en tête de liste. La liste est partagée entre les fenêtres et conservée après un redémarrage. La navigation dans les pages, les redirections, l’actualisation et les boutons Précédent et Suivant n’ajoutent pas d’entrées. Le menu « ⋯ » permet d’ouvrir la page du panneau latéral dans un nouvel onglet ou de passer de la vue mobile à la vue ordinateur. Les menus se superposent à la page sans réduire sa hauteur. Appuyez sur Échap ou cliquez à l’extérieur pour les fermer."
+    "message": "Cliquez sur l’icône de SideBrowser pour ouvrir le panneau latéral. Saisissez une adresse ou des termes de recherche Google, puis appuyez sur Entrée. « Ouvrir la page actuelle » ouvre l’adresse de l’onglet actif dans le panneau latéral."
   },
   "helpStartShortcut": {
-    "message": "Faites un clic droit sur l’icône SideBrowser de la barre d’outils ou sur une page, puis choisissez « Ouvrir dans SideBrowser » pour ouvrir la page actuelle. Un clic droit sur un lien permet d’ouvrir ce lien à la place. Le raccourci clavier est Alt + Shift + P, ou ⌥ + ⇧ + P sur Mac. Chrome gère la position, la largeur et le bouton de fermeture du panneau latéral."
+    "message": "Vous pouvez aussi faire un clic droit sur une page ou un lien et choisir « Ouvrir dans SideBrowser ». Consultez ou modifiez votre raccourci clavier dans les paramètres. Faites glisser le bord du panneau pour ajuster sa largeur."
   },
   "helpStateHeading": {
-    "message": "État de la page"
+    "message": "Changer d’onglet et retrouver une page"
   },
   "helpStatePersistence": {
-    "message": "Changer d’onglet, actualiser l’onglet principal ou fermer l’onglet source ne recrée pas la page du panneau latéral. Les saisies, la position de défilement et l’état de la page en cours sont conservés. Chaque fenêtre possède sa propre page et son propre historique de navigation. Aucun onglet auxiliaire n’est nécessaire."
+    "message": "La page du panneau latéral reste ouverte lorsque vous changez d’onglet ou fermez l’onglet d’origine. Chaque fenêtre du navigateur peut afficher sa propre page dans le panneau latéral."
   },
   "helpStateRestore": {
-    "message": "Fermer le panneau latéral, la fenêtre, l’extension ou le navigateur peut entraîner la perte de l’état de la page en cours. À la réouverture, l’adresse et l’historique enregistrés sont restaurés. Le choix entre vue mobile et vue ordinateur est partagé par toute l’extension. Changer de vue recharge la page dans tous les panneaux latéraux ouverts."
-  },
-  "helpStateFullscreen": {
-    "message": "Le plein écran de la fenêtre Chrome a été testé. Le plein écran propre à certains éléments de page ou aux vidéos nécessite des tests séparés. Le panneau latéral ne peut pas flotter au-dessus d’autres applications de bureau ni être déplacé librement comme un élément flottant dans une page."
+    "message": "Après la fermeture du panneau ou du navigateur, la réouverture restaure l’adresse enregistrée. Les saisies non envoyées, la position de lecture et d’autres éléments de la page peuvent être perdus."
   },
   "helpMobileHeading": {
-    "message": "Vue mobile et pages intégrées"
+    "message": "Modes d’affichage et dépannage"
   },
   "helpMobileViewport": {
-    "message": "La vue mobile conserve le comportement de la souris, du survol, de la molette et des interactions tactiles natives. Les pages utilisent la largeur de fenêtre d’affichage qu’elles déclarent, puis sont redimensionnées proportionnellement pour tenir dans le panneau latéral. La mise en page de NGA en 525px s’affiche entièrement ; les pages adaptatives utilisent la largeur disponible. Redimensionner le panneau latéral ne recrée pas la page."
-  },
-  "helpMobileIdentity": {
-    "message": "La vue mobile fournit aussi un User-Agent mobile, des Client Hints et des informations d’écran accessibles aux scripts des pages. Les ressources et les requêtes fetch utilisent également le User-Agent mobile. Revenir à la vue ordinateur recharge la page et restaure l’affichage et les informations natives de l’appareil. Les onglets ordinaires du navigateur et leurs ressources ne sont pas modifiés."
-  },
-  "helpMobileLimits": {
-    "message": "Il s’agit d’une adaptation de la fenêtre d’affichage dans l’extension, et non de l’émulation d’appareil de DevTools. La rastérisation de l’écran, les requêtes CSS sur la résolution de l’appareil, les cadres imbriqués et d’autres comportements ne sont pas entièrement émulés. Le zoom par pincement et le clavier virtuel ne sont pas inclus."
+    "message": "Passez du mode mobile au mode ordinateur dans les paramètres ou le menu « ⋯ ». Le mode mobile convient aux panneaux étroits et reste compatible avec la souris et la molette. La mise en page dépend du site."
   },
   "helpEmbeddingLimits": {
-    "message": "X-Frame-Options est supprimé uniquement des documents des cadres intégrés au panneau latéral. Si un en-tête CSP contient frame-ancestors, cet en-tête CSP est supprimé dans son intégralité. Les exigences de connexion, les cookies, les DRM et la détection des cadres peuvent toujours empêcher l’intégration. Utilisez « ⋯ » pour ouvrir la page dans un nouvel onglet."
-  },
-  "helpUpdateHeading": {
-    "message": "Mettre à jour l’extension"
-  },
-  "helpUpdate": {
-    "message": "Chrome 145 ou une version ultérieure est nécessaire. Remplacez les fichiers dans le dossier existant de l’extension, puis rechargez l’extension d’origine sur chrome://extensions. Conserver le même identifiant d’extension permet de garder les adresses, l’historique et le mode enregistrés. Si un ancien panneau flottant reste sur une page, actualisez cette page une fois. N’activez pas l’ancienne et la nouvelle version en même temps."
+    "message": "Si une page est lente, essayez de la recharger. Certains sites, écrans de connexion ou vidéos peuvent mal fonctionner dans le panneau. Utilisez « ⋯ » pour ouvrir la page actuelle dans un nouvel onglet."
   },
   "helpPrivacyHeading": {
-    "message": "Autorisations et données"
+    "message": "Confidentialité et données"
   },
   "helpPrivacy": {
-    "message": "sidePanel héberge l’interface. Les autorisations d’accès aux sites et d’exécution de scripts servent à intégrer les pages. tabs lit l’adresse source lorsque vous demandez à l’ouvrir. storage enregistre la navigation et les préférences. Il n’y a ni session de débogage, ni serveur proxy, ni télémétrie, ni script d’extension distant. L’historique de navigation n’est pas transmis au développeur."
+    "message": "Les préférences, les adresses et titres récemment ouverts ainsi que les adresses et historiques de navigation servant à restaurer les pages sont conservés sur votre appareil, sans être transmis au développeur. Effacer les entrées récentes supprime uniquement cette liste, pas les adresses de restauration, les historiques de navigation ou les données des sites. Les sites et moteurs de recherche appliquent leurs propres politiques de confidentialité."
+  },
+  "settingsTitle": {
+    "message": "SideBrowser · Paramètres"
+  },
+  "settingsHeading": {
+    "message": "Paramètres"
+  },
+  "settingsNavigation": {
+    "message": "Paramètres et aide"
+  },
+  "settingsIntro": {
+    "message": "Gérez vos préférences de navigation. Les modifications sont enregistrées automatiquement."
+  },
+  "settingsBrowsing": {
+    "message": "Préférences de navigation"
+  },
+  "settingsMode": {
+    "message": "Mode d’affichage"
+  },
+  "settingsModeDescription": {
+    "message": "Commun à toutes les fenêtres. Changer de mode recharge la page dans chaque panneau latéral ouvert."
+  },
+  "settingsMobile": {
+    "message": "Mobile"
+  },
+  "settingsDesktop": {
+    "message": "Ordinateur"
+  },
+  "settingsLanguage": {
+    "message": "Langue de l’interface"
+  },
+  "settingsFollowBrowser": {
+    "message": "Comme dans Chrome"
+  },
+  "settingsShortcut": {
+    "message": "Ouvrir la page actuelle"
+  },
+  "settingsShortcutDescription": {
+    "message": "Ouvrez l’onglet actif dans le panneau latéral. Ce raccourci peut être modifié dans Chrome."
+  },
+  "settingsManageShortcut": {
+    "message": "Gérer les raccourcis"
+  },
+  "settingsShortcutUnset": {
+    "message": "Aucun raccourci défini"
+  },
+  "settingsData": {
+    "message": "Pages enregistrées"
+  },
+  "settingsRecentDescription": {
+    "message": "Retrouvez les 10 dernières adresses que vous avez ouvertes. Effacer la liste ne ferme pas la page et ne vous déconnecte pas des sites."
+  },
+  "settingsRecentCount": {
+    "message": "$count$ entrées enregistrées",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      }
+    }
+  },
+  "settingsClearConfirmation": {
+    "message": "Effacer toutes les entrées récemment ouvertes ? Cette action est irréversible."
+  },
+  "settingsCancel": {
+    "message": "Annuler"
+  },
+  "settingsConfirmClear": {
+    "message": "Confirmer"
+  },
+  "settingsSaving": {
+    "message": "Enregistrement…"
+  },
+  "settingsSaved": {
+    "message": "Enregistré"
+  },
+  "settingsCleared": {
+    "message": "Les entrées récemment ouvertes ont été effacées"
+  },
+  "errorSettingsOnly": {
+    "message": "Ouvrez les paramètres de SideBrowser pour effectuer cette action."
+  },
+  "helpRecent": {
+    "message": "Cliquez sur l’horloge dans la barre d’adresse pour afficher les pages récemment ouvertes. Sélectionnez une entrée pour la rouvrir, supprimez des entrées ou effacez la liste. Cette liste est commune à toutes les fenêtres et reste disponible après un redémarrage du navigateur."
+  },
+  "helpFeedback": {
+    "message": "Retours et suggestions"
+  },
+  "helpFeedbackDescription": {
+    "message": "Un problème ou une idée ? Faites-nous-en part sur GitHub."
+  },
+  "helpFeedbackLink": {
+    "message": "Donner un avis sur GitHub"
+  },
+  "helpAuthor": {
+    "message": "Auteur"
   }
 }

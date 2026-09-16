@@ -133,69 +133,144 @@
     "message": "エラーが発生しました。もう一度お試しください。"
   },
   "helpTitle": {
-    "message": "SideBrowser · ヘルプ"
+    "message": "SideBrowser · 概要とヘルプ"
   },
   "helpIntro": {
-    "message": "SideBrowser $version$ · ブラウザのウィンドウごとに 1 つのサイドバーを共有します。",
+    "message": "SideBrowser · サイドバーでも、気軽にブラウズ。"
+  },
+  "helpLanguage": {
+    "message": "表示言語は Chrome に自動的に合わせます。"
+  },
+  "helpHeading": {
+    "message": "概要とヘルプ"
+  },
+  "helpStartHeading": {
+    "message": "使い方"
+  },
+  "helpStartNavigation": {
+    "message": "SideBrowser の拡張機能アイコンをクリックしてサイドバーを開きます。アドレスや Google の検索語を入力して Enter を押します。「現在のページを開く」で現在のタブのアドレスをサイドバーに開けます。"
+  },
+  "helpStartShortcut": {
+    "message": "ページやリンクを右クリックし、「SideBrowser で開く」を選ぶこともできます。ショートカットは設定ページで確認・変更できます。サイドバーの端をドラッグすると幅を調整できます。"
+  },
+  "helpStateHeading": {
+    "message": "タブの切り替えとページの復元"
+  },
+  "helpStatePersistence": {
+    "message": "タブを切り替えたり元のタブを閉じたりしても、サイドバーのページは開いたままです。ウィンドウごとに別のページを開けます。"
+  },
+  "helpStateRestore": {
+    "message": "サイドバーやブラウザを閉じた後は、保存されたアドレスを再び開きます。未送信の入力や再生位置など、ページ内の状態は失われる場合があります。"
+  },
+  "helpMobileHeading": {
+    "message": "表示モードと問題への対処"
+  },
+  "helpMobileViewport": {
+    "message": "設定ページまたはサイドバーの「⋯」メニューからモバイル／デスクトップを切り替えられます。モバイルモードは幅の狭いサイドバーに適しており、マウスやホイールも使えます。表示はサイトによって異なります。"
+  },
+  "helpEmbeddingLimits": {
+    "message": "読み込みが遅い場合は、再読み込みしてください。サイトやログイン画面、動画によってはサイドバーで正常に動作しません。「⋯」から現在のページを新しいタブで開いてください。"
+  },
+  "helpPrivacyHeading": {
+    "message": "プライバシーとデータ"
+  },
+  "helpPrivacy": {
+    "message": "設定、最近開いたアドレスとタイトル、ページの復元用アドレスと移動履歴は端末内に保存され、開発者には送信されません。最近開いたページの消去はその一覧だけを削除し、復元用アドレス、移動履歴、サイトのデータは削除しません。サイトの閲覧や検索には、それぞれのプライバシーポリシーが適用されます。"
+  },
+  "settingsTitle": {
+    "message": "SideBrowser · 設定"
+  },
+  "settingsHeading": {
+    "message": "設定"
+  },
+  "settingsNavigation": {
+    "message": "設定とヘルプ"
+  },
+  "settingsIntro": {
+    "message": "閲覧設定を管理します。変更は自動的に保存されます。"
+  },
+  "settingsBrowsing": {
+    "message": "閲覧設定"
+  },
+  "settingsMode": {
+    "message": "ページの表示モード"
+  },
+  "settingsModeDescription": {
+    "message": "すべてのウィンドウで共通です。モードを切り替えると、開いているすべてのサイドバーのページが再読み込みされます。"
+  },
+  "settingsMobile": {
+    "message": "モバイル"
+  },
+  "settingsDesktop": {
+    "message": "デスクトップ"
+  },
+  "settingsLanguage": {
+    "message": "表示言語"
+  },
+  "settingsFollowBrowser": {
+    "message": "Chrome に合わせる"
+  },
+  "settingsShortcut": {
+    "message": "現在のページを開く"
+  },
+  "settingsShortcutDescription": {
+    "message": "現在のタブをサイドバーで開きます。ショートカットは Chrome で変更できます。"
+  },
+  "settingsManageShortcut": {
+    "message": "ショートカットを管理"
+  },
+  "settingsShortcutUnset": {
+    "message": "ショートカット未設定"
+  },
+  "settingsData": {
+    "message": "閲覧記録"
+  },
+  "settingsRecentDescription": {
+    "message": "自分で開いた直近 10 件のアドレスを保存します。一覧を消去しても、現在のページは閉じず、サイトからログアウトされることもありません。"
+  },
+  "settingsRecentCount": {
+    "message": "$count$ 件を保存済み",
     "placeholders": {
-      "version": {
+      "count": {
         "content": "$1",
-        "example": "1.6.5"
+        "example": "3"
       }
     }
   },
-  "helpLanguage": {
-    "message": "表示言語は Chrome の表示言語に従います。簡体字中国語、繁体字中国語、英語、日本語、ドイツ語、フランス語、スペイン語に対応しています。それ以外の言語では英語で表示されます。"
+  "settingsClearConfirmation": {
+    "message": "最近開いたページの一覧をすべて消去しますか？この操作は取り消せません。"
   },
-  "helpHeading": {
-    "message": "タブを切り替えても、ページはそのまま。"
+  "settingsCancel": {
+    "message": "キャンセル"
   },
-  "helpStartHeading": {
-    "message": "使い始める"
+  "settingsConfirmClear": {
+    "message": "消去する"
   },
-  "helpStartNavigation": {
-    "message": "拡張機能のアイコンをクリックするとサイドバーが開きます。高さ 36px のナビゲーションバーには、現在のページを開く、区切り線、戻る、進む、再読み込み、アドレス欄、「⋯」の順に並んでいます。アドレスまたは Google の検索キーワードを入力して Enter キーを押してください。アドレス欄の時計ボタンには、自分で開いた直近 10 件のアドレスがページタイトルとサイトアイコン付きで表示されます。項目をクリックしてページを切り替えたり、個別に削除したり、すべて削除したりできます。同じアドレスを再び開くと先頭に移動します。一覧はウィンドウ間で共有され、再起動後も保持されます。ページ内の移動、リダイレクト、再読み込み、戻る、進むでは項目は追加されません。「⋯」メニューからは、サイドバーのページを新しいタブで開いたり、モバイル表示とデスクトップ表示を切り替えたりできます。メニューはページに重ねて表示され、ページの高さは変わりません。Escape キーを押すか、外側をクリックすると閉じます。"
+  "settingsSaving": {
+    "message": "保存中…"
   },
-  "helpStartShortcut": {
-    "message": "SideBrowser のツールバーアイコンまたはページを右クリックし、「SideBrowser で開く」を選ぶと現在のページを開けます。リンクを右クリックした場合は、そのリンクを開きます。キーボードショートカットは Alt + Shift + P、Mac では ⌥ + ⇧ + P です。サイドバーの位置、幅、閉じるボタンは Chrome が管理します。"
+  "settingsSaved": {
+    "message": "保存しました"
   },
-  "helpStateHeading": {
-    "message": "ページの状態"
+  "settingsCleared": {
+    "message": "最近開いたページの一覧を消去しました"
   },
-  "helpStatePersistence": {
-    "message": "タブの切り替え、メインタブの再読み込み、元のタブを閉じる操作では、サイドバーのページは作り直されません。入力内容、スクロール位置、実行中の状態が維持されます。ブラウザのウィンドウごとに独立したページと閲覧履歴を持ちます。補助タブは不要です。"
+  "errorSettingsOnly": {
+    "message": "この操作は SideBrowser の設定ページで行ってください。"
   },
-  "helpStateRestore": {
-    "message": "サイドバー、ウィンドウ、拡張機能、ブラウザを閉じると、ページの実行中の状態が失われる場合があります。再び開くと、保存されたアドレスと閲覧履歴が復元されます。モバイル表示とデスクトップ表示の設定は拡張機能全体で共有されます。表示モードを切り替えると、開いているすべてのサイドバーでページが再読み込みされます。"
+  "helpRecent": {
+    "message": "アドレスバーの時計アイコンをクリックすると、最近開いたページを表示します。項目を選んで再度開いたり、個別に削除したり、一覧を消去したりできます。一覧はウィンドウ間で共有され、ブラウザの再起動後も残ります。"
   },
-  "helpStateFullscreen": {
-    "message": "Chrome ウィンドウの全画面表示は動作確認済みです。ページ要素や動画ごとの全画面表示は、個別に確認する必要があります。サイドバーをほかのデスクトップアプリの上に重ねたり、ページ内の浮動パネルのように自由にドラッグしたりすることはできません。"
+  "helpFeedback": {
+    "message": "フィードバック"
   },
-  "helpMobileHeading": {
-    "message": "モバイル表示とページの埋め込み"
+  "helpFeedbackDescription": {
+    "message": "不具合やアイデアがあれば、GitHub でお知らせください。"
   },
-  "helpMobileViewport": {
-    "message": "モバイル表示でも、マウス、ホバー、ホイール、標準のタッチ動作は維持されます。ページが指定するビューポート幅でレイアウトし、サイドバーに収まるように縦横比を保って拡大・縮小します。NGA の 525px レイアウトも全体を表示でき、レスポンシブなページは利用可能な幅に合わせて表示されます。サイドバーの幅を変更してもページは作り直されません。"
+  "helpFeedbackLink": {
+    "message": "GitHub でフィードバック"
   },
-  "helpMobileIdentity": {
-    "message": "モバイル表示では、モバイル用の User-Agent、Client Hints、ページのスクリプトから取得できる画面情報も提供します。リソースや fetch リクエストにもモバイル用の User-Agent を使用します。デスクトップ表示に戻すとページを再読み込みし、標準の表示とデバイス情報を復元します。通常のブラウザタブとそのリソースは変更しません。"
-  },
-  "helpMobileLimits": {
-    "message": "これは拡張機能内でのビューポート調整であり、DevTools のデバイスエミュレーションではありません。画面のラスタライズ、CSS によるデバイス解像度の照会、入れ子のフレームなどは完全には再現されません。ピンチズームと仮想キーボードは含まれません。"
-  },
-  "helpEmbeddingLimits": {
-    "message": "サイドバー内に埋め込まれたフレームのドキュメントからのみ X-Frame-Options を削除します。CSP ヘッダーに frame-ancestors が含まれている場合は、その CSP ヘッダー全体を削除します。ログイン要件、Cookie、DRM、フレーム検出によって、埋め込みが制限される場合があります。「⋯」から新しいタブで開いてください。"
-  },
-  "helpUpdateHeading": {
-    "message": "拡張機能の更新"
-  },
-  "helpUpdate": {
-    "message": "Chrome 145 以降が必要です。既存の拡張機能フォルダ内のファイルを置き換え、chrome://extensions で元の拡張機能を再読み込みしてください。同じ拡張機能 ID を維持すれば、保存されたアドレス、履歴、表示モードを引き継げます。古い浮動パネルがページに残っている場合は、そのページを一度再読み込みしてください。新旧のバージョンを同時に有効にしないでください。"
-  },
-  "helpPrivacyHeading": {
-    "message": "権限とデータ"
-  },
-  "helpPrivacy": {
-    "message": "sidePanel はインターフェースの表示に使用します。ウェブサイトへのアクセス権限とスクリプト権限は、ページの埋め込みを支えるために使用します。tabs は、ページを開く操作をしたときに元のアドレスを取得します。storage は閲覧履歴と設定を保存します。デバッグセッション、プロキシサーバー、テレメトリー、リモートの拡張機能スクリプトは使用しません。閲覧履歴を開発者に送信することもありません。"
+  "helpAuthor": {
+    "message": "作者"
   }
 }

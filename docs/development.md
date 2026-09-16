@@ -37,6 +37,7 @@ macOS 应指向 `.app/Contents/MacOS/Google Chrome for Testing` 可执行文件�
 | 模块 | 负责内容 |
 | --- | --- |
 | `sidepanel.js` | 页面初始化、导航、iframe 生命周期、状态更新与操作串行化 |
+| `options.html` / `options.js` / `help.html` | 设置、最近记录清理、快捷键入口与面向用户的帮助 |
 | `panel-client.js` | 带窗口 ID 的请求、错误码还原、消息端口与断线重连 |
 | `recent-menu.js` | 最近列表的 DOM、图标、菜单收起、键盘与删除后焦点 |
 | `sidepanel-state.js` / `recent-urls.js` | 导航历史、最近列表和标题关联的独立数据规则 |
@@ -45,12 +46,16 @@ macOS 应指向 `.app/Contents/MacOS/Google Chrome for Testing` 可执行文件�
 
 最近菜单通过回调请求打开、删除或清空；它不直接写存储或管理导航历史。通信模块只传递消息，收到后台重连消息是否加载 iframe，仍由侧边栏入口判断。所有最近条目操作继续使用同一个串行队列，避免删除和导航交错写回旧状态。
 
+设置页通过 `SETTINGS_GET`、`SETTINGS_MODE` 和 `SETTINGS_CLEAR_RECENT` 请求后台，在同一串行队列中读写模式与最近记录。仅接受扩展自身 `options.html` 的设置请求；侧边栏的导航请求仍要求真实原生 side panel 上下文。设置页监听本地存储变化更新显示，不直接写存储。帮助页不承载设置写入，也不展示开发与验证记录。
+
 ## 浏览器回归范围
 
 `scripts/browser-smoke.mjs` 使用 Playwright 启动浏览器，并通过 CDP 操作原生侧边栏和跨进程 iframe；测试页面及 CDP 辅助代码位于 `scripts/browser/`。
 
 - 页面身份、语言、空态、顶部控件顺序、扩展介绍及工具栏标题、已翻译的错误提示。
-- 帮助页全部文案与版本占位符；960px 和 320px 模拟内容视口无横向溢出。
+- 帮助页全部文案且不显示版本号；960px 和 320px 模拟内容视口无横向溢出。
+- Chrome 选项入口打开设置页，设置与帮助互相导航、快捷键管理入口、设置自动保存与刷新恢复；960px 和 320px 设置布局。
+- 设置页与侧边栏模式双向同步、跨窗口生效；清空记录的取消与确认、当前网页实例和窗口历史保留、浏览器重启后模式恢复。
 - 打开当前网页后切标签、关闭来源页，输入和文档实例保持。
 - 停止后台 Service Worker，等待新的 worker 自动启动，现有 iframe 不重建。
 - 内部链接、前进后退、刷新、重定向与标题归属。

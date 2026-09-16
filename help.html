@@ -4,29 +4,57 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title data-i18n="helpTitle"></title>
+    <link rel="icon" href="icons/32.png" />
     <link rel="stylesheet" href="ui.css" />
   </head>
   <body class="help-page">
     <main>
+      <header class="page-header">
+        <img src="icons/48.png" width="40" height="40" alt="" />
+        <span data-i18n="extensionName"></span>
+      </header>
+      <nav class="page-nav" data-i18n-aria-label="settingsNavigation">
+        <a href="options.html" data-i18n="settingsHeading"></a>
+        <a href="help.html" aria-current="page" data-i18n="helpHeading"></a>
+      </nav>
       <h1 data-i18n="helpHeading"></h1>
-      <p class="intro"></p>
-      <p data-i18n="helpLanguage"></p>
-      <h2 data-i18n="helpStartHeading"></h2>
-      <p data-i18n="helpStartNavigation"></p>
-      <p data-i18n="helpStartShortcut"></p>
-      <h2 data-i18n="helpStateHeading"></h2>
-      <p data-i18n="helpStatePersistence"></p>
-      <p data-i18n="helpStateRestore"></p>
-      <p data-i18n="helpStateFullscreen"></p>
-      <h2 data-i18n="helpMobileHeading"></h2>
-      <p data-i18n="helpMobileViewport"></p>
-      <p data-i18n="helpMobileIdentity"></p>
-      <p data-i18n="helpMobileLimits"></p>
-      <p data-i18n="helpEmbeddingLimits"></p>
-      <h2 data-i18n="helpUpdateHeading"></h2>
-      <p data-i18n="helpUpdate"></p>
-      <h2 data-i18n="helpPrivacyHeading"></h2>
-      <p data-i18n="helpPrivacy"></p>
+      <p class="intro" data-i18n="helpIntro"></p>
+      <section class="card help-content">
+        <h2 data-i18n="helpStartHeading"></h2>
+        <p data-i18n="helpStartNavigation"></p>
+        <p data-i18n="helpStartShortcut"></p>
+        <h2 data-i18n="recentOpened"></h2>
+        <p data-i18n="helpRecent"></p>
+        <h2 data-i18n="helpStateHeading"></h2>
+        <p data-i18n="helpStatePersistence"></p>
+        <p data-i18n="helpStateRestore"></p>
+        <h2 data-i18n="helpMobileHeading"></h2>
+        <p data-i18n="helpMobileViewport"></p>
+        <p data-i18n="helpEmbeddingLimits"></p>
+        <h2 data-i18n="helpPrivacyHeading"></h2>
+        <p data-i18n="helpPrivacy"></p>
+      </section>
+      <section class="card feedback-card" aria-labelledby="feedback-heading">
+        <div>
+          <h2 id="feedback-heading" data-i18n="helpFeedback"></h2>
+          <p data-i18n="helpFeedbackDescription"></p>
+        </div>
+        <a
+          id="help-feedback"
+          class="button-link"
+          href="https://github.com/yuzhouu/side-browser/issues"
+          target="_blank"
+          rel="noopener noreferrer"
+          data-i18n="helpFeedbackLink"
+        ></a>
+      </section>
+      <footer class="help-footer">
+        <p>
+          <span data-i18n="helpAuthor"></span>
+          <a href="https://github.com/yuzhouu" target="_blank" rel="noopener noreferrer">yuzhou</a>
+        </p>
+        <p>© 2026 yuzhou</p>
+      </footer>
     </main>
     <script type="module" src="help.js"></script>
   </body>

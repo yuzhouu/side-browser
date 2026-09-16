@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title data-i18n="settingsTitle"></title>
+    <link rel="icon" href="icons/32.png" />
+    <link rel="stylesheet" href="ui.css" />
+  </head>
+  <body>
+    <main>
+      <header class="page-header">
+        <img src="icons/48.png" width="40" height="40" alt="" />
+        <span data-i18n="extensionName"></span>
+      </header>
+      <nav class="page-nav" data-i18n-aria-label="settingsNavigation">
+        <a href="options.html" aria-current="page" data-i18n="settingsHeading"></a>
+        <a href="help.html" data-i18n="helpHeading"></a>
+      </nav>
+      <h1 data-i18n="settingsHeading"></h1>
+      <p class="intro" data-i18n="settingsIntro"></p>
+      <section class="card" aria-labelledby="browsing-heading">
+        <h2 id="browsing-heading" data-i18n="settingsBrowsing"></h2>
+        <div class="setting-row">
+          <div class="setting-copy">
+            <label for="mode" data-i18n="settingsMode"></label>
+            <p id="mode-description" data-i18n="settingsModeDescription"></p>
+          </div>
+          <select id="mode" aria-describedby="mode-description" disabled>
+            <option value="mobile" data-i18n="settingsMobile"></option>
+            <option value="desktop" data-i18n="settingsDesktop"></option>
+          </select>
+        </div>
+        <div class="setting-row">
+          <div class="setting-copy">
+            <h3 data-i18n="settingsLanguage"></h3>
+            <p data-i18n="helpLanguage"></p>
+          </div>
+          <span class="setting-value" data-i18n="settingsFollowBrowser"></span>
+        </div>
+        <div class="setting-row">
+          <div class="setting-copy">
+            <h3 data-i18n="settingsShortcut"></h3>
+            <p data-i18n="settingsShortcutDescription"></p>
+            <span id="shortcut" class="shortcut"></span>
+          </div>
+          <button id="manage-shortcut" type="button" data-i18n="settingsManageShortcut"></button>
+        </div>
+      </section>
+      <section class="card" aria-labelledby="data-heading">
+        <h2 id="data-heading" data-i18n="settingsData"></h2>
+        <div class="setting-row">
+          <div class="setting-copy">
+            <h3 data-i18n="recentOpened"></h3>
+            <p data-i18n="settingsRecentDescription"></p>
+            <span id="recent-count" class="setting-value"></span>
+          </div>
+          <button id="clear-recent" type="button" data-i18n="clearRecent" disabled></button>
+        </div>
+        <div id="clear-confirmation" class="confirmation" hidden>
+          <p data-i18n="settingsClearConfirmation"></p>
+          <div class="button-row">
+            <button id="cancel-clear" type="button" data-i18n="settingsCancel"></button>
+            <button
+              id="confirm-clear"
+              type="button"
+              class="danger"
+              data-i18n="settingsConfirmClear"
+            ></button>
+          </div>
+        </div>
+      </section>
+      <p id="settings-status" class="status" role="status" aria-live="polite"></p>
+      <button id="retry-settings" type="button" data-i18n="retry" hidden></button>
+    </main>
+    <script type="module" src="options.js"></script>
+  </body>
+</html>

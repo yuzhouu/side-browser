@@ -14,6 +14,7 @@ import { t } from './i18n.js';
 import { userError } from './errors.js';
 
 const SHELL = chrome.runtime.getURL('sidepanel.html');
+const OPTIONS = chrome.runtime.getURL('options.html');
 const MOBILE_SCRIPTS = ['pocket-mobile-gate', 'pocket-mobile-main'];
 const windows = {};
 let last;
@@ -27,11 +28,11 @@ function reportFailure(operation, error) {
   console.error(`[SideBrowser] ${operation}`, error);
 }
 
-async function rules() {
+async function rules(selectedMode = mode) {
   const registered = await chrome.scripting.getRegisteredContentScripts({ ids: MOBILE_SCRIPTS });
   if (registered.length)
     await chrome.scripting.unregisterContentScripts({ ids: registered.map(s => s.id) });
-  if (mode === 'mobile') {
+  if (selectedMode === 'mobile') {
     const common = {
       matches: ['http://*/*', 'https://*/*'],
       allFrames: true,
@@ -49,7 +50,7 @@ async function rules() {
   }
   await chrome.declarativeNetRequest.updateSessionRules({
     removeRuleIds: PANEL_RULE_IDS,
-    addRules: panelRules(chrome.runtime.id, mode, navigator.userAgent)
+    addRules: panelRules(chrome.runtime.id, selectedMode, navigator.userAgent)
   });
 }
 
@@ -153,9 +154,46 @@ async function navigate(windowId, input, sourceTitle) {
   return getState(windowId);
 }
 
+async function setMode(value) {
+  const next = validMode(value);
+  if (mode === next) return mode;
+  try {
+    await rules(next);
+    await chrome.storage.local.set({ [MODE_KEY]: next });
+  } catch (error) {
+    await rules(mode).catch(restoreError => reportFailure('Restore display mode', restoreError));
+    throw error;
+  }
+  mode = next;
+  // UA is one extension-wide preference; every window keeps its own URL/history.
+  for (const id of ports.keys()) publish(id, { type: 'mode', mode });
+  return mode;
+}
+
+function getSettings() {
+  return { mode, recentCount: recentUrls.length };
+}
+
 chrome.runtime.onMessage.addListener((message, sender, reply) => {
-  if (!message.type?.startsWith('PANEL_')) return false;
+  const settingsRequest = message.type?.startsWith('SETTINGS_');
+  if (!settingsRequest && !message.type?.startsWith('PANEL_')) return false;
   update(async () => {
+    if (settingsRequest) {
+      if (sender.id !== chrome.runtime.id || sender.url !== OPTIONS)
+        throw userError('errorSettingsOnly');
+      switch (message.type) {
+        case 'SETTINGS_GET':
+          return getSettings();
+        case 'SETTINGS_MODE':
+          await setMode(message.mode);
+          return getSettings();
+        case 'SETTINGS_CLEAR_RECENT':
+          await saveRecent([]);
+          return getSettings();
+        default:
+          throw userError('errorUnknownOperation');
+      }
+    }
     await verify(sender, message.windowId);
     switch (message.type) {
       case 'PANEL_READY':
@@ -180,12 +218,7 @@ chrome.runtime.onMessage.addListener((message, sender, reply) => {
         return { ...recentTitles };
       }
       case 'PANEL_MODE':
-        mode = validMode(message.mode);
-        await rules();
-        await chrome.storage.local.set({ [MODE_KEY]: mode });
-        // UA is one extension-wide preference; every window keeps its own URL/history.
-        for (const id of ports.keys()) publish(id, { type: 'mode', mode });
-        return mode;
+        return setMode(message.mode);
       case 'PANEL_CURRENT': {
         const tab = (await chrome.tabs.query({ active: true, windowId: message.windowId }))[0];
         if (!isWebUrl(tab?.url)) throw userError('errorCurrentPage');

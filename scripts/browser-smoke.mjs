@@ -183,7 +183,7 @@ try {
   await launch();
   const help = await context.newPage();
   await help.goto(`${extension}/help.html`);
-  await help.locator('.intro').filter({ hasText: manifest.version }).waitFor();
+  await help.locator('.intro').filter({ hasText: catalog.helpIntro.message }).waitFor();
   assert.equal(await help.title(), catalog.helpTitle.message);
   assert.equal(await help.locator('html').getAttribute('lang'), catalog.documentLanguage.message);
   assert.equal(await help.locator('html').getAttribute('dir'), catalog.documentDirection.message);
@@ -191,10 +191,8 @@ try {
     .locator('[data-i18n]')
     .evaluateAll(elements => elements.map(element => [element.dataset.i18n, element.textContent])))
     assert.equal(value, catalog[key].message, `Help message: ${key}`);
-  assert.equal(
-    await help.locator('.intro').textContent(),
-    catalog.helpIntro.message.replace('$version$', manifest.version)
-  );
+  assert.equal(await help.locator('.intro').textContent(), catalog.helpIntro.message);
+  assert(!(await help.locator('body').innerText()).includes(manifest.version));
   const helpSession = await context.newCDPSession(help);
   for (const width of [960, 320]) {
     await helpSession.send('Emulation.setDeviceMetricsOverride', {
@@ -207,8 +205,86 @@ try {
     await help.screenshot({ path: join(output, `help-${width}.png`) });
   }
   await helpSession.send('Emulation.clearDeviceMetricsOverride');
+  const optionsOpened = context.waitForEvent('page');
+  await help.evaluate(() => chrome.runtime.openOptionsPage());
+  const options = await optionsOpened;
+  await options.waitForURL(`${extension}/options.html`);
+  assert.equal(manifest.options_ui.page, 'options.html');
+  await poll(() => options.locator('#mode').isEnabled(), 'settings loaded');
+  assert.equal(await options.title(), catalog.settingsTitle.message);
+  assert.equal(
+    await options.locator('html').getAttribute('lang'),
+    catalog.documentLanguage.message
+  );
+  assert.equal(await options.locator('#mode').inputValue(), 'mobile');
+  assert(await options.locator('#clear-recent').isDisabled());
+  for (const [key, value] of await options
+    .locator('[data-i18n]')
+    .evaluateAll(elements => elements.map(element => [element.dataset.i18n, element.textContent])))
+    assert.equal(value, catalog[key].message, `Settings message: ${key}`);
+  const optionsSession = await context.newCDPSession(options);
+  for (const width of [960, 320]) {
+    await optionsSession.send('Emulation.setDeviceMetricsOverride', {
+      width,
+      height: 900,
+      deviceScaleFactor: 1,
+      mobile: false
+    });
+    assert(await options.evaluate(() => document.documentElement.scrollWidth === innerWidth));
+    assert(
+      await options
+        .locator('.setting-row button, .setting-row select')
+        .evaluateAll(elements =>
+          elements.every(element => element.scrollWidth <= element.clientWidth)
+        )
+    );
+    await options.screenshot({ path: join(output, `settings-${width}.png`), fullPage: true });
+  }
+  await optionsSession.send('Emulation.clearDeviceMetricsOverride');
+  await options.locator('#mode').selectOption('desktop');
+  await poll(
+    () =>
+      options
+        .locator('#settings-status')
+        .textContent()
+        .then(text => text === catalog.settingsSaved.message),
+    'mode saved'
+  );
+  await options.reload();
+  await poll(
+    () =>
+      options
+        .locator('#mode')
+        .inputValue()
+        .then(value => value === 'desktop'),
+    'saved setting restored'
+  );
+  await poll(() => options.locator('#mode').isEnabled(), 'settings restored');
+  await options.locator('#mode').selectOption('mobile');
+  await poll(
+    () =>
+      options
+        .locator('#settings-status')
+        .textContent()
+        .then(text => text === catalog.settingsSaved.message),
+    'mobile saved'
+  );
+  const shortcutsOpened = context.waitForEvent('page');
+  await options.locator('#manage-shortcut').click();
+  const shortcuts = await shortcutsOpened;
+  await shortcuts.waitForURL('chrome://extensions/shortcuts');
+  await shortcuts.close();
+  await options.locator('a[href="help.html"]').click();
+  await options.waitForURL(`${extension}/help.html`);
+  assert.equal(await options.title(), catalog.helpTitle.message);
+  await options.locator('a[href="options.html"]').click();
+  await options.waitForURL(`${extension}/options.html`);
+  await poll(() => options.locator('#mode').isEnabled(), 'settings return link');
+  pass(
+    'Chrome options entry, localized settings, saved mode, shortcuts, help navigation and 960px/320px layouts'
+  );
   await help.close();
-  pass('Localized help, document language, version substitution and 960px/320px layouts');
+  pass('Localized help without version display, document language and 960px/320px layouts');
   panel = await openPanel();
   assert.equal(await panel.evaluate('location.href'), `${extension}/sidepanel.html`);
   assert.equal(await panel.evaluate('document.title'), catalog.extensionName.message);
@@ -482,12 +558,83 @@ try {
   );
   pass('Shared recent updates/clearing preserve independent window URLs and live page');
 
+  await navigate(`${base}/settings-clear`);
+  const settingsBefore = await state();
+  const settingsSecondBefore = await state(secondPanel);
+  await poll(
+    () =>
+      options
+        .locator('#recent-count')
+        .textContent()
+        .then(text => text === catalog.settingsRecentCount.message.replace('$count$', '1')),
+    'settings count synchronized'
+  );
+  await options.locator('#mode').selectOption('desktop');
+  await poll(
+    async () => (await state()).mode === 'desktop' && (await state(secondPanel)).mode === 'desktop',
+    'settings mode synchronized across windows'
+  );
+  inner = await loaded(`${base}/settings-clear`);
+  await poll(
+    () => inner.evaluate("!navigator.userAgent.includes('Android')"),
+    'settings mode applied to webpage'
+  );
+  assert.equal((await state()).url, settingsBefore.url);
+  assert.deepEqual((await state()).history, settingsBefore.history);
+  assert.equal((await state(secondPanel)).url, settingsSecondBefore.url);
+  assert.deepEqual((await state(secondPanel)).history, settingsSecondBefore.history);
+  await panel.click('#more');
+  await panel.click('#mode');
+  await poll(
+    () =>
+      options
+        .locator('#mode')
+        .inputValue()
+        .then(value => value === 'mobile'),
+    'panel mode synchronized back to settings'
+  );
+  await poll(
+    () => inner.evaluate("navigator.userAgent.includes('Android')"),
+    'panel mobile reload'
+  );
+  const settingsToken = await inner.evaluate('window.token');
+  await inner.fill('#entry', 'Keep while clearing in settings');
+  await options.locator('#clear-recent').click();
+  assert(await options.locator('#clear-confirmation').isVisible());
+  await options.locator('#cancel-clear').click();
+  assert.deepEqual(await recents(), [`${base}/settings-clear`]);
+  assert(await options.locator('#clear-confirmation').isHidden());
+  await options.locator('#clear-recent').click();
+  await options.screenshot({ path: join(output, 'settings-confirmation.png'), fullPage: true });
+  await options.locator('#confirm-clear').click();
+  await poll(
+    async () => !(await recents()).length && !(await recents(secondPanel)).length,
+    'settings clear synchronized'
+  );
+  assert.equal(await inner.evaluate('window.token'), settingsToken);
+  assert.equal(
+    await inner.evaluate("document.querySelector('#entry').value"),
+    'Keep while clearing in settings'
+  );
+  assert(await options.locator('#clear-recent').isDisabled());
+  assert.equal((await state()).url, settingsBefore.url);
+  assert.equal((await state(secondPanel)).url, settingsSecondBefore.url);
+  await options.reload();
+  await poll(() => options.locator('#mode').isEnabled(), 'settings reopened after clear');
+  assert(await options.locator('#clear-recent').isDisabled());
+  await options.locator('#mode').selectOption('desktop');
+  await poll(async () => (await state()).mode === 'desktop', 'desktop saved for restart');
+  pass(
+    'Settings and panel synchronize in both directions; cancel/confirm clear preserves live pages and window histories'
+  );
+
   await navigate(`${base}/persisted`);
   await shutdown();
   await launch();
   panel = await openPanel();
   await loaded(`${base}/persisted`);
   assert.deepEqual(await recents(), [`${base}/persisted`]);
+  assert.equal((await state()).mode, 'desktop');
   pass('Full browser restart restores persisted recent entries');
   assert.deepEqual(diagnostics.errors, []);
   const warnings = [...new Set(diagnostics.warnings)];

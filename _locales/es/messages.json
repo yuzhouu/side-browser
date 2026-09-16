@@ -133,69 +133,144 @@
     "message": "Se produjo un error. Inténtalo de nuevo."
   },
   "helpTitle": {
-    "message": "SideBrowser · Ayuda"
+    "message": "SideBrowser · Acerca de y ayuda"
   },
   "helpIntro": {
-    "message": "SideBrowser $version$ · Un panel lateral compartido por ventana del navegador.",
-    "placeholders": {
-      "version": {
-        "content": "$1",
-        "example": "1.6.5"
-      }
-    }
+    "message": "SideBrowser · Un navegador en tu panel lateral."
   },
   "helpLanguage": {
-    "message": "La interfaz usa el idioma de visualización de Chrome. Se admiten chino simplificado, chino tradicional, inglés, japonés, alemán, francés y español. Para los demás idiomas se usa el inglés."
+    "message": "El idioma de la interfaz sigue automáticamente el de Chrome."
   },
   "helpHeading": {
-    "message": "Cambia de pestaña. Conserva tu página."
+    "message": "Acerca de y ayuda"
   },
   "helpStartHeading": {
     "message": "Primeros pasos"
   },
   "helpStartNavigation": {
-    "message": "Haz clic en el icono de la extensión para abrir el panel lateral. La barra de navegación de 36px contiene, en este orden: Abrir página actual, un separador, Atrás, Adelante, Recargar, un campo de dirección y «⋯». Introduce una dirección o términos de búsqueda de Google y pulsa Intro. El reloj del campo de dirección muestra las últimas 10 direcciones que hayas abierto de forma explícita, con títulos de página e iconos de los sitios. Haz clic en una entrada para cambiar de página, elimina entradas por separado o borra toda la lista. Al volver a abrir una dirección, esta pasa al principio. La lista se comparte entre ventanas y se conserva tras reiniciar. La navegación dentro de las páginas, las redirecciones, las recargas y los botones Atrás y Adelante no añaden entradas. El menú «⋯» permite abrir la página del panel lateral en una pestaña nueva o alternar entre las vistas móvil y de escritorio. Los menús se superponen a la página sin reducir su altura. Pulsa Escape o haz clic fuera para cerrarlos."
+    "message": "Haz clic en el icono de SideBrowser para abrir el panel lateral. Escribe una dirección o términos de búsqueda de Google y pulsa Intro. Usa «Abrir página actual» para abrir la dirección de la pestaña activa en el panel lateral."
   },
   "helpStartShortcut": {
-    "message": "Haz clic con el botón derecho en el icono de SideBrowser de la barra de herramientas o en una página y elige «Abrir en SideBrowser» para abrir la página actual. Si haces clic con el botón derecho en un enlace, se abrirá ese enlace. El atajo de teclado es Alt + Shift + P, o ⌥ + ⇧ + P en Mac. Chrome controla la posición, el ancho y el botón de cierre del panel lateral."
+    "message": "También puedes hacer clic derecho en una página o enlace y elegir «Abrir en SideBrowser». Consulta o cambia el atajo de teclado en Ajustes. Arrastra el borde del panel para ajustar su anchura."
   },
   "helpStateHeading": {
-    "message": "Estado de la página"
+    "message": "Cambiar de pestaña y restaurar páginas"
   },
   "helpStatePersistence": {
-    "message": "Cambiar de pestaña, recargar la pestaña principal o cerrar la pestaña de origen no vuelve a crear la página del panel lateral. Se conservan los datos introducidos, la posición de desplazamiento y el estado de ejecución de la página. Cada ventana del navegador tiene su propia página y su propio historial de navegación. No se necesita ninguna pestaña auxiliar."
+    "message": "La página del panel lateral sigue abierta cuando cambias de pestaña o cierras la pestaña de origen. Cada ventana del navegador puede tener su propia página en el panel lateral."
   },
   "helpStateRestore": {
-    "message": "Al cerrar el panel lateral, la ventana, la extensión o el navegador, puede perderse el estado de ejecución de la página. Al volver a abrirlo, se restauran la dirección y el historial guardados. La preferencia de vista móvil o de escritorio se comparte en toda la extensión. Cambiar de vista recarga la página en todos los paneles laterales abiertos."
-  },
-  "helpStateFullscreen": {
-    "message": "Se ha probado el modo de pantalla completa de la ventana de Chrome. La pantalla completa de elementos individuales o vídeos requiere pruebas adicionales. El panel lateral no puede flotar sobre otras aplicaciones de escritorio ni arrastrarse libremente como un elemento flotante de una página."
+    "message": "Al volver a abrir el panel o el navegador se restaura la dirección guardada. Los datos de formularios sin enviar, la posición de reproducción y otros estados de la página pueden perderse."
   },
   "helpMobileHeading": {
-    "message": "Vista móvil y páginas integradas"
+    "message": "Modos de visualización y solución de problemas"
   },
   "helpMobileViewport": {
-    "message": "La vista móvil conserva el comportamiento del ratón, al pasar el cursor, de la rueda de desplazamiento y de la interacción táctil nativa. Las páginas usan el ancho de área de visualización que declaran y después se ajustan proporcionalmente al panel lateral. El diseño de 525px de NGA se muestra completo; las páginas adaptables usan el ancho disponible. Cambiar el tamaño del panel lateral no vuelve a crear la página."
-  },
-  "helpMobileIdentity": {
-    "message": "La vista móvil también proporciona un User-Agent móvil, Client Hints e información de pantalla accesible para los scripts de las páginas. Los recursos y las solicitudes fetch también usan el User-Agent móvil. Al volver a la vista de escritorio, se recarga la página y se restauran la visualización y la información nativas del dispositivo. Las pestañas normales del navegador y sus recursos no se modifican."
-  },
-  "helpMobileLimits": {
-    "message": "Se trata de una adaptación del área de visualización dentro de la extensión, no de la emulación de dispositivos de DevTools. La rasterización de pantalla, las consultas CSS de resolución del dispositivo, los marcos anidados y otros comportamientos no se emulan por completo. No se incluyen el zoom con dos dedos ni un teclado virtual."
+    "message": "Cambia entre los modos móvil y escritorio en Ajustes o en el menú «⋯». El modo móvil se adapta a paneles estrechos y permite usar el ratón y la rueda. El diseño depende del sitio web."
   },
   "helpEmbeddingLimits": {
-    "message": "X-Frame-Options solo se elimina de los documentos de marcos integrados en el panel lateral. Si una cabecera CSP contiene frame-ancestors, se elimina esa cabecera CSP completa. Los requisitos de inicio de sesión, las cookies, el DRM y la detección de marcos aún pueden impedir la integración. Usa «⋯» para abrir la página en una pestaña nueva."
-  },
-  "helpUpdateHeading": {
-    "message": "Actualizar la extensión"
-  },
-  "helpUpdate": {
-    "message": "Se requiere Chrome 145 o posterior. Sustituye los archivos de la carpeta existente de la extensión y recarga la extensión original en chrome://extensions. Mantener el mismo identificador de extensión conserva las direcciones, el historial y la vista guardados. Si queda un panel flotante antiguo en una página, recarga esa página una vez. No actives la versión antigua y la nueva al mismo tiempo."
+    "message": "Si una página tarda en cargar, prueba a recargarla. Algunos sitios, inicios de sesión o vídeos pueden no funcionar en el panel. Usa «⋯» para abrir la página actual en una pestaña nueva."
   },
   "helpPrivacyHeading": {
-    "message": "Permisos y datos"
+    "message": "Privacidad y datos"
   },
   "helpPrivacy": {
-    "message": "sidePanel aloja la interfaz. Los permisos de acceso a sitios y de ejecución de scripts permiten integrar páginas. tabs lee la dirección de origen cuando pides abrirla. storage guarda la navegación y las preferencias. No hay sesiones de depuración, servidores proxy, telemetría ni scripts remotos de la extensión. El historial de navegación no se envía al desarrollador."
+    "message": "Las preferencias, las direcciones y títulos abiertos recientemente y las direcciones e historiales de navegación para restaurar páginas se guardan en tu dispositivo y no se envían al desarrollador. Vaciar la lista solo borra las entradas recientes, no las direcciones guardadas para restaurar páginas, los historiales de navegación ni los datos de los sitios. Los sitios y buscadores tienen sus propias políticas de privacidad."
+  },
+  "settingsTitle": {
+    "message": "SideBrowser · Ajustes"
+  },
+  "settingsHeading": {
+    "message": "Ajustes"
+  },
+  "settingsNavigation": {
+    "message": "Ajustes y ayuda"
+  },
+  "settingsIntro": {
+    "message": "Gestiona tus preferencias de navegación. Los cambios se guardan automáticamente."
+  },
+  "settingsBrowsing": {
+    "message": "Preferencias de navegación"
+  },
+  "settingsMode": {
+    "message": "Modo de visualización"
+  },
+  "settingsModeDescription": {
+    "message": "Se comparte entre todas las ventanas. Al cambiar de modo se recarga la página de cada panel lateral abierto."
+  },
+  "settingsMobile": {
+    "message": "Móvil"
+  },
+  "settingsDesktop": {
+    "message": "Escritorio"
+  },
+  "settingsLanguage": {
+    "message": "Idioma de la interfaz"
+  },
+  "settingsFollowBrowser": {
+    "message": "Igual que Chrome"
+  },
+  "settingsShortcut": {
+    "message": "Abrir página actual"
+  },
+  "settingsShortcutDescription": {
+    "message": "Abre la pestaña activa en el panel lateral. Puedes cambiar este atajo en Chrome."
+  },
+  "settingsManageShortcut": {
+    "message": "Gestionar atajos"
+  },
+  "settingsShortcutUnset": {
+    "message": "Sin atajo asignado"
+  },
+  "settingsData": {
+    "message": "Páginas guardadas"
+  },
+  "settingsRecentDescription": {
+    "message": "Conserva las 10 últimas direcciones que hayas abierto. Vaciar la lista no cierra la página ni la sesión en los sitios web."
+  },
+  "settingsRecentCount": {
+    "message": "$count$ entradas guardadas",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      }
+    }
+  },
+  "settingsClearConfirmation": {
+    "message": "¿Borrar todas las entradas abiertas recientemente? Esta acción no se puede deshacer."
+  },
+  "settingsCancel": {
+    "message": "Cancelar"
+  },
+  "settingsConfirmClear": {
+    "message": "Confirmar borrado"
+  },
+  "settingsSaving": {
+    "message": "Guardando…"
+  },
+  "settingsSaved": {
+    "message": "Guardado"
+  },
+  "settingsCleared": {
+    "message": "Se han borrado las entradas abiertas recientemente"
+  },
+  "errorSettingsOnly": {
+    "message": "Abre los ajustes de SideBrowser para realizar esta acción."
+  },
+  "helpRecent": {
+    "message": "Haz clic en el reloj de la barra de direcciones para ver las páginas abiertas recientemente. Selecciona una entrada para volver a abrirla, elimina entradas individuales o vacía la lista. La lista se comparte entre ventanas y se conserva al reiniciar el navegador."
+  },
+  "helpFeedback": {
+    "message": "Comentarios y sugerencias"
+  },
+  "helpFeedbackDescription": {
+    "message": "¿Has encontrado un problema o tienes una idea? Cuéntanos en GitHub."
+  },
+  "helpFeedbackLink": {
+    "message": "Enviar comentarios en GitHub"
+  },
+  "helpAuthor": {
+    "message": "Autor"
   }
 }

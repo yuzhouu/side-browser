@@ -245,14 +245,19 @@ input::placeholder {
   display: flex;
   justify-content: flex-start;
   gap: 9px;
-  width: auto;
+  width: 100%;
   min-height: 30px;
   height: auto;
   padding: 6px 8px;
   font-size: 12px;
   text-align: left;
-  white-space: normal;
-  overflow-wrap: anywhere;
+  white-space: nowrap;
+}
+#more-menu button span {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 #more-menu button svg {
   flex-shrink: 0;

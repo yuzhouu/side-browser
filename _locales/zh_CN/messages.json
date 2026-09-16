@@ -133,69 +133,144 @@
     "message": "操作失败，请重试。"
   },
   "helpTitle": {
-    "message": "伴页 · 使用说明"
+    "message": "伴页 · 关于与帮助"
   },
   "helpIntro": {
-    "message": "伴页 · SideBrowser $version$ · 同一个浏览器窗口，共用一个原生侧边栏。",
-    "placeholders": {
-      "version": {
-        "content": "$1",
-        "example": "1.6.5"
-      }
-    }
+    "message": "伴页 · SideBrowser · 在侧边栏里，随手浏览。"
   },
   "helpLanguage": {
-    "message": "界面支持简体中文、繁体中文、英文、日语、德语、法语和西班牙语，自动跟随 Chrome 界面语言，其他语言使用英文。"
+    "message": "界面语言自动跟随 Chrome。"
   },
   "helpHeading": {
-    "message": "切换标签，网页留在这里。"
+    "message": "关于与帮助"
   },
   "helpStartHeading": {
     "message": "开始使用"
   },
   "helpStartNavigation": {
-    "message": "点击扩展图标打开侧边栏。36px 单行导航依次为打开当前网页、竖分隔线、后退、前进、刷新、较短的地址栏和「⋯」。输入网址或 Google 搜索词并回车。地址栏右侧时钟按钮可切换最近主动打开的 10 个网址，显示网页标题与网站图标，重复打开置顶；每条右侧可单独删除，也可清空全部记录；列表跨窗口共用并在重启后保留，网页内部跳转、重定向、刷新和前进后退不会加入。「⋯」中提供在新标签页打开侧边栏当前网页、切换手机／PC 模式；菜单展开不挤占网页高度，可按 Escape 或点击外部收起。"
+    "message": "点击伴页扩展图标打开侧边栏。输入网址或 Google 搜索词，然后按回车；点击「打开当前网页」可把当前标签页的网址打开到侧边栏。"
   },
   "helpStartShortcut": {
-    "message": "右键顶部伴页扩展图标或网页，选择「在伴页中打开」即可打开当前网页；右键链接则打开该链接。快捷键为 Alt + Shift + P，Mac 为 ⌥ + ⇧ + P。左右位置、宽度和关闭按钮由 Chrome 管理。"
+    "message": "右键网页或链接，选择「在伴页中打开」也能快速访问。快捷键可在设置页查看和修改。拖动侧边栏边缘可调整宽度。"
   },
   "helpStateHeading": {
-    "message": "网页状态"
+    "message": "切换标签与恢复网页"
   },
   "helpStatePersistence": {
-    "message": "切换标签、刷新主页面、关闭来源标签，不会重建侧边栏网页，输入、滚动与运行状态可以继续。不同窗口有各自的网页和导航历史。无需辅助标签页。"
+    "message": "切换标签或关闭来源标签时，侧边栏里的网页仍然保留。不同浏览器窗口可以各自打开不同的网页。"
   },
   "helpStateRestore": {
-    "message": "关闭侧边栏、窗口、扩展或浏览器后，不保证页面内存继续存在；重新打开可恢复保存的网址与历史。手机／电脑是扩展共用偏好，切换模式会刷新已打开侧边栏的网页。"
-  },
-  "helpStateFullscreen": {
-    "message": "Chrome 窗口全屏已经验证。网页元素或视频自己的全屏模式需分别验证。侧边栏不能悬浮在其他桌面应用上，也不能像浮动 div 一样任意拖动。"
+    "message": "关闭侧边栏或浏览器后，再次打开会恢复保存的网址。未提交的输入、播放进度等页面状态可能丢失。"
   },
   "helpMobileHeading": {
-    "message": "手机与嵌入兼容"
+    "message": "显示模式与常见问题"
   },
   "helpMobileViewport": {
-    "message": "手机模式保留鼠标、悬停、滚轮和原生触摸特征，按网页声明的视口宽度排版，再等比适配侧边栏。NGA 的 525px 布局可以完整显示；自适应页面按可用宽度显示。调整侧边栏宽度不会重建网页。"
-  },
-  "helpMobileIdentity": {
-    "message": "同时提供对应的手机 UA、Client Hints 和脚本可读屏幕信息，资源与 fetch 请求也使用手机 UA。切回电脑模式会刷新网页，恢复原生显示和设备信息。普通主页面及其资源保持原样。"
-  },
-  "helpMobileLimits": {
-    "message": "这是扩展内的视口适配，没有启用 DevTools 原生设备模拟；真实屏幕的栅格化、CSS 设备分辨率查询、嵌套网页等并未全部模拟。手机捏合缩放与虚拟键盘不在本功能内。"
+    "message": "在设置页或侧边栏的「⋯」菜单中切换手机／PC 模式。手机模式适合较窄的侧边栏，也能继续使用鼠标和滚轮；具体排版取决于网站。"
   },
   "helpEmbeddingLimits": {
-    "message": "仅对侧边栏中的子框架文档移除 X-Frame-Options；CSP 含 frame-ancestors 时移除该条 CSP。登录、Cookie、DRM 和网站框架检测仍可能限制嵌入，可从「⋯」在新标签页打开。"
-  },
-  "helpUpdateHeading": {
-    "message": "更新扩展"
-  },
-  "helpUpdate": {
-    "message": "需要 Chrome 145 及以上。替换原扩展加载目录文件，在 chrome://extensions 刷新原来的扩展卡片。保留同一扩展身份即可迁移旧网址、历史和模式。若页面仍留有旧版浮层，刷新该网页一次。不要同时启用新旧版本。"
+    "message": "如果网页加载缓慢，可以刷新重试。部分网站的登录、视频或页面无法在侧边栏内正常使用，可通过「⋯」选择「在新标签页打开当前网页」。"
   },
   "helpPrivacyHeading": {
-    "message": "权限和数据"
+    "message": "隐私与数据"
   },
   "helpPrivacy": {
-    "message": "sidePanel 承载界面；网站访问与脚本权限用于内嵌网页兼容；tabs 用于主动读取来源网址；storage 保存窗口导航与偏好。没有调试会话、代理服务器、遥测或远程扩展脚本，不向开发者上传浏览记录。"
+    "message": "浏览偏好、最近打开的网址和标题、用于恢复页面的网址与导航历史保存在本机，不向开发者上传。清空最近打开记录只删除该列表，不删除用于恢复页面的网址、导航历史或网站数据。访问网站及搜索时，仍适用相应网站的隐私政策。"
+  },
+  "settingsTitle": {
+    "message": "伴页 · 设置"
+  },
+  "settingsHeading": {
+    "message": "设置"
+  },
+  "settingsNavigation": {
+    "message": "设置与帮助"
+  },
+  "settingsIntro": {
+    "message": "管理你的浏览偏好，修改后自动保存。"
+  },
+  "settingsBrowsing": {
+    "message": "浏览偏好"
+  },
+  "settingsMode": {
+    "message": "网页显示模式"
+  },
+  "settingsModeDescription": {
+    "message": "所有窗口共用此设置。切换模式会重新加载已打开的侧边栏网页。"
+  },
+  "settingsMobile": {
+    "message": "手机模式"
+  },
+  "settingsDesktop": {
+    "message": "PC 模式"
+  },
+  "settingsLanguage": {
+    "message": "界面语言"
+  },
+  "settingsFollowBrowser": {
+    "message": "跟随 Chrome"
+  },
+  "settingsShortcut": {
+    "message": "打开当前网页"
+  },
+  "settingsShortcutDescription": {
+    "message": "在侧边栏中打开当前标签页，可在 Chrome 中修改快捷键。"
+  },
+  "settingsManageShortcut": {
+    "message": "管理快捷键"
+  },
+  "settingsShortcutUnset": {
+    "message": "未设置快捷键"
+  },
+  "settingsData": {
+    "message": "浏览记录"
+  },
+  "settingsRecentDescription": {
+    "message": "保留最近主动打开的 10 个网址，方便再次访问。清空记录不会关闭当前网页或清除网站登录状态。"
+  },
+  "settingsRecentCount": {
+    "message": "已保存 $count$ 条记录",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      }
+    }
+  },
+  "settingsClearConfirmation": {
+    "message": "清空所有最近打开记录？清空后无法恢复。"
+  },
+  "settingsCancel": {
+    "message": "取消"
+  },
+  "settingsConfirmClear": {
+    "message": "确认清空"
+  },
+  "settingsSaving": {
+    "message": "正在保存…"
+  },
+  "settingsSaved": {
+    "message": "已保存"
+  },
+  "settingsCleared": {
+    "message": "最近打开记录已清空"
+  },
+  "errorSettingsOnly": {
+    "message": "请在伴页设置页面执行此操作。"
+  },
+  "helpRecent": {
+    "message": "点击地址栏右侧的时钟图标查看最近打开的网页。点击条目即可再次打开，也可以单条删除或清空列表。记录在各窗口间共用，重启浏览器后仍保留。"
+  },
+  "helpFeedback": {
+    "message": "反馈与建议"
+  },
+  "helpFeedbackDescription": {
+    "message": "遇到问题或有新想法？欢迎在 GitHub 上告诉我们。"
+  },
+  "helpFeedbackLink": {
+    "message": "前往 GitHub 反馈"
+  },
+  "helpAuthor": {
+    "message": "作者"
   }
 }
