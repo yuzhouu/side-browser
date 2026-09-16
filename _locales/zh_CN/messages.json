@@ -51,7 +51,7 @@
     "description": "Compact toolbar button: copy the active browser tab URL into the sidebar."
   },
   "openCurrentTitle": {
-    "message": "在侧边栏打开当前标签页的网址"
+    "message": "在侧栏打开当前标签页"
   },
   "more": {
     "message": "更多操作"

@@ -12,7 +12,6 @@ form:hover{border-color:#dedfd8}
 form:focus-within{background:#fff}
 input{flex:1;width:0;min-width:0;border:0;outline:none;padding:0 7px;color:#344139;background:transparent;font:inherit}
 input::placeholder{color:#919790}
-#current{width:auto;padding:0 6px;font-size:11px;white-space:nowrap}
 #recent{width:24px;height:24px;border-radius:3px}
 #recent-menu{position:fixed;inset:34px 5px auto auto;width:340px;max-width:calc(100vw - 10px);max-height:calc(100dvh - 42px);margin:0;padding:4px;border:1px solid #dedfd8;border-radius:7px;background:#fafbf8;color:#344139;box-shadow:0 5px 18px #283b2b1a;overflow:hidden}
 #recent-menu:popover-open{display:flex;flex-direction:column}
