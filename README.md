@@ -1,4 +1,4 @@
-# 侧窗 · SideBrowser 1.6.5
+# 侧窗 · SideBrowser 1.0.0
 
 商店上架资料见 [store/README.md](store/README.md)：效率工具分类、中英文介绍、ChatGPT／维基百科／Google 功能说明图、隐私政策和提交字段；[打开素材预览](store/index.html)。
 
@@ -88,7 +88,7 @@ Another page. Right beside you.
 npm run dev           # 监听源码与静态资源，重建 dist/；Chrome 中手动重新加载
 npm run typecheck     # TypeScript 严格类型检查
 npm run build         # 检查类型并生成可加载的 dist/
-npm run package       # 构建并输出 releases/sidebrowser-1.6.5.zip
+npm run package       # 构建并输出 releases/sidebrowser-1.0.0.zip
 npm test              # 构建、模块测试和产物检查
 npm run format:check
 npx playwright install chromium
@@ -109,7 +109,7 @@ Vite 负责三个页面和后台的模块构建，注入网页的脚本单独输
 
 ## 独立项目
 
-本目录是 Codex 项目的源码根目录。项目交接与既有决策见 [项目说明](docs/project-context.md)，历史验证见 [验证记录](docs/verification-history.md)，当前交付包为 [`releases/sidebrowser-1.6.5.zip`](releases/sidebrowser-1.6.5.zip)，早期安装包保存在 `releases/archive/`，仅供历史归档。
+本目录是 Codex 项目的源码根目录。项目交接与既有决策见 [项目说明](docs/project-context.md)，历史验证见 [验证记录](docs/verification-history.md)，当前交付包为 [`releases/sidebrowser-1.0.0.zip`](releases/sidebrowser-1.0.0.zip)，早期安装包保存在 `releases/archive/`，仅供历史归档。
 
 ## 官网与宣传素材
 

@@ -2,11 +2,11 @@
 
 ## 当前基线
 
-侧窗 · SideBrowser 1.6.5，从原会话工作区的 `outputs/pocket-browser` 复制成独立项目。原始位置：`/Users/yuzhou/Documents/Codex/2026-09-14/new-chat`。早期安装包保存在 `releases/archive/sidebrowser-1.6.5.zip`；原会话的源码和安装包仍保留。英文品牌已统一为 `SideBrowser`，npm 包名为 `sidebrowser-extension`，中文品牌为「侧窗」，中文 slogan 为「侧窗小境，静览万象」，英文 slogan 为 “Another page. Right beside you.”。旧名称安装包 `releases/archive/sidebrowse-1.6.5.zip` 仅作历史归档。
+侧窗 · SideBrowser 当前版本为 1.0.0（2026-09-16 统一版本编号），项目从原会话工作区的 `outputs/pocket-browser` 复制成独立项目。原始位置：`/Users/yuzhou/Documents/Codex/2026-09-14/new-chat`。早期安装包保存在 `releases/archive/sidebrowser-1.6.5.zip`；原会话的源码和安装包仍保留。英文品牌已统一为 `SideBrowser`，npm 包名为 `sidebrowser-extension`，中文品牌为「侧窗」，中文 slogan 为「侧窗小境，静览万象」，英文 slogan 为 “Another page. Right beside you.”。旧名称安装包 `releases/archive/sidebrowse-1.6.5.zip` 仅作历史归档。
 
 ## 使用与开发
 
-本地源码目录继续使用 `sidebrowse`，应用源文件已迁至 `src/` 并采用 TypeScript strict；`public/` 存放 manifest、语言包和运行图标。Vite 生成独立 `dist/`，`npm run package` 输出 `releases/sidebrowser-1.6.5.zip`，ZIP 根目录直接包含 manifest，不再额外嵌套目录。开发依赖、文档、测试与设计素材不会打包。
+本地源码目录继续使用 `sidebrowse`，应用源文件已迁至 `src/` 并采用 TypeScript strict；`public/` 存放 manifest、语言包和运行图标。Vite 生成独立 `dist/`，`npm run package` 输出 `releases/sidebrowser-1.0.0.zip`，ZIP 根目录直接包含 manifest，不再额外嵌套目录。开发依赖、文档、测试与设计素材不会打包。
 
 使用 Node 22.12+，先执行 `npm ci`、`npm run build`，再在 Chrome 145+ 扩展管理页加载 `dist/`。`npm run dev` 监听源码和静态资源重建产物，修改后在 Chrome 点击重新加载。`npm test` 和 `npm run test:browser` 都会先构建。既有独立安装文件夹可用新 ZIP 内容覆盖并保留加载路径；从源码根目录改为加载 `dist/` 会被 Chrome 视为另一个未打包扩展，原身份的数据不会自动转入。
 

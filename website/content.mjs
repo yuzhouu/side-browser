@@ -100,7 +100,7 @@ export const content = {
     artworkFooter: 'Chrome 侧边栏浏览器扩展',
     realCapture: '真实侧边栏截图',
     policyTitle: '隐私政策',
-    updated: '更新于 2026 年 9 月 16 日 · 扩展版本 1.6.5',
+    updated: '更新于 2026 年 9 月 16 日 · 扩展版本 1.0.0',
     policyIntro: '清楚说明侧窗处理什么数据、如何保存，以及如何删除。',
     notFound: '这个页面不在侧窗里。',
     home: '返回首页'
@@ -217,7 +217,7 @@ export const content = {
     artworkFooter: 'A side-panel browser for Chrome',
     realCapture: 'Real sidebar screenshot',
     policyTitle: 'Privacy policy',
-    updated: 'Updated September 16, 2026 · Extension version 1.6.5',
+    updated: 'Updated September 16, 2026 · Extension version 1.0.0',
     policyIntro: 'What SideBrowser handles, where it is stored, and how to delete it.',
     notFound: 'This page has stepped outside.',
     home: 'Back to home'

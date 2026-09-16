@@ -18,7 +18,7 @@ Browser plugin not available，使用仓库内 `npm run test:browser`（Playwrig
 
 英文品牌从 SideBrowse 改为 SideBrowser；更新 manifest、侧边栏标题、帮助页、npm 包名、README 和项目说明。英文介绍为 “A browser in your sidebar.”。版本仍为 1.6.5。
 
-本地源码加载目录 `sidebrowse`、ZIP 内目录 `pocket-browser` 和内部通信／持久化标识保持原状。原名称的安装包与下方验证记录作为历史归档；当前安装包为 `releases/sidebrowser-1.6.5.zip`。
+本地源码加载目录 `sidebrowse`、ZIP 内目录 `pocket-browser` 和内部通信／持久化标识保持原状。原名称的安装包与下方验证记录作为历史归档；当时交付包为 `releases/archive/sidebrowser-1.6.5.zip`。
 
 本次验证：21 项现有 Node 测试通过，全部 JavaScript 语法通过，所有 JS 与改名前逐字节一致。独立 Chrome for Testing 149 中 5 项检查通过：实时 manifest 与侧边栏标题、帮助页品牌显示、打开当前网页、更多菜单展开／Escape 收起及网页实例与输入保留。帮助页检查 1000 × 760 和 360 × 760；实际原生侧边栏内容区为 360 × 601，另通过 CDP 模拟 320 × 680 内容视口检查单行 36px 导航及无横向溢出。320px 是内容视口模拟，不代表拖动原生侧边栏外框至该宽度。
 

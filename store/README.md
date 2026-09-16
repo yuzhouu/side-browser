@@ -21,8 +21,8 @@
 | `assets/store-icon-128.png` | 商店上传图标；同一品牌 SVG，图形约 96px，外围透明留白 |
 | `assets/manifest.json` | 最终导出尺寸与 SHA-256 |
 | `assets/source/capture.json` | 实拍浏览器、日期、原生尺寸与网页来源 |
-| `../releases/sidebrowser-1.6.5.zip` | 可上传的扩展安装包，根目录是 manifest.json |
-| `../releases/sidebrowser-store-1.6.5.zip` | 包含文案、图片、来源与扩展 ZIP 的资料总包；它本身不是扩展安装包 |
+| `../releases/sidebrowser-1.0.0.zip` | 可上传的扩展安装包，根目录是 manifest.json |
+| `../releases/sidebrowser-store-1.0.0.zip` | 包含文案、图片、来源与扩展 ZIP 的资料总包；它本身不是扩展安装包 |
 
 ## 截图来源与内容边界
 
