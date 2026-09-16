@@ -17,8 +17,12 @@ const defaults = catalogs[manifest.default_locale];
 
 test('every shipped locale has complete messages and matching named placeholders', () => {
   assert.equal(manifest.default_locale, 'en');
-  assert(locales.includes('zh_CN'));
+  for (const locale of ['en', 'zh_CN', 'zh_TW', 'ja', 'de', 'fr', 'es'])
+    assert(locales.includes(locale), `Missing supported locale: ${locale}`);
   for (const [locale, catalog] of Object.entries(catalogs)) {
+    assert.equal(catalog.documentLanguage.message, locale.replace('_', '-'));
+    assert(['ltr', 'rtl'].includes(catalog.documentDirection.message));
+    assert(catalog.extensionDescription.message.length <= 132, `${locale}: description too long`);
     assert.deepEqual(Object.keys(catalog).sort(), Object.keys(defaults).sort(), locale);
     for (const [key, entry] of Object.entries(catalog)) {
       assert.equal(typeof entry.message, 'string', `${locale}/${key}`);

@@ -1,0 +1,201 @@
+{
+  "documentLanguage": {
+    "message": "zh-TW",
+    "description": "BCP 47 language tag for the translated document, including fallback."
+  },
+  "documentDirection": {
+    "message": "ltr",
+    "description": "Text direction of the translation: ltr or rtl."
+  },
+  "extensionName": {
+    "message": "伴頁 · SideBrowser"
+  },
+  "extensionDescription": {
+    "message": "側邊欄裡的小瀏覽器。同一視窗共用一個網頁，切換分頁仍保留執行狀態，支援網址搜尋及手機／電腦檢視。"
+  },
+  "openSidePanel": {
+    "message": "伴頁 · 開啟側邊欄"
+  },
+  "openCurrentCommand": {
+    "message": "在伴頁中開啟目前網頁"
+  },
+  "contextOpen": {
+    "message": "在伴頁中開啟"
+  },
+  "navigation": {
+    "message": "網頁導覽"
+  },
+  "back": {
+    "message": "上一頁"
+  },
+  "forward": {
+    "message": "下一頁"
+  },
+  "reload": {
+    "message": "重新載入"
+  },
+  "address": {
+    "message": "網址或搜尋"
+  },
+  "recentOpened": {
+    "message": "最近開啟"
+  },
+  "clearRecent": {
+    "message": "清除全部"
+  },
+  "removeRecent": {
+    "message": "移除此筆紀錄"
+  },
+  "recentEmpty": {
+    "message": "尚無紀錄，這裡會保留最近主動開啟的 10 個網址。"
+  },
+  "openCurrent": {
+    "message": "開啟目前網頁",
+    "description": "Compact toolbar button: copy the active browser tab URL into the sidebar."
+  },
+  "openCurrentTitle": {
+    "message": "在側邊欄開啟目前分頁"
+  },
+  "more": {
+    "message": "更多操作"
+  },
+  "openExternal": {
+    "message": "在新分頁開啟網頁",
+    "description": "More menu: open the sidebar URL in a normal browser tab."
+  },
+  "openExternalTitle": {
+    "message": "在新的瀏覽器分頁開啟側邊欄中的網頁"
+  },
+  "switchToDesktop": {
+    "message": "切換至電腦模式"
+  },
+  "switchToMobile": {
+    "message": "切換至手機模式"
+  },
+  "mobileModeTitle": {
+    "message": "目前為手機模式，切換至電腦模式"
+  },
+  "desktopModeTitle": {
+    "message": "目前為電腦模式，切換至手機模式"
+  },
+  "retry": {
+    "message": "重試"
+  },
+  "frameTitle": {
+    "message": "側邊欄中的網頁"
+  },
+  "emptyTitle": {
+    "message": "在這裡開啟網頁"
+  },
+  "emptyDescription": {
+    "message": "輸入網址，或點選「開啟目前網頁」。"
+  },
+  "loadingSlow": {
+    "message": "網頁載入時間較長，請重新載入，或從「⋯」在新分頁開啟。"
+  },
+  "errorInvalidCharacters": {
+    "message": "網址包含無效字元。"
+  },
+  "errorUnsupportedScheme": {
+    "message": "請輸入 HTTP 或 HTTPS 網址，或直接輸入搜尋內容。"
+  },
+  "errorInvalidUrl": {
+    "message": "網址格式不正確，請檢查後再試一次。"
+  },
+  "errorHttpOnly": {
+    "message": "僅支援 HTTP 和 HTTPS 網站。"
+  },
+  "errorEmptyInput": {
+    "message": "請輸入網址或搜尋字詞，或選擇「開啟目前網頁」。"
+  },
+  "errorUnsupportedUrl": {
+    "message": "不支援此網址。"
+  },
+  "errorChromeVersion": {
+    "message": "無法讀取 Chrome 版本，尚未啟用手機模式。"
+  },
+  "errorExtensionUnavailable": {
+    "message": "擴充功能沒有回應，請再試一次。"
+  },
+  "errorPanelOnly": {
+    "message": "此操作僅能在伴頁側邊欄中使用。"
+  },
+  "errorWindowClosed": {
+    "message": "側邊欄所在的視窗已關閉。"
+  },
+  "errorCurrentPage": {
+    "message": "目前網頁沒有可開啟的 HTTP 或 HTTPS 網址。"
+  },
+  "errorUnknownOperation": {
+    "message": "未知的側邊欄操作。"
+  },
+  "errorUnexpected": {
+    "message": "操作失敗，請再試一次。"
+  },
+  "helpTitle": {
+    "message": "伴頁 · 使用說明"
+  },
+  "helpIntro": {
+    "message": "伴頁 · SideBrowser $version$ · 每個瀏覽器視窗共用一個原生側邊欄。",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "1.6.5"
+      }
+    }
+  },
+  "helpLanguage": {
+    "message": "介面自動跟隨 Chrome 的顯示語言，支援簡體中文、繁體中文、英文、日文、德文、法文和西班牙文；其他語言使用英文。"
+  },
+  "helpHeading": {
+    "message": "切換分頁，網頁留在這裡。"
+  },
+  "helpStartHeading": {
+    "message": "開始使用"
+  },
+  "helpStartNavigation": {
+    "message": "點選擴充功能圖示開啟側邊欄。36px 單行導覽列依序為開啟目前網頁、分隔線、上一頁、下一頁、重新載入、網址列和「⋯」。輸入網址或 Google 搜尋字詞後按 Enter。網址列右側的時鐘按鈕會列出最近主動開啟的 10 個網址，並顯示網頁標題及網站圖示。點選項目即可切換，也可逐筆移除或清除全部紀錄；再次開啟的網址會移至最上方。清單跨視窗共用，重新啟動後仍會保留；網頁內部導覽、重新導向、重新載入、上一頁及下一頁不會新增紀錄。「⋯」選單可在新分頁開啟側邊欄中的網頁，或切換手機／電腦模式。選單浮在網頁上方，不會縮減網頁高度；按 Escape 或點選外部即可關閉。"
+  },
+  "helpStartShortcut": {
+    "message": "在伴頁工具列圖示或網頁上按滑鼠右鍵，選擇「在伴頁中開啟」即可開啟目前網頁；在連結上按右鍵則會開啟該連結。快捷鍵為 Alt + Shift + P，Mac 為 ⌥ + ⇧ + P。側邊欄的位置、寬度和關閉按鈕由 Chrome 管理。"
+  },
+  "helpStateHeading": {
+    "message": "網頁狀態"
+  },
+  "helpStatePersistence": {
+    "message": "切換分頁、重新載入主要分頁或關閉來源分頁，都不會重新建立側邊欄中的網頁；輸入內容、捲動位置和執行狀態會保留。每個瀏覽器視窗都有自己的網頁及導覽紀錄，無需額外的輔助分頁。"
+  },
+  "helpStateRestore": {
+    "message": "關閉側邊欄、視窗、擴充功能或瀏覽器後，網頁的即時狀態可能會遺失；重新開啟時會還原已儲存的網址及導覽紀錄。手機／電腦模式是擴充功能共用的偏好設定，切換模式會重新載入所有已開啟側邊欄中的網頁。"
+  },
+  "helpStateFullscreen": {
+    "message": "已測試 Chrome 視窗全螢幕模式。網頁元素或影片的個別全螢幕模式需另行測試。側邊欄無法浮在其他桌面應用程式上方，也無法像網頁浮動面板一樣任意拖曳。"
+  },
+  "helpMobileHeading": {
+    "message": "手機檢視與嵌入網頁"
+  },
+  "helpMobileViewport": {
+    "message": "手機模式保留滑鼠、游標懸停、滾輪及原生觸控行為。網頁依其宣告的檢視區寬度排版，再等比例縮放以符合側邊欄。NGA 的 525px 版面可以完整顯示；響應式網頁使用可用寬度。調整側邊欄寬度不會重新建立網頁。"
+  },
+  "helpMobileIdentity": {
+    "message": "手機模式也會提供手機版 User-Agent、Client Hints 和網頁指令碼可讀取的螢幕資訊；資源及 fetch 請求同樣使用手機版 User-Agent。切回電腦模式會重新載入網頁，並還原原生顯示及裝置資訊。一般瀏覽器分頁及其資源不受影響。"
+  },
+  "helpMobileLimits": {
+    "message": "這是擴充功能內的檢視區調整，並非 DevTools 裝置模擬。螢幕點陣化、CSS 裝置解析度查詢、巢狀框架等行為並未完整模擬，也不包含雙指縮放或虛擬鍵盤。"
+  },
+  "helpEmbeddingLimits": {
+    "message": "僅移除側邊欄內嵌框架文件的 X-Frame-Options；若 CSP 標頭包含 frame-ancestors，會移除該整條 CSP 標頭。登入要求、Cookie、DRM 及框架偵測仍可能限制嵌入。可從「⋯」在新分頁開啟網頁。"
+  },
+  "helpUpdateHeading": {
+    "message": "更新擴充功能"
+  },
+  "helpUpdate": {
+    "message": "需要 Chrome 145 以上版本。取代原擴充功能資料夾中的檔案，再到 chrome://extensions 重新載入原來的擴充功能。保留相同的擴充功能識別碼，即可保留已儲存的網址、紀錄和模式。若網頁仍有舊版浮動面板，請重新載入該網頁一次。請勿同時啟用新舊版本。"
+  },
+  "helpPrivacyHeading": {
+    "message": "權限與資料"
+  },
+  "helpPrivacy": {
+    "message": "sidePanel 用於顯示介面；網站存取及指令碼權限用於支援內嵌網頁；tabs 在您要求開啟網頁時讀取來源網址；storage 儲存導覽紀錄及偏好設定。沒有偵錯工作階段、代理伺服器、遙測或遠端擴充功能指令碼，瀏覽紀錄不會上傳給開發者。"
+  }
+}

@@ -145,7 +145,7 @@
     }
   },
   "helpLanguage": {
-    "message": "The interface follows Chrome’s display language. Simplified Chinese and English are supported; other languages use English."
+    "message": "The interface follows Chrome’s display language. Simplified Chinese, Traditional Chinese, English, Japanese, German, French, and Spanish are supported; other languages use English."
   },
   "helpHeading": {
     "message": "Switch tabs. Keep your page."
@@ -154,7 +154,7 @@
     "message": "Getting started"
   },
   "helpStartNavigation": {
-    "message": "Click the extension icon to open the sidebar. The 36px navigation bar contains Back, Forward, Reload, an address field, Open current page, and “⋯”. Enter an address or Google search term and press Enter. The clock in the address field lists your last 10 explicitly opened addresses with page titles and website icons. Click an entry to switch, use its remove button to delete it, or clear the whole list. Reopening an address moves it to the top. The list is shared across windows and survives restarts; in-page navigation, redirects, reloads, Back, and Forward do not add entries. The “⋯” menu lets you open the sidebar page in a new tab or switch between mobile and desktop modes. Menus float over the page without reducing its height. Press Escape or click outside to close them."
+    "message": "Click the extension icon to open the sidebar. The 36px navigation bar contains Open current page, a separator, Back, Forward, Reload, an address field, and “⋯”, in that order. Enter an address or Google search term and press Enter. The clock in the address field lists your last 10 explicitly opened addresses with page titles and website icons. Click an entry to switch, use its remove button to delete it, or clear the whole list. Reopening an address moves it to the top. The list is shared across windows and survives restarts; in-page navigation, redirects, reloads, Back, and Forward do not add entries. The “⋯” menu lets you open the sidebar page in a new tab or switch between mobile and desktop modes. Menus float over the page without reducing its height. Press Escape or click outside to close them."
   },
   "helpStartShortcut": {
     "message": "Right-click the SideBrowser toolbar icon or a page and choose “Open in SideBrowser” to open the current page; right-click a link to open that link instead. The keyboard shortcut is Alt + Shift + P, or ⌥ + ⇧ + P on Mac. Chrome controls the sidebar’s position, width, and close button."

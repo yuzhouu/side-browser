@@ -8,12 +8,15 @@ import { chromium } from 'playwright';
 import { attachTarget, poll } from './browser/cdp.mjs';
 
 const rootPath = fileURLToPath(new URL('../', import.meta.url));
+const manifest = JSON.parse(await readFile(new URL('../manifest.json', import.meta.url)));
 const locale = process.env.QA_LOCALE || 'en';
-assert(['en', 'zh-CN'].includes(locale), 'QA_LOCALE must be en or zh-CN');
+const supportedLocales = ['en', 'zh-CN', 'zh-TW', 'ja', 'de', 'fr', 'es'];
+assert(
+  supportedLocales.includes(locale),
+  `QA_LOCALE must be one of ${supportedLocales.join(', ')}`
+);
 const catalog = JSON.parse(
-  await readFile(
-    new URL(`../_locales/${locale === 'en' ? 'en' : 'zh_CN'}/messages.json`, import.meta.url)
-  )
+  await readFile(new URL(`../_locales/${locale.replace('-', '_')}/messages.json`, import.meta.url))
 );
 const fixture = await readFile(new URL('./browser/fixture.html', import.meta.url));
 const diagnostics = { errors: [], warnings: [] };
@@ -178,9 +181,60 @@ try {
   });
   const base = `http://127.0.0.1:${server.address().port}`;
   await launch();
+  const help = await context.newPage();
+  await help.goto(`${extension}/help.html`);
+  await help.locator('.intro').filter({ hasText: manifest.version }).waitFor();
+  assert.equal(await help.title(), catalog.helpTitle.message);
+  assert.equal(await help.locator('html').getAttribute('lang'), catalog.documentLanguage.message);
+  assert.equal(await help.locator('html').getAttribute('dir'), catalog.documentDirection.message);
+  for (const [key, value] of await help
+    .locator('[data-i18n]')
+    .evaluateAll(elements => elements.map(element => [element.dataset.i18n, element.textContent])))
+    assert.equal(value, catalog[key].message, `Help message: ${key}`);
+  assert.equal(
+    await help.locator('.intro').textContent(),
+    catalog.helpIntro.message.replace('$version$', manifest.version)
+  );
+  const helpSession = await context.newCDPSession(help);
+  for (const width of [960, 320]) {
+    await helpSession.send('Emulation.setDeviceMetricsOverride', {
+      width,
+      height: 720,
+      deviceScaleFactor: 1,
+      mobile: false
+    });
+    assert(await help.evaluate(() => document.documentElement.scrollWidth === innerWidth));
+    await help.screenshot({ path: join(output, `help-${width}.png`) });
+  }
+  await helpSession.send('Emulation.clearDeviceMetricsOverride');
+  await help.close();
+  pass('Localized help, document language, version substitution and 960px/320px layouts');
   panel = await openPanel();
   assert.equal(await panel.evaluate('location.href'), `${extension}/sidepanel.html`);
   assert.equal(await panel.evaluate('document.title'), catalog.extensionName.message);
+  assert.equal(
+    await panel.evaluate('document.documentElement.lang'),
+    catalog.documentLanguage.message
+  );
+  assert.equal(
+    await panel.evaluate('chrome.runtime.getManifest().description'),
+    catalog.extensionDescription.message
+  );
+  assert.equal(await panel.evaluate('chrome.action.getTitle({})'), catalog.openSidePanel.message);
+  assert.deepEqual(
+    await panel.evaluate(`(() => {
+      const messages = [];
+      for (const element of document.querySelectorAll('[data-i18n]'))
+        messages.push([element.dataset.i18n, element.textContent]);
+      for (const attribute of ['title', 'placeholder', 'aria-label']) {
+        const marker = 'data-i18n-' + attribute;
+        for (const element of document.querySelectorAll('[' + marker + ']'))
+          messages.push([element.getAttribute(marker), element.getAttribute(attribute)]);
+      }
+      return messages.filter(([key, value]) => value !== chrome.i18n.getMessage(key));
+    })()`),
+    []
+  );
   assert((await panel.evaluate('document.body.innerText')).includes(catalog.emptyTitle.message));
   assert.deepEqual(
     await panel.evaluate(
@@ -189,6 +243,15 @@ try {
     ['current', 'toolbar-separator', 'back', 'forward', 'reload', 'navigate', 'more']
   );
   pass('Panel identity, localized empty state and toolbar order');
+  await screenshot('native-empty');
+  await panel.fill('#address', 'ftp://example.com');
+  await panel.press('Enter');
+  await poll(() => panel.evaluate('!document.querySelector("#notice").hidden'), 'localized error');
+  assert.equal(
+    await panel.evaluate('document.querySelector("#notice span").textContent'),
+    catalog.errorUnsupportedScheme.message
+  );
+  pass('Unsupported address displays the translated error');
 
   const source = context.pages()[0];
   await source.goto(`${base}/first`);
@@ -266,6 +329,10 @@ try {
   await panel.click('#more');
   await panel.click('#mode');
   await poll(async () => (await state()).mode === 'desktop', 'desktop preference');
+  assert.equal(
+    await panel.evaluate('document.querySelector("#mode-label").textContent'),
+    catalog.switchToMobile.message
+  );
   await poll(
     () =>
       inner.evaluate(
@@ -276,6 +343,10 @@ try {
   await panel.click('#more');
   await panel.click('#mode');
   await poll(() => inner.evaluate("navigator.userAgent.includes('Android')"), 'mobile reload');
+  assert.equal(
+    await panel.evaluate('document.querySelector("#mode-label").textContent'),
+    catalog.switchToDesktop.message
+  );
   assert.deepEqual(await recents(), [`${base}/redirect`, `${base}/first`]);
   pass('Mobile/desktop switching reloads deliberately without adding recent entries');
 
@@ -321,13 +392,14 @@ try {
   await panel.click('#recent');
   const nativeWidth = await panel.evaluate('innerWidth');
   await screenshot('native-recent');
-  for (const width of [480, 320]) {
-    await panel.send('Emulation.setDeviceMetricsOverride', {
-      width,
-      height: 680,
-      deviceScaleFactor: 1,
-      mobile: false
-    });
+  for (const width of [nativeWidth, 480, 320]) {
+    if (width !== nativeWidth)
+      await panel.send('Emulation.setDeviceMetricsOverride', {
+        width,
+        height: 680,
+        deviceScaleFactor: 1,
+        mobile: false
+      });
     const geometry = await panel.evaluate(`(() => {
       const menu = document.querySelector('#recent-menu');
       const box = menu.getBoundingClientRect();
@@ -347,6 +419,26 @@ try {
       controls: true
     });
     await screenshot(`simulated-${width}`);
+    await closeMenu();
+    await panel.click('#more');
+    assert(
+      await panel.evaluate(`(() => {
+      const menu = document.querySelector('#more-menu');
+      const box = menu.getBoundingClientRect();
+      return box.x >= 0 && box.right <= innerWidth && menu.scrollWidth === menu.clientWidth &&
+        [...menu.querySelectorAll('button')].every(button => {
+          const label = button.querySelector('span');
+          const rect = label.getBoundingClientRect();
+          const icon = button.querySelector('svg').getBoundingClientRect();
+          return icon.width === 15 && icon.height === 15 &&
+            button.scrollWidth === button.clientWidth && rect.right <= box.right - 4;
+        });
+    })()`),
+      `More menu labels fit at ${width}px`
+    );
+    await screenshot(`more-${width}`);
+    await panel.press('Escape');
+    await panel.click('#recent');
   }
   await panel.send('Emulation.clearDeviceMetricsOverride');
   await closeMenu();

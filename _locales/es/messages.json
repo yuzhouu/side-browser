@@ -1,0 +1,201 @@
+{
+  "documentLanguage": {
+    "message": "es",
+    "description": "BCP 47 language tag for the translated document, including fallback."
+  },
+  "documentDirection": {
+    "message": "ltr",
+    "description": "Text direction of the translation: ltr or rtl."
+  },
+  "extensionName": {
+    "message": "SideBrowser"
+  },
+  "extensionDescription": {
+    "message": "Un navegador en el panel lateral. Mantén una página abierta, busca en la Web y alterna entre las vistas móvil y de escritorio."
+  },
+  "openSidePanel": {
+    "message": "SideBrowser · Abrir panel lateral"
+  },
+  "openCurrentCommand": {
+    "message": "Abrir la página actual en SideBrowser"
+  },
+  "contextOpen": {
+    "message": "Abrir en SideBrowser"
+  },
+  "navigation": {
+    "message": "Navegación de páginas"
+  },
+  "back": {
+    "message": "Atrás"
+  },
+  "forward": {
+    "message": "Adelante"
+  },
+  "reload": {
+    "message": "Recargar"
+  },
+  "address": {
+    "message": "Dirección o búsqueda"
+  },
+  "recentOpened": {
+    "message": "Páginas recientes"
+  },
+  "clearRecent": {
+    "message": "Borrar todo"
+  },
+  "removeRecent": {
+    "message": "Eliminar esta entrada"
+  },
+  "recentEmpty": {
+    "message": "Aún no hay páginas recientes. Aquí aparecerán las últimas 10 direcciones que hayas abierto de forma explícita."
+  },
+  "openCurrent": {
+    "message": "Abrir página actual",
+    "description": "Compact toolbar button: copy the active browser tab URL into the sidebar."
+  },
+  "openCurrentTitle": {
+    "message": "Abrir la pestaña actual del navegador en el panel lateral"
+  },
+  "more": {
+    "message": "Más acciones"
+  },
+  "openExternal": {
+    "message": "Abrir en una pestaña nueva",
+    "description": "More menu: open the sidebar URL in a normal browser tab."
+  },
+  "openExternalTitle": {
+    "message": "Abrir la página del panel lateral en una pestaña nueva del navegador"
+  },
+  "switchToDesktop": {
+    "message": "Usar vista de escritorio"
+  },
+  "switchToMobile": {
+    "message": "Usar vista móvil"
+  },
+  "mobileModeTitle": {
+    "message": "La vista móvil está activa. Cambiar a la vista de escritorio"
+  },
+  "desktopModeTitle": {
+    "message": "La vista de escritorio está activa. Cambiar a la vista móvil"
+  },
+  "retry": {
+    "message": "Reintentar"
+  },
+  "frameTitle": {
+    "message": "Página web en el panel lateral"
+  },
+  "emptyTitle": {
+    "message": "Abre una página aquí"
+  },
+  "emptyDescription": {
+    "message": "Introduce una dirección o haz clic en «Abrir página actual»."
+  },
+  "loadingSlow": {
+    "message": "Esta página está tardando en cargar. Recárgala o usa «⋯» para abrirla en una pestaña nueva."
+  },
+  "errorInvalidCharacters": {
+    "message": "La dirección contiene caracteres no válidos."
+  },
+  "errorUnsupportedScheme": {
+    "message": "Introduce una dirección HTTP o HTTPS, o términos de búsqueda."
+  },
+  "errorInvalidUrl": {
+    "message": "Esta dirección no es válida. Revísala e inténtalo de nuevo."
+  },
+  "errorHttpOnly": {
+    "message": "Solo se admiten sitios HTTP y HTTPS."
+  },
+  "errorEmptyInput": {
+    "message": "Introduce una dirección o términos de búsqueda, o selecciona «Abrir página actual»."
+  },
+  "errorUnsupportedUrl": {
+    "message": "Esta dirección no es compatible."
+  },
+  "errorChromeVersion": {
+    "message": "No se pudo obtener la versión de Chrome. La vista móvil no se ha activado."
+  },
+  "errorExtensionUnavailable": {
+    "message": "La extensión no responde. Inténtalo de nuevo."
+  },
+  "errorPanelOnly": {
+    "message": "Esta acción solo está disponible en el panel lateral de SideBrowser."
+  },
+  "errorWindowClosed": {
+    "message": "Se ha cerrado la ventana que contenía el panel lateral."
+  },
+  "errorCurrentPage": {
+    "message": "La página actual no tiene una dirección HTTP o HTTPS que se pueda abrir."
+  },
+  "errorUnknownOperation": {
+    "message": "Acción del panel lateral desconocida."
+  },
+  "errorUnexpected": {
+    "message": "Se produjo un error. Inténtalo de nuevo."
+  },
+  "helpTitle": {
+    "message": "SideBrowser · Ayuda"
+  },
+  "helpIntro": {
+    "message": "SideBrowser $version$ · Un panel lateral compartido por ventana del navegador.",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "1.6.5"
+      }
+    }
+  },
+  "helpLanguage": {
+    "message": "La interfaz usa el idioma de visualización de Chrome. Se admiten chino simplificado, chino tradicional, inglés, japonés, alemán, francés y español. Para los demás idiomas se usa el inglés."
+  },
+  "helpHeading": {
+    "message": "Cambia de pestaña. Conserva tu página."
+  },
+  "helpStartHeading": {
+    "message": "Primeros pasos"
+  },
+  "helpStartNavigation": {
+    "message": "Haz clic en el icono de la extensión para abrir el panel lateral. La barra de navegación de 36px contiene, en este orden: Abrir página actual, un separador, Atrás, Adelante, Recargar, un campo de dirección y «⋯». Introduce una dirección o términos de búsqueda de Google y pulsa Intro. El reloj del campo de dirección muestra las últimas 10 direcciones que hayas abierto de forma explícita, con títulos de página e iconos de los sitios. Haz clic en una entrada para cambiar de página, elimina entradas por separado o borra toda la lista. Al volver a abrir una dirección, esta pasa al principio. La lista se comparte entre ventanas y se conserva tras reiniciar. La navegación dentro de las páginas, las redirecciones, las recargas y los botones Atrás y Adelante no añaden entradas. El menú «⋯» permite abrir la página del panel lateral en una pestaña nueva o alternar entre las vistas móvil y de escritorio. Los menús se superponen a la página sin reducir su altura. Pulsa Escape o haz clic fuera para cerrarlos."
+  },
+  "helpStartShortcut": {
+    "message": "Haz clic con el botón derecho en el icono de SideBrowser de la barra de herramientas o en una página y elige «Abrir en SideBrowser» para abrir la página actual. Si haces clic con el botón derecho en un enlace, se abrirá ese enlace. El atajo de teclado es Alt + Shift + P, o ⌥ + ⇧ + P en Mac. Chrome controla la posición, el ancho y el botón de cierre del panel lateral."
+  },
+  "helpStateHeading": {
+    "message": "Estado de la página"
+  },
+  "helpStatePersistence": {
+    "message": "Cambiar de pestaña, recargar la pestaña principal o cerrar la pestaña de origen no vuelve a crear la página del panel lateral. Se conservan los datos introducidos, la posición de desplazamiento y el estado de ejecución de la página. Cada ventana del navegador tiene su propia página y su propio historial de navegación. No se necesita ninguna pestaña auxiliar."
+  },
+  "helpStateRestore": {
+    "message": "Al cerrar el panel lateral, la ventana, la extensión o el navegador, puede perderse el estado de ejecución de la página. Al volver a abrirlo, se restauran la dirección y el historial guardados. La preferencia de vista móvil o de escritorio se comparte en toda la extensión. Cambiar de vista recarga la página en todos los paneles laterales abiertos."
+  },
+  "helpStateFullscreen": {
+    "message": "Se ha probado el modo de pantalla completa de la ventana de Chrome. La pantalla completa de elementos individuales o vídeos requiere pruebas adicionales. El panel lateral no puede flotar sobre otras aplicaciones de escritorio ni arrastrarse libremente como un elemento flotante de una página."
+  },
+  "helpMobileHeading": {
+    "message": "Vista móvil y páginas integradas"
+  },
+  "helpMobileViewport": {
+    "message": "La vista móvil conserva el comportamiento del ratón, al pasar el cursor, de la rueda de desplazamiento y de la interacción táctil nativa. Las páginas usan el ancho de área de visualización que declaran y después se ajustan proporcionalmente al panel lateral. El diseño de 525px de NGA se muestra completo; las páginas adaptables usan el ancho disponible. Cambiar el tamaño del panel lateral no vuelve a crear la página."
+  },
+  "helpMobileIdentity": {
+    "message": "La vista móvil también proporciona un User-Agent móvil, Client Hints e información de pantalla accesible para los scripts de las páginas. Los recursos y las solicitudes fetch también usan el User-Agent móvil. Al volver a la vista de escritorio, se recarga la página y se restauran la visualización y la información nativas del dispositivo. Las pestañas normales del navegador y sus recursos no se modifican."
+  },
+  "helpMobileLimits": {
+    "message": "Se trata de una adaptación del área de visualización dentro de la extensión, no de la emulación de dispositivos de DevTools. La rasterización de pantalla, las consultas CSS de resolución del dispositivo, los marcos anidados y otros comportamientos no se emulan por completo. No se incluyen el zoom con dos dedos ni un teclado virtual."
+  },
+  "helpEmbeddingLimits": {
+    "message": "X-Frame-Options solo se elimina de los documentos de marcos integrados en el panel lateral. Si una cabecera CSP contiene frame-ancestors, se elimina esa cabecera CSP completa. Los requisitos de inicio de sesión, las cookies, el DRM y la detección de marcos aún pueden impedir la integración. Usa «⋯» para abrir la página en una pestaña nueva."
+  },
+  "helpUpdateHeading": {
+    "message": "Actualizar la extensión"
+  },
+  "helpUpdate": {
+    "message": "Se requiere Chrome 145 o posterior. Sustituye los archivos de la carpeta existente de la extensión y recarga la extensión original en chrome://extensions. Mantener el mismo identificador de extensión conserva las direcciones, el historial y la vista guardados. Si queda un panel flotante antiguo en una página, recarga esa página una vez. No actives la versión antigua y la nueva al mismo tiempo."
+  },
+  "helpPrivacyHeading": {
+    "message": "Permisos y datos"
+  },
+  "helpPrivacy": {
+    "message": "sidePanel aloja la interfaz. Los permisos de acceso a sitios y de ejecución de scripts permiten integrar páginas. tabs lee la dirección de origen cuando pides abrirla. storage guarda la navegación y las preferencias. No hay sesiones de depuración, servidores proxy, telemetría ni scripts remotos de la extensión. El historial de navegación no se envía al desarrollador."
+  }
+}

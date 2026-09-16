@@ -18,6 +18,8 @@ npm run format:check
 npx playwright install chromium
 npm run test:browser
 QA_LOCALE=zh-CN npm run test:browser
+# 可选语言：en、zh-CN、zh-TW、ja、de、fr、es
+QA_LOCALE=fr npm run test:browser
 ```
 
 浏览器回归需要图形桌面（Linux CI 可使用 Xvfb），以检查真实原生 side panel。脚本每次创建独立临时配置，不使用日常 Chrome 资料或登录数据；本地测试服务器只监听 `127.0.0.1`。结束时关闭浏览器、服务器并删除测试配置，截图保留在终端输出的临时目录。
@@ -47,13 +49,14 @@ macOS 应指向 `.app/Contents/MacOS/Google Chrome for Testing` 可执行文件�
 
 `scripts/browser-smoke.mjs` 使用 Playwright 启动浏览器，并通过 CDP 操作原生侧边栏和跨进程 iframe；测试页面及 CDP 辅助代码位于 `scripts/browser/`。
 
-- 页面身份、语言、空态、顶部控件顺序。
+- 页面身份、语言、空态、顶部控件顺序、扩展介绍及工具栏标题、已翻译的错误提示。
+- 帮助页全部文案与版本占位符；960px 和 320px 模拟内容视口无横向溢出。
 - 打开当前网页后切标签、关闭来源页，输入和文档实例保持。
 - 停止后台 Service Worker，等待新的 worker 自动启动，现有 iframe 不重建。
 - 内部链接、前进后退、刷新、重定向与标题归属。
 - 手机／PC 切换时按设计重载，不新增最近条目。
 - 动态标题、最近条目选择、键盘移动、单条删除后的焦点与菜单保持。
-- 原生侧边栏截图；480px 和 320px **模拟内容视口**的工具栏、菜单边界检查。320px 不代表 Chrome 原生侧边栏支持该宽度。
+- 原生侧边栏截图；480px 和 320px **模拟内容视口**的工具栏、最近菜单和更多菜单文案边界检查。320px 不代表 Chrome 原生侧边栏支持该宽度。
 - 点击内嵌网页收起菜单；跨窗口最近列表同步和清空不改变各自 URL／当前页面。
 - 完整浏览器重启后恢复最近条目。
 - 捕获页面与后台运行错误；只允许脚本中列明的既有 Chromium 提示。

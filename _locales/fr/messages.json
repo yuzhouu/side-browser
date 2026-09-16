@@ -1,0 +1,201 @@
+{
+  "documentLanguage": {
+    "message": "fr",
+    "description": "BCP 47 language tag for the translated document, including fallback."
+  },
+  "documentDirection": {
+    "message": "ltr",
+    "description": "Text direction of the translation: ltr or rtl."
+  },
+  "extensionName": {
+    "message": "SideBrowser"
+  },
+  "extensionDescription": {
+    "message": "Un navigateur dans le panneau latéral. Gardez une page ouverte, cherchez sur le Web et passez de la vue mobile à la vue ordinateur."
+  },
+  "openSidePanel": {
+    "message": "SideBrowser · Ouvrir le panneau latéral"
+  },
+  "openCurrentCommand": {
+    "message": "Ouvrir la page actuelle dans SideBrowser"
+  },
+  "contextOpen": {
+    "message": "Ouvrir dans SideBrowser"
+  },
+  "navigation": {
+    "message": "Navigation dans les pages"
+  },
+  "back": {
+    "message": "Précédent"
+  },
+  "forward": {
+    "message": "Suivant"
+  },
+  "reload": {
+    "message": "Actualiser"
+  },
+  "address": {
+    "message": "Adresse ou recherche"
+  },
+  "recentOpened": {
+    "message": "Pages récentes"
+  },
+  "clearRecent": {
+    "message": "Tout effacer"
+  },
+  "removeRecent": {
+    "message": "Supprimer cette entrée"
+  },
+  "recentEmpty": {
+    "message": "Aucune page récente. Les 10 dernières adresses que vous avez ouvertes vous-même apparaîtront ici."
+  },
+  "openCurrent": {
+    "message": "Ouvrir la page actuelle",
+    "description": "Compact toolbar button: copy the active browser tab URL into the sidebar."
+  },
+  "openCurrentTitle": {
+    "message": "Ouvrir l’onglet actuel du navigateur dans le panneau latéral"
+  },
+  "more": {
+    "message": "Autres actions"
+  },
+  "openExternal": {
+    "message": "Ouvrir dans un nouvel onglet",
+    "description": "More menu: open the sidebar URL in a normal browser tab."
+  },
+  "openExternalTitle": {
+    "message": "Ouvrir la page du panneau latéral dans un nouvel onglet du navigateur"
+  },
+  "switchToDesktop": {
+    "message": "Passer en vue ordinateur"
+  },
+  "switchToMobile": {
+    "message": "Passer en vue mobile"
+  },
+  "mobileModeTitle": {
+    "message": "La vue mobile est active. Passer en vue ordinateur"
+  },
+  "desktopModeTitle": {
+    "message": "La vue ordinateur est active. Passer en vue mobile"
+  },
+  "retry": {
+    "message": "Réessayer"
+  },
+  "frameTitle": {
+    "message": "Page Web dans le panneau latéral"
+  },
+  "emptyTitle": {
+    "message": "Ouvrez une page ici"
+  },
+  "emptyDescription": {
+    "message": "Saisissez une adresse ou cliquez sur « Ouvrir la page actuelle »."
+  },
+  "loadingSlow": {
+    "message": "Cette page met du temps à se charger. Actualisez-la ou utilisez « ⋯ » pour l’ouvrir dans un nouvel onglet."
+  },
+  "errorInvalidCharacters": {
+    "message": "L’adresse contient des caractères non valides."
+  },
+  "errorUnsupportedScheme": {
+    "message": "Saisissez une adresse HTTP ou HTTPS, ou des termes de recherche."
+  },
+  "errorInvalidUrl": {
+    "message": "Cette adresse n’est pas valide. Vérifiez-la et réessayez."
+  },
+  "errorHttpOnly": {
+    "message": "Seuls les sites HTTP et HTTPS sont pris en charge."
+  },
+  "errorEmptyInput": {
+    "message": "Saisissez une adresse ou des termes de recherche, ou choisissez « Ouvrir la page actuelle »."
+  },
+  "errorUnsupportedUrl": {
+    "message": "Cette adresse n’est pas prise en charge."
+  },
+  "errorChromeVersion": {
+    "message": "Impossible de déterminer la version de Chrome. La vue mobile n’a pas été activée."
+  },
+  "errorExtensionUnavailable": {
+    "message": "L’extension ne répond pas. Réessayez."
+  },
+  "errorPanelOnly": {
+    "message": "Cette action est disponible uniquement dans le panneau latéral de SideBrowser."
+  },
+  "errorWindowClosed": {
+    "message": "La fenêtre contenant le panneau latéral a été fermée."
+  },
+  "errorCurrentPage": {
+    "message": "La page actuelle ne possède pas d’adresse HTTP ou HTTPS pouvant être ouverte."
+  },
+  "errorUnknownOperation": {
+    "message": "Action du panneau latéral inconnue."
+  },
+  "errorUnexpected": {
+    "message": "Une erreur s’est produite. Réessayez."
+  },
+  "helpTitle": {
+    "message": "SideBrowser · Aide"
+  },
+  "helpIntro": {
+    "message": "SideBrowser $version$ · Un panneau latéral partagé par fenêtre de navigateur.",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "1.6.5"
+      }
+    }
+  },
+  "helpLanguage": {
+    "message": "L’interface suit la langue d’affichage de Chrome. Le chinois simplifié, le chinois traditionnel, l’anglais, le japonais, l’allemand, le français et l’espagnol sont pris en charge. Pour les autres langues, l’anglais est utilisé."
+  },
+  "helpHeading": {
+    "message": "Changez d’onglet. Gardez votre page."
+  },
+  "helpStartHeading": {
+    "message": "Premiers pas"
+  },
+  "helpStartNavigation": {
+    "message": "Cliquez sur l’icône de l’extension pour ouvrir le panneau latéral. La barre de navigation de 36px contient, dans l’ordre : Ouvrir la page actuelle, un séparateur, Précédent, Suivant, Actualiser, un champ d’adresse et « ⋯ ». Saisissez une adresse ou des termes de recherche Google, puis appuyez sur Entrée. L’horloge dans le champ d’adresse affiche les 10 dernières adresses que vous avez ouvertes vous-même, avec les titres des pages et les icônes des sites. Cliquez sur une entrée pour changer de page, supprimez une entrée ou effacez toute la liste. Une adresse rouverte remonte en tête de liste. La liste est partagée entre les fenêtres et conservée après un redémarrage. La navigation dans les pages, les redirections, l’actualisation et les boutons Précédent et Suivant n’ajoutent pas d’entrées. Le menu « ⋯ » permet d’ouvrir la page du panneau latéral dans un nouvel onglet ou de passer de la vue mobile à la vue ordinateur. Les menus se superposent à la page sans réduire sa hauteur. Appuyez sur Échap ou cliquez à l’extérieur pour les fermer."
+  },
+  "helpStartShortcut": {
+    "message": "Faites un clic droit sur l’icône SideBrowser de la barre d’outils ou sur une page, puis choisissez « Ouvrir dans SideBrowser » pour ouvrir la page actuelle. Un clic droit sur un lien permet d’ouvrir ce lien à la place. Le raccourci clavier est Alt + Shift + P, ou ⌥ + ⇧ + P sur Mac. Chrome gère la position, la largeur et le bouton de fermeture du panneau latéral."
+  },
+  "helpStateHeading": {
+    "message": "État de la page"
+  },
+  "helpStatePersistence": {
+    "message": "Changer d’onglet, actualiser l’onglet principal ou fermer l’onglet source ne recrée pas la page du panneau latéral. Les saisies, la position de défilement et l’état de la page en cours sont conservés. Chaque fenêtre possède sa propre page et son propre historique de navigation. Aucun onglet auxiliaire n’est nécessaire."
+  },
+  "helpStateRestore": {
+    "message": "Fermer le panneau latéral, la fenêtre, l’extension ou le navigateur peut entraîner la perte de l’état de la page en cours. À la réouverture, l’adresse et l’historique enregistrés sont restaurés. Le choix entre vue mobile et vue ordinateur est partagé par toute l’extension. Changer de vue recharge la page dans tous les panneaux latéraux ouverts."
+  },
+  "helpStateFullscreen": {
+    "message": "Le plein écran de la fenêtre Chrome a été testé. Le plein écran propre à certains éléments de page ou aux vidéos nécessite des tests séparés. Le panneau latéral ne peut pas flotter au-dessus d’autres applications de bureau ni être déplacé librement comme un élément flottant dans une page."
+  },
+  "helpMobileHeading": {
+    "message": "Vue mobile et pages intégrées"
+  },
+  "helpMobileViewport": {
+    "message": "La vue mobile conserve le comportement de la souris, du survol, de la molette et des interactions tactiles natives. Les pages utilisent la largeur de fenêtre d’affichage qu’elles déclarent, puis sont redimensionnées proportionnellement pour tenir dans le panneau latéral. La mise en page de NGA en 525px s’affiche entièrement ; les pages adaptatives utilisent la largeur disponible. Redimensionner le panneau latéral ne recrée pas la page."
+  },
+  "helpMobileIdentity": {
+    "message": "La vue mobile fournit aussi un User-Agent mobile, des Client Hints et des informations d’écran accessibles aux scripts des pages. Les ressources et les requêtes fetch utilisent également le User-Agent mobile. Revenir à la vue ordinateur recharge la page et restaure l’affichage et les informations natives de l’appareil. Les onglets ordinaires du navigateur et leurs ressources ne sont pas modifiés."
+  },
+  "helpMobileLimits": {
+    "message": "Il s’agit d’une adaptation de la fenêtre d’affichage dans l’extension, et non de l’émulation d’appareil de DevTools. La rastérisation de l’écran, les requêtes CSS sur la résolution de l’appareil, les cadres imbriqués et d’autres comportements ne sont pas entièrement émulés. Le zoom par pincement et le clavier virtuel ne sont pas inclus."
+  },
+  "helpEmbeddingLimits": {
+    "message": "X-Frame-Options est supprimé uniquement des documents des cadres intégrés au panneau latéral. Si un en-tête CSP contient frame-ancestors, cet en-tête CSP est supprimé dans son intégralité. Les exigences de connexion, les cookies, les DRM et la détection des cadres peuvent toujours empêcher l’intégration. Utilisez « ⋯ » pour ouvrir la page dans un nouvel onglet."
+  },
+  "helpUpdateHeading": {
+    "message": "Mettre à jour l’extension"
+  },
+  "helpUpdate": {
+    "message": "Chrome 145 ou une version ultérieure est nécessaire. Remplacez les fichiers dans le dossier existant de l’extension, puis rechargez l’extension d’origine sur chrome://extensions. Conserver le même identifiant d’extension permet de garder les adresses, l’historique et le mode enregistrés. Si un ancien panneau flottant reste sur une page, actualisez cette page une fois. N’activez pas l’ancienne et la nouvelle version en même temps."
+  },
+  "helpPrivacyHeading": {
+    "message": "Autorisations et données"
+  },
+  "helpPrivacy": {
+    "message": "sidePanel héberge l’interface. Les autorisations d’accès aux sites et d’exécution de scripts servent à intégrer les pages. tabs lit l’adresse source lorsque vous demandez à l’ouvrir. storage enregistre la navigation et les préférences. Il n’y a ni session de débogage, ni serveur proxy, ni télémétrie, ni script d’extension distant. L’historique de navigation n’est pas transmis au développeur."
+  }
+}

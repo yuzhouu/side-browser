@@ -227,7 +227,8 @@ input::placeholder {
 #more-menu {
   position: fixed;
   inset: 34px 5px auto auto;
-  width: 202px;
+  width: max-content;
+  min-width: min(202px, calc(100vw - 10px));
   max-width: calc(100vw - 10px);
   margin: 0;
   padding: 4px;
@@ -241,14 +242,20 @@ input::placeholder {
   background: transparent;
 }
 #more-menu button {
+  display: flex;
   justify-content: flex-start;
   gap: 9px;
-  width: 100%;
-  height: 30px;
-  padding: 0 8px;
+  width: auto;
+  min-height: 30px;
+  height: auto;
+  padding: 6px 8px;
   font-size: 12px;
   text-align: left;
-  white-space: nowrap;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+#more-menu button svg {
+  flex-shrink: 0;
 }
 main {
   position: relative;

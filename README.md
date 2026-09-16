@@ -24,7 +24,7 @@ A browser in your sidebar.
 - 右键顶部伴页扩展图标或网页，选择「在伴页中打开」即可打开当前网页；右键链接则打开该链接。也可按 `Alt + Shift + P`（Mac：`⌥ + ⇧ + P`）打开当前网页。
 - 常规左键点击的 `target="_blank"` 链接尽量留在侧边栏；表单由真实网页原生提交。网站脚本弹窗或组合键操作可能另开标签页。
 - Chrome 管理侧边栏的左右位置、宽度和关闭按钮；不能像页面浮层一样随意拖动。
-- 界面支持简体中文和英文，自动跟随 Chrome 界面语言，其他语言使用英文；包括扩展信息、侧边栏、右键菜单、错误提示与帮助页。
+- 界面支持简体中文、繁体中文、英文、日语、德语、法语和西班牙语，自动跟随 Chrome 界面语言，其他语言使用英文；包括扩展信息、侧边栏、右键菜单、错误提示与帮助页。
 
 ## 状态与窗口
 
@@ -79,7 +79,7 @@ A browser in your sidebar.
 
 使用 Node 20+ 执行 `npm ci` 安装仅开发使用的 Prettier 和 Playwright；`npm run format:check` 检查源码格式，`npm run format` 统一格式。首次执行 `npx playwright install chromium` 后，可以用 `npm run test:browser` 运行仓库内的原生侧边栏回归，或用 `QA_LOCALE=zh-CN npm run test:browser` 检查中文界面。浏览器使用独立临时配置，不接触日常 Chrome 资料或登录。自定义浏览器路径、模块边界和回归范围见 [开发与回归](docs/development.md)。扩展本身仍无需构建或安装依赖。
 
-国际化使用 Chrome 原生 `chrome.i18n`，无需额外依赖。语言包位于 `_locales/en/messages.json` 和 `_locales/zh_CN/messages.json`，默认语言为英文。`i18n.js` 处理页面正文、提示与无障碍标签；底层模块通过 `errors.js` 返回错误码，由界面翻译。新增语言时复制语言包，保留全部 key 和占位符，并运行 `npm test` 检查完整性。语言由 Chrome 决定，扩展内没有独立语言开关。
+国际化使用 Chrome 原生 `chrome.i18n`，无需额外依赖。语言包位于 `_locales/` 下的 `en`、`zh_CN`、`zh_TW`、`ja`、`de`、`fr`、`es` 目录，默认语言为英文。`i18n.js` 处理页面正文、提示与无障碍标签；底层模块通过 `errors.js` 返回错误码，由界面翻译。新增语言时复制语言包，保留全部 key 和占位符，并运行 `npm test` 检查完整性。语言由 Chrome 决定，扩展内没有独立语言开关。
 
 图标源文件为 [`icons/sidebrowser.svg`](icons/sidebrowser.svg)，采用左蓝右黄的圆角正方形眨眼笑脸，左右宽度按黄金比例分配，中间透明 gap 同时切开色块和笑容。左眼睁开、右眼眨眼，整体占画布约 97%，各尺寸保持同一造型。修改 SVG 后运行 `npm run icons:generate` 可重新生成 16、32、48、128、256、512、1024 像素版本；需要本机 `rsvg-convert`，无需浏览器或 npm 依赖。详见 [图标说明](icons/README.md)。
 

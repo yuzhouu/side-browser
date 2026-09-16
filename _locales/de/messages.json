@@ -1,0 +1,201 @@
+{
+  "documentLanguage": {
+    "message": "de",
+    "description": "BCP 47 language tag for the translated document, including fallback."
+  },
+  "documentDirection": {
+    "message": "ltr",
+    "description": "Text direction of the translation: ltr or rtl."
+  },
+  "extensionName": {
+    "message": "SideBrowser"
+  },
+  "extensionDescription": {
+    "message": "Ein Browser in der Seitenleiste. Seiten beim Tabwechsel offen halten, im Web suchen und zwischen Mobil- und Desktopansicht wechseln."
+  },
+  "openSidePanel": {
+    "message": "SideBrowser · Seitenleiste öffnen"
+  },
+  "openCurrentCommand": {
+    "message": "Aktuelle Seite in SideBrowser öffnen"
+  },
+  "contextOpen": {
+    "message": "In SideBrowser öffnen"
+  },
+  "navigation": {
+    "message": "Seitennavigation"
+  },
+  "back": {
+    "message": "Zurück"
+  },
+  "forward": {
+    "message": "Vorwärts"
+  },
+  "reload": {
+    "message": "Neu laden"
+  },
+  "address": {
+    "message": "Adresse oder Suche"
+  },
+  "recentOpened": {
+    "message": "Zuletzt geöffnet"
+  },
+  "clearRecent": {
+    "message": "Alle löschen"
+  },
+  "removeRecent": {
+    "message": "Diesen Eintrag entfernen"
+  },
+  "recentEmpty": {
+    "message": "Noch keine Einträge. Hier erscheinen die letzten 10 Adressen, die du selbst geöffnet hast."
+  },
+  "openCurrent": {
+    "message": "Aktuelle Seite öffnen",
+    "description": "Compact toolbar button: copy the active browser tab URL into the sidebar."
+  },
+  "openCurrentTitle": {
+    "message": "Aktuellen Browser-Tab in der Seitenleiste öffnen"
+  },
+  "more": {
+    "message": "Weitere Aktionen"
+  },
+  "openExternal": {
+    "message": "In neuem Tab öffnen",
+    "description": "More menu: open the sidebar URL in a normal browser tab."
+  },
+  "openExternalTitle": {
+    "message": "Seite aus der Seitenleiste in einem neuen Browser-Tab öffnen"
+  },
+  "switchToDesktop": {
+    "message": "Zur Desktopansicht"
+  },
+  "switchToMobile": {
+    "message": "Zur Mobilansicht"
+  },
+  "mobileModeTitle": {
+    "message": "Mobilansicht ist aktiv. Zur Desktopansicht wechseln"
+  },
+  "desktopModeTitle": {
+    "message": "Desktopansicht ist aktiv. Zur Mobilansicht wechseln"
+  },
+  "retry": {
+    "message": "Erneut versuchen"
+  },
+  "frameTitle": {
+    "message": "Webseite in der Seitenleiste"
+  },
+  "emptyTitle": {
+    "message": "Öffne hier eine Seite"
+  },
+  "emptyDescription": {
+    "message": "Gib eine Adresse ein oder klicke auf „Aktuelle Seite öffnen“."
+  },
+  "loadingSlow": {
+    "message": "Diese Seite braucht länger zum Laden. Lade sie neu oder öffne sie über „⋯“ in einem neuen Tab."
+  },
+  "errorInvalidCharacters": {
+    "message": "Die Adresse enthält ungültige Zeichen."
+  },
+  "errorUnsupportedScheme": {
+    "message": "Gib eine HTTP- oder HTTPS-Adresse oder einen Suchbegriff ein."
+  },
+  "errorInvalidUrl": {
+    "message": "Diese Adresse ist ungültig. Prüfe sie und versuche es erneut."
+  },
+  "errorHttpOnly": {
+    "message": "Es werden nur HTTP- und HTTPS-Websites unterstützt."
+  },
+  "errorEmptyInput": {
+    "message": "Gib eine Adresse oder einen Suchbegriff ein oder wähle „Aktuelle Seite öffnen“."
+  },
+  "errorUnsupportedUrl": {
+    "message": "Diese Adresse wird nicht unterstützt."
+  },
+  "errorChromeVersion": {
+    "message": "Die Chrome-Version konnte nicht ermittelt werden. Die Mobilansicht wurde nicht aktiviert."
+  },
+  "errorExtensionUnavailable": {
+    "message": "Die Erweiterung antwortet nicht. Versuche es erneut."
+  },
+  "errorPanelOnly": {
+    "message": "Diese Aktion ist nur in der SideBrowser-Seitenleiste verfügbar."
+  },
+  "errorWindowClosed": {
+    "message": "Das Fenster mit der Seitenleiste wurde geschlossen."
+  },
+  "errorCurrentPage": {
+    "message": "Die aktuelle Seite hat keine HTTP- oder HTTPS-Adresse, die geöffnet werden kann."
+  },
+  "errorUnknownOperation": {
+    "message": "Unbekannte Aktion für die Seitenleiste."
+  },
+  "errorUnexpected": {
+    "message": "Ein Fehler ist aufgetreten. Versuche es erneut."
+  },
+  "helpTitle": {
+    "message": "SideBrowser · Hilfe"
+  },
+  "helpIntro": {
+    "message": "SideBrowser $version$ · Eine gemeinsame Seitenleiste pro Browserfenster.",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "1.6.5"
+      }
+    }
+  },
+  "helpLanguage": {
+    "message": "Die Oberfläche folgt der Anzeigesprache von Chrome. Unterstützt werden vereinfachtes und traditionelles Chinesisch, Englisch, Japanisch, Deutsch, Französisch und Spanisch. Bei anderen Sprachen wird Englisch verwendet."
+  },
+  "helpHeading": {
+    "message": "Tabs wechseln. Die Seite bleibt."
+  },
+  "helpStartHeading": {
+    "message": "Erste Schritte"
+  },
+  "helpStartNavigation": {
+    "message": "Klicke auf das Erweiterungssymbol, um die Seitenleiste zu öffnen. Die 36px hohe Navigationsleiste enthält in dieser Reihenfolge: Aktuelle Seite öffnen, eine Trennlinie, Zurück, Vorwärts, Neu laden, ein Adressfeld und „⋯“. Gib eine Adresse oder einen Google-Suchbegriff ein und drücke die Eingabetaste. Die Uhr im Adressfeld zeigt die letzten 10 Adressen, die du selbst geöffnet hast, mit Seitentiteln und Website-Symbolen. Klicke auf einen Eintrag, um die Seite zu wechseln. Du kannst Einträge einzeln entfernen oder die gesamte Liste löschen. Erneut geöffnete Adressen rücken nach oben. Die Liste wird zwischen Fenstern geteilt und bleibt nach einem Neustart erhalten. Navigation innerhalb einer Seite, Weiterleitungen, Neuladen, Zurück und Vorwärts fügen keine Einträge hinzu. Über „⋯“ kannst du die Seite aus der Seitenleiste in einem neuen Tab öffnen oder zwischen Mobil- und Desktopansicht wechseln. Menüs liegen über der Seite, ohne deren Höhe zu verringern. Drücke Escape oder klicke außerhalb, um sie zu schließen."
+  },
+  "helpStartShortcut": {
+    "message": "Klicke mit der rechten Maustaste auf das SideBrowser-Symbol in der Symbolleiste oder auf eine Seite und wähle „In SideBrowser öffnen“, um die aktuelle Seite zu öffnen. Bei einem Rechtsklick auf einen Link wird stattdessen dieser Link geöffnet. Das Tastenkürzel ist Alt + Shift + P, auf dem Mac ⌥ + ⇧ + P. Position, Breite und Schließen-Schaltfläche der Seitenleiste werden von Chrome verwaltet."
+  },
+  "helpStateHeading": {
+    "message": "Seitenzustand"
+  },
+  "helpStatePersistence": {
+    "message": "Beim Wechseln von Tabs, Neuladen des Haupt-Tabs oder Schließen des Quell-Tabs wird die Seite in der Seitenleiste nicht neu erstellt. Formulareingaben, Scrollposition und der laufende Seitenzustand bleiben erhalten. Jedes Browserfenster hat seine eigene Seite und seinen eigenen Navigationsverlauf. Ein Hilfs-Tab ist nicht nötig."
+  },
+  "helpStateRestore": {
+    "message": "Beim Schließen der Seitenleiste, des Fensters, der Erweiterung oder des Browsers kann der laufende Seitenzustand verloren gehen. Beim erneuten Öffnen werden die gespeicherte Adresse und der Navigationsverlauf wiederhergestellt. Die Einstellung für Mobil- oder Desktopansicht gilt für die gesamte Erweiterung. Ein Ansichtswechsel lädt die Seite in allen geöffneten Seitenleisten neu."
+  },
+  "helpStateFullscreen": {
+    "message": "Der Vollbildmodus des Chrome-Fensters wurde getestet. Der Vollbildmodus einzelner Seitenelemente oder Videos muss gesondert geprüft werden. Die Seitenleiste kann nicht über anderen Desktop-Apps schweben oder wie ein schwebendes Seitenelement frei verschoben werden."
+  },
+  "helpMobileHeading": {
+    "message": "Mobilansicht und eingebettete Seiten"
+  },
+  "helpMobileViewport": {
+    "message": "Die Mobilansicht behält das Verhalten von Maus, Hover, Mausrad und nativer Touch-Eingabe bei. Seiten werden mit ihrer angegebenen Viewport-Breite dargestellt und proportional an die Seitenleiste angepasst. Das 525px-Layout von NGA wird vollständig angezeigt; responsive Seiten nutzen die verfügbare Breite. Eine Größenänderung der Seitenleiste erstellt die Seite nicht neu."
+  },
+  "helpMobileIdentity": {
+    "message": "Die Mobilansicht stellt außerdem einen mobilen User-Agent, Client Hints und für Seitenskripte lesbare Bildschirminformationen bereit. Auch Ressourcen und fetch-Anfragen verwenden den mobilen User-Agent. Beim Wechsel zur Desktopansicht wird die Seite neu geladen und die native Anzeige sowie die ursprünglichen Geräteinformationen werden wiederhergestellt. Normale Browser-Tabs und ihre Ressourcen bleiben unverändert."
+  },
+  "helpMobileLimits": {
+    "message": "Dies ist eine Viewport-Anpassung innerhalb der Erweiterung, keine Geräteemulation mit DevTools. Bildschirmrasterung, CSS-Abfragen zur Geräteauflösung, verschachtelte Frames und weitere Verhaltensweisen werden nicht vollständig emuliert. Pinch-Zoom und eine virtuelle Tastatur sind nicht enthalten."
+  },
+  "helpEmbeddingLimits": {
+    "message": "X-Frame-Options wird nur aus Dokumenten eingebetteter Frames in der Seitenleiste entfernt. Enthält ein CSP-Header frame-ancestors, wird dieser gesamte CSP-Header entfernt. Anmeldeanforderungen, Cookies, DRM und Frame-Erkennung können das Einbetten weiterhin verhindern. Öffne die Seite dann über „⋯“ in einem neuen Tab."
+  },
+  "helpUpdateHeading": {
+    "message": "Erweiterung aktualisieren"
+  },
+  "helpUpdate": {
+    "message": "Chrome 145 oder neuer ist erforderlich. Ersetze die Dateien im bestehenden Erweiterungsordner und lade die ursprüngliche Erweiterung unter chrome://extensions neu. Wenn die Erweiterungs-ID gleich bleibt, bleiben gespeicherte Adressen, Verlauf und Ansichtsmodus erhalten. Falls noch ein altes schwebendes Seitenelement angezeigt wird, lade die betreffende Webseite einmal neu. Aktiviere alte und neue Versionen nicht gleichzeitig."
+  },
+  "helpPrivacyHeading": {
+    "message": "Berechtigungen und Daten"
+  },
+  "helpPrivacy": {
+    "message": "sidePanel stellt die Oberfläche bereit. Website-Zugriff und Skriptberechtigungen ermöglichen eingebettete Seiten. tabs liest die Quelladresse, wenn du sie öffnen möchtest. storage speichert Navigation und Einstellungen. Es gibt keine Debugging-Sitzungen, Proxyserver, Telemetrie oder extern geladenen Erweiterungsskripte. Der Browserverlauf wird nicht an den Entwickler übermittelt."
+  }
+}
