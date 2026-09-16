@@ -80,7 +80,8 @@ Requires Chrome 145 or later. No SideBrowser account, license key, or paid accou
 - [x] 中英文商店名称、简短介绍、详细介绍。
 - [x] 与 manifest 对应的单一用途、权限和数据处理说明。
 - [x] 中英文隐私政策源文件。
-- [ ] 将隐私政策发布到公开 URL，未登录验证可访问后填入后台。
+- [x] 将隐私政策发布到公开 URL，并验证未登录可访问（2026-09-16，HTTP 200）。
+- [ ] 在开发者后台填入 https://yuzhouu.github.io/side-browser/privacy/ 。
 - [ ] 在后台确认账号联系邮箱、开发者注册状态和分发地区。
 - [ ] 上传 `releases/sidebrowser-1.6.5.zip`；若此版本号已在商店使用，应先提升版本再打包。
 - [ ] 上传 `store/assets/` 的商店图标、5 张说明截图、440×280 小宣传图；1400×560 横幅为可选。

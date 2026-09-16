@@ -32,3 +32,7 @@
 先用内置浏览器检查了桌面首页、英文深色、中文素材页、320px 隐私页、场景与语言切换、主题跨页保持、复制文案。其下载事件没有返回，随后用独立 Chrome for Testing 149 验证实际下载：3 场景 × 2 语言 × 2 主题的 12 张 PNG，以及素材 ZIP。6 个页面在 1440／768／390／320px 均无水平溢出，无控制台错误。可运行 `SITE_URL=http://127.0.0.1:4179/side-browser/ CHROME_PATH=<Chrome 可执行文件> npm run site:test:browser` 复现。临时 QA 图片位于 `/tmp/sidebrowser-website-qa/`，不作为可长期访问的产物。
 
 设计遵循已生成并检查的完整首页概念：白色／浅蓝留白、左文右截图、黄色圆形、开放三列步骤、素材横幅与紧凑页脚。实际使用原始 SVG 品牌和原始截图；增加场景切换、本地数据说明及真实 ZIP 安装步骤；深色以海军蓝底保持结构。概念图不作为实际网页截图或产品界面发布。
+
+## 上线确认
+
+2026-09-16，提交 `30d0151` 的 [GitHub Actions #1](https://github.com/yuzhouu/side-browser/actions/runs/35081205181) 构建与部署均成功。未登录浏览器验证了线上首页、中英文隐私页、素材生成区、语言与主题切换。两个隐私 URL 与扩展／素材 ZIP 通过匿名 HTTP 读取，均返回 200；下载 ZIP 文件头与预期一致。当前官网：https://yuzhouu.github.io/side-browser/ 。
