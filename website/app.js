@@ -33,6 +33,11 @@ sceneButtons.forEach(button =>
     const screenshot = document.querySelector('#hero-screenshot');
     screenshot.src = `${data.base}assets/source/${data.scenes[index]}.png`;
     screenshot.alt = data.copy.screenshotAlt[index];
+    document.querySelector('#hero-main-screenshot').src =
+      `${data.base}assets/source/${data.mainScenes[index]}.png`;
+    document.querySelector('#hero-main-screenshot').alt = data.copy.mainLabels[index];
+    document.querySelector('#hero-main-label').textContent = data.copy.mainLabels[index];
+    document.querySelector('#hero-side-label').textContent = data.copy.sideLabels[index];
     document.querySelector('#scene-caption').textContent = data.copy.sceneNotes[index];
   })
 );
@@ -81,19 +86,6 @@ if (canvas) {
     context.fillStyle = color;
     context.fillText(value, x, y);
   }
-  function wrap(value, x, y, maxWidth, lineHeight, size, color) {
-    context.font = `400 ${size}px ${font}`;
-    const pieces = data.locale === 'zh' ? [...value] : value.split(/(?<=\s)/);
-    let line = '';
-    for (const piece of pieces) {
-      if (context.measureText(line + piece).width > maxWidth && line) {
-        text(line.trim(), x, y, size, color);
-        y += lineHeight;
-        line = piece;
-      } else line += piece;
-    }
-    if (line) text(line.trim(), x, y, size, color);
-  }
   function rounded(x, y, width, height, radius, color) {
     context.fillStyle = color;
     context.beginPath();
@@ -107,8 +99,9 @@ if (canvas) {
     status.textContent = '';
     try {
       const index = Number(selector.value);
-      const [shot, logo] = await Promise.all([
+      const [shot, mainShot, logo] = await Promise.all([
         loadImage(`${data.base}assets/source/${data.scenes[index]}.png`),
+        loadImage(`${data.base}assets/source/${data.mainScenes[index]}.png`),
         loadImage(`${data.base}assets/sidebrowser.svg`),
         document.fonts.ready
       ]);
@@ -120,40 +113,60 @@ if (canvas) {
       context.clearRect(0, 0, 1280, 800);
       context.fillStyle = dark ? '#10212f' : '#ffffff';
       context.fillRect(0, 0, 1280, 800);
-      rounded(696, 30, 554, 740, 24, dark ? '#193549' : '#edf7ff');
-      context.fillStyle = '#f4c94d';
-      context.beginPath();
-      context.arc(813, 272, 105, 0, Math.PI * 2);
-      context.fill();
-      context.drawImage(logo, 56, 54, 44, 44);
-      text(copy.name, 114, 85, 26, ink, 700);
-      const headingSize = data.locale === 'zh' ? 64 : 56;
-      text(copy.artworkHeadings[index][0], 56, 226, headingSize, ink, 750);
-      text(copy.artworkHeadings[index][1], 56, 309, headingSize, blue, 750);
-      wrap(copy.artworkBodies[index], 59, 376, 576, 36, 23, muted);
-      copy.artworkPoints[index].forEach((point, i) => {
-        rounded(59, 485 + i * 55, 28, 28, 14, '#f4c94d');
-        text(String(i + 1), 68, 505 + i * 55, 17, '#18354d', 700);
-        text(point, 104, 507 + i * 55, 22, ink, 500);
-      });
-      text(copy.artworkFooter, 59, 735, 17, muted);
-      text(copy.realCapture, 880, 746, 14, muted);
-      // Preserve the original website pixels and aspect ratio; only frame the capture.
-      const shotHeight = 645;
-      const shotWidth = (shot.width * shotHeight) / shot.height;
-      const shotX = 974 - shotWidth / 2;
+      context.drawImage(logo, 48, 30, 34, 34);
+      text(copy.name, 96, 56, 23, ink, 700);
+      text(copy.realCapture, 48, 786, 12, muted);
+      const heading = copy.artworkHeadings[index].join(data.locale === 'zh' ? '' : ' ');
+      text(heading, 48, 128, data.locale === 'zh' ? 46 : 43, ink, 750);
+      text(copy.artworkBodies[index], 50, 174, 20, muted);
+
+      // One shared frame makes the main-page/sidebar relationship explicit.
+      // Crop only the bottom of the wide main-page capture; keep screenshot aspect ratios.
+      const frameX = 48,
+        frameY = 208,
+        frameWidth = 1184;
+      const labelHeight = 40,
+        bodyHeight = 474;
+      const sideWidth = (shot.width * bodyHeight) / shot.height;
+      const mainWidth = frameWidth - sideWidth - 8;
+      const sideX = frameX + mainWidth + 8;
+      rounded(
+        frameX,
+        frameY,
+        frameWidth,
+        labelHeight + bodyHeight,
+        12,
+        dark ? '#263f50' : '#e9f1f7'
+      );
+      rounded(frameX + 14, frameY + 11, 20, 20, 10, '#f4c94d');
+      text('1', frameX + 20, frameY + 26, 13, '#18354d', 700);
+      text(copy.mainLabels[index], frameX + 44, frameY + 27, 16, ink, 600);
+      rounded(sideX + 10, frameY + 11, 20, 20, 10, '#f4c94d');
+      text('2', sideX + 16, frameY + 26, 13, '#18354d', 700);
+      text(copy.sideLabels[index], sideX + 40, frameY + 27, 16, ink, 600);
       context.save();
-      context.shadowColor = '#17365326';
-      context.shadowBlur = 30;
-      context.shadowOffsetY = 10;
-      rounded(shotX, 65, shotWidth, shotHeight, 8, '#fff');
-      context.restore();
-      context.save();
       context.beginPath();
-      context.roundRect(shotX, 65, shotWidth, shotHeight, 8);
+      context.roundRect(frameX, frameY, frameWidth, labelHeight + bodyHeight, 12);
       context.clip();
-      context.drawImage(shot, shotX, 65, shotWidth, shotHeight);
+      context.save();
+      context.beginPath();
+      context.rect(frameX, frameY + labelHeight, mainWidth, bodyHeight);
+      context.clip();
+      context.drawImage(
+        mainShot,
+        frameX,
+        frameY + labelHeight,
+        mainWidth,
+        (mainShot.height * mainWidth) / mainShot.width
+      );
       context.restore();
+      context.drawImage(shot, sideX, frameY + labelHeight, sideWidth, bodyHeight);
+      context.restore();
+      copy.artworkPoints[index].forEach((point, i) => {
+        const x = 48 + i * 400;
+        text('✓', x, 758, 18, blue, 700);
+        text(point, x + 27, 758, data.locale === 'zh' ? 19 : 16, ink, 500);
+      });
       canvas.setAttribute(
         'aria-label',
         `${copy.artworkHeadings[index].join(' ')} ${copy.artworkBodies[index]}`

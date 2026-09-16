@@ -92,6 +92,44 @@ try {
     title: await control.title(),
     viewport: await control.evaluate(() => ({ width: innerWidth, height: innerHeight }))
   };
+  // A second real main page gives the encyclopedia scene a distinct reading context.
+  await control.goto('https://zh.wikipedia.org/wiki/%E6%97%B6%E9%97%B4%E7%AE%A1%E7%90%86', {
+    waitUntil: 'load',
+    timeout: 45000
+  });
+  await control.locator('h1').waitFor();
+  await control.evaluate(() => document.fonts.ready);
+  const intro = control.locator('p').filter({ hasText: '时间管理就是' }).first();
+  await control.mouse.wheel(
+    0,
+    (await intro.evaluate(element => element.getBoundingClientRect().top)) - 28
+  );
+  await control.waitForFunction(() => scrollY > 200);
+  await control.screenshot({ path: join(output, 'main-research.png') });
+  await writeFile(
+    join(output, 'main-research.json'),
+    JSON.stringify(
+      {
+        capturedAt: new Date().toISOString(),
+        url: control.url(),
+        title: await control.title(),
+        viewport: await control.evaluate(() => ({
+          width: innerWidth,
+          height: innerHeight,
+          dpr: devicePixelRatio
+        })),
+        scrollY: await control.evaluate(() => scrollY),
+        browser: evidence.browser,
+        sha256: createHash('sha256')
+          .update(await readFile(join(output, 'main-research.png')))
+          .digest('hex'),
+        note: 'Real desktop Wikipedia time-management article, separate temporary browser context, no user account.'
+      },
+      null,
+      2
+    ) + '\n'
+  );
+  await control.goto(evidence.mainPage.url, { waitUntil: 'load', timeout: 45000 });
   const capture = async (name, details = {}) => {
     const geometry = await panel.evaluate(
       '({width:innerWidth,height:innerHeight,dpr:devicePixelRatio})'

@@ -529,47 +529,176 @@
         width: 99px;
         height: 99px;
       }
+
+      .context-hero {
+        background: #f7fbff;
+      }
+      .context-hero .brand {
+        left: 48px;
+        top: 28px;
+        font-size: 23px;
+      }
+      .context-hero .brand img {
+        width: 34px;
+        height: 34px;
+      }
+      .context-hero h1 {
+        position: absolute;
+        left: 48px;
+        top: 102px;
+        font-size: 46px;
+        letter-spacing: -1.5px;
+      }
+      .context-hero em,
+      .marquee-context em {
+        color: #087de0;
+        font-style: normal;
+      }
+      .context-description {
+        position: absolute;
+        left: 50px;
+        top: 173px;
+        font-size: 21px;
+        color: #587086;
+      }
+      .context-window {
+        position: absolute;
+        left: 48px;
+        top: 218px;
+        width: 1184px;
+        border: 1px solid #ccdce7;
+        border-radius: 12px;
+        overflow: hidden;
+        background: #e9f1f7;
+        box-shadow: 0 12px 34px #18354d14;
+      }
+      .context-labels {
+        height: 40px;
+        display: grid;
+        grid-template-columns: 919px 1fr;
+        align-items: center;
+        font-size: 17px;
+        font-weight: 600;
+      }
+      .context-labels span {
+        padding-left: 16px;
+      }
+      .context-pages {
+        height: 472px;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 263.44px;
+        gap: 8px;
+      }
+      .context-main {
+        overflow: hidden;
+      }
+      .context-main img {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+      .context-pages > img {
+        width: 100%;
+        height: auto;
+      }
+      .context-points {
+        position: absolute;
+        top: 746px;
+        left: 48px;
+        right: 48px;
+        display: flex;
+        justify-content: space-between;
+        font-size: 18px;
+        font-weight: 600;
+      }
+      .context-hero .foot {
+        left: 48px;
+        right: 48px;
+        bottom: 9px;
+        font-size: 11px;
+      }
+      .marquee-context {
+        width: 1400px;
+        height: 560px;
+        background: #edf7ff;
+      }
+      .marquee-context .brand {
+        top: 34px;
+        left: 44px;
+        font-size: 23px;
+      }
+      .marquee-context .brand img {
+        width: 34px;
+        height: 34px;
+      }
+      .context-copy {
+        position: absolute;
+        left: 44px;
+        top: 142px;
+      }
+      .context-copy h1 {
+        font-size: 48px;
+        line-height: 1.28;
+        letter-spacing: -1.8px;
+      }
+      .context-copy p {
+        font-size: 20px;
+        line-height: 1.7;
+        color: #587086;
+        margin-top: 27px;
+      }
+      .context-copy > span {
+        display: block;
+        margin-top: 26px;
+        font-size: 14px;
+        color: #587086;
+      }
+      .marquee-context .context-window {
+        left: 480px;
+        top: 86px;
+        width: 870px;
+      }
+      .marquee-context .context-labels {
+        height: 34px;
+        grid-template-columns: 657px 1fr;
+        font-size: 14px;
+      }
+      .marquee-context .context-pages {
+        height: 374px;
+        grid-template-columns: minmax(0, 1fr) 208.74px;
+        gap: 6px;
+      }
+      .marquee-context .foot {
+        left: 480px;
+        bottom: 30px;
+        font-size: 12px;
+      }
     </style>
   </head>
   <body>
-    <section class="artboard hero" data-export="01-ai-beside-you">
-      <div class="blue"></div>
-      <div class="accent"></div>
+    <section class="artboard context-hero" data-export="01-ai-beside-you">
       <div class="brand"><img src="../icons/sidebrowser.svg" alt="" />侧窗 · SideBrowser</div>
-      <div class="copy">
-        <p class="eyebrow">01 / 侧边 AI</p>
-        <h1>AI 在侧边，<br /><em>工作不断线。</em></h1>
-        <p class="lead">在侧边打开 ChatGPT，<br />边看原文，边提问。</p>
-      </div>
-      <div class="steps">
-        <div class="step">
-          <span class="num">1</span>
-          <div>
-            <strong>输入网址，打开 AI 网站</strong>
-            <p>主页面继续写作、阅读或处理工作。</p>
-          </div>
+      <h1>主页面在眼前，<em>AI 就在侧边。</em></h1>
+      <p class="context-description">
+        左边继续阅读，右边打开 ChatGPT。原文与提问窗口，同时留在眼前。
+      </p>
+      <div class="context-window">
+        <div class="context-labels">
+          <span>① 主页面 · 阅读维基百科</span><span>② 侧窗 · ChatGPT</span>
         </div>
-        <div class="step">
-          <span class="num">2</span>
-          <div>
-            <strong>手动提问，对照思路</strong>
-            <p>按需粘贴材料，不自动读取主页面正文。</p>
+        <div class="context-pages">
+          <div class="context-main">
+            <img src="assets/source/main-reference.png" alt="主页面中的维基百科文章" />
           </div>
-        </div>
-        <div class="step">
-          <span class="num">3</span>
-          <div>
-            <strong>切换标签，侧边继续运行</strong>
-            <p>同一窗口内，保留已打开的网页。</p>
-          </div>
+          <img src="assets/source/ai-chatgpt.png" alt="右侧原生侧窗中的 ChatGPT" />
         </div>
       </div>
-      <span class="panel-tag">ChatGPT · 实际侧边栏截图</span>
-      <div class="panel">
-        <img src="assets/source/ai-chatgpt.png" alt="ChatGPT 在侧窗中的真实界面" />
+      <div class="context-points">
+        <span>✓ 两边同时看，减少来回切换</span><span>✓ 手动提问，按需粘贴材料</span
+        ><span>✓ 换一个标签，侧边继续运行</span>
       </div>
       <div class="foot">
-        <span>AI 由第三方网站提供；登录与可用性取决于网站。SideBrowser 为独立扩展。</span
+        <span>真实主页面与原生侧边栏截图组合；AI 由第三方网站提供，不自动读取主页面正文。</span
         ><b>01 / 05</b>
       </div>
     </section>
@@ -729,22 +858,25 @@
       <p class="title">SideBrowser</p>
       <p class="tagline">AI 与资料，就在手边。</p>
     </section>
-    <section class="artboard marquee" data-export="promo-marquee-1400x560">
-      <div class="circle"></div>
+    <section class="artboard marquee-context" data-export="promo-marquee-1400x560">
       <div class="brand"><img src="../icons/sidebrowser.svg" alt="" />侧窗 · SideBrowser</div>
-      <div class="copy">
-        <h1>AI 与资料，<br />就在手边。</h1>
-        <p class="lead">
-          侧边提问、查资料，主页面继续工作。<br /><span style="font-size: 19px"
-            >Another page. Right beside you.</span
-          >
-        </p>
+      <div class="context-copy">
+        <h1>主页面继续，<br /><em>AI 就在旁边。</em></h1>
+        <p>边阅读，边提问。<br />把资料与工作放在同一个视野里。</p>
+        <span>Another page. Right beside you.</span>
       </div>
-      <p class="annotation">在侧窗打开<br />ChatGPT</p>
-      <div class="panel"><img src="assets/source/ai-chatgpt.png" alt="实际 ChatGPT 侧边栏" /></div>
-      <div class="foot" style="bottom: 20px">
-        <span>AI 由第三方网站提供，登录与可用性取决于网站；SideBrowser 为独立扩展。</span>
+      <div class="context-window">
+        <div class="context-labels">
+          <span>① 主页面 · 阅读维基百科</span><span>② 侧窗 · ChatGPT</span>
+        </div>
+        <div class="context-pages">
+          <div class="context-main">
+            <img src="assets/source/main-reference.png" alt="主页面中的维基百科文章" />
+          </div>
+          <img src="assets/source/ai-chatgpt.png" alt="右侧原生侧窗中的 ChatGPT" />
+        </div>
       </div>
+      <div class="foot"><span>真实主页面与侧窗截图组合 · AI 由所打开的网站提供</span></div>
     </section>
     <section class="artboard store-icon" data-export="store-icon-128">
       <img src="../icons/sidebrowser.svg" alt="侧窗" />

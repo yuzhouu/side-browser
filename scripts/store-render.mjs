@@ -58,7 +58,7 @@ try {
         design: '../design.html',
         capture: 'source/capture.json',
         screenshotMethod:
-          'Unmodified screenshots from native Chrome side panel. Exact HTML/CSS text, framing and crops added outside the product UI. Research page combines screenshots of the main tab and sidebar.',
+          'Unmodified screenshots from native Chrome side panel. Exact HTML/CSS text, framing and crops added outside the product UI. AI overview, research page and marquee combine screenshots of the main tab and sidebar. Detail pages intentionally focus on specific sidebar controls.',
         aiSite: 'https://chatgpt.com/',
         sourceBrowser: source.browser,
         exports

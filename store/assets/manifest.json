@@ -1,10 +1,10 @@
 {
   "version": "1.0.0",
-  "renderedAt": "2026-09-16T09:18:31.890Z",
+  "renderedAt": "2026-09-16T10:08:12.127Z",
   "locale": "zh-CN",
   "design": "../design.html",
   "capture": "source/capture.json",
-  "screenshotMethod": "Unmodified screenshots from native Chrome side panel. Exact HTML/CSS text, framing and crops added outside the product UI. Research page combines screenshots of the main tab and sidebar.",
+  "screenshotMethod": "Unmodified screenshots from native Chrome side panel. Exact HTML/CSS text, framing and crops added outside the product UI. AI overview, research page and marquee combine screenshots of the main tab and sidebar. Detail pages intentionally focus on specific sidebar controls.",
   "aiSite": "https://chatgpt.com/",
   "sourceBrowser": "149.0.7827.55",
   "exports": [
@@ -12,8 +12,8 @@
       "file": "01-ai-beside-you.png",
       "width": 1280,
       "height": 800,
-      "bytes": 136418,
-      "sha256": "6218d0cf81f6444915ba6917e3ee3c4ac0bd575873749231802a20b63d4be100"
+      "bytes": 258472,
+      "sha256": "6581c8353d37cd53e08f11276a6eb26f96b6e2fc7f46927ee7ece13267702827"
     },
     {
       "file": "02-research-in-context.png",
@@ -26,8 +26,8 @@
       "file": "03-open-in-one-step.png",
       "width": 1280,
       "height": 800,
-      "bytes": 130441,
-      "sha256": "f0ad65924818b27cbc5fe271d925e9be2045304f047331fb0b3732e0b7fccba2"
+      "bytes": 130498,
+      "sha256": "ca30c0aceaf5a041f067626bd511d3b814ab2261977236b4489d973aadc6ae75"
     },
     {
       "file": "04-recent-pages.png",
@@ -54,8 +54,8 @@
       "file": "promo-marquee-1400x560.png",
       "width": 1400,
       "height": 560,
-      "bytes": 90638,
-      "sha256": "4bff9608facea2ba3a30d4435b2f9c5b3c83fe9a0613ffc67c333d4251e9a404"
+      "bytes": 184389,
+      "sha256": "4099c45fe067bffee223650b4a6bae7ee452fe8cc681b2cb32bf9e4fe4b80632"
     },
     {
       "file": "store-icon-128.png",

@@ -48,3 +48,5 @@ npm run store:package
 可通过 `CHROME_PATH` 指定已安装的 Chrome for Testing 路径。截图只操作新建的临时配置，退出时删除该配置。每张截图完成后写入来源记录；内容加载超时会报错，不用空白页覆盖该站点已有素材。编辑 `design.html` 可调整说明文字和排版；重新渲染后需逐张检查 100% 和缩小显示。网站页面变更可能需要更新采集等待条件。
 
 图片尺寸按 [Chrome 官方图片规范](https://developer.chrome.com/docs/webstore/images) 准备。现成商店说明图为简体中文；官网素材生成器另外提供 ChatGPT、维基百科、Google 搜索三个场景的中英文／浅深色说明图。公开隐私政策位于 https://yuzhouu.github.io/side-browser/privacy/ ，由 Pages 工作流发布。提交前确认部署成功，并完成开发者账号信息和审核字段，详见 `submission.md`。
+
+主页面对照更新：AI 主宣传图和横幅展示主页面与 ChatGPT 侧窗；百科／搜索情景也在官网生成器中并排展示。最近记录、快速打开和外观图保留局部细节说明。`source/main-reference.png` 为主页面番茄工作法文章，`source/main-research.png` 为正常滚动到正文的时间管理文章，其来源、尺寸与哈希见相邻 JSON。

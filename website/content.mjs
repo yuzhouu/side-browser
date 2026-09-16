@@ -16,9 +16,9 @@ export const content = {
       '输入关键词，直接在侧边使用 Google 搜索。'
     ],
     screenshotAlt: [
-      'ChatGPT 在侧窗中的真实界面',
-      '维基百科在侧窗中的真实界面',
-      'Google 搜索在侧窗中的真实界面'
+      '主页面阅读维基百科，右侧侧窗打开 ChatGPT',
+      '主页面阅读时间管理文章，右侧侧窗查阅番茄工作法',
+      '主页面阅读维基百科，右侧侧窗使用 Google 搜索'
     ],
     steps: [
       ['打开一个网页', '输入网址，或一键把当前网页放进侧边。'],
@@ -51,14 +51,14 @@ export const content = {
     dark: '切换到深色',
     skip: '跳到正文',
     mediaTitle: '把侧窗，分享出去。',
-    mediaDescription: '用真实界面说明功能。选一个场景，生成适合分享的中英文说明图。',
+    mediaDescription: '主页面与侧窗并排呈现，用真实截图说明边工作、边提问或查资料的方式。',
     preview: '宣传图预览',
     sceneLabel: '选择场景',
     export: '下载说明图 PNG',
     exporting: '正在生成…',
     exportDone: '图片已生成，开始下载。',
     exportError: '图片暂未生成，请刷新后重试。',
-    exportNote: '1280 × 800 PNG · 跟随当前语言与主题 · 保留真实网站界面',
+    exportNote: '1280 × 800 PNG · 中英文／浅深色 · 主页面 + 侧窗',
     library: '现成素材，直接取用。',
     libraryNote: '商店说明图为中文版，包含功能文字与真实截图。',
     bundle: '下载素材包',
@@ -89,7 +89,7 @@ export const content = {
     ],
     artworkBodies: [
       '在侧边打开 ChatGPT，边工作边提问、整理思路。',
-      '把维基百科放在手边，边阅读边查证，对照更轻松。',
+      '主页面阅读时间管理文章，侧边查阅番茄工作法，两边对照。',
       '在地址栏输入关键词，Google 搜索就在侧边展开。'
     ],
     artworkPoints: [
@@ -98,7 +98,9 @@ export const content = {
       ['网址与关键词都能输入', '结果留在侧边，工作继续', '需要时在新标签页打开']
     ],
     artworkFooter: 'Chrome 侧边栏浏览器扩展',
-    realCapture: '真实侧边栏截图',
+    realCapture: '真实主页面与原生侧边栏截图组合',
+    mainLabels: ['主页面 · 维基百科', '主页面 · 时间管理', '主页面 · 维基百科'],
+    sideLabels: ['侧窗 · ChatGPT', '侧窗 · 维基百科', '侧窗 · Google 搜索'],
     policyTitle: '隐私政策',
     updated: '更新于 2026 年 9 月 16 日 · 扩展版本 1.0.0',
     policyIntro: '清楚说明侧窗处理什么数据、如何保存，以及如何删除。',
@@ -123,9 +125,9 @@ export const content = {
       'Type keywords to search Google in the sidebar.'
     ],
     screenshotAlt: [
-      'Real ChatGPT screenshot in SideBrowser',
-      'Real Wikipedia screenshot in SideBrowser',
-      'Real Google Search screenshot in SideBrowser'
+      'Wikipedia in the main page with ChatGPT in the sidebar',
+      'Time management article in the main page with a Wikipedia reference in the sidebar',
+      'Wikipedia in the main page with Google Search in the sidebar'
     ],
     steps: [
       ['Open another page', 'Enter a URL or bring the current page into the sidebar.'],
@@ -159,14 +161,14 @@ export const content = {
     skip: 'Skip to content',
     mediaTitle: 'Meet your next share.',
     mediaDescription:
-      'Real interfaces. Clear explanations. Choose a scene and create a product image in English or Chinese.',
+      'Show the main page and sidebar together. Share how AI and references fit beside your work.',
     preview: 'Promotional image preview',
     sceneLabel: 'Choose a scene',
     export: 'Download image PNG',
     exporting: 'Generating…',
     exportDone: 'Image ready. Download started.',
     exportError: 'Could not generate the image. Please refresh and try again.',
-    exportNote: '1280 × 800 PNG · Uses your language and theme · Real website screenshots',
+    exportNote: '1280 × 800 PNG · Your language and theme · Main page + sidebar',
     library: 'Ready to use. Ready to share.',
     libraryNote: 'Store images include Chinese feature descriptions and real screenshots.',
     bundle: 'Download media kit',
@@ -198,7 +200,7 @@ export const content = {
     ],
     artworkBodies: [
       'Open ChatGPT beside your work to ask questions and organize your ideas.',
-      'Keep Wikipedia at hand. Read and check references side by side.',
+      'Read about time management and look up the Pomodoro technique alongside.',
       'Type keywords in the address bar to open Google Search alongside.'
     ],
     artworkPoints: [
@@ -215,7 +217,9 @@ export const content = {
       ]
     ],
     artworkFooter: 'A side-panel browser for Chrome',
-    realCapture: 'Real sidebar screenshot',
+    realCapture: 'Real main-page and native sidebar captures, composed',
+    mainLabels: ['Main page · Wikipedia', 'Main page · Time management', 'Main page · Wikipedia'],
+    sideLabels: ['Sidebar · ChatGPT', 'Sidebar · Wikipedia', 'Sidebar · Google'],
     policyTitle: 'Privacy policy',
     updated: 'Updated September 16, 2026 · Extension version 1.0.0',
     policyIntro: 'What SideBrowser handles, where it is stored, and how to delete it.',
@@ -224,6 +228,7 @@ export const content = {
   }
 };
 export const scenes = ['ai-chatgpt', 'wiki', 'search'];
+export const mainScenes = ['main-reference', 'main-research', 'main-reference'];
 export const storeImages = [
   '01-ai-beside-you',
   '02-research-in-context',

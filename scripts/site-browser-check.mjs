@@ -66,6 +66,29 @@ try {
     }
     await page.setViewportSize({ width: 1440, height: 1000 });
     await page.goto(base + prefix);
+    for (const index of [1, 2, 0]) {
+      await page.locator(`[data-scene="${index}"]`).click();
+      await page.waitForFunction(() =>
+        ['hero-main-screenshot', 'hero-screenshot'].every(id => {
+          const image = document.getElementById(id);
+          return image.complete && image.naturalWidth > 0;
+        })
+      );
+      const layout = await page.evaluate(() => {
+        const main = document.querySelector('.main-page').getBoundingClientRect();
+        const sidebar = document.querySelector('#hero-screenshot').getBoundingClientRect();
+        return {
+          mainWidth: main.width,
+          sideWidth: sidebar.width,
+          mainRight: main.right,
+          sideLeft: sidebar.left
+        };
+      });
+      assert(
+        layout.mainWidth > layout.sideWidth * 2 && layout.sideLeft >= layout.mainRight,
+        'Main page remains visible beside sidebar'
+      );
+    }
     await page.screenshot({ path: `${output}/home-${locale}-dark.png`, fullPage: true });
     await page.locator('[data-theme-toggle]').click();
     await page.screenshot({ path: `${output}/home-${locale}-light.png`, fullPage: true });
