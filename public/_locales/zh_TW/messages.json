@@ -88,7 +88,7 @@
     "message": "側窗 · SideBrowser"
   },
   "emptyDescription": {
-    "message": "側窗小境，靜覽萬象"
+    "message": "側窗小境，意赴遐荒"
   },
   "loadingSlow": {
     "message": "網頁載入時間較長，請重新載入，或從「⋯」在新分頁開啟。"
@@ -136,7 +136,7 @@
     "message": "側窗 · 關於與說明"
   },
   "helpIntro": {
-    "message": "側窗小境，靜覽萬象"
+    "message": "側窗小境，意赴遐荒"
   },
   "helpLanguage": {
     "message": "介面語言自動跟隨 Chrome。"

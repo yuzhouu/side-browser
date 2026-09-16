@@ -2,7 +2,7 @@
 
 商店上架资料见 [store/README.md](store/README.md)：效率工具分类、中英文介绍、ChatGPT／维基百科／Google 功能说明图、隐私政策和提交字段；[打开素材预览](store/index.html)。
 
-侧窗小境，静览万象
+侧窗小境，意赴遐荒
 
 Another page. Right beside you.
 

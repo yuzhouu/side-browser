@@ -2,7 +2,7 @@
 
 ## 当前基线
 
-侧窗 · SideBrowser 当前版本为 1.0.0（2026-09-16 统一版本编号），项目从原会话工作区的 `outputs/pocket-browser` 复制成独立项目。原始位置：`/Users/yuzhou/Documents/Codex/2026-09-14/new-chat`。早期安装包保存在 `releases/archive/sidebrowser-1.6.5.zip`；原会话的源码和安装包仍保留。英文品牌已统一为 `SideBrowser`，npm 包名为 `sidebrowser-extension`，中文品牌为「侧窗」，中文 slogan 为「侧窗小境，静览万象」，英文 slogan 为 “Another page. Right beside you.”。旧名称安装包 `releases/archive/sidebrowse-1.6.5.zip` 仅作历史归档。
+侧窗 · SideBrowser 当前版本为 1.0.0（2026-09-16 统一版本编号），项目从原会话工作区的 `outputs/pocket-browser` 复制成独立项目。原始位置：`/Users/yuzhou/Documents/Codex/2026-09-14/new-chat`。早期安装包保存在 `releases/archive/sidebrowser-1.6.5.zip`；原会话的源码和安装包仍保留。英文品牌已统一为 `SideBrowser`，npm 包名为 `sidebrowser-extension`，中文品牌为「侧窗」，中文 slogan 为「侧窗小境，意赴遐荒」，英文 slogan 为 “Another page. Right beside you.”。旧名称安装包 `releases/archive/sidebrowse-1.6.5.zip` 仅作历史归档。
 
 ## 使用与开发
 

@@ -88,7 +88,7 @@
     "message": "侧窗 · SideBrowser"
   },
   "emptyDescription": {
-    "message": "侧窗小境，静览万象"
+    "message": "侧窗小境，意赴遐荒"
   },
   "loadingSlow": {
     "message": "网页加载时间较长，可刷新重试，或从「⋯」在新标签页打开。"
@@ -136,7 +136,7 @@
     "message": "侧窗 · 关于与帮助"
   },
   "helpIntro": {
-    "message": "侧窗小境，静览万象"
+    "message": "侧窗小境，意赴遐荒"
   },
   "helpLanguage": {
     "message": "界面语言自动跟随 Chrome。"

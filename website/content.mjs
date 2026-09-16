@@ -4,7 +4,7 @@ export const content = {
     name: '侧窗 · SideBrowser',
     title: 'AI 与资料，<br><em>就在手边。</em>',
     description: '在侧边打开 ChatGPT、维基百科和 Google 搜索，让主页面的工作继续。',
-    tagline: '侧窗小境，静览万象。',
+    tagline: '侧窗小境，意赴遐荒。',
     nav: ['功能', '宣传素材', '隐私政策'],
     download: '下载扩展',
     how: '查看使用方式',
