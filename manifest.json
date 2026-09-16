@@ -14,10 +14,7 @@
     "scripting",
     "declarativeNetRequestWithHostAccess"
   ],
-  "host_permissions": [
-    "http://*/*",
-    "https://*/*"
-  ],
+  "host_permissions": ["http://*/*", "https://*/*"],
   "background": {
     "service_worker": "background.js",
     "type": "module"
@@ -52,13 +49,8 @@
   },
   "content_scripts": [
     {
-      "matches": [
-        "http://*/*",
-        "https://*/*"
-      ],
-      "js": [
-        "frame-navigation.js"
-      ],
+      "matches": ["http://*/*", "https://*/*"],
+      "js": ["frame-navigation.js"],
       "all_frames": true,
       "run_at": "document_start"
     }

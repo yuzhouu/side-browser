@@ -1,4 +1,20 @@
-# 伴页 · SideBrowser 1.6.5 英文品牌统一（2026-09-15 当前交付）
+# 源码整理与可重复回归（2026-09-16）
+
+统一 JS／HTML／CSS／JSON 源码格式，加入 Prettier 配置、EditorConfig 和开发依赖锁文件；确认 24 个既有文件的差异与对原文件运行 Prettier 的结果一致。将后台请求与端口重连提取到 `panel-client.js`，将最近列表渲染、菜单和键盘焦点提取到 `recent-menu.js`；`sidepanel.js` 保留导航与 iframe 生命周期协调。后台初始化、菜单安装、状态清理和手势打开失败现在记录操作上下文，预期断线／旧脚本缺失路径保留恢复行为。版本和存储／通信协议未改，历史 ZIP 未重新打包。
+
+`npm test`：45 项通过。新增检查覆盖请求路由与序列化错误码、断线重连、菜单创建错误处理和旧内容脚本缺失时的安装恢复。`npm run format:check` 与 `git diff --check` 均通过。
+
+Browser plugin not available，使用仓库内 `npm run test:browser`（Playwright/CDP），通过 `CHROME_PATH` 指定已安装的 Chrome for Testing 149.0.7827.55。英文和 `QA_LOCALE=zh-CN` 中文各通过 10 组回归：页面身份与非空内容、顶部顺序、打开当前页、切标签／关闭来源页保活、后台停止与重连、内部导航／历史／重定向标题、模式切换、最近列表标题与键盘／删除焦点、跨窗口同步与清空、浏览器重启恢复和控制台检查。
+
+后台恢复检查监听 `ServiceWorker.workerVersionUpdated` 的 stopped → running，并确认后台内存标记消失，同时 iframe 文档标记和输入不变。Chrome 可在重启后复用 CDP target ID，不能用 target ID 必须变化作为判据。
+
+实际原生侧边栏宽度为 360px；另检查 480×680 和 320×680 模拟内容视口，36px 工具栏与最近菜单无横向溢出，控件完整可见，点击 iframe 收起菜单。已查看中英文原生和 320px 截图，界面无错误覆盖层。没有捕获页面／后台运行错误或非预期控制台提示；唯一提示是既有 iframe `allow-scripts` 与 `allow-same-origin` 组合警告。
+
+截图保存在本机临时目录 `/tmp/sidebrowser-cleanup-en/` 和 `/tmp/sidebrowser-cleanup-zh/`，含 `native-recent.png`、`simulated-480.png`、`simulated-320.png`；截图路径不是长期交付依赖。可重复执行的脚本和固定测试页面已保存在 `scripts/browser-smoke.mjs`、`scripts/browser/`，使用方法见 [开发与回归](development.md)。本次未验证登录网站、其他浏览器或完整设备模拟。
+
+---
+
+# 伴页 · SideBrowser 1.6.5 英文品牌统一（2026-09-15 历史交付）
 
 英文品牌从 SideBrowse 改为 SideBrowser；更新 manifest、侧边栏标题、帮助页、npm 包名、README 和项目说明。英文介绍为 “A browser in your sidebar.”。版本仍为 1.6.5。
 

@@ -5,7 +5,10 @@
 ## 开发入口
 
 - `npm test`：运行 Node 内置测试，项目无第三方运行依赖。
+- `npm run format:check` / `npm run format`：检查／统一源码格式；开发工具使用 `npm ci` 安装。
+- `npm run test:browser`：独立 Chrome 原生侧边栏回归；环境准备及范围见 `docs/development.md`。
 - `sidepanel.html/js/css`：36px 单行导航和网页 iframe。
+- `panel-client.js`、`recent-menu.js`：后台通信与重连、最近列表 UI 和键盘焦点；导航和存储规则留在各自模块。
 - `background.js`、`sidepanel-state.js`：按窗口保活、导航历史、扩展共用模式偏好。
 - `viewport.js`、`frame-navigation.js`、`mobile-*.js`、`network-rules.js`：手机身份、视口适配、请求规则。
 - 先阅读 `docs/project-context.md` 了解已确认的产品约束。

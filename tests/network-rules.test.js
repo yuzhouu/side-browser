@@ -4,7 +4,11 @@ import { panelRules } from '../network-rules.js';
 import fs from 'node:fs';
 
 test('compatibility and mobile UA rules match only this extension non-tab tree, with framing limited to documents', () => {
-  const rules = panelRules('abcdefghijklmnopabcdefghijklmnop', 'mobile', 'Mozilla/5.0 Chrome/149.0.0.0 Safari/537.36');
+  const rules = panelRules(
+    'abcdefghijklmnopabcdefghijklmnop',
+    'mobile',
+    'Mozilla/5.0 Chrome/149.0.0.0 Safari/537.36'
+  );
   assert.equal(rules.length, 3);
   for (const rule of rules) {
     assert.deepEqual(rule.condition.tabIds, [-1]);
@@ -14,15 +18,28 @@ test('compatibility and mobile UA rules match only this extension non-tab tree, 
   }
   assert.deepEqual(rules[0].condition.resourceTypes, ['sub_frame']);
   assert.deepEqual(rules[1].condition.resourceTypes, ['sub_frame']);
-  assert.deepEqual(rules[1].condition.responseHeaders, [{ header: 'content-security-policy', values: ['*frame-ancestors*'] }]);
+  assert.deepEqual(rules[1].condition.responseHeaders, [
+    { header: 'content-security-policy', values: ['*frame-ancestors*'] }
+  ]);
 });
 test('desktop mode removes UA overrides instead of affecting the source page', () => {
   const rules = panelRules('abcdefghijklmnopabcdefghijklmnop', 'desktop', 'Chrome/149.0.0.0');
-  assert.equal(rules.some(r => r.action.requestHeaders), false);
+  assert.equal(
+    rules.some(r => r.action.requestHeaders),
+    false
+  );
 });
 test('mobile document requests cannot retain desktop high-entropy device hints', () => {
-  const rules = panelRules('abcdefghijklmnopabcdefghijklmnop', 'mobile', 'Mozilla/5.0 Chrome/149.0.0.0 Safari/537.36');
-  const headers = Object.fromEntries(rules.find(rule => rule.action.requestHeaders).action.requestHeaders.map(header => [header.header, header.value]));
+  const rules = panelRules(
+    'abcdefghijklmnopabcdefghijklmnop',
+    'mobile',
+    'Mozilla/5.0 Chrome/149.0.0.0 Safari/537.36'
+  );
+  const headers = Object.fromEntries(
+    rules
+      .find(rule => rule.action.requestHeaders)
+      .action.requestHeaders.map(header => [header.header, header.value])
+  );
   assert.match(headers['user-agent'], /Android 13; Pixel 7/);
   assert.equal(headers['sec-ch-ua-mobile'], '?1');
   assert.equal(headers['sec-ch-ua-platform'], '"Android"');

@@ -3,8 +3,14 @@ import assert from 'node:assert/strict';
 import { parseInput, mobileIdentity } from '../config.js';
 
 test('typed domains and URLs preserve paths, queries and fragments', () => {
-  assert.deepEqual(parseInput(' example.com/a?q=中文#b '), { kind: 'url', url: 'https://example.com/a?q=%E4%B8%AD%E6%96%87#b' });
-  assert.deepEqual(parseInput('http://example.com:8080/a'), { kind: 'url', url: 'http://example.com:8080/a' });
+  assert.deepEqual(parseInput(' example.com/a?q=中文#b '), {
+    kind: 'url',
+    url: 'https://example.com/a?q=%E4%B8%AD%E6%96%87#b'
+  });
+  assert.deepEqual(parseInput('http://example.com:8080/a'), {
+    kind: 'url',
+    url: 'http://example.com:8080/a'
+  });
   assert.match(parseInput('例子.中国').url, /^https:\/\/xn--/);
 });
 test('localhost and loopback addresses use HTTP without losing their ports', () => {
@@ -19,7 +25,14 @@ test('plain language and domain-like phrases stay search queries', () => {
   assert.deepEqual(parseInput('  '), { kind: 'home' });
 });
 test('executable and browser-internal schemes cannot be launched from input', () => {
-  for (const value of ['javascript:alert(1)', 'data:text/html,hello', 'file:///tmp/a', 'chrome://settings', 'https://', 'https://a.com/\npath']) {
+  for (const value of [
+    'javascript:alert(1)',
+    'data:text/html,hello',
+    'file:///tmp/a',
+    'chrome://settings',
+    'https://',
+    'https://a.com/\npath'
+  ]) {
     assert.throws(() => parseInput(value));
   }
 });

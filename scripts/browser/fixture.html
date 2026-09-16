@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>SideBrowser QA</title>
+    <style>
+      body {
+        margin: 20px;
+        font: 16px system-ui;
+        color: #344139;
+        background: white;
+      }
+      input {
+        box-sizing: border-box;
+        max-width: 100%;
+        padding: 8px;
+        font: inherit;
+      }
+      a {
+        display: block;
+        margin: 20px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Sidebar test page</h1>
+    <p id="path"></p>
+    <input id="entry" aria-label="Page state" placeholder="Page state" />
+    <a id="next" href="/next">Next page</a>
+    <script>
+      window.token = crypto.randomUUID();
+      document.title += ` ${location.pathname}`;
+      document.querySelector('#path').textContent = location.pathname;
+    </script>
+  </body>
+</html>

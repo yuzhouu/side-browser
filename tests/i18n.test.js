@@ -9,7 +9,9 @@ import { errorMessage } from '../i18n.js';
 const root = new URL('../', import.meta.url);
 const read = path => readFileSync(new URL(path, root), 'utf8');
 const locales = readdirSync(new URL('_locales/', root));
-const catalogs = Object.fromEntries(locales.map(locale => [locale, JSON.parse(read(`_locales/${locale}/messages.json`))]));
+const catalogs = Object.fromEntries(
+  locales.map(locale => [locale, JSON.parse(read(`_locales/${locale}/messages.json`))])
+);
 const manifest = JSON.parse(read('manifest.json'));
 const defaults = catalogs[manifest.default_locale];
 
@@ -21,10 +23,22 @@ test('every shipped locale has complete messages and matching named placeholders
     for (const [key, entry] of Object.entries(catalog)) {
       assert.equal(typeof entry.message, 'string', `${locale}/${key}`);
       assert(entry.message.trim(), `${locale}/${key} is empty`);
-      const slots = message => [...message.matchAll(/\$([a-z][a-z0-9_]*)\$/gi)].map(match => match[1].toLowerCase()).sort();
-      assert.deepEqual(slots(entry.message), slots(defaults[key].message), `${locale}/${key} substitutions`);
-      assert.deepEqual(entry.placeholders, defaults[key].placeholders, `${locale}/${key} placeholder definitions`);
-      for (const slot of slots(entry.message)) assert(entry.placeholders?.[slot], `${locale}/${key}/${slot}`);
+      const slots = message =>
+        [...message.matchAll(/\$([a-z][a-z0-9_]*)\$/gi)]
+          .map(match => match[1].toLowerCase())
+          .sort();
+      assert.deepEqual(
+        slots(entry.message),
+        slots(defaults[key].message),
+        `${locale}/${key} substitutions`
+      );
+      assert.deepEqual(
+        entry.placeholders,
+        defaults[key].placeholders,
+        `${locale}/${key} placeholder definitions`
+      );
+      for (const slot of slots(entry.message))
+        assert(entry.placeholders?.[slot], `${locale}/${key}/${slot}`);
     }
   }
 });
@@ -41,7 +55,8 @@ test('manifest, HTML, JavaScript messages and error codes resolve to the default
   for (const file of files) {
     const source = read(file);
     for (const pattern of patterns) {
-      for (const [, key] of source.matchAll(pattern)) assert(defaults[key], `${file}: missing ${key}`);
+      for (const [, key] of source.matchAll(pattern))
+        assert(defaults[key], `${file}: missing ${key}`);
     }
   }
 });
@@ -67,7 +82,11 @@ test('UI translates error codes after message serialization and preserves browse
   for (const catalog of Object.values(catalogs)) {
     globalThis.chrome = { i18n: { getMessage: key => catalog[key]?.message || '' } };
     let error;
-    try { frameDestination('', parseInput); } catch (value) { error = value; }
+    try {
+      frameDestination('', parseInput);
+    } catch (value) {
+      error = value;
+    }
     const response = JSON.parse(JSON.stringify({ error: error.message, errorCode: error.code }));
     const received = Object.assign(new Error(response.error), { code: response.errorCode });
     assert.equal(errorMessage(received), catalog.errorEmptyInput.message);

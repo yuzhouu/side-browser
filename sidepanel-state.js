@@ -7,9 +7,13 @@ export const MODE_KEY = 'pocket-sidepanel-mode-v1';
 const HISTORY_LIMIT = 100;
 
 export function restorePanel(stored = {}) {
-  const history = Array.isArray(stored.history) ? stored.history.filter(isWebUrl).slice(-HISTORY_LIMIT) : [];
+  const history = Array.isArray(stored.history)
+    ? stored.history.filter(isWebUrl).slice(-HISTORY_LIMIT)
+    : [];
   const url = isWebUrl(stored.url) ? stored.url : '';
-  let historyIndex = Number.isInteger(stored.historyIndex) ? stored.historyIndex : history.length - 1;
+  let historyIndex = Number.isInteger(stored.historyIndex)
+    ? stored.historyIndex
+    : history.length - 1;
   if (history[historyIndex] !== url) {
     historyIndex = history.lastIndexOf(url);
     if (url && historyIndex < 0) {
@@ -34,6 +38,7 @@ export function navigatePanel(state, url, historyIndex) {
 
 export function commitPanelNavigation(state, url, replace = false) {
   if (replace && state.historyIndex >= 0) {
-    state.url = url; state.history[state.historyIndex] = url;
+    state.url = url;
+    state.history[state.historyIndex] = url;
   } else navigatePanel(state, url);
 }

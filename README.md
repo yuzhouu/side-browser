@@ -75,7 +75,9 @@ A browser in your sidebar.
 
 `sidepanel.html/js/css` 承载真实 iframe 和导航栏；`background.js` 管理各窗口状态、请求规则和用户打开入口；`sidepanel-state.js` 处理导航历史，`recent-urls.js` 独立处理最近主动打开的 10 条网址；`viewport.js` 解析网页视口声明、计算并应用排版与缩放；`frame-navigation.js` 在直接嵌入网页中报告网址／视口并保留原生链接／表单行为。`mobile-profile.js`、`mobile-identity-gate.js`、`mobile-identity-main.js` 提供网站启动前的手机身份兼容。
 
-运行 `npm test` 执行单元测试。浏览器验证使用独立 Chrome for Testing 149 配置，不接触日常 Chrome 资料或登录。
+运行 `npm test` 执行单元测试。`panel-client.js` 独立处理后台请求和端口重连，`recent-menu.js` 独立处理最近列表的渲染、菜单与键盘焦点，页面导航仍由 `sidepanel.js` 协调。
+
+使用 Node 20+ 执行 `npm ci` 安装仅开发使用的 Prettier 和 Playwright；`npm run format:check` 检查源码格式，`npm run format` 统一格式。首次执行 `npx playwright install chromium` 后，可以用 `npm run test:browser` 运行仓库内的原生侧边栏回归，或用 `QA_LOCALE=zh-CN npm run test:browser` 检查中文界面。浏览器使用独立临时配置，不接触日常 Chrome 资料或登录。自定义浏览器路径、模块边界和回归范围见 [开发与回归](docs/development.md)。扩展本身仍无需构建或安装依赖。
 
 国际化使用 Chrome 原生 `chrome.i18n`，无需额外依赖。语言包位于 `_locales/en/messages.json` 和 `_locales/zh_CN/messages.json`，默认语言为英文。`i18n.js` 处理页面正文、提示与无障碍标签；底层模块通过 `errors.js` 返回错误码，由界面翻译。新增语言时复制语言包，保留全部 key 和占位符，并运行 `npm test` 检查完整性。语言由 Chrome 决定，扩展内没有独立语言开关。
 
