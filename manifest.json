@@ -1,8 +1,9 @@
 {
   "manifest_version": 3,
-  "name": "伴页 · SideBrowser",
+  "name": "__MSG_extensionName__",
+  "default_locale": "en",
   "version": "1.6.5",
-  "description": "原生侧边栏小浏览器，同一窗口共用一个网页，切换标签保留运行状态，支持地址搜索、手机视口适配和 UA。",
+  "description": "__MSG_extensionDescription__",
   "minimum_chrome_version": "145",
   "permissions": [
     "storage",
@@ -21,7 +22,7 @@
     "type": "module"
   },
   "action": {
-    "default_title": "伴页 · 打开侧边栏",
+    "default_title": "__MSG_openSidePanel__",
     "default_icon": {
       "16": "icons/16.png",
       "32": "icons/32.png",
@@ -45,7 +46,7 @@
         "default": "Alt+Shift+P",
         "mac": "Alt+Shift+P"
       },
-      "description": "在伴页中打开当前网页"
+      "description": "__MSG_openCurrentCommand__"
     }
   },
   "content_scripts": [

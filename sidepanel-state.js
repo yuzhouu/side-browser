@@ -1,4 +1,5 @@
 import { isWebUrl, validMode } from './config.js';
+import { userError } from './errors.js';
 
 export const LAST_KEY = 'pocket-sidepanel-last-v1';
 export const WINDOWS_KEY = 'pocket-sidepanel-windows-v1';
@@ -21,7 +22,7 @@ export function restorePanel(stored = {}) {
 }
 
 export function navigatePanel(state, url, historyIndex) {
-  if (!isWebUrl(url)) throw new Error('不支持的网址。');
+  if (!isWebUrl(url)) throw userError('errorUnsupportedUrl');
   if (Number.isInteger(historyIndex) && state.history[historyIndex] === url) {
     state.historyIndex = historyIndex;
   } else if (state.history[state.historyIndex] !== url) {

@@ -1,0 +1,189 @@
+{
+  "documentLanguage": {
+    "message": "en",
+    "description": "BCP 47 language tag for the translated document, including fallback."
+  },
+  "documentDirection": {
+    "message": "ltr",
+    "description": "Text direction of the translation: ltr or rtl."
+  },
+  "extensionName": {
+    "message": "SideBrowser"
+  },
+  "extensionDescription": {
+    "message": "A browser in your sidebar. Keep a page open across tabs, search the web, and switch between mobile and desktop views."
+  },
+  "openSidePanel": {
+    "message": "SideBrowser · Open sidebar"
+  },
+  "openCurrentCommand": {
+    "message": "Open the current page in SideBrowser"
+  },
+  "contextOpen": {
+    "message": "Open in SideBrowser"
+  },
+  "navigation": {
+    "message": "Page navigation"
+  },
+  "back": {
+    "message": "Back"
+  },
+  "forward": {
+    "message": "Forward"
+  },
+  "reload": {
+    "message": "Reload"
+  },
+  "address": {
+    "message": "Address or search"
+  },
+  "openCurrent": {
+    "message": "Open current page",
+    "description": "Compact toolbar button: copy the active browser tab URL into the sidebar."
+  },
+  "openCurrentTitle": {
+    "message": "Open the current browser tab in the sidebar"
+  },
+  "more": {
+    "message": "More actions"
+  },
+  "openExternal": {
+    "message": "Open page in new tab",
+    "description": "More menu: open the sidebar URL in a normal browser tab."
+  },
+  "openExternalTitle": {
+    "message": "Open the sidebar page in a new browser tab"
+  },
+  "switchToDesktop": {
+    "message": "Switch to desktop mode"
+  },
+  "switchToMobile": {
+    "message": "Switch to mobile mode"
+  },
+  "mobileModeTitle": {
+    "message": "Mobile mode is on. Switch to desktop mode"
+  },
+  "desktopModeTitle": {
+    "message": "Desktop mode is on. Switch to mobile mode"
+  },
+  "retry": {
+    "message": "Retry"
+  },
+  "frameTitle": {
+    "message": "Web page in the sidebar"
+  },
+  "emptyTitle": {
+    "message": "Open a page here"
+  },
+  "emptyDescription": {
+    "message": "Enter an address or click “Open current page”."
+  },
+  "loadingSlow": {
+    "message": "This page is taking a while to load. Reload it, or use “⋯” to open it in a new tab."
+  },
+  "errorInvalidCharacters": {
+    "message": "The address contains invalid characters."
+  },
+  "errorUnsupportedScheme": {
+    "message": "Enter an HTTP or HTTPS address, or a search term."
+  },
+  "errorInvalidUrl": {
+    "message": "This address is not valid. Check it and try again."
+  },
+  "errorHttpOnly": {
+    "message": "Only HTTP and HTTPS websites are supported."
+  },
+  "errorEmptyInput": {
+    "message": "Enter an address or search term, or choose “Open current page”."
+  },
+  "errorUnsupportedUrl": {
+    "message": "This address is not supported."
+  },
+  "errorChromeVersion": {
+    "message": "Could not read the Chrome version. Mobile mode has not been enabled."
+  },
+  "errorExtensionUnavailable": {
+    "message": "The extension did not respond. Try again."
+  },
+  "errorPanelOnly": {
+    "message": "This action is only available in the SideBrowser sidebar."
+  },
+  "errorWindowClosed": {
+    "message": "The sidebar window has been closed."
+  },
+  "errorCurrentPage": {
+    "message": "The current page does not have an HTTP or HTTPS address to open."
+  },
+  "errorUnknownOperation": {
+    "message": "Unknown sidebar action."
+  },
+  "errorUnexpected": {
+    "message": "Something went wrong. Try again."
+  },
+  "helpTitle": {
+    "message": "SideBrowser · Help"
+  },
+  "helpIntro": {
+    "message": "SideBrowser $version$ · One shared sidebar per browser window.",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "1.6.5"
+      }
+    }
+  },
+  "helpLanguage": {
+    "message": "The interface follows Chrome’s display language. Simplified Chinese and English are supported; other languages use English."
+  },
+  "helpHeading": {
+    "message": "Switch tabs. Keep your page."
+  },
+  "helpStartHeading": {
+    "message": "Getting started"
+  },
+  "helpStartNavigation": {
+    "message": "Click the extension icon to open the sidebar. The 36px navigation bar contains Back, Forward, Reload, an address field, Open current page, and “⋯”. Enter an address or Google search term and press Enter. The “⋯” menu lets you open the sidebar page in a new tab or switch between mobile and desktop modes. It floats over the page without reducing its height. Press Escape or click outside to close it."
+  },
+  "helpStartShortcut": {
+    "message": "Right-click a page or link and choose “Open in SideBrowser”. The keyboard shortcut is Alt + Shift + P, or ⌥ + ⇧ + P on Mac. Chrome controls the sidebar’s position, width, and close button."
+  },
+  "helpStateHeading": {
+    "message": "Page state"
+  },
+  "helpStatePersistence": {
+    "message": "Switching tabs, reloading the main tab, or closing the source tab does not recreate the sidebar page. Form inputs, scroll position, and running page state stay in place. Each browser window has its own page and navigation history. No helper tab is needed."
+  },
+  "helpStateRestore": {
+    "message": "Closing the sidebar, window, extension, or browser may discard the live page state. Reopening restores the saved address and navigation history. Mobile or desktop mode is shared across the extension. Switching modes reloads the page in every open sidebar."
+  },
+  "helpStateFullscreen": {
+    "message": "Chrome window fullscreen has been tested. Fullscreen for individual page elements or videos needs separate testing. The sidebar cannot float above other desktop apps or be dragged freely like a page overlay."
+  },
+  "helpMobileHeading": {
+    "message": "Mobile view and embedded pages"
+  },
+  "helpMobileViewport": {
+    "message": "Mobile mode preserves mouse, hover, scroll-wheel, and native touch behavior. Pages use their declared viewport width, then scale to fit the sidebar. NGA’s 525px layout fits in full; responsive pages use the available width. Resizing the sidebar does not recreate the page."
+  },
+  "helpMobileIdentity": {
+    "message": "Mobile mode also supplies a mobile User-Agent, Client Hints, and screen information visible to page scripts. Resources and fetch requests use the mobile User-Agent too. Switching to desktop mode reloads the page and restores native display and device information. Regular browser tabs and their resources are unchanged."
+  },
+  "helpMobileLimits": {
+    "message": "This is viewport adaptation within the extension, not DevTools device emulation. Screen rasterization, CSS device-resolution queries, nested frames, and other behavior are not fully emulated. Pinch zoom and a virtual keyboard are not included."
+  },
+  "helpEmbeddingLimits": {
+    "message": "X-Frame-Options is removed only from embedded frame documents within the sidebar. If a CSP header contains frame-ancestors, that entire CSP header is removed. Login requirements, cookies, DRM, and frame detection may still prevent embedding. Use “⋯” to open the page in a new tab."
+  },
+  "helpUpdateHeading": {
+    "message": "Updating the extension"
+  },
+  "helpUpdate": {
+    "message": "Chrome 145 or later is required. Replace the files in the existing extension folder, then reload the original extension at chrome://extensions. Keeping the same extension identity preserves saved addresses, history, and mode. If an old page overlay remains, reload that web page once. Do not enable old and new versions at the same time."
+  },
+  "helpPrivacyHeading": {
+    "message": "Permissions and data"
+  },
+  "helpPrivacy": {
+    "message": "sidePanel hosts the interface. Website access and scripting permissions support embedded pages. tabs reads the source address when you ask to open it. storage saves navigation and preferences. There are no debugging sessions, proxy servers, telemetry, or remote extension scripts. Browsing history is not uploaded to the developer."
+  }
+}

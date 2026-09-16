@@ -1,8 +1,8 @@
-<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>伴页 · 使用说明</title><link rel="stylesheet" href="ui.css"></head><body class="help-page"><main>
-<h1>切换标签，网页留在这里。</h1><p class="intro">伴页 · SideBrowser 1.6.5 · 同一个浏览器窗口，共用一个原生侧边栏。</p>
-<h2>开始使用</h2><p>点击扩展图标打开侧边栏。36px 单行导航依次为后退、前进、刷新、较短的地址栏、打开当前网页和「⋯」。输入网址或 Google 搜索词并回车。「⋯」中提供在新标签页打开侧边栏当前网页、切换手机／PC 模式；菜单展开不挤占网页高度，可按 Escape 或点击外部收起。</p><p>右键网页或链接，选择「在伴页中打开」。快捷键为 Alt + Shift + P，Mac 为 ⌥ + ⇧ + P。左右位置、宽度和关闭按钮由 Chrome 管理。</p>
-<h2>网页状态</h2><p>切换标签、刷新主页面、关闭来源标签，不会重建侧边栏网页，输入、滚动与运行状态可以继续。不同窗口有各自的网页和导航历史。无需辅助标签页。</p><p>关闭侧边栏、窗口、扩展或浏览器后，不保证页面内存继续存在；重新打开可恢复保存的网址与历史。手机／电脑是扩展共用偏好，切换模式会刷新已打开侧边栏的网页。</p><p>Chrome 窗口全屏已经验证。网页元素或视频自己的全屏模式需分别验证。侧边栏不能悬浮在其他桌面应用上，也不能像浮动 div 一样任意拖动。</p>
-<h2>手机与嵌入兼容</h2><p>手机模式保留鼠标、悬停、滚轮和原生触摸特征，按网页声明的视口宽度排版，再等比适配侧边栏。NGA 的 525px 布局可以完整显示；自适应页面按可用宽度显示。调整侧边栏宽度不会重建网页。</p><p>同时提供对应的手机 UA、Client Hints 和脚本可读屏幕信息，资源与 fetch 请求也使用手机 UA。切回电脑模式会刷新网页，恢复原生显示和设备信息。普通主页面及其资源保持原样。</p><p>这是扩展内的视口适配，没有启用 DevTools 原生设备模拟；真实屏幕的栅格化、CSS 设备分辨率查询、嵌套网页等并未全部模拟。手机捏合缩放与虚拟键盘不在本功能内。</p><p>仅对侧边栏中的子框架文档移除 X-Frame-Options；CSP 含 frame-ancestors 时移除该条 CSP。登录、Cookie、DRM 和网站框架检测仍可能限制嵌入，可从「⋯」在新标签页打开。</p>
-<h2>更新到 1.6.5</h2><p>需要 Chrome 145 及以上。替换原扩展加载目录文件，在 chrome://extensions 刷新原来的扩展卡片。保留同一扩展身份即可迁移旧网址、历史和模式。若页面仍留有旧版浮层，刷新该网页一次。不要同时启用新旧版本。</p>
-<h2>权限和数据</h2><p>sidePanel 承载界面；网站访问与脚本权限用于内嵌网页兼容；tabs 用于主动读取来源网址；storage 保存窗口导航与偏好。没有调试会话、代理服务器、遥测或远程扩展脚本，不向开发者上传浏览记录。</p>
-</main></body></html>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title data-i18n="helpTitle"></title><link rel="stylesheet" href="ui.css"></head><body class="help-page"><main>
+<h1 data-i18n="helpHeading"></h1><p class="intro"></p><p data-i18n="helpLanguage"></p>
+<h2 data-i18n="helpStartHeading"></h2><p data-i18n="helpStartNavigation"></p><p data-i18n="helpStartShortcut"></p>
+<h2 data-i18n="helpStateHeading"></h2><p data-i18n="helpStatePersistence"></p><p data-i18n="helpStateRestore"></p><p data-i18n="helpStateFullscreen"></p>
+<h2 data-i18n="helpMobileHeading"></h2><p data-i18n="helpMobileViewport"></p><p data-i18n="helpMobileIdentity"></p><p data-i18n="helpMobileLimits"></p><p data-i18n="helpEmbeddingLimits"></p>
+<h2 data-i18n="helpUpdateHeading"></h2><p data-i18n="helpUpdate"></p>
+<h2 data-i18n="helpPrivacyHeading"></h2><p data-i18n="helpPrivacy"></p>
+</main><script type="module" src="help.js"></script></body></html>

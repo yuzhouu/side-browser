@@ -1,7 +1,8 @@
 globalThis.__pocketPhone = Object.freeze({ width: 390, height: 844, dpr: 2 });
 globalThis.__pocketMobileIdentity = function mobileIdentity(desktopUA) {
   const version = /(?:Chrome|Chromium)\/([\d.]+)/.exec(desktopUA)?.[1];
-  if (!version) throw new Error('无法读取 Chrome 版本，手机模式未启用。');
+  // This file also runs as a classic content script, so it cannot import errors.js.
+  if (!version) throw Object.assign(new Error('errorChromeVersion'), { code: 'errorChromeVersion' });
   const major = version.split('.')[0];
   return {
     screen: { ...globalThis.__pocketPhone },

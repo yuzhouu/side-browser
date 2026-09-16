@@ -2,6 +2,8 @@ import { parseInput, validMode, isWebUrl } from './config.js';
 import { frameDestination } from './embedding.js';
 import { LAST_KEY, WINDOWS_KEY, MODE_KEY, restorePanel, navigatePanel } from './sidepanel-state.js';
 import { PANEL_RULE_IDS, panelRules } from './network-rules.js';
+import { t } from './i18n.js';
+import { userError } from './errors.js';
 
 const SHELL = chrome.runtime.getURL('sidepanel.html');
 const MOBILE_SCRIPTS = ['pocket-mobile-gate', 'pocket-mobile-main'];
@@ -49,9 +51,9 @@ async function save(windowId, value) {
 }
 async function verify(sender, windowId) {
   if (sender.id !== chrome.runtime.id || sender.url !== SHELL || sender.tab || !Number.isInteger(windowId))
-    throw new Error('操作仅限伴页侧边栏。');
+    throw userError('errorPanelOnly');
   const contexts = await chrome.runtime.getContexts({ ...(sender.documentId ? { documentIds: [sender.documentId] } : { documentUrls: [SHELL] }), contextTypes: ['SIDE_PANEL'] });
-  if (!contexts.length || (await chrome.windows.get(windowId)).type !== 'normal') throw new Error('侧边栏窗口已关闭。');
+  if (!contexts.length || (await chrome.windows.get(windowId)).type !== 'normal') throw userError('errorWindowClosed');
 }
 function publish(windowId, message) {
   try { ports.get(windowId)?.postMessage(message); } catch { ports.delete(windowId); }
@@ -78,7 +80,7 @@ chrome.runtime.onMessage.addListener((message, sender, reply) => {
         return mode;
       case 'PANEL_CURRENT': {
         const tab = (await chrome.tabs.query({ active: true, windowId: message.windowId }))[0];
-        if (!isWebUrl(tab?.url)) throw new Error('当前页面没有可打开的 HTTP 或 HTTPS 网址。');
+        if (!isWebUrl(tab?.url)) throw userError('errorCurrentPage');
         return navigate(message.windowId, tab.url);
       }
       case 'PANEL_EXTERNAL': {
@@ -86,9 +88,9 @@ chrome.runtime.onMessage.addListener((message, sender, reply) => {
         if (isWebUrl(url)) await chrome.tabs.create({ windowId: message.windowId, url, active: true });
         return true;
       }
-      default: throw new Error('未知侧边栏操作。');
+      default: throw userError('errorUnknownOperation');
     }
-  }).then(data => reply({ ok: true, data }), error => reply({ ok: false, error: error.message }));
+  }).then(data => reply({ ok: true, data }), error => reply({ ok: false, error: error.message, errorCode: error.code }));
   return true;
 });
 chrome.runtime.onConnect.addListener(port => {
@@ -103,6 +105,10 @@ chrome.runtime.onConnect.addListener(port => {
 chrome.windows.onRemoved.addListener(id => {
   void update(async () => { delete windows[id]; ports.delete(id); await chrome.storage.session.set({ [WINDOWS_KEY]: windows }); }).catch(() => {});
 });
+chrome.runtime.onStartup.addListener(() => {
+  // Context menus persist across restarts, including a change of Chrome UI language.
+  void update(() => chrome.contextMenus.update('open-pocket', { title: t('contextOpen') })).catch(() => {});
+});
 chrome.runtime.onInstalled.addListener(() => {
   void update(async () => {
     // Remove the known old page overlay; ordinary page contents remain untouched.
@@ -110,7 +116,7 @@ chrome.runtime.onInstalled.addListener(() => {
     if (previous?.tabId) await chrome.tabs.sendMessage(previous.tabId, { type: 'POCKET_REMOVE', id: previous.id }, { frameId: 0 }).catch(() => {});
     await chrome.storage.session.remove(key);
     await chrome.contextMenus.removeAll();
-    chrome.contextMenus.create({ id: 'open-pocket', title: '在伴页中打开', contexts: ['page', 'link'], documentUrlPatterns: ['http://*/*', 'https://*/*'] });
+    chrome.contextMenus.create({ id: 'open-pocket', title: t('contextOpen'), contexts: ['page', 'link'], documentUrlPatterns: ['http://*/*', 'https://*/*'] });
   }).catch(() => {});
 });
 function openFromGesture(windowId, input) {

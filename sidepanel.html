@@ -1,16 +1,16 @@
-<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>伴页 · SideBrowser</title><link rel="stylesheet" href="sidepanel.css"></head><body>
-<header aria-label="网页导航">
-<button id="back" type="button" aria-label="后退" title="后退" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14 6-6 6 6 6M8 12h12"/></svg></button>
-<button id="forward" type="button" aria-label="前进" title="前进" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m10 6 6 6-6 6M4 12h12"/></svg></button>
-<button id="reload" type="button" aria-label="刷新" title="刷新"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 7v5h-5M19.5 12a7.5 7.5 0 1 0-2.2 5.3M20 12l-2.7-5.3"/></svg></button>
-<form id="navigate"><input id="address" aria-label="网址或搜索" placeholder="网址或搜索" autocomplete="off" spellcheck="false" enterkeyhint="go"></form>
-<button id="current" type="button" title="在侧边栏打开当前标签页的网址">打开当前网页</button>
-<button id="more" type="button" popovertarget="more-menu" aria-label="更多操作" title="更多操作"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/></svg></button>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title data-i18n="extensionName"></title><link rel="stylesheet" href="sidepanel.css"></head><body>
+<header data-i18n-aria-label="navigation">
+<button id="back" type="button" data-i18n-aria-label="back" data-i18n-title="back" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14 6-6 6 6 6M8 12h12"/></svg></button>
+<button id="forward" type="button" data-i18n-aria-label="forward" data-i18n-title="forward" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m10 6 6 6-6 6M4 12h12"/></svg></button>
+<button id="reload" type="button" data-i18n-aria-label="reload" data-i18n-title="reload" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 7v5h-5M19.5 12a7.5 7.5 0 1 0-2.2 5.3M20 12l-2.7-5.3"/></svg></button>
+<form id="navigate"><input id="address" data-i18n-aria-label="address" data-i18n-placeholder="address" autocomplete="off" spellcheck="false" enterkeyhint="go"></form>
+<button id="current" type="button" data-i18n-title="openCurrentTitle" data-i18n="openCurrent"></button>
+<button id="more" type="button" popovertarget="more-menu" data-i18n-aria-label="more" data-i18n-title="more"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/></svg></button>
 </header>
-<div id="more-menu" popover role="group" aria-label="更多操作">
-<button id="external" type="button" title="在新标签页打开侧边栏当前网页"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6M20 4 10 14M10 4H4v16h16v-6"/></svg><span>在新标签页打开当前网页</span></button>
-<button id="mode" type="button" title="当前为手机模式，点击切换为 PC 模式"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg><span id="mode-label">切换为 PC 模式</span></button>
+<div id="more-menu" popover role="group" data-i18n-aria-label="more">
+<button id="external" type="button" data-i18n-title="openExternalTitle" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6M20 4 10 14M10 4H4v16h16v-6"/></svg><span data-i18n="openExternal"></span></button>
+<button id="mode" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg><span id="mode-label"></span></button>
 </div>
-<div id="notice" role="status" hidden><span></span><button id="retry" type="button" hidden>重试</button></div>
-<main><div id="viewport"><iframe id="web" title="侧边栏内的真实网页" sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox allow-downloads allow-modals allow-pointer-lock allow-presentation" allow="clipboard-write; fullscreen" referrerpolicy="strict-origin-when-cross-origin"></iframe></div><div id="empty"><strong>随手打开一个网页</strong><span>输入网址，或点击「打开当前网页」</span></div></main>
+<div id="notice" role="status" hidden><span></span><button id="retry" type="button" data-i18n="retry" hidden></button></div>
+<main><div id="viewport"><iframe id="web" data-i18n-title="frameTitle" sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox allow-downloads allow-modals allow-pointer-lock allow-presentation" allow="clipboard-write; fullscreen" referrerpolicy="strict-origin-when-cross-origin"></iframe></div><div id="empty"><strong data-i18n="emptyTitle"></strong><span data-i18n="emptyDescription"></span></div></main>
 <script type="module" src="sidepanel.js"></script></body></html>

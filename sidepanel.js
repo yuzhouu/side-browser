@@ -2,16 +2,20 @@ import { PanelViewport } from './viewport.js';
 import { parseInput, isWebUrl } from './config.js';
 import { frameDestination } from './embedding.js';
 import { navigatePanel, commitPanelNavigation } from './sidepanel-state.js';
+import { localizeDocument, t, errorMessage } from './i18n.js';
+import { userError } from './errors.js';
+localizeDocument();
 const web = document.querySelector('#web'), address = document.querySelector('#address');
 const notice = document.querySelector('#notice'), empty = document.querySelector('#empty'), retry = document.querySelector('#retry');
 const moreMenu = document.querySelector('#more-menu');
 const windowId = (await chrome.windows.getCurrent()).id;
 let state, port, loadingTimer, pendingNavigation = false, started = false, operation = Promise.resolve();
 const viewport = new PanelViewport(web, document.querySelector('#viewport'), () => state?.mode);
-const serial = task => { const next = operation.then(task); operation = next.catch(error => showNotice(error.message, true)); return next; };
+const serial = task => { const next = operation.then(task); operation = next.catch(error => showNotice(errorMessage(error), true)); return next; };
 async function request(type, data = {}) {
   const response = await chrome.runtime.sendMessage({ type, windowId, ...data });
-  if (!response?.ok) throw new Error(response?.error || '扩展没有响应，请重试。');
+  if (!response) throw userError('errorExtensionUnavailable');
+  if (!response.ok) throw Object.assign(new Error(response.error), { code: response.errorCode });
   return response.data;
 }
 function showNotice(text = '', canRetry = false) { notice.hidden = !text; notice.querySelector('span').textContent = text; retry.hidden = !canRetry; }
@@ -19,8 +23,8 @@ function controls() {
   document.body.classList.toggle('mobile', state?.mode === 'mobile');
   viewport.apply();
   const mode = document.querySelector('#mode'), mobile = state?.mode === 'mobile';
-  document.querySelector('#mode-label').textContent = mobile ? '切换为 PC 模式' : '切换为手机模式';
-  mode.title = `当前为${mobile ? '手机' : 'PC'}模式，点击切换为${mobile ? 'PC' : '手机'}模式`;
+  document.querySelector('#mode-label').textContent = mobile ? t('switchToDesktop') : t('switchToMobile');
+  mode.title = mobile ? t('mobileModeTitle') : t('desktopModeTitle');
   mode.setAttribute('aria-label', mode.title);
   document.querySelector('#back').disabled = !state || state.historyIndex <= 0;
   document.querySelector('#forward').disabled = !state || state.historyIndex >= state.history.length - 1;
@@ -31,7 +35,7 @@ function load(url) {
   if (!url) { empty.hidden = false; return; }
   showNotice(); address.value = url; empty.hidden = true; pendingNavigation = true;
   clearTimeout(loadingTimer);
-  loadingTimer = setTimeout(() => showNotice('网页加载时间较长，可刷新重试，或从「⋯」在新标签页打开。'), 12000);
+  loadingTimer = setTimeout(() => showNotice(t('loadingSlow')), 12000);
   viewport.navigate(); web.src = url; started = true;
 }
 function apply(next, reload = false) {

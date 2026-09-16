@@ -23,6 +23,7 @@ A browser in your sidebar.
 - 右键网页或链接，选择「在伴页中打开」；`Alt + Shift + P`（Mac：`⌥ + ⇧ + P`）打开当前网页。
 - 常规左键点击的 `target="_blank"` 链接尽量留在侧边栏；表单由真实网页原生提交。网站脚本弹窗或组合键操作可能另开标签页。
 - Chrome 管理侧边栏的左右位置、宽度和关闭按钮；不能像页面浮层一样随意拖动。
+- 界面支持简体中文和英文，自动跟随 Chrome 界面语言，其他语言使用英文；包括扩展信息、侧边栏、右键菜单、错误提示与帮助页。
 
 ## 状态与窗口
 
@@ -73,6 +74,8 @@ A browser in your sidebar.
 `sidepanel.html/js/css` 承载真实 iframe 和导航栏；`background.js` 管理各窗口状态、请求规则和用户打开入口；`sidepanel-state.js` 处理历史；`viewport.js` 解析网页视口声明、计算并应用排版与缩放；`frame-navigation.js` 在直接嵌入网页中报告网址／视口并保留原生链接／表单行为。`mobile-profile.js`、`mobile-identity-gate.js`、`mobile-identity-main.js` 提供网站启动前的手机身份兼容。
 
 运行 `npm test` 执行单元测试。浏览器验证使用独立 Chrome for Testing 149 配置，不接触日常 Chrome 资料或登录。
+
+国际化使用 Chrome 原生 `chrome.i18n`，无需额外依赖。语言包位于 `_locales/en/messages.json` 和 `_locales/zh_CN/messages.json`，默认语言为英文。`i18n.js` 处理页面正文、提示与无障碍标签；底层模块通过 `errors.js` 返回错误码，由界面翻译。新增语言时复制语言包，保留全部 key 和占位符，并运行 `npm test` 检查完整性。语言由 Chrome 决定，扩展内没有独立语言开关。
 
 图标源文件为 [`icons/sidebrowser.svg`](icons/sidebrowser.svg)，采用左蓝右黄的圆角正方形眨眼笑脸，左右宽度按黄金比例分配，中间透明 gap 同时切开色块和笑容。左眼睁开、右眼眨眼，整体占画布约 97%，各尺寸保持同一造型。修改 SVG 后运行 `npm run icons:generate` 可重新生成 16、32、48、128、256、512、1024 像素版本；需要本机 `rsvg-convert`，无需浏览器或 npm 依赖。详见 [图标说明](icons/README.md)。
 
