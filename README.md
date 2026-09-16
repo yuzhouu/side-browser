@@ -74,6 +74,8 @@ A browser in your sidebar.
 
 运行 `npm test` 执行单元测试。浏览器验证使用独立 Chrome for Testing 149 配置，不接触日常 Chrome 资料或登录。
 
+图标源文件为 [`icons/sidebrowser.svg`](icons/sidebrowser.svg)，采用左蓝右黄的圆角正方形眨眼笑脸，左右宽度按黄金比例分配，中间透明 gap 同时切开色块和笑容。左眼睁开、右眼眨眼，整体占画布约 97%，各尺寸保持同一造型。修改 SVG 后运行 `npm run icons:generate` 可重新生成 16、32、48、128、256、512、1024 像素版本；需要本机 `rsvg-convert`，无需浏览器或 npm 依赖。详见 [图标说明](icons/README.md)。
+
 - [Chrome Side Panel API](https://developer.chrome.com/docs/extensions/reference/api/sidePanel)
 - [Chrome DNR topDomains](https://developer.chrome.com/docs/extensions/reference/api/declarativeNetRequest#property-RuleCondition-topDomains)
 - [Chrome 内容脚本](https://developer.chrome.com/docs/extensions/develop/concepts/content-scripts)

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" fill="none" role="img" aria-labelledby="title description">
+  <title id="title">伴页 · SideBrowser</title>
+  <desc id="description">左蓝右黄的双圆角色块图标，整体正方形，左右宽度为黄金比例，中间留有透明间距。</desc>
+  <!-- Combined bounds: 992 × 992. Block widths follow phi; the 40-unit gap is transparent. -->
+  <rect id="main-block" x="16" y="16" width="588.36835729" height="992" rx="44" fill="#2E9EFA"/>
+  <rect id="side-block" x="644.36835729" y="16" width="363.63164271" height="992" rx="44" fill="#F4C94D"/>
+</svg>

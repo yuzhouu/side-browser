@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1280 1280" fill="none" role="img" aria-labelledby="title description">
+  <title id="title">伴页 · SideBrowser</title>
+  <desc id="description">灰蓝色圆角底板上的浅蓝灰浏览器，带标签页、后退、前进和地址栏，右侧亮蓝色伴页轻微浮出，底板外透明。</desc>
+  <defs>
+    <linearGradient id="tile-slate" x1="88" y1="108" x2="1168" y2="1152" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#526286"/>
+      <stop offset="1" stop-color="#47587D"/>
+    </linearGradient>
+    <clipPath id="browser-clip">
+      <rect x="167" y="284" width="920" height="668" rx="43"/>
+    </clipPath>
+    <linearGradient id="panel-blue" x1="745" y1="382" x2="1118" y2="977" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#30A2FC"/>
+      <stop offset="1" stop-color="#2E9EFA"/>
+    </linearGradient>
+    <filter id="browser-shadow" x="107" y="244" width="1040" height="788" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="17"/>
+      <feOffset dy="17" result="offset-shadow"/>
+      <feFlood flood-color="#1A263A" flood-opacity="0.2"/>
+      <feComposite in2="offset-shadow" operator="in"/>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="panel-shadow" x="705" y="352" width="453" height="685" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="12"/>
+      <feOffset dx="3" dy="13" result="offset-shadow"/>
+      <feFlood flood-color="#1A263A" flood-opacity="0.22"/>
+      <feComposite in2="offset-shadow" operator="in"/>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <rect id="background-tile" x="88" y="108" width="1080" height="1044" rx="202" fill="url(#tile-slate)"/>
+
+  <g id="browser" filter="url(#browser-shadow)">
+    <g id="browser-fill" clip-path="url(#browser-clip)">
+      <rect x="167" y="284" width="920" height="668" fill="#E6F4FC"/>
+      <rect x="167" y="284" width="920" height="163" fill="#D5EAFB"/>
+    </g>
+    <g id="browser-outline" stroke="#2A4C75" stroke-width="8" stroke-linecap="round" stroke-linejoin="round">
+      <rect id="browser-page" x="167" y="284" width="920" height="668" rx="43" stroke-width="14"/>
+      <path id="active-tab" d="M226 358c10 0 12-3 16-13l10-23c3-8 8-12 18-12h137c10 0 15 4 18 12l10 23c4 10 7 13 17 13Z" fill="#FDFDFD"/>
+      <path id="toolbar-dividers" d="M167 358h920M167 447h920"/>
+      <g id="navigation-arrows" stroke-width="9">
+        <path id="back" d="m230 385-20 19 20 20"/>
+        <path id="forward" d="m296 385 20 19-20 20"/>
+      </g>
+      <rect id="address-field" x="360" y="383" width="367" height="52" rx="26" fill="#FDFDFD"/>
+    </g>
+  </g>
+
+  <rect id="companion-panel" x="745" y="382" width="373" height="595" rx="37" fill="url(#panel-blue)" filter="url(#panel-shadow)"/>
+</svg>

@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" fill="none" role="img" aria-labelledby="title description">
+  <title id="title">伴页 · SideBrowser</title>
+  <desc id="description">左蓝右黄的圆角正方形笑脸，左眼睁开、右眼眨眼，左右宽度为黄金比例，中间透明间距切开整个笑容。</desc>
+  <defs>
+    <clipPath id="rounded-outline">
+      <rect x="16" y="16" width="992" height="992" rx="208"/>
+    </clipPath>
+    <clipPath id="separated-blocks">
+      <rect x="16" y="16" width="588.36835729" height="992"/>
+      <rect x="644.36835729" y="16" width="363.63164271" height="992"/>
+    </clipPath>
+  </defs>
+
+  <!-- One complete face is clipped by the same 40-unit gap as the two color blocks. -->
+  <g clip-path="url(#rounded-outline)">
+    <g clip-path="url(#separated-blocks)">
+      <rect id="main-block" x="16" y="16" width="588.36835729" height="992" fill="#2E9EFA"/>
+      <rect id="side-block" x="644.36835729" y="16" width="363.63164271" height="992" fill="#F4C94D"/>
+      <g id="face" fill="#173653">
+        <rect id="open-eye" x="278" y="315" width="82" height="174" rx="41"/>
+        <g fill="none" stroke="#173653" stroke-linecap="round">
+          <path id="winking-eye" d="M695 435C735 375 806 375 847 435" stroke-width="44"/>
+          <path id="smile" d="M267 630C365 815 715 815 820 630" stroke-width="70"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

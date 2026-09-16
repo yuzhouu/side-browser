@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1280 1280" fill="none" role="img" aria-labelledby="title description">
+  <title id="title">伴页 · SideBrowser</title>
+  <desc id="description">宽比例的浅蓝灰浏览器窗口，深蓝灰轮廓搭配浅色标签页和地址栏，带后退、前进，右侧亮蓝色伴页轻微浮出并投下柔和阴影，外围透明。</desc>
+  <defs>
+    <clipPath id="browser-clip">
+      <rect x="99" y="245" width="1056" height="782" rx="53"/>
+    </clipPath>
+    <linearGradient id="panel-blue" x1="779" y1="363" x2="1191" y2="1048" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#3D9AFF"/>
+      <stop offset="1" stop-color="#348EFA"/>
+    </linearGradient>
+    <filter id="panel-shadow" x="729" y="323" width="532" height="805" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="13"/>
+      <feOffset dx="5" dy="17" result="offset-shadow"/>
+      <feFlood flood-color="#2566B7" flood-opacity="0.28"/>
+      <feComposite in2="offset-shadow" operator="in"/>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Cool browser colors stay inside the window; the surrounding area is transparent. -->
+  <g id="browser-fill" clip-path="url(#browser-clip)">
+    <rect x="99" y="245" width="1056" height="782" fill="#EAF0F7"/>
+    <rect x="99" y="245" width="1056" height="193" fill="#DCE6F2"/>
+  </g>
+  <g id="browser-outline" stroke="#435B77" stroke-width="8" stroke-linecap="round" stroke-linejoin="round">
+    <rect id="browser-page" x="99" y="245" width="1056" height="782" rx="53" stroke-width="14"/>
+    <path id="active-tab" d="M163 331c12 0 15-4 20-16l11-28c4-9 10-13 22-13h164c12 0 18 4 22 13l11 28c5 12 8 16 20 16Z" fill="#F7FAFD"/>
+    <path id="toolbar-dividers" d="M99 331h1056M99 438h1056"/>
+    <g id="navigation-arrows" stroke-width="9">
+      <path id="back" d="m174 362-22 22 22 22"/>
+      <path id="forward" d="m251 362 22 22-22 22"/>
+    </g>
+    <rect id="address-field" x="328" y="357" width="430" height="54" rx="27" fill="#F7FAFD"/>
+  </g>
+
+  <!-- The foreground side page masks the browser lines behind it. -->
+  <rect id="companion-panel" x="779" y="363" width="412" height="685" rx="39" fill="url(#panel-blue)" filter="url(#panel-shadow)"/>
+</svg>
