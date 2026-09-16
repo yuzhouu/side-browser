@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title data-i18n="settingsTitle"></title>
     <link rel="icon" href="icons/32.png" />
+    <link rel="stylesheet" href="theme.css" />
+    <script type="module" src="theme.js"></script>
     <link rel="stylesheet" href="ui.css" />
   </head>
   <body>
@@ -21,6 +23,17 @@
       <p class="intro" data-i18n="settingsIntro"></p>
       <section class="card" aria-labelledby="browsing-heading">
         <h2 id="browsing-heading" data-i18n="settingsBrowsing"></h2>
+        <div class="setting-row">
+          <div class="setting-copy">
+            <label for="theme" data-i18n="settingsTheme"></label>
+            <p id="theme-description" data-i18n="settingsThemeDescription"></p>
+          </div>
+          <select id="theme" aria-describedby="theme-description" disabled>
+            <option value="system" data-i18n="themeSystem"></option>
+            <option value="light" data-i18n="themeLight"></option>
+            <option value="dark" data-i18n="themeDark"></option>
+          </select>
+        </div>
         <div class="setting-row">
           <div class="setting-copy">
             <label for="mode" data-i18n="settingsMode"></label>

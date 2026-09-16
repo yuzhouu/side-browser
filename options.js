@@ -2,9 +2,11 @@ import { localizeDocument, t, errorMessage } from './i18n.js';
 import { MODE_KEY } from './sidepanel-state.js';
 import { RECENT_KEY } from './recent-urls.js';
 import { userError } from './errors.js';
+import { THEME_KEY } from './theme-preference.js';
 
 localizeDocument();
 const mode = document.querySelector('#mode');
+const theme = document.querySelector('#theme');
 const clear = document.querySelector('#clear-recent');
 const confirmation = document.querySelector('#clear-confirmation');
 const confirmClear = document.querySelector('#confirm-clear');
@@ -24,10 +26,14 @@ async function request(type, data = {}) {
 
 function render() {
   mode.disabled = busy || !settings;
+  theme.disabled = busy || !settings;
   clear.disabled = busy || !settings?.recentCount;
   confirmClear.disabled = cancelClear.disabled = busy;
   if (!settings) return;
-  if (!busy) mode.value = settings.mode;
+  if (!busy) {
+    mode.value = settings.mode;
+    theme.value = settings.theme;
+  }
   document.querySelector('#recent-count').textContent = t(
     'settingsRecentCount',
     String(settings.recentCount)
@@ -78,6 +84,9 @@ async function change(type, data, message) {
 mode.addEventListener('change', () =>
   change('SETTINGS_MODE', { mode: mode.value }, 'settingsSaved')
 );
+theme.addEventListener('change', () =>
+  change('SETTINGS_THEME', { theme: theme.value }, 'settingsSaved')
+);
 clear.addEventListener('click', () => {
   confirmation.hidden = false;
   cancelClear.focus();
@@ -113,7 +122,12 @@ async function readShortcut() {
   }
 }
 chrome.storage.onChanged.addListener((changes, area) => {
-  if (area === 'local' && (MODE_KEY in changes || RECENT_KEY in changes) && !busy) void refresh();
+  if (
+    area === 'local' &&
+    (MODE_KEY in changes || THEME_KEY in changes || RECENT_KEY in changes) &&
+    !busy
+  )
+    void refresh();
 });
 window.addEventListener('focus', () => {
   if (!busy) void refresh();

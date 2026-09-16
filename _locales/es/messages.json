@@ -272,5 +272,20 @@
   },
   "helpAuthor": {
     "message": "Autor"
+  },
+  "settingsTheme": {
+    "message": "Apariencia"
+  },
+  "settingsThemeDescription": {
+    "message": "Se aplica a la barra lateral y a las páginas que siguen el tema del sistema. Algunos sitios tienen su propio ajuste. Cambiar la apariencia no recarga la página actual."
+  },
+  "themeSystem": {
+    "message": "Seguir el sistema"
+  },
+  "themeLight": {
+    "message": "Claro"
+  },
+  "themeDark": {
+    "message": "Oscuro"
   }
 }

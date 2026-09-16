@@ -272,5 +272,20 @@
   },
   "helpAuthor": {
     "message": "作者"
+  },
+  "settingsTheme": {
+    "message": "外观"
+  },
+  "settingsThemeDescription": {
+    "message": "应用于侧边栏及支持跟随系统主题的网页。部分网站使用自己的主题设置。切换外观不会重新加载当前网页。"
+  },
+  "themeSystem": {
+    "message": "跟随系统"
+  },
+  "themeLight": {
+    "message": "浅色"
+  },
+  "themeDark": {
+    "message": "深色"
   }
 }

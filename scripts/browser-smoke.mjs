@@ -217,30 +217,72 @@ try {
     catalog.documentLanguage.message
   );
   assert.equal(await options.locator('#mode').inputValue(), 'mobile');
+  assert.equal(await options.locator('#theme').inputValue(), 'system');
   assert(await options.locator('#clear-recent').isDisabled());
   for (const [key, value] of await options
     .locator('[data-i18n]')
     .evaluateAll(elements => elements.map(element => [element.dataset.i18n, element.textContent])))
     assert.equal(value, catalog[key].message, `Settings message: ${key}`);
   const optionsSession = await context.newCDPSession(options);
-  for (const width of [960, 320]) {
-    await optionsSession.send('Emulation.setDeviceMetricsOverride', {
-      width,
-      height: 900,
-      deviceScaleFactor: 1,
-      mobile: false
-    });
-    assert(await options.evaluate(() => document.documentElement.scrollWidth === innerWidth));
-    assert(
-      await options
-        .locator('.setting-row button, .setting-row select')
-        .evaluateAll(elements =>
-          elements.every(element => element.scrollWidth <= element.clientWidth)
-        )
+  const chooseTheme = async theme => {
+    await poll(() => options.locator('#theme').isEnabled(), 'appearance control ready');
+    await options.locator('#theme').selectOption(theme);
+    await poll(
+      () =>
+        options.evaluate(
+          theme =>
+            document.documentElement.dataset.theme === theme &&
+            !document.querySelector('#theme').disabled,
+          theme
+        ),
+      `appearance saved: ${theme}`
     );
-    await options.screenshot({ path: join(output, `settings-${width}.png`), fullPage: true });
+  };
+  for (const theme of ['light', 'dark']) {
+    await chooseTheme(theme);
+    await poll(
+      () => help.evaluate(theme => document.documentElement.dataset.theme === theme, theme),
+      'help theme synchronized'
+    );
+    assert.equal(
+      await options.evaluate(() => getComputedStyle(document.documentElement).backgroundColor),
+      theme === 'dark' ? 'rgb(32, 37, 33)' : 'rgb(248, 247, 244)'
+    );
+    for (const width of [960, 320]) {
+      await optionsSession.send('Emulation.setDeviceMetricsOverride', {
+        width,
+        height: 900,
+        deviceScaleFactor: 1,
+        mobile: false
+      });
+      assert(await options.evaluate(() => document.documentElement.scrollWidth === innerWidth));
+      assert(
+        await options
+          .locator('.setting-row button, .setting-row select')
+          .evaluateAll(elements =>
+            elements.every(element => element.scrollWidth <= element.clientWidth)
+          )
+      );
+      await options.screenshot({
+        path: join(output, `settings-${theme}-${width}.png`),
+        fullPage: true
+      });
+      await helpSession.send('Emulation.setDeviceMetricsOverride', {
+        width,
+        height: 900,
+        deviceScaleFactor: 1,
+        mobile: false
+      });
+      assert(await help.evaluate(() => document.documentElement.scrollWidth === innerWidth));
+      await help.screenshot({ path: join(output, `help-${theme}-${width}.png`), fullPage: true });
+    }
   }
+  await helpSession.send('Emulation.clearDeviceMetricsOverride');
   await optionsSession.send('Emulation.clearDeviceMetricsOverride');
+  await options.reload();
+  await poll(() => options.locator('#theme').isEnabled(), 'saved appearance restored');
+  assert.equal(await options.locator('#theme').inputValue(), 'dark');
+  await chooseTheme('system');
   await options.locator('#mode').selectOption('desktop');
   await poll(
     () =>
@@ -343,6 +385,99 @@ try {
   assert.equal(await inner.evaluate('window.token'), originalToken);
   assert.equal(await inner.evaluate("document.querySelector('#entry').value"), 'Keep this input');
   pass('Opening current page, switching tabs and closing source preserve the live iframe');
+
+  const beforeTheme = await state();
+  const tabTheme = await otherTab.evaluate(
+    () => matchMedia('(prefers-color-scheme: dark)').matches
+  );
+  const checkTheme = async dark => {
+    await poll(
+      () => inner.evaluate(`matchMedia('(prefers-color-scheme: dark)').matches === ${dark}`),
+      'embedded webpage color preference'
+    );
+    const color = dark ? 'rgb(32, 37, 33)' : 'rgb(255, 255, 255)';
+    await poll(
+      () =>
+        inner.evaluate(
+          `getComputedStyle(document.body).backgroundColor === ${JSON.stringify(color)}`
+        ),
+      'embedded webpage rendered theme'
+    );
+    assert.equal(
+      await panel.evaluate('getComputedStyle(document.body).backgroundColor'),
+      dark ? 'rgb(32, 37, 33)' : 'rgb(248, 247, 244)'
+    );
+    assert.equal(await inner.evaluate('window.token'), originalToken);
+    assert.equal(await inner.evaluate("document.querySelector('#entry').value"), 'Keep this input');
+    assert.deepEqual(await state(), beforeTheme);
+    assert.equal(
+      await otherTab.evaluate(() => matchMedia('(prefers-color-scheme: dark)').matches),
+      tabTheme
+    );
+  };
+  await panel.send('Emulation.setEmulatedMedia', {
+    features: [{ name: 'prefers-color-scheme', value: 'light' }]
+  });
+  await chooseTheme('dark');
+  await checkTheme(true);
+  await screenshot('native-dark-webpage');
+  await panel.click('#recent');
+  await screenshot('native-dark-recent');
+  await closeMenu();
+  await panel.click('#more');
+  await screenshot('native-dark-more');
+  await panel.click('#settings');
+  assert.equal(
+    await panel.evaluate("document.querySelector('#more-menu').matches(':popover-open')"),
+    false
+  );
+  assert.equal(await options.url(), `${extension}/options.html`);
+  await panel.send('Emulation.setEmulatedMedia', {
+    features: [{ name: 'prefers-color-scheme', value: 'dark' }]
+  });
+  await chooseTheme('light');
+  await checkTheme(false);
+  await screenshot('native-light-webpage');
+  await chooseTheme('system');
+  await checkTheme(true);
+  await panel.send('Emulation.setEmulatedMedia', {
+    features: [{ name: 'prefers-color-scheme', value: 'light' }]
+  });
+  await checkTheme(false);
+  assert(await inner.evaluate('window.themeUpdates >= 3'));
+  for (const theme of ['dark', 'light', 'system']) {
+    await panel.click('#more');
+    await panel.click(`[data-theme-value="${theme}"]`);
+    await poll(
+      () =>
+        options
+          .locator('#theme')
+          .inputValue()
+          .then(value => value === theme),
+      'menu appearance synchronized back to settings'
+    );
+    assert.equal(
+      await panel.evaluate(
+        `document.querySelector('[data-theme-value="${theme}"]').getAttribute('aria-pressed')`
+      ),
+      'true'
+    );
+    assert.equal(
+      await panel.evaluate(
+        "document.querySelectorAll('[data-theme-value][aria-pressed=true]').length"
+      ),
+      1
+    );
+    assert.equal(
+      await panel.evaluate("document.querySelector('#more-menu').matches(':popover-open')"),
+      false
+    );
+    await checkTheme(theme === 'dark');
+  }
+  await panel.send('Emulation.setEmulatedMedia', { features: [] });
+  pass(
+    'Appearance follows system changes, overrides light/dark, updates iframe CSS and media listeners without reload or history changes; ordinary tabs unchanged'
+  );
 
   const session = await context.newCDPSession(otherTab);
   const workerBeforeStop = (await targets()).find(
@@ -522,6 +657,20 @@ try {
   inner = await frameAt(`${base}/first`);
   await inner.click('#entry');
   await poll(async () => !(await menuOpen()), 'iframe click closes menu');
+  const moreOpen = () =>
+    panel.evaluate("document.querySelector('#more-menu').matches(':popover-open')");
+  await panel.click('#more');
+  assert(await moreOpen());
+  await panel.click('#theme-heading');
+  assert(await moreOpen());
+  await panel.click('#address');
+  await poll(async () => !(await moreOpen()), 'toolbar click closes more menu');
+  await panel.click('#more');
+  await inner.click('#entry');
+  await poll(async () => !(await moreOpen()), 'iframe click closes more menu');
+  await panel.click('#more');
+  await panel.click('#more');
+  assert.equal(await moreOpen(), false);
   pass(`Native panel ${nativeWidth}px; 480px/320px simulated layouts and iframe dismissal`);
 
   const secondWindow = await panel.evaluate(
@@ -561,6 +710,22 @@ try {
   await navigate(`${base}/settings-clear`);
   const settingsBefore = await state();
   const settingsSecondBefore = await state(secondPanel);
+  const themeFrame = await frameAt(`${base}/settings-clear`);
+  const themeToken = await themeFrame.evaluate('window.token');
+  await chooseTheme('dark');
+  for (const api of [panel, secondPanel]) {
+    await poll(
+      () => api.evaluate("document.documentElement.dataset.theme === 'dark'"),
+      'appearance synchronized across windows'
+    );
+    assert.equal(
+      await api.evaluate('getComputedStyle(document.body).backgroundColor'),
+      'rgb(32, 37, 33)'
+    );
+  }
+  assert.equal(await themeFrame.evaluate('window.token'), themeToken);
+  assert.deepEqual(await state(), settingsBefore);
+  assert.deepEqual(await state(secondPanel), settingsSecondBefore);
   await poll(
     () =>
       options
@@ -633,6 +798,12 @@ try {
   await launch();
   panel = await openPanel();
   await loaded(`${base}/persisted`);
+  await poll(
+    () => panel.evaluate("document.documentElement.dataset.theme === 'dark'"),
+    'appearance restored after restart'
+  );
+  const restoredFrame = await frameAt(`${base}/persisted`);
+  assert(await restoredFrame.evaluate("matchMedia('(prefers-color-scheme: dark)').matches"));
   assert.deepEqual(await recents(), [`${base}/persisted`]);
   assert.equal((await state()).mode, 'desktop');
   pass('Full browser restart restores persisted recent entries');

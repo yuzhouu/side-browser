@@ -272,5 +272,20 @@
   },
   "helpAuthor": {
     "message": "作者"
+  },
+  "settingsTheme": {
+    "message": "外觀"
+  },
+  "settingsThemeDescription": {
+    "message": "套用至側邊欄及支援跟隨系統主題的網頁。部分網站使用自己的主題設定。切換外觀不會重新載入目前網頁。"
+  },
+  "themeSystem": {
+    "message": "跟隨系統"
+  },
+  "themeLight": {
+    "message": "淺色"
+  },
+  "themeDark": {
+    "message": "深色"
   }
 }

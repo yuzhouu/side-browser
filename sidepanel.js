@@ -15,6 +15,7 @@ const notice = document.querySelector('#notice');
 const empty = document.querySelector('#empty');
 const retry = document.querySelector('#retry');
 const moreMenu = document.querySelector('#more-menu');
+const moreButton = document.querySelector('#more');
 const windowId = (await chrome.windows.getCurrent()).id;
 
 let state;
@@ -215,9 +216,36 @@ document.querySelector('#external').onclick = () => {
 document.querySelector('#help').onclick = () => {
   void serial(() => chrome.tabs.create({ windowId, url: chrome.runtime.getURL('help.html') }));
 };
+document.querySelector('#settings').onclick = () => {
+  void serial(() => chrome.runtime.openOptionsPage());
+};
+const themeButtons = [...moreMenu.querySelectorAll('[data-theme-value]')];
+for (const button of themeButtons) {
+  button.addEventListener('click', () => {
+    for (const option of themeButtons) option.disabled = true;
+    moreMenu.hidePopover();
+    void serial(async () => {
+      try {
+        await request('PANEL_THEME', { theme: button.dataset.themeValue });
+      } finally {
+        for (const option of themeButtons) option.disabled = false;
+      }
+    });
+  });
+}
 moreMenu.addEventListener('click', event => {
   if (event.target.closest('button:not(:disabled)')) moreMenu.hidePopover();
 });
+document.addEventListener(
+  'pointerdown',
+  event => {
+    const path = event.composedPath();
+    if (!path.includes(moreMenu) && !path.includes(moreButton)) moreMenu.hidePopover();
+  },
+  true
+);
+// Pointer events inside the cross-origin webpage do not reach this document.
+window.addEventListener('blur', () => moreMenu.hidePopover());
 retry.onclick = () => {
   void serial(async () => {
     apply(await request('PANEL_READY'), true);

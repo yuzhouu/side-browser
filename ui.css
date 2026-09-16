@@ -1,9 +1,8 @@
 :root {
-  color-scheme: light;
   font-family:
     -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
-  color: #292d29;
-  background: #f8f7f4;
+  color: var(--text);
+  background: var(--page);
 }
 * {
   box-sizing: border-box;
@@ -31,11 +30,11 @@ li {
   line-height: 1.85;
 }
 .intro {
-  color: #62675f;
+  color: var(--muted);
   margin: 0 0 24px;
 }
 a {
-  color: #3e624e;
+  color: var(--accent);
   text-underline-offset: 3px;
 }
 button,
@@ -44,8 +43,8 @@ select,
   font: inherit;
   font-size: 14px;
   color: inherit;
-  background: #fff;
-  border: 1px solid #d8ddd6;
+  background: var(--surface);
+  border: 1px solid var(--control-border);
   border-radius: 8px;
   padding: 9px 12px;
   min-height: 38px;
@@ -61,7 +60,7 @@ button {
 }
 button:hover:not(:disabled),
 .button-link:hover {
-  background: #f1f4ef;
+  background: var(--control-hover);
 }
 button:disabled,
 select:disabled {
@@ -69,7 +68,7 @@ select:disabled {
   cursor: default;
 }
 :focus-visible {
-  outline: 2px solid #3e624e;
+  outline: 2px solid var(--accent);
   outline-offset: 3px;
 }
 .page-header {
@@ -85,24 +84,24 @@ select:disabled {
 .page-nav {
   display: flex;
   gap: 24px;
-  border-bottom: 1px solid #dce0d9;
+  border-bottom: 1px solid var(--border);
   margin: 24px 0 28px;
 }
 .page-nav a {
   padding: 0 0 12px;
   font-size: 14px;
   text-decoration: none;
-  color: #62675f;
+  color: var(--muted);
 }
 .page-nav a[aria-current='page'] {
-  color: #2f523b;
+  color: var(--accent-strong);
   font-weight: 600;
-  border-bottom: 2px solid #3e624e;
+  border-bottom: 2px solid var(--accent);
   margin-bottom: -1px;
 }
 .card {
-  background: #fff;
-  border: 1px solid #e0e4dc;
+  background: var(--surface);
+  border: 1px solid var(--card-border);
   border-radius: 12px;
   padding: 22px 24px;
   margin-bottom: 16px;
@@ -124,7 +123,7 @@ select:disabled {
   padding-bottom: 0;
 }
 .setting-row + .setting-row {
-  border-top: 1px solid #edf0e9;
+  border-top: 1px solid var(--row-border);
 }
 .setting-copy {
   flex: 1;
@@ -140,7 +139,7 @@ select:disabled {
 .setting-value {
   font-size: 13px;
   line-height: 1.7;
-  color: #62675f;
+  color: var(--muted);
 }
 .setting-copy p {
   margin: 6px 0 0;
@@ -155,12 +154,12 @@ select:disabled {
   display: inline-block;
   margin-top: 8px;
   padding: 3px 8px;
-  background: #f4f5f1;
+  background: var(--shortcut);
   border-radius: 5px;
   font-size: 12px;
 }
 .confirmation {
-  border-top: 1px solid #edf0e9;
+  border-top: 1px solid var(--row-border);
   padding-top: 8px;
 }
 .button-row {
@@ -170,15 +169,15 @@ select:disabled {
 }
 .danger,
 .status.error {
-  color: #a02d28;
+  color: var(--danger);
 }
 .status {
   min-height: 24px;
   margin: 12px 0 0;
-  color: #3e624e;
+  color: var(--accent);
 }
 .help-content p {
-  color: #555d53;
+  color: var(--help-text);
   margin: 8px 0 14px;
 }
 .help-content p:last-child {
@@ -196,7 +195,7 @@ select:disabled {
 }
 .feedback-card p {
   font-size: 13px;
-  color: #62675f;
+  color: var(--muted);
   margin: 0;
 }
 .feedback-card .button-link {
@@ -205,7 +204,7 @@ select:disabled {
 }
 .help-footer {
   margin-top: 24px;
-  color: #62675f;
+  color: var(--muted);
 }
 .help-footer p {
   margin: 4px 0;

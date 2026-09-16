@@ -272,5 +272,20 @@
   },
   "helpAuthor": {
     "message": "Autor"
+  },
+  "settingsTheme": {
+    "message": "Darstellung"
+  },
+  "settingsThemeDescription": {
+    "message": "Gilt für die Seitenleiste und Webseiten, die dem Systemdesign folgen. Manche Websites nutzen eigene Designeinstellungen. Beim Wechsel wird die aktuelle Seite nicht neu geladen."
+  },
+  "themeSystem": {
+    "message": "Systemeinstellung"
+  },
+  "themeLight": {
+    "message": "Hell"
+  },
+  "themeDark": {
+    "message": "Dunkel"
   }
 }

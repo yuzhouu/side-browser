@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>SideBrowser QA</title>
     <style>
+      :root {
+        color-scheme: light dark;
+      }
       body {
         margin: 20px;
         font: 16px system-ui;
@@ -21,17 +24,39 @@
         display: block;
         margin: 20px 0;
       }
+      @media (prefers-color-scheme: dark) {
+        body {
+          color: #e0e7df;
+          background: #202521;
+        }
+        a {
+          color: #b3d3b4;
+        }
+      }
     </style>
   </head>
   <body>
     <h1>Sidebar test page</h1>
     <p id="path"></p>
+    <p id="theme-status"></p>
     <input id="entry" aria-label="Page state" placeholder="Page state" />
     <a id="next" href="/next">Next page</a>
     <script>
       window.token = crypto.randomUUID();
       document.title += ` ${location.pathname}`;
       document.querySelector('#path').textContent = location.pathname;
+      const theme = matchMedia('(prefers-color-scheme: dark)');
+      window.themeUpdates = 0;
+      function renderTheme() {
+        document.querySelector('#theme-status').textContent = theme.matches
+          ? 'Dark theme'
+          : 'Light theme';
+      }
+      theme.addEventListener('change', () => {
+        window.themeUpdates++;
+        renderTheme();
+      });
+      renderTheme();
     </script>
   </body>
 </html>

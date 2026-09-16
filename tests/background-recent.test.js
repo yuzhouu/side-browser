@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { RECENT_KEY, RECENT_TITLES_KEY } from '../recent-urls.js';
 import { LAST_KEY, MODE_KEY, navigatePanel, commitPanelNavigation } from '../sidepanel-state.js';
+import { THEME_KEY } from '../theme-preference.js';
 
 const event = () => ({
   listeners: [],
@@ -108,15 +109,21 @@ test('settings change the shared mode and clear recents without replacing window
     onDisconnect: event(),
     postMessage: message => messages.push(structuredClone(message))
   });
-  assert.deepEqual(await settingsRequest('SETTINGS_GET'), { mode: 'desktop', recentCount: 2 });
+  assert.deepEqual(await settingsRequest('SETTINGS_GET'), {
+    mode: 'desktop',
+    theme: 'system',
+    recentCount: 2
+  });
   assert.deepEqual(await settingsRequest('SETTINGS_MODE', { mode: 'mobile' }), {
     mode: 'mobile',
+    theme: 'system',
     recentCount: 2
   });
   assert.equal(chrome.storage.local.values[MODE_KEY], 'mobile');
   assert(messages.some(message => message.type === 'mode' && message.mode === 'mobile'));
   assert.deepEqual(await settingsRequest('SETTINGS_CLEAR_RECENT'), {
     mode: 'mobile',
+    theme: 'system',
     recentCount: 0
   });
   await request('PANEL_SAVE', { state: first });
@@ -145,11 +152,63 @@ test('settings operations require the settings page and do not grant panel navig
     await assert.rejects(settingsRequest('SETTINGS_CLEAR_RECENT', {}, from), {
       code: 'errorSettingsOnly'
     });
+    await assert.rejects(settingsRequest('SETTINGS_THEME', { theme: 'dark' }, from), {
+      code: 'errorSettingsOnly'
+    });
   }
   await assert.rejects(settingsRequest('PANEL_NAVIGATE', { windowId: 1, input: b }), {
     code: 'errorPanelOnly'
   });
   assert.deepEqual((await request('PANEL_READY')).recentUrls, [a]);
+});
+
+test('theme changes persist independently of window navigation and recover from failed writes', async context => {
+  const { chrome, request, settingsRequest } = await background(context, { [THEME_KEY]: 'dark' });
+  assert.equal((await settingsRequest('SETTINGS_GET')).theme, 'dark');
+  const first = await request('PANEL_NAVIGATE', { input: a });
+  const second = await request('PANEL_NAVIGATE', { input: b }, 2);
+  for (const theme of ['light', 'dark', 'system']) {
+    assert.equal((await settingsRequest('SETTINGS_THEME', { theme })).theme, theme);
+    assert.equal(chrome.storage.local.values[THEME_KEY], theme);
+    assert.deepEqual(await request('PANEL_READY'), { ...first, recentUrls: [b, a] });
+    assert.deepEqual(await request('PANEL_READY', {}, 2), second);
+  }
+  const original = chrome.storage.local.set;
+  chrome.storage.local.set = async () => {
+    throw new Error('Storage unavailable');
+  };
+  await assert.rejects(settingsRequest('SETTINGS_THEME', { theme: 'dark' }), /Storage unavailable/);
+  assert.equal((await settingsRequest('SETTINGS_GET')).theme, 'system');
+  assert.equal(chrome.storage.local.values[THEME_KEY], 'system');
+  chrome.storage.local.set = original;
+  assert.equal((await settingsRequest('SETTINGS_THEME', { theme: 'dark' })).theme, 'dark');
+});
+
+test('panel theme selection shares settings persistence and requires a native panel sender', async context => {
+  const { chrome, request, settingsRequest } = await background(context);
+  const before = await request('PANEL_NAVIGATE', { input: a });
+  for (const theme of ['dark', 'light', 'system']) {
+    assert.equal(await request('PANEL_THEME', { theme }), theme);
+    assert.equal((await settingsRequest('SETTINGS_GET')).theme, theme);
+    assert.equal(chrome.storage.local.values[THEME_KEY], theme);
+    assert.deepEqual(await request('PANEL_READY'), before);
+  }
+  for (const from of [
+    { id: 'test', url: 'chrome-extension://test/options.html' },
+    { id: 'test', url: 'chrome-extension://test/sidepanel.html', tab: { id: 42 } },
+    { id: 'test', url: 'https://example.com/' }
+  ]) {
+    await assert.rejects(settingsRequest('PANEL_THEME', { windowId: 1, theme: 'dark' }, from), {
+      code: 'errorPanelOnly'
+    });
+  }
+  assert.equal((await settingsRequest('SETTINGS_GET')).theme, 'system');
+});
+
+test('unknown theme preferences fall back to following the system', async context => {
+  const { settingsRequest } = await background(context, { [THEME_KEY]: 'unknown' });
+  assert.equal((await settingsRequest('SETTINGS_GET')).theme, 'system');
+  assert.equal((await settingsRequest('SETTINGS_THEME', { theme: 'unknown' })).theme, 'system');
 });
 
 test('a failed settings mode change preserves the preference and can be retried', async context => {

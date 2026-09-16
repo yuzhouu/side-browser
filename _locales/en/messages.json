@@ -272,5 +272,20 @@
   },
   "helpAuthor": {
     "message": "Author"
+  },
+  "settingsTheme": {
+    "message": "Appearance"
+  },
+  "settingsThemeDescription": {
+    "message": "Applies to the sidebar and webpages that follow the system theme. Some sites use their own theme setting. Switching appearance keeps the current page open."
+  },
+  "themeSystem": {
+    "message": "Follow system"
+  },
+  "themeLight": {
+    "message": "Light"
+  },
+  "themeDark": {
+    "message": "Dark"
   }
 }

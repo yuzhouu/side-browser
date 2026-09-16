@@ -272,5 +272,20 @@
   },
   "helpAuthor": {
     "message": "Auteur"
+  },
+  "settingsTheme": {
+    "message": "Apparence"
+  },
+  "settingsThemeDescription": {
+    "message": "S’applique au panneau latéral et aux pages qui suivent le thème du système. Certains sites ont leur propre réglage. Changer l’apparence ne recharge pas la page actuelle."
+  },
+  "themeSystem": {
+    "message": "Selon le système"
+  },
+  "themeLight": {
+    "message": "Clair"
+  },
+  "themeDark": {
+    "message": "Sombre"
   }
 }

@@ -272,5 +272,20 @@
   },
   "helpAuthor": {
     "message": "作者"
+  },
+  "settingsTheme": {
+    "message": "外観"
+  },
+  "settingsThemeDescription": {
+    "message": "サイドバーとシステムのテーマに対応するウェブページに適用します。独自のテーマ設定を使用するサイトもあります。外観を切り替えても現在のページは再読み込みされません。"
+  },
+  "themeSystem": {
+    "message": "システムに従う"
+  },
+  "themeLight": {
+    "message": "ライト"
+  },
+  "themeDark": {
+    "message": "ダーク"
   }
 }

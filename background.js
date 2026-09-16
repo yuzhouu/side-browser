@@ -12,6 +12,7 @@ import {
 import { PANEL_RULE_IDS, panelRules } from './network-rules.js';
 import { t } from './i18n.js';
 import { userError } from './errors.js';
+import { THEME_KEY, validTheme } from './theme-preference.js';
 
 const SHELL = chrome.runtime.getURL('sidepanel.html');
 const OPTIONS = chrome.runtime.getURL('options.html');
@@ -19,6 +20,7 @@ const MOBILE_SCRIPTS = ['pocket-mobile-gate', 'pocket-mobile-main'];
 const windows = {};
 let last;
 let mode;
+let theme;
 let recentUrls = [];
 let recentTitles = {};
 let queue = Promise.resolve();
@@ -59,6 +61,7 @@ const ready = (async () => {
     chrome.storage.local.get([
       LAST_KEY,
       MODE_KEY,
+      THEME_KEY,
       RECENT_KEY,
       RECENT_TITLES_KEY,
       'pocket-global-overlay-v1'
@@ -67,6 +70,7 @@ const ready = (async () => {
   ]);
   last = restorePanel(local[LAST_KEY] || local['pocket-global-overlay-v1']);
   mode = validMode(local[MODE_KEY] ?? last.mode);
+  theme = validTheme(local[THEME_KEY]);
   recentUrls = restoreRecentUrls(local[RECENT_KEY]);
   recentTitles = restoreRecentTitles(local[RECENT_TITLES_KEY], recentUrls);
   for (const [id, saved] of Object.entries(session[WINDOWS_KEY] || {}))
@@ -170,8 +174,15 @@ async function setMode(value) {
   return mode;
 }
 
+async function setTheme(value) {
+  const next = validTheme(value);
+  await chrome.storage.local.set({ [THEME_KEY]: next });
+  theme = next;
+  return theme;
+}
+
 function getSettings() {
-  return { mode, recentCount: recentUrls.length };
+  return { mode, theme, recentCount: recentUrls.length };
 }
 
 chrome.runtime.onMessage.addListener((message, sender, reply) => {
@@ -186,6 +197,9 @@ chrome.runtime.onMessage.addListener((message, sender, reply) => {
           return getSettings();
         case 'SETTINGS_MODE':
           await setMode(message.mode);
+          return getSettings();
+        case 'SETTINGS_THEME':
+          await setTheme(message.theme);
           return getSettings();
         case 'SETTINGS_CLEAR_RECENT':
           await saveRecent([]);
@@ -219,6 +233,8 @@ chrome.runtime.onMessage.addListener((message, sender, reply) => {
       }
       case 'PANEL_MODE':
         return setMode(message.mode);
+      case 'PANEL_THEME':
+        return setTheme(message.theme);
       case 'PANEL_CURRENT': {
         const tab = (await chrome.tabs.query({ active: true, windowId: message.windowId }))[0];
         if (!isWebUrl(tab?.url)) throw userError('errorCurrentPage');
