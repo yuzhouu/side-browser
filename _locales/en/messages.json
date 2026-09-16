@@ -37,6 +37,15 @@
   "address": {
     "message": "Address or search"
   },
+  "recentOpened": {
+    "message": "Recently opened"
+  },
+  "clearRecent": {
+    "message": "Clear all"
+  },
+  "recentEmpty": {
+    "message": "No recent pages. Your last 10 explicitly opened addresses appear here."
+  },
   "openCurrent": {
     "message": "Open current page",
     "description": "Compact toolbar button: copy the active browser tab URL into the sidebar."
@@ -142,7 +151,7 @@
     "message": "Getting started"
   },
   "helpStartNavigation": {
-    "message": "Click the extension icon to open the sidebar. The 36px navigation bar contains Back, Forward, Reload, an address field, Open current page, and “⋯”. Enter an address or Google search term and press Enter. The “⋯” menu lets you open the sidebar page in a new tab or switch between mobile and desktop modes. It floats over the page without reducing its height. Press Escape or click outside to close it."
+    "message": "Click the extension icon to open the sidebar. The 36px navigation bar contains Back, Forward, Reload, an address field, Open current page, and “⋯”. Enter an address or Google search term and press Enter. The clock in the address field lets you switch between your last 10 explicitly opened addresses or clear the list. Reopening an address moves it to the top. The list is shared across windows and survives restarts; in-page navigation, redirects, reloads, Back, and Forward do not add entries. The “⋯” menu lets you open the sidebar page in a new tab or switch between mobile and desktop modes. Menus float over the page without reducing its height. Press Escape or click outside to close them."
   },
   "helpStartShortcut": {
     "message": "Right-click a page or link and choose “Open in SideBrowser”. The keyboard shortcut is Alt + Shift + P, or ⌥ + ⇧ + P on Mac. Chrome controls the sidebar’s position, width, and close button."

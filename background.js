@@ -1,13 +1,14 @@
 import { parseInput, validMode, isWebUrl } from './config.js';
 import { frameDestination } from './embedding.js';
 import { LAST_KEY, WINDOWS_KEY, MODE_KEY, restorePanel, navigatePanel } from './sidepanel-state.js';
+import { RECENT_KEY, restoreRecentUrls, rememberRecentUrl } from './recent-urls.js';
 import { PANEL_RULE_IDS, panelRules } from './network-rules.js';
 import { t } from './i18n.js';
 import { userError } from './errors.js';
 
 const SHELL = chrome.runtime.getURL('sidepanel.html');
 const MOBILE_SCRIPTS = ['pocket-mobile-gate', 'pocket-mobile-main'];
-let windows = {}, last, mode, queue = Promise.resolve();
+let windows = {}, last, mode, recentUrls = [], queue = Promise.resolve();
 const ports = new Map();
 async function rules() {
   const registered = await chrome.scripting.getRegisteredContentScripts({ ids: MOBILE_SCRIPTS });
@@ -24,11 +25,12 @@ async function rules() {
 }
 const ready = (async () => {
   const [local, session] = await Promise.all([
-    chrome.storage.local.get([LAST_KEY, MODE_KEY, 'pocket-global-overlay-v1']),
+    chrome.storage.local.get([LAST_KEY, MODE_KEY, RECENT_KEY, 'pocket-global-overlay-v1']),
     chrome.storage.session.get(WINDOWS_KEY)
   ]);
   last = restorePanel(local[LAST_KEY] || local['pocket-global-overlay-v1']);
   mode = validMode(local[MODE_KEY] ?? last.mode);
+  recentUrls = restoreRecentUrls(local[RECENT_KEY]);
   for (const [id, saved] of Object.entries(session[WINDOWS_KEY] || {})) windows[id] = restorePanel(saved);
   await rules();
   await chrome.sidePanel.setPanelBehavior({ openPanelOnActionClick: true });
@@ -39,7 +41,7 @@ function update(task) {
 }
 function getState(windowId) {
   windows[windowId] ||= restorePanel(last);
-  return { ...structuredClone(windows[windowId]), mode };
+  return { ...structuredClone(windows[windowId]), mode, recentUrls: [...recentUrls] };
 }
 async function save(windowId, value) {
   windows[windowId] = restorePanel({ ...value, mode }); last = windows[windowId];
@@ -58,9 +60,16 @@ async function verify(sender, windowId) {
 function publish(windowId, message) {
   try { ports.get(windowId)?.postMessage(message); } catch { ports.delete(windowId); }
 }
+async function saveRecent(urls) {
+  await chrome.storage.local.set({ [RECENT_KEY]: urls });
+  recentUrls = urls;
+  for (const id of ports.keys()) publish(id, { type: 'recent', urls: [...recentUrls] });
+  return [...recentUrls];
+}
 async function navigate(windowId, input) {
   const state = getState(windowId), url = frameDestination(input, parseInput);
-  if (url === state.url) return state;
+  await saveRecent(rememberRecentUrl(recentUrls, url));
+  if (url === state.url) return getState(windowId);
   navigatePanel(state, url); await save(windowId, state);
   publish(windowId, { type: 'navigate', state: getState(windowId) });
   return getState(windowId);
@@ -72,6 +81,8 @@ chrome.runtime.onMessage.addListener((message, sender, reply) => {
     switch (message.type) {
       case 'PANEL_READY': return getState(message.windowId);
       case 'PANEL_SAVE': return save(message.windowId, message.state);
+      case 'PANEL_NAVIGATE': return navigate(message.windowId, message.input);
+      case 'PANEL_CLEAR_RECENT': return saveRecent([]);
       case 'PANEL_MODE':
         mode = validMode(message.mode); await rules();
         await chrome.storage.local.set({ [MODE_KEY]: mode });
