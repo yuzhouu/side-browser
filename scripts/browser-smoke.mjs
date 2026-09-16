@@ -28,6 +28,7 @@ const output = process.env.QA_OUTPUT_DIR
   : await mkdtemp(join(tmpdir(), 'sidebrowser-qa-'));
 await mkdir(output, { recursive: true });
 const pass = label => console.log(`PASS ${label}`);
+let slowResponseFinished = false;
 const server = http.createServer((request, response) => {
   response.setHeader('Content-Type', 'text/html; charset=utf-8');
   response.setHeader('Cache-Control', 'no-store');
@@ -35,6 +36,11 @@ const server = http.createServer((request, response) => {
   if (request.url === '/redirect') {
     response.writeHead(302, { Location: '/landing' });
     response.end();
+  } else if (request.url === '/slow-close') {
+    setTimeout(() => {
+      response.end(fixture);
+      slowResponseFinished = true;
+    }, 1500);
   } else response.end(fixture);
 });
 let context;
@@ -888,6 +894,84 @@ try {
   assert.deepEqual(await recents(), [`${base}/persisted`]);
   assert.equal((await state()).mode, 'desktop');
   pass('Full browser restart restores persisted recent entries');
+
+  const beforeClose = await state();
+  const panelDocument = await panel.evaluate('performance.timeOrigin');
+  const closeWindow = await panel.evaluate(
+    `chrome.windows.create({ url: ${JSON.stringify(`${base}/close-other-window`)}, type: 'normal' })`
+  );
+  const closeOtherPanel = await openPanel(closeWindow.id);
+  const otherBeforeClose = await state(closeOtherPanel);
+  // Queue an old frame report behind the close operation, as a late navigation can be.
+  await panel.evaluate(`document.querySelector('#close-page').addEventListener('click', () => {
+    const source = document.querySelector('#web').contentWindow;
+    window.dispatchEvent(new MessageEvent('message', {
+      source, origin: ${JSON.stringify(base)}, data: {
+        type: 'POCKET_LOCATION', url: ${JSON.stringify(`${base}/late-close`)},
+        documentId: 'late-document', title: 'Late navigation', viewport: ['width=525']
+      }
+    }));
+  }, { once: true })`);
+  const assertClosed = async () => {
+    await poll(async () => (await state()).url === '', 'closed page saved');
+    await poll(
+      () =>
+        panel.evaluate(`!document.querySelector('#empty').hidden &&
+        document.querySelector('#web').contentWindow.location.href === 'about:blank'`),
+      'closed page unloaded'
+    );
+    assert(
+      await panel.evaluate(`document.querySelector('#address').value === '' &&
+      document.querySelector('#notice').hidden &&
+      ['back', 'forward', 'reload', 'external', 'close-page'].every(id =>
+        document.getElementById(id).disabled)`)
+    );
+    assert.deepEqual((await state()).history, []);
+    assert.equal((await state()).historyIndex, -1);
+  };
+  await panel.click('#more');
+  await screenshot('close-page-menu');
+  await panel.click('#close-page');
+  await assertClosed();
+  assert.equal(await panel.evaluate('performance.timeOrigin'), panelDocument);
+  assert.equal(await panel.evaluate('document.activeElement.id'), 'address');
+  assert.equal(await moreOpen(), false);
+  assert.deepEqual((await state()).recentUrls, beforeClose.recentUrls);
+  assert.deepEqual((await state()).recentTitles, beforeClose.recentTitles);
+  assert.deepEqual(await state(closeOtherPanel), otherBeforeClose);
+  await screenshot('closed-page-native');
+  // Reloading the panel and changing modes must keep an explicitly closed page empty.
+  await panel.send('Page.reload');
+  await assertClosed();
+  await panel.click('#more');
+  await panel.click('#mode');
+  await poll(async () => (await state()).mode === 'mobile', 'empty page mode changed');
+  await assertClosed();
+  await panel.click('#recent');
+  await panel.click('.recent-item:first-child .recent-open');
+  await loaded(`${base}/persisted`);
+  assert.deepEqual((await state()).history, [`${base}/persisted`]);
+  assert.equal(await panel.evaluate("document.querySelector('#close-page').disabled"), false);
+
+  // Close before a slow response arrives; its load event must not hide the welcome screen.
+  await panel.fill('#address', `${base}/slow-close`);
+  await panel.press('Enter');
+  await poll(async () => (await state()).url === `${base}/slow-close`, 'pending page saved');
+  await panel.click('#more');
+  await panel.click('#close-page');
+  await assertClosed();
+  const closedRecents = await recents();
+  await poll(() => slowResponseFinished, 'slow response completed after close');
+  await assertClosed();
+  await shutdown();
+  await launch();
+  panel = await openPanel();
+  await assertClosed();
+  assert.deepEqual(await recents(), closedRecents);
+  await screenshot('closed-page-restored');
+  pass(
+    'Close unloads the page, rejects late navigation, preserves recents/other windows, reopens from recents and stays empty after restart'
+  );
   assert.deepEqual(diagnostics.errors, []);
   const warnings = [...new Set(diagnostics.warnings)];
   assert(

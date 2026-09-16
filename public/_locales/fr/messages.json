@@ -299,5 +299,14 @@
   },
   "emptyHelp": {
     "message": "Consulter le guide"
+  },
+  "closePage": {
+    "message": "Fermer la page actuelle"
+  },
+  "closePageTitle": {
+    "message": "Fermer la page web en gardant le panneau latéral ouvert"
+  },
+  "helpClosePage": {
+    "message": "Choisissez « ⋯ » → « Fermer la page actuelle » pour revenir à l’accueil en gardant le panneau latéral ouvert. L’historique de navigation de cette fenêtre est effacé. Les pages récemment ouvertes restent dans la liste et la page fermée ne sera pas restaurée automatiquement."
   }
 }

@@ -299,5 +299,14 @@
   },
   "emptyHelp": {
     "message": "查看使用指南"
+  },
+  "closePage": {
+    "message": "关闭当前网页"
+  },
+  "closePageTitle": {
+    "message": "关闭网页，保持侧边栏打开"
+  },
+  "helpClosePage": {
+    "message": "选择“⋯”→“关闭当前网页”，即可回到欢迎页并保持侧边栏打开。此操作会清空当前窗口的前进、后退历史，保留最近打开记录；已关闭的网页不会自动恢复。"
   }
 }

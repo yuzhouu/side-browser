@@ -230,6 +230,8 @@ chrome.runtime.onMessage.addListener((message: PanelRequest | SettingsRequest, s
         return save(message.windowId, message.state);
       case 'PANEL_NAVIGATE':
         return navigate(message.windowId, message.input);
+      case 'PANEL_CLOSE':
+        return save(message.windowId, restorePanel({ mode }));
       case 'PANEL_CLEAR_RECENT':
         return saveRecent([]);
       case 'PANEL_REMOVE_RECENT':

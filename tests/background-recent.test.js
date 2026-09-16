@@ -4,6 +4,7 @@ import { RECENT_KEY, RECENT_TITLES_KEY } from '../src/recent-urls.ts';
 import {
   LAST_KEY,
   MODE_KEY,
+  WINDOWS_KEY,
   navigatePanel,
   commitPanelNavigation
 } from '../src/sidepanel-state.ts';
@@ -144,6 +145,34 @@ test('settings change the shared mode and clear recents without replacing window
   }
   assert.deepEqual(chrome.storage.local.values[RECENT_TITLES_KEY], {});
   assert(messages.some(message => message.type === 'recent' && message.urls.length === 0));
+});
+
+test('closing a page persists an empty window without clearing recents or another window', async context => {
+  const { chrome, request, settingsRequest } = await background(context);
+  await request('PANEL_NAVIGATE', { input: a });
+  await request('PANEL_RECENT_TITLE', { url: a, pageUrl: a, title: 'Page A' });
+  await request('PANEL_NAVIGATE', { input: internal });
+  const second = await request('PANEL_NAVIGATE', { input: b }, 2);
+  const before = await request('PANEL_READY');
+  const closed = await request('PANEL_CLOSE');
+  const empty = { url: '', mode: 'desktop', history: [], historyIndex: -1 };
+  assert.deepEqual(closed, { ...before, ...empty });
+  assert.deepEqual(chrome.storage.local.values[LAST_KEY], empty);
+  assert.deepEqual(chrome.storage.session.values[WINDOWS_KEY][1], empty);
+  assert.deepEqual(await request('PANEL_READY'), closed);
+  assert.deepEqual(await request('PANEL_READY', {}, 2), second);
+  assert.deepEqual(await request('PANEL_READY', {}, 3), closed);
+  assert.deepEqual(await request('PANEL_CLOSE'), closed);
+  await request('PANEL_RECENT_TITLE', { url: a, pageUrl: a, title: 'Late title' });
+  assert.deepEqual((await request('PANEL_READY')).recentTitles, before.recentTitles);
+  await assert.rejects(settingsRequest('PANEL_CLOSE', { windowId: 2 }), {
+    code: 'errorPanelOnly'
+  });
+  assert.deepEqual(await request('PANEL_READY', {}, 2), second);
+  const reopened = await request('PANEL_NAVIGATE', { input: a });
+  assert.equal(reopened.url, a);
+  assert.deepEqual(reopened.history, [a]);
+  assert.equal(reopened.historyIndex, 0);
 });
 
 test('settings operations require the settings page and do not grant panel navigation access', async context => {

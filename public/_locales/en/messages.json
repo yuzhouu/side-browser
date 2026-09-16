@@ -299,5 +299,14 @@
   },
   "emptyHelp": {
     "message": "View the getting started guide"
+  },
+  "closePage": {
+    "message": "Close current page"
+  },
+  "closePageTitle": {
+    "message": "Close the webpage and keep the sidebar open"
+  },
+  "helpClosePage": {
+    "message": "Choose “⋯” → “Close current page” to return to the welcome screen while keeping the sidebar open. This clears navigation history for this window. Recently opened entries remain available, and the closed page will not be restored automatically."
   }
 }

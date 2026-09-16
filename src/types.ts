@@ -34,6 +34,7 @@ export interface PanelRequests {
   PANEL_READY: [undefined, PanelSnapshot];
   PANEL_SAVE: [{ state: PanelState }, PanelSnapshot];
   PANEL_NAVIGATE: [{ input: string }, PanelSnapshot];
+  PANEL_CLOSE: [undefined, PanelSnapshot];
   PANEL_CLEAR_RECENT: [undefined, string[]];
   PANEL_REMOVE_RECENT: [{ url: string }, string[]];
   PANEL_RECENT_TITLE: [{ url: string; pageUrl: string; title: string }, Record<string, string>];

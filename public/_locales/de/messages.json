@@ -299,5 +299,14 @@
   },
   "emptyHelp": {
     "message": "Anleitung ansehen"
+  },
+  "closePage": {
+    "message": "Aktuelle Seite schließen"
+  },
+  "closePageTitle": {
+    "message": "Webseite schließen und die Seitenleiste geöffnet lassen"
+  },
+  "helpClosePage": {
+    "message": "Wählen Sie „⋯“ → „Aktuelle Seite schließen“, um zum Willkommensbildschirm zurückzukehren und die Seitenleiste geöffnet zu lassen. Der Navigationsverlauf dieses Fensters wird gelöscht. Zuletzt geöffnete Seiten bleiben in der Liste; die geschlossene Seite wird nicht automatisch wiederhergestellt."
   }
 }

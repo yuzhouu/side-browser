@@ -29,7 +29,7 @@ let pendingNavigation = false;
 let started = false;
 let operation: Promise<unknown> = Promise.resolve();
 
-const recentTitleTracker = new RecentTitleTracker();
+let recentTitleTracker = new RecentTitleTracker();
 const viewport = new PanelViewport(web, element('#viewport'), () => state?.mode);
 const serial = <T>(task: () => T | PromiseLike<T>): Promise<T> => {
   const next = operation.then(task);
@@ -72,12 +72,24 @@ function controls() {
     !state || state.historyIndex >= state.history.length - 1;
   element<HTMLButtonElement>('#reload').disabled = !state?.url;
   element<HTMLButtonElement>('#external').disabled = !state?.url;
+  element<HTMLButtonElement>('#close-page').disabled = !state?.url;
   emptyCurrent.disabled = !state;
 }
 
 function load(url: string) {
   if (!url) {
+    clearTimeout(loadingTimer);
+    showNotice();
+    pendingNavigation = false;
+    started = false;
+    address.value = '';
     empty.hidden = false;
+    // Destroy the old browsing context so late messages cannot reopen the page.
+    web.remove();
+    web.removeAttribute('src');
+    viewport.stage.append(web);
+    viewport.navigate();
+    recentTitleTracker = new RecentTitleTracker();
     return;
   }
   showNotice();
@@ -97,10 +109,9 @@ function apply(next: PanelSnapshot, reload = false) {
   state = next;
   controls();
   if (document.activeElement !== address) address.value = state.url;
-  if (
-    state.url &&
-    (reload || !started || previous?.url !== state.url || previous?.mode !== state.mode)
-  )
+  if (!state.url) {
+    if (started) load('');
+  } else if (reload || !started || previous?.url !== state.url || previous?.mode !== state.mode)
     load(state.url);
 }
 
@@ -144,6 +155,7 @@ async function navigate(input: string, historyIndex?: number) {
 
 window.addEventListener('message', event => {
   if (
+    !started ||
     event.source !== web.contentWindow ||
     !['POCKET_LOCATION', 'POCKET_VIEWPORT', 'POCKET_TITLE'].includes(event.data?.type) ||
     !isWebUrl(event.data.url)
@@ -154,10 +166,10 @@ window.addEventListener('message', event => {
   } catch {
     return;
   }
-  viewport.accept(event.data, event.origin);
-  if (event.data.type === 'POCKET_VIEWPORT') return;
   void serial(async () => {
-    if (!state) return;
+    if (!state?.url || !started || event.source !== web.contentWindow) return;
+    viewport.accept(event.data, event.origin);
+    if (event.data.type === 'POCKET_VIEWPORT') return;
     const metadata = recentTitleTracker.accept(event.data);
     if (event.data.type === 'POCKET_LOCATION') {
       commitPanelNavigation(state, event.data.url, pendingNavigation);
@@ -229,6 +241,13 @@ element('#empty-address').onclick = () => {
 };
 element<HTMLButtonElement>('#external').onclick = () => {
   void serial(() => request('PANEL_EXTERNAL'));
+};
+element<HTMLButtonElement>('#close-page').onclick = () => {
+  void serial(async () => {
+    apply(await request('PANEL_CLOSE'));
+    recentMenu.hide();
+    address.focus();
+  });
 };
 element('#help').onclick = () => {
   void serial(() => chrome.tabs.create({ windowId, url: chrome.runtime.getURL('help.html') }));
