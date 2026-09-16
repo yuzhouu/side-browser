@@ -11,7 +11,7 @@
     "message": "SideBrowser"
   },
   "extensionDescription": {
-    "message": "サイドバーの中のブラウザ。タブを切り替えてもページを開いたまま、ウェブ検索やモバイル・デスクトップ表示の切り替えができます。"
+    "message": "ブラウザのサイドパネルで AI や参考サイトを開き、作業しながら質問・調査。タブの切り替えを減らせます。"
   },
   "openSidePanel": {
     "message": "SideBrowser · サイドバーを開く"

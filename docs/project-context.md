@@ -40,6 +40,10 @@ NGA 登录后的完整网页没有使用用户 Cookie 验证。附件中的 curl
 
 ## 当前范围
 
+商店资料准备（2026-09-16）：分类定位为效率工具；`store/` 保存中英文商店文案、5 张真实截图配功能说明的展示图、宣传图、图标、可编辑排版源稿和权限／审核填写说明。AI 场景仅使用 ChatGPT，资料场景使用维基百科和 Google 搜索。`docs/privacy-policy.md` 为可公开发布的中英文隐私政策。七种语言的扩展简短介绍同步强调侧边 AI 与资料查询。`npm run store:capture` 采集独立测试配置中的真实侧边栏，`store:render` 导出图片，`store:package` 校验并打包所有上架资料。官网及公开隐私政策由 `.github/workflows/pages.yml` 发布到 GitHub Pages；开发者后台账号字段和提交审核仍需完成。
+
 关闭当前网页功能（2026-09-16）：类型检查、构建、54 项 Node 测试和格式检查通过。Chrome for Testing 149、简体中文、独立配置验证「更多」关闭后 iframe 卸载、空态／地址栏焦点、旧网页排队消息隔离、最近记录与其他窗口保留、最近条目重开、加载中关闭、面板刷新与浏览器重启后空态恢复；原生 360px 与 320px／480px 模拟排版通过，无运行错误或新增控制台警告。
 
 本项目已从原会话复制为独立 Codex 项目，并完成 SideBrowser 品牌名称统一；源码远程仓库为 [yuzhouu/side-browser](https://github.com/yuzhouu/side-browser)，SSH 地址为 `git@github.com:yuzhouu/side-browser.git`，默认分支为 `main`；未发布到扩展商店。当前源码还包含国际化与最近打开快捷入口，历史 ZIP 保存在 `releases/archive/`，当前 ZIP 由 `npm run package` 从 `dist/` 生成。后续开发从当前源码和本交接说明继续。
+
+官网（2026-09-16）：`website/` 保存中英文内容、主题样式与本地素材生成器，`scripts/site-build.mjs` 将首页／隐私／素材页分别生成中英文静态路由到独立的 `site-dist/`，以 `/side-browser/` 为 Pages 子路径。隐私正文复用 `docs/privacy-policy.md`；网站无运行依赖、统计或远程字体。主题存于网站自己的本地存储，语言由 URL 决定。素材页使用真实 ChatGPT、Wikipedia 和 Google 截图生成带说明文字的 1280×800 图片；原图不改色。部署和验证记录见 `docs/website.md`。

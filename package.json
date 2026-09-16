@@ -7,12 +7,19 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "icons:generate": "node scripts/export-icons.mjs",
+    "store:capture": "npm run build && node scripts/store-capture.mjs",
+    "store:render": "node scripts/store-render.mjs",
+    "store:package": "npm run package && node scripts/store-package.mjs",
     "test": "npm run build && node --import tsx --test tests/*.test.js",
     "test:browser": "npm run build && node scripts/browser-smoke.mjs",
     "dev": "node --import tsx scripts/build.ts --watch",
     "typecheck": "tsc -p tsconfig.json && tsc -p tsconfig.node.json",
     "build": "npm run typecheck && node --import tsx scripts/build.ts",
-    "package": "npm run build && node --import tsx scripts/package.ts"
+    "package": "npm run build && node --import tsx scripts/package.ts",
+    "site:build": "npm run package && node scripts/site-build.mjs",
+    "site:preview": "node scripts/site-serve.mjs",
+    "site:check": "node scripts/site-check.mjs",
+    "site:test:browser": "node scripts/site-browser-check.mjs"
   },
   "devDependencies": {
     "@types/chrome": "0.3.0",

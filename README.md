@@ -1,5 +1,7 @@
 # 侧窗 · SideBrowser 1.6.5
 
+商店上架资料见 [store/README.md](store/README.md)：效率工具分类、中英文介绍、ChatGPT／维基百科／Google 功能说明图、隐私政策和提交字段；[打开素材预览](store/index.html)。
+
 侧窗小境，静览万象
 
 Another page. Right beside you.
@@ -108,3 +110,18 @@ Vite 负责三个页面和后台的模块构建，注入网页的脚本单独输
 ## 独立项目
 
 本目录是 Codex 项目的源码根目录。项目交接与既有决策见 [项目说明](docs/project-context.md)，历史验证见 [验证记录](docs/verification-history.md)，当前交付包为 [`releases/sidebrowser-1.6.5.zip`](releases/sidebrowser-1.6.5.zip)，早期安装包保存在 `releases/archive/`，仅供历史归档。
+
+## 官网与宣传素材
+
+[官网](https://yuzhouu.github.io/side-browser/) · [English](https://yuzhouu.github.io/side-browser/en/) · [隐私政策](https://yuzhouu.github.io/side-browser/privacy/) · [宣传素材](https://yuzhouu.github.io/side-browser/media/)
+
+官网支持中英文、浅深色；素材页可按三个场景、两种语言、两种主题生成 1280 × 800 的真实截图说明图，还提供商店图片、品牌 SVG、文案和素材 ZIP 下载。
+
+```sh
+npm run site:build       # 构建扩展 ZIP 和独立静态官网 site-dist/
+npm run site:check       # 校验页面链接、图片及下载 ZIP
+npm run site:preview     # 本机预览 /side-browser/
+npm run site:test:browser # 服务启动后验证导出与响应式布局
+```
+
+GitHub Actions 在 main 推送后构建并部署；初次需将仓库 Settings → Pages → Source 设为 GitHub Actions。网站不进入扩展 dist/。维护与验证说明见 [官网说明](docs/website.md)。

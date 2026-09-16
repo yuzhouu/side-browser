@@ -1,0 +1,94 @@
+{
+  "capturedAt": "2026-09-16T09:10:18.052Z",
+  "captures": [
+    {
+      "name": "welcome",
+      "width": 360,
+      "height": 645,
+      "dpr": 2,
+      "viewport": "native Chrome side panel; no viewport emulation",
+      "url": "",
+      "capturedAt": "2026-09-16T09:13:30.661Z",
+      "sha256": "24b1ac2c8853843021b0e36abb822b6f373c14410343611ce8607b0228033c3c"
+    },
+    {
+      "name": "ai-chatgpt",
+      "width": 360,
+      "height": 645,
+      "dpr": 2,
+      "viewport": "native Chrome side panel; no viewport emulation",
+      "url": "https://chatgpt.com/",
+      "capturedAt": "2026-09-16T09:13:36.594Z",
+      "sha256": "f3f2c26a0089167442a2eb7ecec3a801ea334bf814063a1b8b302a000fd7e67d"
+    },
+    {
+      "name": "wiki",
+      "width": 360,
+      "height": 645,
+      "dpr": 2,
+      "viewport": "native Chrome side panel; no viewport emulation",
+      "url": "https://zh.wikipedia.org/wiki/%E7%95%AA%E8%8C%84%E5%B7%A5%E4%BD%9C%E6%B3%95",
+      "capturedAt": "2026-09-16T09:13:41.918Z",
+      "sha256": "ad31d13730735f28a64f072dff5a3875b42c35f78e0501f0e20f4c7d096df643"
+    },
+    {
+      "name": "search",
+      "width": 360,
+      "height": 645,
+      "dpr": 2,
+      "viewport": "native Chrome side panel; no viewport emulation",
+      "url": "https://www.google.com/search?q=%E7%95%AA%E8%8C%84%E5%B7%A5%E4%BD%9C%E6%B3%95&hl=zh-CN",
+      "capturedAt": "2026-09-16T09:10:57.278Z",
+      "sha256": "3cbe61843e0dafbe85284e29affca4a7baff5f034217eb708f3251678a9cf0d5"
+    },
+    {
+      "name": "recent",
+      "width": 360,
+      "height": 645,
+      "dpr": 2,
+      "viewport": "native Chrome side panel; no viewport emulation",
+      "url": "https://www.google.com/search?q=%E7%95%AA%E8%8C%84%E5%B7%A5%E4%BD%9C%E6%B3%95&hl=zh-CN",
+      "capturedAt": "2026-09-16T09:10:57.362Z",
+      "sha256": "164767ff1c48caf049eec5e0ae0be968172b9d3f345e5f0f0932f7c29940fc12"
+    },
+    {
+      "name": "more-light",
+      "width": 360,
+      "height": 645,
+      "dpr": 2,
+      "viewport": "native Chrome side panel; no viewport emulation",
+      "url": "https://www.google.com/search?q=%E7%95%AA%E8%8C%84%E5%B7%A5%E4%BD%9C%E6%B3%95&hl=zh-CN",
+      "capturedAt": "2026-09-16T09:10:57.446Z",
+      "sha256": "6ad26bc90ea0e32f6ee911f8c74f7334fd638df73f24e6b1cab440e5ae72d6c9"
+    },
+    {
+      "name": "more-dark",
+      "width": 360,
+      "height": 645,
+      "dpr": 2,
+      "viewport": "native Chrome side panel; no viewport emulation",
+      "url": "https://www.google.com/search?q=%E7%95%AA%E8%8C%84%E5%B7%A5%E4%BD%9C%E6%B3%95&hl=zh-CN",
+      "capturedAt": "2026-09-16T09:10:57.543Z",
+      "sha256": "32809dd22574fe401791efdc3279115137047bedda88bcfaeaf467ca1b05cf7f"
+    }
+  ],
+  "diagnostics": {
+    "errors": [],
+    "warnings": [
+      "An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing."
+    ]
+  },
+  "browser": "149.0.7827.55",
+  "mainPage": {
+    "url": "https://zh.wikipedia.org/wiki/%E7%95%AA%E8%8C%84%E5%B7%A5%E4%BD%9C%E6%B3%95",
+    "title": "番茄工作法 - 维基百科，自由的百科全书",
+    "viewport": {
+      "width": 1054,
+      "height": 685
+    },
+    "capturedAt": "2026-09-16T09:13:30.630Z",
+    "sha256": "f1c63699ccacd60eb4e2fc1c331ce86353c7e424831f2f74d122491c36491693"
+  },
+  "aiRetainedAcrossTabSwitch": true,
+  "provenanceNote": "Native screenshots captured in isolated Chrome for Testing sessions on 2026-09-16. ChatGPT, wiki, main page and welcome were refreshed after waiting for content. A later Google recapture timed out; the previously successful Google search, recent menu and appearance captures from this same preparation session were retained. Per-image timestamps and hashes identify the delivered files; all delivered images were visually inspected."
+}

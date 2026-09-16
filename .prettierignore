@@ -7,3 +7,6 @@ docs/
 package-lock.json
 dist/
 public/icons/
+store/assets/
+store/index.html
+site-dist/

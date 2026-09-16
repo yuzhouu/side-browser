@@ -1,0 +1,753 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <title>侧窗 · SideBrowser 商店说明图源稿</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: #dce2e7;
+        color: #18354d;
+        font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+      }
+      .artboard {
+        position: relative;
+        width: 1280px;
+        height: 800px;
+        overflow: hidden;
+        background: #faf9f4;
+        margin: 0 0 32px;
+      }
+      .brand {
+        position: absolute;
+        left: 64px;
+        top: 44px;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        font-size: 25px;
+        font-weight: 600;
+        letter-spacing: -0.6px;
+      }
+      .brand img {
+        width: 40px;
+        height: 40px;
+      }
+      .eyebrow {
+        margin: 0 0 22px;
+        font-size: 16px;
+        font-weight: 600;
+        letter-spacing: 2px;
+        color: #467592;
+      }
+      h1 {
+        margin: 0;
+        font-size: 62px;
+        line-height: 1.2;
+        letter-spacing: -2.5px;
+        font-weight: 650;
+      }
+      h2 {
+        margin: 0;
+        font-size: 52px;
+        line-height: 1.2;
+        letter-spacing: -1.5px;
+        font-weight: 650;
+      }
+      p {
+        margin: 0;
+      }
+      .lead {
+        margin-top: 24px;
+        color: #506879;
+        font-size: 24px;
+        line-height: 1.7;
+      }
+      .foot {
+        position: absolute;
+        left: 64px;
+        right: 64px;
+        bottom: 27px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 15px;
+        color: #5d7484;
+      }
+      .foot b {
+        font-size: 16px;
+        letter-spacing: 2px;
+        font-weight: 500;
+      }
+      .panel {
+        position: absolute;
+        width: 360px;
+        height: 645px;
+        border: 1px solid #cad3d9;
+        border-radius: 12px;
+        overflow: hidden;
+        background: white;
+        box-shadow: 0 20px 48px #132f4c17;
+      }
+      .panel img {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+      .panel-tag {
+        position: absolute;
+        color: #234b68;
+        font-size: 16px;
+        font-weight: 600;
+      }
+      .steps {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+      }
+      .step {
+        display: flex;
+        align-items: flex-start;
+        gap: 18px;
+      }
+      .num {
+        display: grid;
+        place-items: center;
+        flex: 0 0 34px;
+        height: 34px;
+        background: #f3ca4d;
+        border-radius: 50%;
+        font-size: 17px;
+        font-weight: 650;
+      }
+      .step strong {
+        font-size: 24px;
+        font-weight: 600;
+        line-height: 1.4;
+      }
+      .step p {
+        font-size: 18px;
+        line-height: 1.65;
+        color: #607383;
+        margin-top: 4px;
+      }
+      .hero .blue {
+        position: absolute;
+        left: 744px;
+        top: 0;
+        width: 536px;
+        height: 800px;
+        background: #dceefb;
+      }
+      .hero .accent {
+        position: absolute;
+        left: 680px;
+        top: 204px;
+        width: 180px;
+        height: 180px;
+        background: #f6d35f;
+        border-radius: 50%;
+      }
+      .hero .copy {
+        position: absolute;
+        left: 64px;
+        top: 147px;
+      }
+      .hero h1 em {
+        font-style: normal;
+        color: #187dcc;
+      }
+      .hero .steps {
+        position: absolute;
+        left: 64px;
+        top: 455px;
+      }
+      .hero .panel {
+        left: 802px;
+        top: 82px;
+      }
+      .hero .panel-tag {
+        left: 807px;
+        top: 46px;
+      }
+      .hero .foot {
+        font-size: 14px;
+      }
+      .research .intro {
+        position: absolute;
+        left: 64px;
+        top: 141px;
+      }
+      .research .lead {
+        margin-top: 18px;
+      }
+      .workspace {
+        position: absolute;
+        left: 64px;
+        top: 304px;
+        width: 878px;
+        height: 408px;
+        background: white;
+        border: 1px solid #c8d4df;
+        border-radius: 13px;
+        overflow: hidden;
+        box-shadow: 0 18px 42px #1a355513;
+      }
+      .workspace .labelbar {
+        height: 38px;
+        display: flex;
+        align-items: center;
+        background: #eaf0f5;
+        color: #526779;
+        font-size: 15px;
+      }
+      .labelbar span:first-child {
+        width: 651px;
+        padding-left: 22px;
+      }
+      .labelbar span:last-child {
+        border-left: 1px solid #c7d4df;
+        padding-left: 12px;
+      }
+      .workspace .main-shot {
+        position: absolute;
+        left: 0;
+        top: 38px;
+        width: 670px;
+        height: 370px;
+        overflow: hidden;
+      }
+      .main-shot img {
+        width: 670px;
+        height: auto;
+        display: block;
+      }
+      .workspace .side-shot {
+        position: absolute;
+        right: 0;
+        top: 38px;
+        width: 207px;
+        height: 371px;
+        border-left: 1px solid #bccdda;
+      }
+      .side-shot img {
+        width: 207px;
+        height: auto;
+        display: block;
+      }
+      .research .notes {
+        position: absolute;
+        left: 984px;
+        top: 313px;
+        width: 246px;
+      }
+      .research .notes .step {
+        display: block;
+        margin-bottom: 36px;
+      }
+      .research .num {
+        display: inline-grid;
+        margin-bottom: 14px;
+        width: 34px;
+      }
+      .research .step p {
+        font-size: 18px;
+      }
+      .open .copy {
+        position: absolute;
+        left: 64px;
+        top: 147px;
+      }
+      .open .panel {
+        left: 817px;
+        top: 88px;
+      }
+      .open .right-bg {
+        position: absolute;
+        left: 754px;
+        width: 526px;
+        height: 800px;
+        background: #f7df87;
+      }
+      .open .steps {
+        position: absolute;
+        left: 64px;
+        top: 458px;
+        gap: 23px;
+      }
+      .toolbar {
+        position: absolute;
+        left: 64px;
+        top: 639px;
+        width: 590px;
+        height: 59px;
+        overflow: hidden;
+        border: 1px solid #cad3d9;
+        border-radius: 10px;
+        box-shadow: 0 8px 22px #18354d0c;
+      }
+      .toolbar img {
+        display: block;
+        width: 590px;
+        height: auto;
+      }
+      .toolbar-caption {
+        position: absolute;
+        left: 64px;
+        top: 709px;
+        font-size: 15px;
+        color: #597283;
+      }
+      .recents .copy {
+        position: absolute;
+        left: 64px;
+        top: 147px;
+      }
+      .recents .panel {
+        left: 817px;
+        top: 88px;
+      }
+      .recents .right-bg {
+        position: absolute;
+        left: 754px;
+        width: 526px;
+        height: 800px;
+        background: #dceefb;
+      }
+      .recents .ten {
+        position: absolute;
+        left: 61px;
+        top: 458px;
+        display: flex;
+        align-items: center;
+        gap: 25px;
+      }
+      .ten b {
+        font-size: 88px;
+        line-height: 1;
+        letter-spacing: -7px;
+        font-weight: 600;
+        color: #1677c4;
+      }
+      .ten p {
+        font-size: 24px;
+        line-height: 1.6;
+      }
+      .recents .steps {
+        position: absolute;
+        left: 64px;
+        top: 574px;
+        gap: 24px;
+      }
+      .theme {
+        background: #16334c;
+        color: #fffdf5;
+      }
+      .theme .brand {
+        color: #fffdf5;
+      }
+      .theme .panel {
+        top: 168px;
+        width: 278px;
+        height: 498px;
+        border-color: #8fa9bc;
+        box-shadow: 0 20px 30px #0002;
+      }
+      .theme .light {
+        left: 64px;
+      }
+      .theme .dark {
+        left: 374px;
+        top: 199px;
+        border-color: #607a8a;
+      }
+      .theme .panel-tag {
+        color: #bfd2e0;
+      }
+      .theme .copy {
+        position: absolute;
+        left: 725px;
+        top: 159px;
+      }
+      .theme h2 {
+        font-size: 51px;
+      }
+      .theme .lead {
+        color: #c4d5e0;
+        font-size: 23px;
+      }
+      .theme .steps {
+        margin-top: 42px;
+        gap: 25px;
+      }
+      .theme .step strong {
+        font-size: 22px;
+        color: #fffdf5;
+      }
+      .theme .step p {
+        color: #bbccd9;
+        font-size: 18px;
+      }
+      .theme .num {
+        color: #18354d;
+      }
+      .theme .foot {
+        color: #b4cad9;
+      }
+      .small {
+        width: 440px;
+        height: 280px;
+        background: #227ed1;
+        color: white;
+      }
+      .small .logo {
+        position: absolute;
+        width: 106px;
+        height: 106px;
+        left: 39px;
+        top: 32px;
+      }
+      .small .title {
+        position: absolute;
+        left: 40px;
+        top: 167px;
+        font-size: 39px;
+        line-height: 1;
+        font-weight: 650;
+        letter-spacing: -1.8px;
+      }
+      .small .tagline {
+        position: absolute;
+        left: 42px;
+        top: 222px;
+        font-size: 19px;
+        color: #eef7ff;
+      }
+      .split-symbol {
+        position: absolute;
+        right: -13px;
+        top: 26px;
+        width: 236px;
+        height: 116px;
+        border: 3px solid #d5ebff;
+        border-radius: 16px;
+        transform: rotate(-7deg);
+        background: #ffffff13;
+      }
+      .split-symbol .bar {
+        height: 22px;
+        border-bottom: 2px solid #d5ebff;
+      }
+      .split-symbol .bar::before {
+        content: '•••';
+        color: #d5ebff;
+        font-size: 15px;
+        letter-spacing: 2px;
+        position: absolute;
+        left: 10px;
+        top: -1px;
+      }
+      .split-symbol .side {
+        position: absolute;
+        right: 0;
+        top: 22px;
+        width: 68px;
+        bottom: 0;
+        background: #f3ca4d;
+        border-left: 3px solid #d5ebff;
+        border-bottom-right-radius: 13px;
+      }
+      .split-symbol .line {
+        height: 6px;
+        background: #d5ebff;
+        width: 108px;
+        margin: 15px 18px 0;
+        border-radius: 4px;
+      }
+      .marquee {
+        width: 1400px;
+        height: 560px;
+        background: #dceefb;
+      }
+      .marquee .brand {
+        top: 42px;
+      }
+      .marquee .copy {
+        position: absolute;
+        left: 64px;
+        top: 142px;
+      }
+      .marquee h1 {
+        font-size: 72px;
+      }
+      .marquee .lead {
+        font-size: 25px;
+      }
+      .marquee .panel {
+        left: 1000px;
+        top: 49px;
+        width: 266px;
+        height: 477px;
+      }
+      .marquee .circle {
+        position: absolute;
+        width: 440px;
+        height: 440px;
+        border-radius: 50%;
+        background: #f4d366;
+        left: 890px;
+        top: 80px;
+      }
+      .marquee .annotation {
+        position: absolute;
+        left: 750px;
+        top: 208px;
+        font-size: 23px;
+        font-weight: 600;
+        line-height: 1.6;
+      }
+      .marquee .annotation::after {
+        content: '';
+        display: block;
+        width: 170px;
+        height: 2px;
+        background: #376685;
+        margin-top: 16px;
+      }
+      .store-icon {
+        width: 128px;
+        height: 128px;
+        background: transparent;
+        margin: 0;
+        display: grid;
+        place-items: center;
+      }
+      .store-icon img {
+        width: 99px;
+        height: 99px;
+      }
+    </style>
+  </head>
+  <body>
+    <section class="artboard hero" data-export="01-ai-beside-you">
+      <div class="blue"></div>
+      <div class="accent"></div>
+      <div class="brand"><img src="../icons/sidebrowser.svg" alt="" />侧窗 · SideBrowser</div>
+      <div class="copy">
+        <p class="eyebrow">01 / 侧边 AI</p>
+        <h1>AI 在侧边，<br /><em>工作不断线。</em></h1>
+        <p class="lead">在侧边打开 ChatGPT，<br />边看原文，边提问。</p>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <span class="num">1</span>
+          <div>
+            <strong>输入网址，打开 AI 网站</strong>
+            <p>主页面继续写作、阅读或处理工作。</p>
+          </div>
+        </div>
+        <div class="step">
+          <span class="num">2</span>
+          <div>
+            <strong>手动提问，对照思路</strong>
+            <p>按需粘贴材料，不自动读取主页面正文。</p>
+          </div>
+        </div>
+        <div class="step">
+          <span class="num">3</span>
+          <div>
+            <strong>切换标签，侧边继续运行</strong>
+            <p>同一窗口内，保留已打开的网页。</p>
+          </div>
+        </div>
+      </div>
+      <span class="panel-tag">ChatGPT · 实际侧边栏截图</span>
+      <div class="panel">
+        <img src="assets/source/ai-chatgpt.png" alt="ChatGPT 在侧窗中的真实界面" />
+      </div>
+      <div class="foot">
+        <span>AI 由第三方网站提供；登录与可用性取决于网站。SideBrowser 为独立扩展。</span
+        ><b>01 / 05</b>
+      </div>
+    </section>
+    <section class="artboard research" data-export="02-research-in-context">
+      <div class="brand"><img src="../icons/sidebrowser.svg" alt="" />侧窗 · SideBrowser</div>
+      <div class="intro">
+        <p class="eyebrow">02 / 并排查资料</p>
+        <h2>资料在侧，思路连贯。</h2>
+        <p class="lead">主页面读维基百科，侧边用 Google 搜索补充信息。</p>
+      </div>
+      <div class="workspace">
+        <div class="labelbar"><span>主页面 · 维基百科</span><span>侧窗 · Google</span></div>
+        <div class="main-shot">
+          <img src="assets/source/main-reference.png" alt="主标签中的维基百科文章" />
+        </div>
+        <div class="side-shot">
+          <img src="assets/source/search.png" alt="侧边栏中的 Google 搜索" />
+        </div>
+      </div>
+      <div class="notes">
+        <div class="step">
+          <span class="num">1</span>
+          <div>
+            <strong>网址或关键词</strong>
+            <p>直接输入地址，<br />也能输入关键词搜索。</p>
+          </div>
+        </div>
+        <div class="step">
+          <span class="num">2</span>
+          <div>
+            <strong>两边同时看</strong>
+            <p>原文和参考资料<br />留在同一个视野里。</p>
+          </div>
+        </div>
+      </div>
+      <div class="foot">
+        <span>示例：维基百科 × Google；主页面与原生侧边栏实拍组合。网站兼容性因站点而异。</span
+        ><b>02 / 05</b>
+      </div>
+    </section>
+    <section class="artboard open" data-export="03-open-in-one-step">
+      <div class="right-bg"></div>
+      <div class="brand"><img src="../icons/sidebrowser.svg" alt="" />侧窗 · SideBrowser</div>
+      <div class="copy">
+        <p class="eyebrow">03 / 快速打开</p>
+        <h1>想看的网页，<br />一步放到侧边。</h1>
+        <p class="lead">当前页面、一个链接、一个新问题，<br />都可以成为侧窗的起点。</p>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <span class="num">1</span>
+          <div>
+            <strong>一键打开当前网页</strong>
+            <p>点击左上角入口，或使用欢迎页按钮。</p>
+          </div>
+        </div>
+        <div class="step">
+          <span class="num">2</span>
+          <div>
+            <strong>右键链接，也能打开</strong>
+            <p>快捷键：Alt + Shift + P（Mac：⌥ ⇧ P）</p>
+          </div>
+        </div>
+      </div>
+      <div class="toolbar"><img src="assets/source/welcome.png" alt="真实导航栏局部放大" /></div>
+      <p class="toolbar-caption">
+        导航栏实拍放大 · 打开当前网页 / 后退 / 前进 / 刷新 / 地址与搜索 / 更多
+      </p>
+      <div class="panel"><img src="assets/source/welcome.png" alt="侧窗欢迎页" /></div>
+      <div class="foot"><span>侧窗小境，静览万象。</span><b>03 / 05</b></div>
+    </section>
+    <section class="artboard recents" data-export="04-recent-pages">
+      <div class="right-bg"></div>
+      <div class="brand"><img src="../icons/sidebrowser.svg" alt="" />侧窗 · SideBrowser</div>
+      <div class="copy">
+        <p class="eyebrow">04 / 最近打开</p>
+        <h1>常用网页，<br />随手再打开。</h1>
+        <p class="lead">地址栏里的时钟按钮，<br />让刚查过的资料更容易找回来。</p>
+      </div>
+      <div class="ten">
+        <b>10</b>
+        <p>
+          个最近主动打开的网址<br /><span style="font-size: 18px; color: #627b8c"
+            >重复打开自动置顶</span
+          >
+        </p>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <span class="num">1</span>
+          <div>
+            <strong>看标题，快速重开</strong>
+            <p>网站图标与标题帮助你识别条目。</p>
+          </div>
+        </div>
+        <div class="step">
+          <span class="num">2</span>
+          <div>
+            <strong>单条删除，或一键清空</strong>
+            <p>最近记录与当前网页分开管理。</p>
+          </div>
+        </div>
+      </div>
+      <div class="panel"><img src="assets/source/recent.png" alt="实际最近打开列表" /></div>
+      <div class="foot">
+        <span>网址与标题保存在本机，不上传开发者。清空最近列表不清除当前网页与导航历史。</span
+        ><b>04 / 05</b>
+      </div>
+    </section>
+    <section class="artboard theme" data-export="05-make-it-yours">
+      <div class="brand"><img src="../icons/sidebrowser.svg" alt="" />侧窗 · SideBrowser</div>
+      <span class="panel-tag" style="left: 66px; top: 130px">浅色 · 更多菜单</span
+      ><span class="panel-tag" style="left: 376px; top: 162px">深色 · 更多菜单</span>
+      <div class="panel light"><img src="assets/source/more-light.png" alt="浅色更多菜单" /></div>
+      <div class="panel dark"><img src="assets/source/more-dark.png" alt="深色更多菜单" /></div>
+      <div class="copy">
+        <p class="eyebrow" style="color: #91c9f1">05 / 按你的习惯</p>
+        <h2>小小侧窗，<br />用得更顺手。</h2>
+        <p class="lead">显示方式与外观，<br />在“更多”里随手调整。</p>
+        <div class="steps">
+          <div class="step">
+            <span class="num">1</span>
+            <div>
+              <strong>手机／电脑视图</strong>
+              <p>按网页切换，切换模式会刷新页面。</p>
+            </div>
+          </div>
+          <div class="step">
+            <span class="num">2</span>
+            <div>
+              <strong>浅色、深色、跟随系统</strong>
+              <p>切换外观，不重新加载网页。</p>
+            </div>
+          </div>
+          <div class="step">
+            <span class="num">3</span>
+            <div>
+              <strong>需要大空间，就在新标签页继续</strong>
+              <p>也可关闭当前网页，回到欢迎页。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="foot">
+        <span>手机视图用于显示适配；网站的主题响应由网站自身决定。</span><b>05 / 05</b>
+      </div>
+    </section>
+    <section class="artboard small" data-export="promo-small-440x280">
+      <img class="logo" src="../icons/sidebrowser.svg" alt="侧窗图标" />
+      <div class="split-symbol">
+        <div class="bar"></div>
+        <div class="line"></div>
+        <div class="line" style="width: 78px"></div>
+        <div class="line" style="width: 91px"></div>
+        <div class="side"></div>
+      </div>
+      <p class="title">SideBrowser</p>
+      <p class="tagline">AI 与资料，就在手边。</p>
+    </section>
+    <section class="artboard marquee" data-export="promo-marquee-1400x560">
+      <div class="circle"></div>
+      <div class="brand"><img src="../icons/sidebrowser.svg" alt="" />侧窗 · SideBrowser</div>
+      <div class="copy">
+        <h1>AI 与资料，<br />就在手边。</h1>
+        <p class="lead">
+          侧边提问、查资料，主页面继续工作。<br /><span style="font-size: 19px"
+            >Another page. Right beside you.</span
+          >
+        </p>
+      </div>
+      <p class="annotation">在侧窗打开<br />ChatGPT</p>
+      <div class="panel"><img src="assets/source/ai-chatgpt.png" alt="实际 ChatGPT 侧边栏" /></div>
+      <div class="foot" style="bottom: 20px">
+        <span>AI 由第三方网站提供，登录与可用性取决于网站；SideBrowser 为独立扩展。</span>
+      </div>
+    </section>
+    <section class="artboard store-icon" data-export="store-icon-128">
+      <img src="../icons/sidebrowser.svg" alt="侧窗" />
+    </section>
+  </body>
+</html>
