@@ -281,7 +281,7 @@ input::placeholder {
   text-align: center;
 }
 #more-menu [data-theme-value][aria-pressed='true'] {
-  color: var(--panel-text);
+  color: var(--accent-strong);
   background: var(--selected);
 }
 #more-menu [data-theme-value][aria-pressed='true']::after {
@@ -398,11 +398,11 @@ main {
 #empty-current {
   border-color: transparent;
   background: var(--accent);
-  color: var(--page);
+  color: var(--on-accent);
 }
 #empty-current:hover:not(:disabled) {
   background: var(--accent-strong);
-  color: var(--page);
+  color: var(--on-accent);
 }
 .empty-tips {
   display: grid;

@@ -254,7 +254,7 @@ try {
     );
     assert.equal(
       await options.evaluate(() => getComputedStyle(document.documentElement).backgroundColor),
-      theme === 'dark' ? 'rgb(32, 37, 33)' : 'rgb(248, 247, 244)'
+      theme === 'dark' ? 'rgb(24, 35, 47)' : 'rgb(247, 249, 252)'
     );
     for (const width of [960, 320]) {
       await optionsSession.send('Emulation.setDeviceMetricsOverride', {
@@ -492,7 +492,7 @@ try {
     );
     assert.equal(
       await panel.evaluate('getComputedStyle(document.body).backgroundColor'),
-      dark ? 'rgb(32, 37, 33)' : 'rgb(248, 247, 244)'
+      dark ? 'rgb(24, 35, 47)' : 'rgb(247, 249, 252)'
     );
     assert.equal(await inner.evaluate('window.token'), originalToken);
     assert.equal(await inner.evaluate("document.querySelector('#entry').value"), 'Keep this input');
@@ -807,7 +807,7 @@ try {
     );
     assert.equal(
       await api.evaluate('getComputedStyle(document.body).backgroundColor'),
-      'rgb(32, 37, 33)'
+      'rgb(24, 35, 47)'
     );
   }
   assert.equal(await themeFrame.evaluate('window.token'), themeToken);

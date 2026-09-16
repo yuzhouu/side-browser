@@ -1,36 +1,38 @@
 :root {
   color-scheme: light dark;
-  --page: light-dark(#f8f7f4, #202521);
-  --surface: light-dark(#fff, #292f2a);
-  --text: light-dark(#292d29, #e4e9e2);
-  --panel-text: light-dark(#344139, #e0e7df);
-  --muted: light-dark(#62675f, #b2bcaf);
-  --icon: light-dark(#6b756e, #b6c3b7);
-  --subtle: light-dark(#838b82, #a6b2a5);
-  --placeholder: light-dark(#919790, #a3afa2);
-  --border: light-dark(#dedfd8, #485248);
-  --divider: light-dark(#e5e6e1, #3c453d);
-  --hover: light-dark(#e9ece6, #354036);
-  --field: light-dark(#efefea, #2c342d);
-  --menu: light-dark(#fafbf8, #292f2a);
-  --selected: light-dark(#e9eee7, #39483a);
-  --focus: light-dark(#78947d, #a5c7a6);
-  --accent: light-dark(#3e624e, #b3d3b4);
-  --accent-strong: light-dark(#2f523b, #c0dfc1);
-  --control-border: light-dark(#d8ddd6, #4b574c);
-  --card-border: light-dark(#e0e4dc, #3e493f);
-  --row-border: light-dark(#edf0e9, #3c453d);
-  --control-hover: light-dark(#f1f4ef, #354036);
-  --shortcut: light-dark(#f4f5f1, #343d35);
-  --help-text: light-dark(#555d53, #c1cbbd);
+  --page: light-dark(#f7f9fc, #18232f);
+  --surface: light-dark(#fff, #223242);
+  --text: light-dark(#173653, #e7f1f8);
+  --panel-text: light-dark(#29465f, #deebf5);
+  --muted: light-dark(#586f83, #b0c2d2);
+  --icon: light-dark(#62798d, #b6cbdc);
+  --subtle: light-dark(#566c80, #a5bacb);
+  --placeholder: light-dark(#586f83, #a0b6c8);
+  --border: light-dark(#d5e0e9, #42576a);
+  --divider: light-dark(#e1e8ef, #33485b);
+  --hover: light-dark(#e7eff7, #2d4358);
+  --field: light-dark(#edf2f7, #243648);
+  --menu: light-dark(#fff, #223242);
+  --selected: light-dark(#deefff, #244968);
+  --focus: light-dark(#0875c9, #71beff);
+  /* Deeper/lighter shades of the icon's #2e9efa keep controls and links readable. */
+  --accent: light-dark(#0875c9, #71beff);
+  --accent-strong: light-dark(#0664ad, #a1d5ff);
+  --on-accent: light-dark(#fff, #10212f);
+  --control-border: light-dark(#d3dfe9, #455e73);
+  --card-border: light-dark(#dce5ed, #354c60);
+  --row-border: light-dark(#eaf0f5, #33485b);
+  --control-hover: light-dark(#edf5fc, #2d4358);
+  --shortcut: light-dark(#edf2f8, #2a4054);
+  --help-text: light-dark(#526a7e, #c0d0dd);
   --danger: light-dark(#a02d28, #ffb5aa);
   --remove-text: light-dark(#9b4d42, #ffb5aa);
   --remove-hover: light-dark(#f5e8e3, #533b35);
-  --notice: light-dark(#f4e9d9, #453b2b);
-  --notice-text: light-dark(#77502f, #efd0a2);
-  --empty-text: light-dark(#777b75, #b2bcaf);
-  --empty-title: light-dark(#465b4b, #c0d6c0);
-  --shadow: light-dark(#283b2b1a, #00000040);
+  --notice: light-dark(#fff4cf, #40361d);
+  --notice-text: light-dark(#6e5317, #f4d782);
+  --empty-text: light-dark(#586f83, #b0c2d2);
+  --empty-title: light-dark(#173653, #deebf5);
+  --shadow: light-dark(#1736531a, #00000040);
 }
 
 :root[data-theme='light'] {
