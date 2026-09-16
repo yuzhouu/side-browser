@@ -36,7 +36,7 @@ test('document title mutations report metadata without creating location history
   };
   context.window = context;
   runInNewContext(
-    readFileSync(new URL('../frame-navigation.js', import.meta.url), 'utf8'),
+    readFileSync(new URL('../dist/frame-navigation.js', import.meta.url), 'utf8'),
     context
   );
   assert.equal(messages[0].type, 'POCKET_LOCATION');

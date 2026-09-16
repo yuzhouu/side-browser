@@ -1,8 +1,13 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { RECENT_KEY, RECENT_TITLES_KEY } from '../recent-urls.js';
-import { LAST_KEY, MODE_KEY, navigatePanel, commitPanelNavigation } from '../sidepanel-state.js';
-import { THEME_KEY } from '../theme-preference.js';
+import { RECENT_KEY, RECENT_TITLES_KEY } from '../src/recent-urls.ts';
+import {
+  LAST_KEY,
+  MODE_KEY,
+  navigatePanel,
+  commitPanelNavigation
+} from '../src/sidepanel-state.ts';
+import { THEME_KEY } from '../src/theme-preference.ts';
 
 const event = () => ({
   listeners: [],
@@ -73,7 +78,7 @@ async function background(context, localValues = {}) {
     i18n: { getMessage: key => key },
     commands: { onCommand: event() }
   });
-  await import(`../background.js?recent-test=${++generation}`);
+  await import(`../src/background.ts?recent-test=${++generation}`);
   const request = (type, data = {}, windowId = 1) =>
     new Promise((resolve, reject) => {
       chrome.runtime.onMessage.listeners[0]({ type, windowId, ...data }, sender, response => {

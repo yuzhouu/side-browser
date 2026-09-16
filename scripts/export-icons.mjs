@@ -12,7 +12,7 @@ const executable = process.env.RSVG_CONVERT || 'rsvg-convert';
 
 // Render the approved SVG at every size using librsvg, without launching a browser.
 for (const size of sizes) {
-  const output = join(root, 'icons', `${size}.png`);
+  const output = join(root, size <= 128 ? 'public/icons' : 'icons', `${size}.png`);
   try {
     await run(executable, [
       '--width',

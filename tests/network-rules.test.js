@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { panelRules } from '../network-rules.js';
+import { panelRules } from '../src/network-rules.ts';
 import fs from 'node:fs';
 
 test('compatibility and mobile UA rules match only this extension non-tab tree, with framing limited to documents', () => {
@@ -50,7 +50,7 @@ test('mobile document requests cannot retain desktop high-entropy device hints',
   assert.match(headers['sec-ch-ua-full-version-list'], /"Chromium";v="149.0.0.0"/);
 });
 test('the shipped manifest uses a global native side panel without a popup or injected overlay', () => {
-  const manifest = JSON.parse(fs.readFileSync(new URL('../manifest.json', import.meta.url)));
+  const manifest = JSON.parse(fs.readFileSync(new URL('../public/manifest.json', import.meta.url)));
   assert(!manifest.permissions.includes('debugger'));
   assert(manifest.permissions.includes('declarativeNetRequestWithHostAccess'));
   assert(manifest.permissions.includes('sidePanel'));
@@ -59,7 +59,7 @@ test('the shipped manifest uses a global native side panel without a popup or in
   assert.equal(manifest.action.default_popup, undefined);
   assert.equal(manifest.web_accessible_resources, undefined);
   assert.deepEqual(manifest.content_scripts[0].js, ['frame-navigation.js']);
-  const background = fs.readFileSync(new URL('../background.js', import.meta.url), 'utf8');
+  const background = fs.readFileSync(new URL('../src/background.ts', import.meta.url), 'utf8');
   assert(!/type:\s*['"]popup['"]/.test(background));
   assert(!background.includes('tabs.onActivated'));
   assert(!background.includes('tabs.onUpdated'));

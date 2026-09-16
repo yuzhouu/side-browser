@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { fitViewport, parseViewport } from '../viewport.js';
+import { fitViewport, parseViewport } from '../src/viewport.ts';
 const fit = contents => fitViewport({ mode: 'mobile', width: 390, height: 760, contents });
 test('NGA numeric viewport has the same layout width and scale as mobile Chrome', () => {
   const result = fit(['width=525']);

@@ -5,3 +5,5 @@ icons/
 docs/
 *.md
 package-lock.json
+dist/
+public/icons/

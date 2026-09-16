@@ -1,17 +1,22 @@
 # 伴页 · SideBrowser
 
-这是 Chrome Manifest V3 侧边栏浏览器扩展，当前基线版本为 1.6.5。根目录包含可直接加载的 manifest.json，无需构建。
+这是 Chrome Manifest V3 侧边栏浏览器扩展，当前基线版本为 1.6.5。应用源码位于 `src/`，使用 TypeScript strict 和 Vite 构建；Chrome 只加载 `dist/`。
 
 ## 开发入口
 
-- `npm test`：运行 Node 内置测试，项目无第三方运行依赖。
+- `npm run dev`：监听源码和静态资源，重新生成 `dist/`；修改后在 Chrome 重新加载扩展。
+- `npm run typecheck` / `npm run build`：严格类型检查／生成干净的扩展产物。
+- `npm run package`：构建并将 `dist/` 内容打包到 `releases/sidebrowser-<版本>.zip`，ZIP 根目录有 manifest.json。
+- `npm test`：构建后运行 Node 内置测试及产物检查；项目无第三方运行依赖。
 - `npm run format:check` / `npm run format`：检查／统一源码格式；开发工具使用 `npm ci` 安装。
-- `npm run test:browser`：独立 Chrome 原生侧边栏回归；环境准备及范围见 `docs/development.md`。
-- `sidepanel.html/js/css`：36px 单行导航和网页 iframe。
-- `panel-client.js`、`recent-menu.js`：后台通信与重连、最近列表 UI 和键盘焦点；导航和存储规则留在各自模块。
-- `background.js`、`sidepanel-state.js`：按窗口保活、导航历史、扩展共用模式偏好。
-- `viewport.js`、`frame-navigation.js`、`mobile-*.js`、`network-rules.js`：手机身份、视口适配、请求规则。
+- `npm run test:browser`：构建并加载 `dist/`，运行独立 Chrome 原生侧边栏回归；环境准备及范围见 `docs/development.md`。
+- `src/sidepanel.html/ts/css`：36px 单行导航和网页 iframe。
+- `panel-client.ts`、`recent-menu.ts`：后台通信与重连、最近列表 UI 和键盘焦点；导航和存储规则留在各自模块。
+- `background.ts`、`sidepanel-state.ts`：按窗口保活、导航历史、扩展共用模式偏好。
+- `viewport.ts`、`frame-navigation.ts`、`mobile-*.js`、`network-rules.ts`：手机身份、视口适配、请求规则。
 - 先阅读 `docs/project-context.md` 了解已确认的产品约束。
+
+`public/` 只放 manifest、语言包和运行图标，源码、测试、文档、设计素材和依赖不得进入产物。新增注入脚本时同步更新 `scripts/build.ts` 的独立 IIFE 入口；后台仍为 ES module。`src/types.ts` 维护消息、窗口状态和设置的共用类型。
 
 ## 已确认的产品约束
 

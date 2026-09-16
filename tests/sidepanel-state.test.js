@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { restorePanel, navigatePanel, commitPanelNavigation } from '../sidepanel-state.js';
+import { restorePanel, navigatePanel, commitPanelNavigation } from '../src/sidepanel-state.ts';
 const a = 'https://a.example/',
   b = 'https://b.example/',
   c = 'https://c.example/';

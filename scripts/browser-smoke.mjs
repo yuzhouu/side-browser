@@ -7,8 +7,8 @@ import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright';
 import { attachTarget, poll } from './browser/cdp.mjs';
 
-const rootPath = fileURLToPath(new URL('../', import.meta.url));
-const manifest = JSON.parse(await readFile(new URL('../manifest.json', import.meta.url)));
+const rootPath = fileURLToPath(new URL('../dist/', import.meta.url));
+const manifest = JSON.parse(await readFile(new URL('../dist/manifest.json', import.meta.url)));
 const locale = process.env.QA_LOCALE || 'en';
 const supportedLocales = ['en', 'zh-CN', 'zh-TW', 'ja', 'de', 'fr', 'es'];
 assert(
@@ -16,7 +16,9 @@ assert(
   `QA_LOCALE must be one of ${supportedLocales.join(', ')}`
 );
 const catalog = JSON.parse(
-  await readFile(new URL(`../_locales/${locale.replace('-', '_')}/messages.json`, import.meta.url))
+  await readFile(
+    new URL(`../dist/_locales/${locale.replace('-', '_')}/messages.json`, import.meta.url)
+  )
 );
 const fixture = await readFile(new URL('./browser/fixture.html', import.meta.url));
 const diagnostics = { errors: [], warnings: [] };
@@ -362,9 +364,87 @@ try {
   );
   pass('Panel identity, localized empty state and toolbar order');
   await screenshot('native-empty');
+  await poll(
+    () => panel.evaluate('!document.querySelector("#empty-current").disabled'),
+    'welcome action ready'
+  );
+  for (const theme of ['light', 'dark']) {
+    await chooseTheme(theme);
+    await poll(
+      () => panel.evaluate(`document.documentElement.dataset.theme === '${theme}'`),
+      'welcome appearance synchronized'
+    );
+    await screenshot(`welcome-native-${theme}`);
+    for (const width of [320, 480]) {
+      await panel.send('Emulation.setDeviceMetricsOverride', {
+        width,
+        height: 640,
+        deviceScaleFactor: 1,
+        mobile: false
+      });
+      assert(
+        await panel.evaluate(`(() => {
+          const empty = document.querySelector('#empty');
+          return document.documentElement.scrollWidth === innerWidth &&
+            empty.scrollWidth === empty.clientWidth &&
+            [...empty.querySelectorAll('button, h1, p, li, a')].every(element => {
+              const rect = element.getBoundingClientRect();
+              return rect.x >= 0 && rect.right <= innerWidth &&
+                element.scrollWidth <= element.clientWidth;
+            });
+        })()`),
+        `Welcome layout fits ${width}px in ${theme}`
+      );
+      await screenshot(`welcome-${theme}-${width}`);
+    }
+    await panel.send('Emulation.clearDeviceMetricsOverride');
+  }
+  await chooseTheme('system');
+  await panel.send('Emulation.setDeviceMetricsOverride', {
+    width: 320,
+    height: 280,
+    deviceScaleFactor: 1,
+    mobile: false
+  });
+  assert(
+    await panel.evaluate(`(() => {
+      const empty = document.querySelector('#empty');
+      return empty.scrollHeight > empty.clientHeight && getComputedStyle(empty).overflowY === 'auto';
+    })()`)
+  );
+  const welcomeHelpOpened = context.waitForEvent('page');
+  await panel.click('#empty a');
+  const welcomeHelp = await welcomeHelpOpened;
+  await welcomeHelp.waitForURL(`${extension}/help.html`);
+  await welcomeHelp.locator('h1').filter({ hasText: catalog.helpHeading.message }).waitFor();
+  await welcomeHelp.close();
+  await panel.send('Emulation.clearDeviceMetricsOverride');
+  const blankSource = context.pages()[0];
+  await blankSource.goto('about:blank');
+  await blankSource.bringToFront();
+  await panel.click('#empty-current');
+  await poll(
+    () =>
+      panel.evaluate(
+        `document.querySelector('#notice span').textContent === ${JSON.stringify(catalog.errorCurrentPage.message)} &&
+         !document.querySelector('#empty-current').disabled && !document.querySelector('#empty').hidden`
+      ),
+    'unavailable current page keeps welcome actions usable'
+  );
+  await panel.click('#empty-address');
+  assert.equal(await panel.evaluate('document.activeElement.id'), 'address');
+  assert.equal((await state()).url, '');
+  pass('Welcome actions, guide link, light/dark 320px/480px layouts and short-window scrolling');
   await panel.fill('#address', 'ftp://example.com');
   await panel.press('Enter');
-  await poll(() => panel.evaluate('!document.querySelector("#notice").hidden'), 'localized error');
+  await poll(
+    () =>
+      panel.evaluate(
+        `!document.querySelector('#notice').hidden &&
+         document.querySelector('#notice span').textContent === ${JSON.stringify(catalog.errorUnsupportedScheme.message)}`
+      ),
+    'localized address error replaces the previous notice'
+  );
   assert.equal(
     await panel.evaluate('document.querySelector("#notice span").textContent'),
     catalog.errorUnsupportedScheme.message
@@ -374,8 +454,9 @@ try {
   const source = context.pages()[0];
   await source.goto(`${base}/first`);
   await source.bringToFront();
-  await panel.click('#current');
+  await panel.click('#empty-current');
   let inner = await loaded(`${base}/first`);
+  assert(await panel.evaluate('document.querySelector("#empty").hidden'));
   await inner.fill('#entry', 'Keep this input');
   const originalToken = await inner.evaluate('window.token');
   const otherTab = await context.newPage();

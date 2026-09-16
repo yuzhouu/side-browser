@@ -6,7 +6,7 @@ import {
   recentFaviconUrl,
   restoreRecentTitles,
   RecentTitleTracker
-} from '../recent-urls.js';
+} from '../src/recent-urls.ts';
 import { readFileSync } from 'node:fs';
 
 test('recent addresses retain only the last ten unique explicit destinations', () => {
@@ -49,7 +49,7 @@ test('favicon requests stay inside the extension and preserve the complete page 
   assert.equal(icon.searchParams.get('pageUrl'), pageUrl);
   assert.deepEqual(icon.searchParams.getAll('size'), ['32']);
   assert.equal(icon.hash, '');
-  const manifest = JSON.parse(readFileSync(new URL('../manifest.json', import.meta.url)));
+  const manifest = JSON.parse(readFileSync(new URL('../public/manifest.json', import.meta.url)));
   assert(manifest.permissions.includes('favicon'));
   assert.equal(manifest.web_accessible_resources, undefined);
 });

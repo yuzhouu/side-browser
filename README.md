@@ -8,9 +8,9 @@ A browser in your sidebar.
 
 ## 安装与更新
 
-1. 需要 **Chrome 145 及以上**。本版使用 Chrome 145 的 `topDomains` 请求规则，将兼容处理限定在本扩展内。无需构建。
-2. 解压 ZIP，在 `chrome://extensions` 开启开发者模式，开发时加载本项目根目录；使用发布 ZIP 时加载其中包含 `manifest.json` 的 `pocket-browser` 文件夹。
-3. 升级时替换原加载目录的文件，并刷新原来的扩展卡片，保留原扩展身份。不要同时启用新旧版本。旧版网址、导航历史和模式会迁移。
+1. 需要 **Chrome 145 及以上**。本版使用 Chrome 145 的 `topDomains` 请求规则，将兼容处理限定在本扩展内。
+2. 使用发布 ZIP：解压到一个固定的安装文件夹，在 `chrome://extensions` 开启开发者模式，加载该文件夹（根目录含 `manifest.json`）。从源码开发：先执行 `npm ci` 和 `npm run build`，只加载 `dist/`。
+3. 升级时将新 ZIP 内容覆盖原安装文件夹，并刷新原来的扩展卡片，保留原扩展身份。不要同时启用新旧版本。过去从源码根目录加载的开发版本改用 `dist/` 后会获得新身份，旧数据不会自动转入。
 4. 如果旧版注入的页面浮层仍然存在，刷新该普通网页一次。新版不再注入页面浮层。
 5. 点击扩展图标打开原生侧边栏。在扩展详情中允许访问要浏览的网站。
 
@@ -73,13 +73,28 @@ A browser in your sidebar.
 
 ## 源码与验证
 
-`sidepanel.html/js/css` 承载真实 iframe 和导航栏；`background.js` 管理各窗口状态、请求规则和用户打开入口；`sidepanel-state.js` 处理导航历史，`recent-urls.js` 独立处理最近主动打开的 10 条网址；`viewport.js` 解析网页视口声明、计算并应用排版与缩放；`frame-navigation.js` 在直接嵌入网页中报告网址／视口并保留原生链接／表单行为。`mobile-profile.js`、`mobile-identity-gate.js`、`mobile-identity-main.js` 提供网站启动前的手机身份兼容。
+`src/sidepanel.html/ts/css` 承载真实 iframe 和导航栏；`background.ts` 管理各窗口状态、请求规则和用户打开入口；`sidepanel-state.ts` 处理导航历史，`recent-urls.ts` 独立处理最近主动打开的 10 条网址；`viewport.ts` 解析网页视口声明、计算并应用排版与缩放；`frame-navigation.ts` 在直接嵌入网页中报告网址／视口并保留原生链接／表单行为。`mobile-profile.ts`、`mobile-identity-gate.ts`、`mobile-identity-main.ts` 提供网站启动前的手机身份兼容。
 
-运行 `npm test` 执行单元测试。`panel-client.js` 独立处理后台请求和端口重连，`recent-menu.js` 独立处理最近列表的渲染、菜单与键盘焦点，页面导航仍由 `sidepanel.js` 协调。
+运行 `npm test` 执行单元测试。`panel-client.ts` 独立处理后台请求和端口重连，`recent-menu.ts` 独立处理最近列表的渲染、菜单与键盘焦点，页面导航仍由 `sidepanel.ts` 协调。
 
-使用 Node 20+ 执行 `npm ci` 安装仅开发使用的 Prettier 和 Playwright；`npm run format:check` 检查源码格式，`npm run format` 统一格式。首次执行 `npx playwright install chromium` 后，可以用 `npm run test:browser` 运行仓库内的原生侧边栏回归，或用 `QA_LOCALE=zh-CN npm run test:browser` 检查中文界面。浏览器使用独立临时配置，不接触日常 Chrome 资料或登录。自定义浏览器路径、模块边界和回归范围见 [开发与回归](docs/development.md)。扩展本身仍无需构建或安装依赖。
+使用 Node 22.12+ 执行 `npm ci`。应用源码集中在 `src/`，静态 manifest、语言包和运行图标集中在 `public/`；测试、文档、设计素材和开发依赖不进入安装包。
 
-国际化使用 Chrome 原生 `chrome.i18n`，无需额外依赖。语言包位于 `_locales/` 下的 `en`、`zh_CN`、`zh_TW`、`ja`、`de`、`fr`、`es` 目录，默认语言为英文。`i18n.js` 处理页面正文、提示与无障碍标签；底层模块通过 `errors.js` 返回错误码，由界面翻译。新增语言时复制语言包，保留全部 key 和占位符，并运行 `npm test` 检查完整性。语言由 Chrome 决定，扩展内没有独立语言开关。
+```sh
+npm run dev           # 监听源码与静态资源，重建 dist/；Chrome 中手动重新加载
+npm run typecheck     # TypeScript 严格类型检查
+npm run build         # 检查类型并生成可加载的 dist/
+npm run package       # 构建并输出 releases/sidebrowser-1.6.5.zip
+npm test              # 构建、模块测试和产物检查
+npm run format:check
+npx playwright install chromium
+npm run test:browser  # 独立 Chrome 加载 dist/ 并执行原生侧边栏回归
+```
+
+Vite 负责三个页面和后台的模块构建，注入网页的脚本单独输出为 IIFE；`tsc` 负责类型检查。产物不含源码映射、开发客户端或第三方运行依赖。ZIP 根目录直接包含 `manifest.json`。构建目录和新安装包不提交 Git。
+
+浏览器回归使用独立临时配置，不接触日常 Chrome 资料或登录；可用 `QA_LOCALE=zh-CN npm run test:browser` 检查中文界面。自定义浏览器路径、模块边界和回归范围见 [开发与回归](docs/development.md)。
+
+国际化使用 Chrome 原生 `chrome.i18n`，无需额外依赖。语言包位于 `public/_locales/` 下的 `en`、`zh_CN`、`zh_TW`、`ja`、`de`、`fr`、`es` 目录，默认语言为英文。`i18n.ts` 处理页面正文、提示与无障碍标签；底层模块通过 `errors.ts` 返回错误码，由界面翻译。新增语言时复制语言包，保留全部 key 和占位符，并运行 `npm test` 检查完整性。语言由 Chrome 决定，扩展内没有独立语言开关。
 
 图标源文件为 [`icons/sidebrowser.svg`](icons/sidebrowser.svg)，采用左蓝右黄的圆角正方形眨眼笑脸，左右宽度按黄金比例分配，中间透明 gap 同时切开色块和笑容。左眼睁开、右眼眨眼，整体占画布约 97%，各尺寸保持同一造型。修改 SVG 后运行 `npm run icons:generate` 可重新生成 16、32、48、128、256、512、1024 像素版本；需要本机 `rsvg-convert`，无需浏览器或 npm 依赖。详见 [图标说明](icons/README.md)。
 
@@ -89,4 +104,4 @@ A browser in your sidebar.
 
 ## 独立项目
 
-本目录是 Codex 项目的源码根目录。项目交接与既有决策见 [项目说明](docs/project-context.md)，历史验证见 [验证记录](docs/verification-history.md)，当前交付包为 [`releases/sidebrowser-1.6.5.zip`](releases/sidebrowser-1.6.5.zip)，原名称的安装包保留为历史版本。
+本目录是 Codex 项目的源码根目录。项目交接与既有决策见 [项目说明](docs/project-context.md)，历史验证见 [验证记录](docs/verification-history.md)，当前交付包为 [`releases/sidebrowser-1.6.5.zip`](releases/sidebrowser-1.6.5.zip)，早期安装包保存在 `releases/archive/`，仅供历史归档。

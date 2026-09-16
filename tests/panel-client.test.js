@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { createPanelClient } from '../panel-client.js';
+import { createPanelClient } from '../src/panel-client.ts';
 
 function runtime(context, value) {
   const previous = Object.getOwnPropertyDescriptor(globalThis, 'chrome');

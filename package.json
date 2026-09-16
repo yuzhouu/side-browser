@@ -7,11 +7,24 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "icons:generate": "node scripts/export-icons.mjs",
-    "test": "node --test tests/*.test.js",
-    "test:browser": "node scripts/browser-smoke.mjs"
+    "test": "npm run build && node --import tsx --test tests/*.test.js",
+    "test:browser": "npm run build && node scripts/browser-smoke.mjs",
+    "dev": "node --import tsx scripts/build.ts --watch",
+    "typecheck": "tsc -p tsconfig.json && tsc -p tsconfig.node.json",
+    "build": "npm run typecheck && node --import tsx scripts/build.ts",
+    "package": "npm run build && node --import tsx scripts/package.ts"
   },
   "devDependencies": {
+    "@types/chrome": "0.3.0",
+    "@types/node": "22.20.3",
+    "fflate": "0.8.3",
     "playwright": "1.62.1",
-    "prettier": "3.8.4"
+    "prettier": "3.8.4",
+    "tsx": "4.23.13",
+    "typescript": "7.0.2",
+    "vite": "8.3.0"
+  },
+  "engines": {
+    "node": ">=22.12.0"
   }
 }

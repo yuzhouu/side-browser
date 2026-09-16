@@ -1,0 +1,303 @@
+{
+  "documentLanguage": {
+    "message": "fr",
+    "description": "BCP 47 language tag for the translated document, including fallback."
+  },
+  "documentDirection": {
+    "message": "ltr",
+    "description": "Text direction of the translation: ltr or rtl."
+  },
+  "extensionName": {
+    "message": "SideBrowser"
+  },
+  "extensionDescription": {
+    "message": "Un navigateur dans le panneau latéral. Gardez une page ouverte, cherchez sur le Web et passez de la vue mobile à la vue ordinateur."
+  },
+  "openSidePanel": {
+    "message": "SideBrowser · Ouvrir le panneau latéral"
+  },
+  "openCurrentCommand": {
+    "message": "Ouvrir la page actuelle dans SideBrowser"
+  },
+  "contextOpen": {
+    "message": "Ouvrir dans SideBrowser"
+  },
+  "navigation": {
+    "message": "Navigation dans les pages"
+  },
+  "back": {
+    "message": "Précédent"
+  },
+  "forward": {
+    "message": "Suivant"
+  },
+  "reload": {
+    "message": "Actualiser"
+  },
+  "address": {
+    "message": "Adresse ou recherche"
+  },
+  "recentOpened": {
+    "message": "Pages récentes"
+  },
+  "clearRecent": {
+    "message": "Tout effacer"
+  },
+  "removeRecent": {
+    "message": "Supprimer cette entrée"
+  },
+  "recentEmpty": {
+    "message": "Aucune page récente. Les 10 dernières adresses que vous avez ouvertes vous-même apparaîtront ici."
+  },
+  "openCurrent": {
+    "message": "Ouvrir la page actuelle",
+    "description": "Compact toolbar button: copy the active browser tab URL into the sidebar."
+  },
+  "openCurrentTitle": {
+    "message": "Ouvrir l’onglet actuel du navigateur dans le panneau latéral"
+  },
+  "more": {
+    "message": "Autres actions"
+  },
+  "openExternal": {
+    "message": "Ouvrir dans un nouvel onglet",
+    "description": "More menu: open the sidebar URL in a normal browser tab."
+  },
+  "openExternalTitle": {
+    "message": "Ouvrir la page du panneau latéral dans un nouvel onglet du navigateur"
+  },
+  "switchToDesktop": {
+    "message": "Passer en vue ordinateur"
+  },
+  "switchToMobile": {
+    "message": "Passer en vue mobile"
+  },
+  "mobileModeTitle": {
+    "message": "La vue mobile est active. Passer en vue ordinateur"
+  },
+  "desktopModeTitle": {
+    "message": "La vue ordinateur est active. Passer en vue mobile"
+  },
+  "retry": {
+    "message": "Réessayer"
+  },
+  "frameTitle": {
+    "message": "Page Web dans le panneau latéral"
+  },
+  "emptyTitle": {
+    "message": "Une page à vos côtés"
+  },
+  "emptyDescription": {
+    "message": "Consultez et comparez sans passer sans cesse d’un onglet à l’autre."
+  },
+  "loadingSlow": {
+    "message": "Cette page met du temps à se charger. Actualisez-la ou utilisez « ⋯ » pour l’ouvrir dans un nouvel onglet."
+  },
+  "errorInvalidCharacters": {
+    "message": "L’adresse contient des caractères non valides."
+  },
+  "errorUnsupportedScheme": {
+    "message": "Saisissez une adresse HTTP ou HTTPS, ou des termes de recherche."
+  },
+  "errorInvalidUrl": {
+    "message": "Cette adresse n’est pas valide. Vérifiez-la et réessayez."
+  },
+  "errorHttpOnly": {
+    "message": "Seuls les sites HTTP et HTTPS sont pris en charge."
+  },
+  "errorEmptyInput": {
+    "message": "Saisissez une adresse ou des termes de recherche, ou choisissez « Ouvrir la page actuelle »."
+  },
+  "errorUnsupportedUrl": {
+    "message": "Cette adresse n’est pas prise en charge."
+  },
+  "errorChromeVersion": {
+    "message": "Impossible de déterminer la version de Chrome. La vue mobile n’a pas été activée."
+  },
+  "errorExtensionUnavailable": {
+    "message": "L’extension ne répond pas. Réessayez."
+  },
+  "errorPanelOnly": {
+    "message": "Cette action est disponible uniquement dans le panneau latéral de SideBrowser."
+  },
+  "errorWindowClosed": {
+    "message": "La fenêtre contenant le panneau latéral a été fermée."
+  },
+  "errorCurrentPage": {
+    "message": "La page actuelle ne possède pas d’adresse HTTP ou HTTPS pouvant être ouverte."
+  },
+  "errorUnknownOperation": {
+    "message": "Action du panneau latéral inconnue."
+  },
+  "errorUnexpected": {
+    "message": "Une erreur s’est produite. Réessayez."
+  },
+  "helpTitle": {
+    "message": "SideBrowser · À propos et aide"
+  },
+  "helpIntro": {
+    "message": "SideBrowser · Un navigateur dans votre panneau latéral."
+  },
+  "helpLanguage": {
+    "message": "La langue de l’interface suit automatiquement celle de Chrome."
+  },
+  "helpHeading": {
+    "message": "À propos et aide"
+  },
+  "helpStartHeading": {
+    "message": "Premiers pas"
+  },
+  "helpStartNavigation": {
+    "message": "Cliquez sur l’icône de SideBrowser pour ouvrir le panneau latéral. Saisissez une adresse ou des termes de recherche Google, puis appuyez sur Entrée. « Ouvrir la page actuelle » ouvre l’adresse de l’onglet actif dans le panneau latéral."
+  },
+  "helpStartShortcut": {
+    "message": "Vous pouvez aussi faire un clic droit sur une page ou un lien et choisir « Ouvrir dans SideBrowser ». Consultez ou modifiez votre raccourci clavier dans les paramètres. Faites glisser le bord du panneau pour ajuster sa largeur."
+  },
+  "helpStateHeading": {
+    "message": "Changer d’onglet et retrouver une page"
+  },
+  "helpStatePersistence": {
+    "message": "La page du panneau latéral reste ouverte lorsque vous changez d’onglet ou fermez l’onglet d’origine. Chaque fenêtre du navigateur peut afficher sa propre page dans le panneau latéral."
+  },
+  "helpStateRestore": {
+    "message": "Après la fermeture du panneau ou du navigateur, la réouverture restaure l’adresse enregistrée. Les saisies non envoyées, la position de lecture et d’autres éléments de la page peuvent être perdus."
+  },
+  "helpMobileHeading": {
+    "message": "Modes d’affichage et dépannage"
+  },
+  "helpMobileViewport": {
+    "message": "Passez du mode mobile au mode ordinateur dans les paramètres ou le menu « ⋯ ». Le mode mobile convient aux panneaux étroits et reste compatible avec la souris et la molette. La mise en page dépend du site."
+  },
+  "helpEmbeddingLimits": {
+    "message": "Si une page est lente, essayez de la recharger. Certains sites, écrans de connexion ou vidéos peuvent mal fonctionner dans le panneau. Utilisez « ⋯ » pour ouvrir la page actuelle dans un nouvel onglet."
+  },
+  "helpPrivacyHeading": {
+    "message": "Confidentialité et données"
+  },
+  "helpPrivacy": {
+    "message": "Les préférences, les adresses et titres récemment ouverts ainsi que les adresses et historiques de navigation servant à restaurer les pages sont conservés sur votre appareil, sans être transmis au développeur. Effacer les entrées récentes supprime uniquement cette liste, pas les adresses de restauration, les historiques de navigation ou les données des sites. Les sites et moteurs de recherche appliquent leurs propres politiques de confidentialité."
+  },
+  "settingsTitle": {
+    "message": "SideBrowser · Paramètres"
+  },
+  "settingsHeading": {
+    "message": "Paramètres"
+  },
+  "settingsNavigation": {
+    "message": "Paramètres et aide"
+  },
+  "settingsIntro": {
+    "message": "Gérez vos préférences de navigation. Les modifications sont enregistrées automatiquement."
+  },
+  "settingsBrowsing": {
+    "message": "Préférences de navigation"
+  },
+  "settingsMode": {
+    "message": "Mode d’affichage"
+  },
+  "settingsModeDescription": {
+    "message": "Commun à toutes les fenêtres. Changer de mode recharge la page dans chaque panneau latéral ouvert."
+  },
+  "settingsMobile": {
+    "message": "Mobile"
+  },
+  "settingsDesktop": {
+    "message": "Ordinateur"
+  },
+  "settingsLanguage": {
+    "message": "Langue de l’interface"
+  },
+  "settingsFollowBrowser": {
+    "message": "Comme dans Chrome"
+  },
+  "settingsShortcut": {
+    "message": "Ouvrir la page actuelle"
+  },
+  "settingsShortcutDescription": {
+    "message": "Ouvrez l’onglet actif dans le panneau latéral. Ce raccourci peut être modifié dans Chrome."
+  },
+  "settingsManageShortcut": {
+    "message": "Gérer les raccourcis"
+  },
+  "settingsShortcutUnset": {
+    "message": "Aucun raccourci défini"
+  },
+  "settingsData": {
+    "message": "Pages enregistrées"
+  },
+  "settingsRecentDescription": {
+    "message": "Retrouvez les 10 dernières adresses que vous avez ouvertes. Effacer la liste ne ferme pas la page et ne vous déconnecte pas des sites."
+  },
+  "settingsRecentCount": {
+    "message": "$count$ entrées enregistrées",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      }
+    }
+  },
+  "settingsClearConfirmation": {
+    "message": "Effacer toutes les entrées récemment ouvertes ? Cette action est irréversible."
+  },
+  "settingsCancel": {
+    "message": "Annuler"
+  },
+  "settingsConfirmClear": {
+    "message": "Confirmer"
+  },
+  "settingsSaving": {
+    "message": "Enregistrement…"
+  },
+  "settingsSaved": {
+    "message": "Enregistré"
+  },
+  "settingsCleared": {
+    "message": "Les entrées récemment ouvertes ont été effacées"
+  },
+  "errorSettingsOnly": {
+    "message": "Ouvrez les paramètres de SideBrowser pour effectuer cette action."
+  },
+  "helpRecent": {
+    "message": "Cliquez sur l’horloge dans la barre d’adresse pour afficher les pages récemment ouvertes. Sélectionnez une entrée pour la rouvrir, supprimez des entrées ou effacez la liste. Cette liste est commune à toutes les fenêtres et reste disponible après un redémarrage du navigateur."
+  },
+  "helpFeedback": {
+    "message": "Retours et suggestions"
+  },
+  "helpFeedbackDescription": {
+    "message": "Un problème ou une idée ? Faites-nous-en part sur GitHub."
+  },
+  "helpFeedbackLink": {
+    "message": "Donner un avis sur GitHub"
+  },
+  "helpAuthor": {
+    "message": "Auteur"
+  },
+  "settingsTheme": {
+    "message": "Apparence"
+  },
+  "settingsThemeDescription": {
+    "message": "S’applique au panneau latéral et aux pages qui suivent le thème du système. Certains sites ont leur propre réglage. Changer l’apparence ne recharge pas la page actuelle."
+  },
+  "themeSystem": {
+    "message": "Selon le système"
+  },
+  "themeLight": {
+    "message": "Clair"
+  },
+  "themeDark": {
+    "message": "Sombre"
+  },
+  "emptySearch": {
+    "message": "Saisir une adresse ou rechercher"
+  },
+  "emptyKeepHint": {
+    "message": "Votre page reste ici quand vous changez d’onglet."
+  },
+  "emptyModeHint": {
+    "message": "Le menu « ⋯ » en haut à droite permet de choisir la vue mobile ou ordinateur."
+  },
+  "emptyHelp": {
+    "message": "Consulter le guide"
+  }
+}

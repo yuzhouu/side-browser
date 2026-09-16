@@ -7,7 +7,7 @@
 ## 文件
 
 - `sidebrowser.svg`：所有尺寸共用的矢量源，`viewBox="0 0 1024 1024"`。
-- `16.png`、`32.png`、`48.png`、`128.png`：扩展工具栏和扩展管理页使用的尺寸，现有 `manifest.json` 已引用这些路径。
+- `public/icons/16.png`、`public/icons/32.png`、`public/icons/48.png`、`public/icons/128.png`：扩展工具栏和扩展管理页使用的尺寸，`public/manifest.json` 已引用这些路径。
 - `256.png`、`512.png`、`1024.png`：较大尺寸的 PNG，色块不透明，外围与 gap 透明。
 
 ## 重新导出
@@ -24,4 +24,4 @@ npm run icons:generate
 RSVG_CONVERT="/path/to/rsvg-convert" npm run icons:generate
 ```
 
-在 Chrome 扩展管理页重新加载本项目即可使用新图标。`releases/` 中的历史安装包未随本次图标更新重打包。
+运行 `npm run build` 后，在 Chrome 扩展管理页重新加载 `dist/` 即可使用新图标；`npm run package` 生成新安装包。

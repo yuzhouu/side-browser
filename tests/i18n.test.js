@@ -1,18 +1,18 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
-import { parseInput, mobileIdentity } from '../config.js';
-import { frameDestination } from '../embedding.js';
-import { navigatePanel, restorePanel } from '../sidepanel-state.js';
-import { errorMessage } from '../i18n.js';
+import { parseInput, mobileIdentity } from '../src/config.ts';
+import { frameDestination } from '../src/embedding.ts';
+import { navigatePanel, restorePanel } from '../src/sidepanel-state.ts';
+import { errorMessage } from '../src/i18n.ts';
 
 const root = new URL('../', import.meta.url);
 const read = path => readFileSync(new URL(path, root), 'utf8');
-const locales = readdirSync(new URL('_locales/', root));
+const locales = readdirSync(new URL('public/_locales/', root));
 const catalogs = Object.fromEntries(
-  locales.map(locale => [locale, JSON.parse(read(`_locales/${locale}/messages.json`))])
+  locales.map(locale => [locale, JSON.parse(read(`public/_locales/${locale}/messages.json`))])
 );
-const manifest = JSON.parse(read('manifest.json'));
+const manifest = JSON.parse(read('public/manifest.json'));
 const defaults = catalogs[manifest.default_locale];
 
 test('every shipped locale has complete messages and matching named placeholders', () => {
@@ -48,8 +48,10 @@ test('every shipped locale has complete messages and matching named placeholders
 });
 
 test('manifest, HTML, JavaScript messages and error codes resolve to the default catalog', () => {
-  const files = readdirSync(root).filter(name => /\.(?:html|js)$/.test(name));
-  files.push('manifest.json');
+  const files = readdirSync(new URL('src/', root))
+    .filter(name => /\.(?:html|ts)$/.test(name))
+    .map(name => `src/${name}`);
+  files.push('public/manifest.json');
   const patterns = [
     /__MSG_([a-z0-9_]+)__/gi,
     /data-i18n(?:-title|-placeholder|-aria-label)?="([a-z0-9_]+)"/gi,

@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { parseInput, mobileIdentity } from '../config.js';
+import { parseInput, mobileIdentity } from '../src/config.ts';
 
 test('typed domains and URLs preserve paths, queries and fragments', () => {
   assert.deepEqual(parseInput(' example.com/a?q=中文#b '), {

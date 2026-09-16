@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { frameDestination } from '../embedding.js';
-import { parseInput } from '../config.js';
+import { frameDestination } from '../src/embedding.ts';
+import { parseInput } from '../src/config.ts';
 test('embedded search stays in the iframe and rejects executable schemes', () => {
   assert.equal(
     frameDestination('测试 搜索', parseInput),
