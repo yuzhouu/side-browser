@@ -11,7 +11,7 @@
     "message": "SideBrowser"
   },
   "extensionDescription": {
-    "message": "A browser in your sidebar. Keep a page open across tabs, search the web, and switch between mobile and desktop views."
+    "message": "Another page. Right beside you. Keep a page open across tabs, search the web, and switch between mobile and desktop views."
   },
   "openSidePanel": {
     "message": "SideBrowser · Open sidebar"
@@ -85,10 +85,10 @@
     "message": "Web page in the sidebar"
   },
   "emptyTitle": {
-    "message": "A page by your side"
+    "message": "SideBrowser"
   },
   "emptyDescription": {
-    "message": "Look things up and compare, without switching back and forth between tabs."
+    "message": "Another page. Right beside you."
   },
   "loadingSlow": {
     "message": "This page is taking a while to load. Reload it, or use “⋯” to open it in a new tab."
@@ -136,7 +136,7 @@
     "message": "SideBrowser · About & help"
   },
   "helpIntro": {
-    "message": "SideBrowser · A browser in your sidebar."
+    "message": "Another page. Right beside you."
   },
   "helpLanguage": {
     "message": "The interface language follows Chrome automatically."

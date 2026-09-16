@@ -8,19 +8,19 @@
     "description": "Text direction of the translation: ltr or rtl."
   },
   "extensionName": {
-    "message": "伴页 · SideBrowser"
+    "message": "侧窗 · SideBrowser"
   },
   "extensionDescription": {
-    "message": "原生侧边栏小浏览器，同一窗口共用一个网页，切换标签保留运行状态，支持地址搜索、手机视口适配和 UA。"
+    "message": "侧窗小境，静览万象。在浏览器侧边打开网页，切换标签时保持运行，支持网址搜索和手机／电脑视图。"
   },
   "openSidePanel": {
-    "message": "伴页 · 打开侧边栏"
+    "message": "侧窗 · 打开侧边栏"
   },
   "openCurrentCommand": {
-    "message": "在伴页中打开当前网页"
+    "message": "在侧窗中打开当前网页"
   },
   "contextOpen": {
-    "message": "在伴页中打开"
+    "message": "在侧窗中打开"
   },
   "navigation": {
     "message": "网页导航"
@@ -85,10 +85,10 @@
     "message": "侧边栏内的真实网页"
   },
   "emptyTitle": {
-    "message": "打开网页，留在手边"
+    "message": "侧窗 · SideBrowser"
   },
   "emptyDescription": {
-    "message": "查资料、做对照，不用来回切换标签页。"
+    "message": "侧窗小境，静览万象"
   },
   "loadingSlow": {
     "message": "网页加载时间较长，可刷新重试，或从「⋯」在新标签页打开。"
@@ -118,7 +118,7 @@
     "message": "扩展没有响应，请重试。"
   },
   "errorPanelOnly": {
-    "message": "操作仅限伴页侧边栏。"
+    "message": "操作仅限侧窗侧边栏。"
   },
   "errorWindowClosed": {
     "message": "侧边栏窗口已关闭。"
@@ -133,10 +133,10 @@
     "message": "操作失败，请重试。"
   },
   "helpTitle": {
-    "message": "伴页 · 关于与帮助"
+    "message": "侧窗 · 关于与帮助"
   },
   "helpIntro": {
-    "message": "伴页 · SideBrowser · 在侧边栏里，随手浏览。"
+    "message": "侧窗小境，静览万象"
   },
   "helpLanguage": {
     "message": "界面语言自动跟随 Chrome。"
@@ -148,10 +148,10 @@
     "message": "开始使用"
   },
   "helpStartNavigation": {
-    "message": "点击伴页扩展图标打开侧边栏。输入网址或 Google 搜索词，然后按回车；点击「打开当前网页」可把当前标签页的网址打开到侧边栏。"
+    "message": "点击侧窗扩展图标打开侧边栏。输入网址或 Google 搜索词，然后按回车；点击「打开当前网页」可把当前标签页的网址打开到侧边栏。"
   },
   "helpStartShortcut": {
-    "message": "右键网页或链接，选择「在伴页中打开」也能快速访问。快捷键可在设置页查看和修改。拖动侧边栏边缘可调整宽度。"
+    "message": "右键网页或链接，选择「在侧窗中打开」也能快速访问。快捷键可在设置页查看和修改。拖动侧边栏边缘可调整宽度。"
   },
   "helpStateHeading": {
     "message": "切换标签与恢复网页"
@@ -178,7 +178,7 @@
     "message": "浏览偏好、最近打开的网址和标题、用于恢复页面的网址与导航历史保存在本机，不向开发者上传。清空最近打开记录只删除该列表，不删除用于恢复页面的网址、导航历史或网站数据。访问网站及搜索时，仍适用相应网站的隐私政策。"
   },
   "settingsTitle": {
-    "message": "伴页 · 设置"
+    "message": "侧窗 · 设置"
   },
   "settingsHeading": {
     "message": "设置"
@@ -256,7 +256,7 @@
     "message": "最近打开记录已清空"
   },
   "errorSettingsOnly": {
-    "message": "请在伴页设置页面执行此操作。"
+    "message": "请在侧窗设置页面执行此操作。"
   },
   "helpRecent": {
     "message": "点击地址栏右侧的时钟图标查看最近打开的网页。点击条目即可再次打开，也可以单条删除或清空列表。记录在各窗口间共用，重启浏览器后仍保留。"

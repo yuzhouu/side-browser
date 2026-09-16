@@ -8,19 +8,19 @@
     "description": "Text direction of the translation: ltr or rtl."
   },
   "extensionName": {
-    "message": "伴頁 · SideBrowser"
+    "message": "側窗 · SideBrowser"
   },
   "extensionDescription": {
-    "message": "側邊欄裡的小瀏覽器。同一視窗共用一個網頁，切換分頁仍保留執行狀態，支援網址搜尋及手機／電腦檢視。"
+    "message": "側窗小境，靜覽萬象。在瀏覽器側邊開啟網頁，切換分頁時保持執行，支援網址搜尋和手機／電腦檢視。"
   },
   "openSidePanel": {
-    "message": "伴頁 · 開啟側邊欄"
+    "message": "側窗 · 開啟側邊欄"
   },
   "openCurrentCommand": {
-    "message": "在伴頁中開啟目前網頁"
+    "message": "在側窗中開啟目前網頁"
   },
   "contextOpen": {
-    "message": "在伴頁中開啟"
+    "message": "在側窗中開啟"
   },
   "navigation": {
     "message": "網頁導覽"
@@ -85,10 +85,10 @@
     "message": "側邊欄中的網頁"
   },
   "emptyTitle": {
-    "message": "打開網頁，留在手邊"
+    "message": "側窗 · SideBrowser"
   },
   "emptyDescription": {
-    "message": "查資料、做對照，不用來回切換分頁。"
+    "message": "側窗小境，靜覽萬象"
   },
   "loadingSlow": {
     "message": "網頁載入時間較長，請重新載入，或從「⋯」在新分頁開啟。"
@@ -118,7 +118,7 @@
     "message": "擴充功能沒有回應，請再試一次。"
   },
   "errorPanelOnly": {
-    "message": "此操作僅能在伴頁側邊欄中使用。"
+    "message": "此操作僅能在側窗側邊欄中使用。"
   },
   "errorWindowClosed": {
     "message": "側邊欄所在的視窗已關閉。"
@@ -133,10 +133,10 @@
     "message": "操作失敗，請再試一次。"
   },
   "helpTitle": {
-    "message": "伴頁 · 關於與說明"
+    "message": "側窗 · 關於與說明"
   },
   "helpIntro": {
-    "message": "伴頁 · SideBrowser · 在側邊欄裡，隨手瀏覽。"
+    "message": "側窗小境，靜覽萬象"
   },
   "helpLanguage": {
     "message": "介面語言自動跟隨 Chrome。"
@@ -148,10 +148,10 @@
     "message": "開始使用"
   },
   "helpStartNavigation": {
-    "message": "點擊伴頁擴充功能圖示開啟側邊欄。輸入網址或 Google 搜尋詞，再按 Enter；點擊「開啟目前網頁」可將目前分頁的網址開啟到側邊欄。"
+    "message": "點擊側窗擴充功能圖示開啟側邊欄。輸入網址或 Google 搜尋詞，再按 Enter；點擊「開啟目前網頁」可將目前分頁的網址開啟到側邊欄。"
   },
   "helpStartShortcut": {
-    "message": "在網頁或連結上按右鍵，選擇「在伴頁中開啟」也能快速造訪。快捷鍵可在設定頁查看和變更。拖曳側邊欄邊緣可調整寬度。"
+    "message": "在網頁或連結上按右鍵，選擇「在側窗中開啟」也能快速造訪。快捷鍵可在設定頁查看和變更。拖曳側邊欄邊緣可調整寬度。"
   },
   "helpStateHeading": {
     "message": "切換分頁與還原網頁"
@@ -178,7 +178,7 @@
     "message": "瀏覽偏好、最近開啟的網址與標題，以及用於還原網頁的網址與導覽記錄都儲存在本機，不會上傳給開發者。清除最近開啟記錄只會刪除該清單，不會刪除用於還原網頁的網址、導覽記錄或網站資料。造訪網站及搜尋時，仍適用相關網站的隱私權政策。"
   },
   "settingsTitle": {
-    "message": "伴頁 · 設定"
+    "message": "側窗 · 設定"
   },
   "settingsHeading": {
     "message": "設定"
@@ -256,7 +256,7 @@
     "message": "最近開啟記錄已清除"
   },
   "errorSettingsOnly": {
-    "message": "請在伴頁設定頁面執行此操作。"
+    "message": "請在側窗設定頁面執行此操作。"
   },
   "helpRecent": {
     "message": "點擊網址列右側的時鐘圖示查看最近開啟的網頁。點擊項目即可再次開啟，也可以逐筆刪除或清除清單。記錄在各視窗間共用，重新啟動瀏覽器後仍保留。"

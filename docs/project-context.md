@@ -2,7 +2,7 @@
 
 ## 当前基线
 
-伴页 · SideBrowser 1.6.5，从原会话工作区的 `outputs/pocket-browser` 复制成独立项目。原始位置：`/Users/yuzhou/Documents/Codex/2026-09-14/new-chat`。早期安装包保存在 `releases/archive/sidebrowser-1.6.5.zip`；原会话的源码和安装包仍保留。英文品牌已统一为 `SideBrowser`，npm 包名为 `sidebrowser-extension`，英文介绍为 “A browser in your sidebar.”。旧名称安装包 `releases/archive/sidebrowse-1.6.5.zip` 仅作历史归档。
+侧窗 · SideBrowser 1.6.5，从原会话工作区的 `outputs/pocket-browser` 复制成独立项目。原始位置：`/Users/yuzhou/Documents/Codex/2026-09-14/new-chat`。早期安装包保存在 `releases/archive/sidebrowser-1.6.5.zip`；原会话的源码和安装包仍保留。英文品牌已统一为 `SideBrowser`，npm 包名为 `sidebrowser-extension`，中文品牌为「侧窗」，中文 slogan 为「侧窗小境，静览万象」，英文 slogan 为 “Another page. Right beside you.”。旧名称安装包 `releases/archive/sidebrowse-1.6.5.zip` 仅作历史归档。
 
 ## 使用与开发
 
@@ -12,7 +12,7 @@
 
 初始空态显示品牌图标、两个操作入口和简短使用提示。「打开当前网页」复用顶部入口；「输入网址或搜索」聚焦顶部地址栏；使用指南在新标签页打开。引导仅在没有网页时显示，兼容七种语言与深浅色，小高度窗口可在引导区滚动。
 
-导航支持网址和搜索。顶部「打开当前网页」复制主标签 URL 到侧边栏；右键浏览器工具栏中的伴页扩展图标，选择「在伴页中打开」也会打开当前标签页。网页与链接右键入口继续保留。更多菜单中的「在新标签页打开当前网页」把侧边栏 URL 打开到普通标签。手机／PC 是所有侧边栏共用偏好，主动切换模式按设计重载网页。
+导航支持网址和搜索。顶部「打开当前网页」复制主标签 URL 到侧边栏；右键浏览器工具栏中的侧窗扩展图标，选择「在侧窗中打开」也会打开当前标签页。网页与链接右键入口继续保留。更多菜单中的「在新标签页打开当前网页」把侧边栏 URL 打开到普通标签。手机／PC 是所有侧边栏共用偏好，主动切换模式按设计重载网页。
 
 地址栏右侧时钟按钮提供「最近打开」快捷切换，保留 10 条、重复网址置顶，支持单条删除和一键清空。每条网站图标通过 Chrome 的 `_favicon/` 接口与 `favicon` 权限读取，加载失败保留默认网站图标。标题通过来源标签页及内嵌网页的 `document.title` 获取，动态标题变化单独上报 `POCKET_TITLE`，不产生导航历史。标题独立存储于 `pocket-sidepanel-recent-titles-v1`，URL 列表格式不变；删除、清空或超出 10 条上限时同时清理对应标题。缺少标题时先显示域名，再次打开加载后补全；内部新页面不能覆盖原条目的标题。点击列表外部或下方网页时关闭最近列表，单条删除时保持展开。列表通过独立本地存储键 `pocket-sidepanel-recent-v1` 跨窗口共用并在重启后保留；`recent-urls.ts` 负责验证、去重与上限。只有地址输入／搜索、打开当前网页、右键、快捷键和最近条目选择会记录；网页内部跳转、重定向、刷新、模式切换、前进后退、自动恢复与外部新标签打开不记录。不从旧历史推导最近条目，单条删除与清空不影响当前网页或窗口导航历史，普通 `PANEL_SAVE` 不能写回最近列表。
 
