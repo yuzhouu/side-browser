@@ -274,16 +274,19 @@ input::placeholder {
   font-size: 11px;
   color: var(--muted);
 }
+#more-menu #binding::after,
 #more-menu [data-theme-value]::after {
   content: '';
   width: 12px;
   flex-shrink: 0;
   text-align: center;
 }
+#more-menu #binding[aria-pressed='true'],
 #more-menu [data-theme-value][aria-pressed='true'] {
   color: var(--accent-strong);
   background: var(--selected);
 }
+#more-menu #binding[aria-pressed='true']::after,
 #more-menu [data-theme-value][aria-pressed='true']::after {
   content: '✓';
 }
@@ -296,13 +299,13 @@ main {
   overflow: hidden;
   background: var(--hover);
 }
-#viewport {
+.page-viewport {
   position: relative;
   flex: none;
   height: 100%;
   overflow: hidden;
 }
-#web {
+.page-web {
   position: absolute;
   left: 0;
   top: 0;

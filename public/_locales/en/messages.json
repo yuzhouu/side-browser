@@ -157,10 +157,10 @@
     "message": "Switching tabs and restoring pages"
   },
   "helpStatePersistence": {
-    "message": "Your sidebar page stays open when you switch tabs or close the source tab. Each browser window can have its own sidebar page."
+    "message": "All unbound tabs in a window share one side page. Choose “⋯” → “Bind to current tab” to keep the displayed side page with that tab. Bound pages retain their state when switching tabs; other tabs continue sharing. Unbinding returns to the shared page, and closing a bound tab releases its page."
   },
   "helpStateRestore": {
-    "message": "After closing the sidebar or browser, reopening restores the saved address. Unsaved form input, playback progress, and other live page state may be lost."
+    "message": "Binding transfers the current live page to that tab and clears the shared page and its history. Unbound tabs show the welcome screen until you open another shared page. Reopening the sidebar restores saved addresses for this browser session, but unsaved input may be lost. Restarting the browser clears bindings and restores the shared address."
   },
   "helpMobileHeading": {
     "message": "Display modes and troubleshooting"
@@ -307,6 +307,18 @@
     "message": "Close the webpage and keep the sidebar open"
   },
   "helpClosePage": {
-    "message": "Choose “⋯” → “Close current page” to return to the welcome screen while keeping the sidebar open. This clears navigation history for this window. Recently opened entries remain available, and the closed page will not be restored automatically."
+    "message": "Choose “⋯” → “Close current page” to return to the welcome screen. This clears only the displayed page and its navigation history. Recently opened entries and other side pages remain available."
+  },
+  "bindTab": {
+    "message": "Bind to current tab"
+  },
+  "unbindTab": {
+    "message": "Unbind from current tab"
+  },
+  "bindTabDescription": {
+    "message": "Keep this side page with the current tab. Other unbound tabs keep sharing a page."
+  },
+  "unbindTabDescription": {
+    "message": "Release this binding and return to the shared page."
   }
 }

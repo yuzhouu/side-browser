@@ -6,6 +6,7 @@ import { join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright';
 import { attachTarget, poll } from './browser/cdp.mjs';
+import { checkTabPages } from './browser/tab-pages.mjs';
 
 const rootPath = fileURLToPath(new URL('../dist/', import.meta.url));
 const manifest = JSON.parse(await readFile(new URL('../dist/manifest.json', import.meta.url)));
@@ -59,7 +60,8 @@ const state = (api = panel) =>
   api.evaluate(`chrome.windows.getCurrent().then(window =>
   chrome.runtime.sendMessage({ type: 'PANEL_READY', windowId: window.id })).then(response => {
     if (!response.ok) throw new Error(response.error);
-    return response.data;
+    const { sourceTabId, ...page } = response.data;
+    return page;
   })`);
 const recents = (api = panel) =>
   api.evaluate("[...document.querySelectorAll('.recent-open')].map(button => button.dataset.url)");
@@ -972,6 +974,32 @@ try {
   pass(
     'Close unloads the page, rejects late navigation, preserves recents/other windows, reopens from recents and stays empty after restart'
   );
+  await checkTabPages({
+    context,
+    panel,
+    state,
+    navigate,
+    frameAt,
+    loaded,
+    screenshot,
+    base,
+    extension,
+    catalog,
+    targets,
+    attach,
+    attached
+  });
+  await shutdown();
+  await launch();
+  panel = await openPanel();
+  assert.equal((await state()).tabId, null);
+  await poll(
+    () => panel.evaluate("!document.querySelector('#empty').hidden"),
+    'empty shared page after restart'
+  );
+  assert.equal((await state()).url, '');
+  assert.deepEqual((await state()).history, []);
+  pass('Browser restart clears bindings and does not restore a page transferred out of sharing');
   assert.deepEqual(diagnostics.errors, []);
   const warnings = [...new Set(diagnostics.warnings)];
   assert(

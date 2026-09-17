@@ -157,10 +157,10 @@
     "message": "Tabs wechseln und Seiten wiederherstellen"
   },
   "helpStatePersistence": {
-    "message": "Die Seite in der Seitenleiste bleibt geöffnet, wenn du Tabs wechselst oder den ursprünglichen Tab schließt. Jedes Browserfenster kann eine eigene Seite in der Seitenleiste haben."
+    "message": "Ungebundene Tabs eines Fensters teilen sich eine Seite. Wählen Sie unter „⋯“ die Option „An aktuellen Tab binden“, um die angezeigte Seite diesem Tab zuzuordnen. Gebundene Seiten behalten beim Tabwechsel ihren Zustand; andere Tabs bleiben gemeinsam. Das Lösen der Bindung öffnet die gemeinsame Seite. Beim Schließen eines gebundenen Tabs wird seine Seite freigegeben."
   },
   "helpStateRestore": {
-    "message": "Nach dem Schließen der Seitenleiste oder des Browsers wird beim erneuten Öffnen die gespeicherte Adresse geladen. Nicht gesendete Eingaben, Wiedergabepositionen und andere Seitenzustände können verloren gehen."
+    "message": "Beim Binden wird die laufende Seite dem Tab zugeordnet; die gemeinsame Seite und ihr Verlauf werden geleert. Ungebundene Tabs zeigen den Begrüßungsbildschirm, bis Sie eine neue gemeinsame Seite öffnen. Beim erneuten Öffnen der Seitenleiste werden Adressen dieser Sitzung wiederhergestellt; nicht gespeicherte Eingaben können verloren gehen. Ein Browserneustart löscht Bindungen und stellt die gemeinsame Adresse wieder her."
   },
   "helpMobileHeading": {
     "message": "Anzeigemodi und Hilfe bei Problemen"
@@ -307,6 +307,18 @@
     "message": "Webseite schließen und die Seitenleiste geöffnet lassen"
   },
   "helpClosePage": {
-    "message": "Wählen Sie „⋯“ → „Aktuelle Seite schließen“, um zum Willkommensbildschirm zurückzukehren und die Seitenleiste geöffnet zu lassen. Der Navigationsverlauf dieses Fensters wird gelöscht. Zuletzt geöffnete Seiten bleiben in der Liste; die geschlossene Seite wird nicht automatisch wiederhergestellt."
+    "message": "Wählen Sie unter „⋯“ die Option zum Schließen der aktuellen Seite, um zum Begrüßungsbildschirm zurückzukehren. Nur die angezeigte Seite und ihr Navigationsverlauf werden gelöscht. Zuletzt geöffnete Einträge und andere Seiten bleiben erhalten."
+  },
+  "bindTab": {
+    "message": "An aktuellen Tab binden"
+  },
+  "unbindTab": {
+    "message": "Bindung an aktuellen Tab lösen"
+  },
+  "bindTabDescription": {
+    "message": "Diese Seite an den aktuellen Tab binden. Andere ungebundene Tabs teilen sich weiterhin eine Seite."
+  },
+  "unbindTabDescription": {
+    "message": "Diese Bindung lösen und zur gemeinsamen Seite zurückkehren."
   }
 }

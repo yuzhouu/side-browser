@@ -157,10 +157,10 @@
     "message": "Cambiar de pestaña y restaurar páginas"
   },
   "helpStatePersistence": {
-    "message": "La página del panel lateral sigue abierta cuando cambias de pestaña o cierras la pestaña de origen. Cada ventana del navegador puede tener su propia página en el panel lateral."
+    "message": "Las pestañas sin vincular de una ventana comparten una página. Elige « ⋯ » → « Vincular a esta pestaña » para asociar la página mostrada con esa pestaña. Las páginas vinculadas conservan su estado al cambiar de pestaña; las demás siguen compartiendo. Desvincular vuelve a la página compartida y cerrar una pestaña vinculada libera su página."
   },
   "helpStateRestore": {
-    "message": "Al volver a abrir el panel o el navegador se restaura la dirección guardada. Los datos de formularios sin enviar, la posición de reproducción y otros estados de la página pueden perderse."
+    "message": "Al vincular, la página en ejecución pasa a esa pestaña y se vacían la página compartida y su historial. Las pestañas sin vincular muestran la bienvenida hasta que abras otra página compartida. Al abrir de nuevo el panel se restauran las direcciones de la sesión, pero pueden perderse las entradas sin enviar. Reiniciar el navegador borra las asociaciones y restaura la dirección compartida."
   },
   "helpMobileHeading": {
     "message": "Modos de visualización y solución de problemas"
@@ -307,6 +307,18 @@
     "message": "Cerrar la página web y mantener abierto el panel lateral"
   },
   "helpClosePage": {
-    "message": "Elige «⋯» → «Cerrar la página actual» para volver a la pantalla de bienvenida y mantener abierto el panel lateral. Se borrará el historial de navegación de esta ventana. Las páginas abiertas recientemente permanecerán en la lista y la página cerrada no se restaurará automáticamente."
+    "message": "En « ⋯ », elige cerrar la página actual para volver a la bienvenida. Solo se borran la página mostrada y su historial de navegación. Las entradas recientes y las demás páginas del panel se conservan."
+  },
+  "bindTab": {
+    "message": "Vincular a esta pestaña"
+  },
+  "unbindTab": {
+    "message": "Desvincular de esta pestaña"
+  },
+  "bindTabDescription": {
+    "message": "Vincular esta página a la pestaña actual. Las demás pestañas sin vincular siguen compartiendo una página."
+  },
+  "unbindTabDescription": {
+    "message": "Desvincular esta página y volver a la página compartida."
   }
 }

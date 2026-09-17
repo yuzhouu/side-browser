@@ -1,18 +1,24 @@
 import { element } from './dom.js';
 import { validTheme } from './theme-preference.js';
-import type { PanelSnapshot, BackgroundMessage } from './types.js';
-import { PanelViewport } from './viewport.js';
+import type { PanelSnapshot, BackgroundMessage, Mode } from './types.js';
+import { PanelPage } from './panel-page.js';
 import { parseInput, isWebUrl } from './config.js';
 import { frameDestination } from './embedding.js';
 import { navigatePanel, commitPanelNavigation } from './sidepanel-state.js';
 import { localizeDocument, t, errorMessage } from './i18n.js';
 import { createPanelClient } from './panel-client.js';
 import { RecentMenu } from './recent-menu.js';
-import { RecentTitleTracker } from './recent-urls.js';
 
 localizeDocument();
 
-const web = element<HTMLIFrameElement>('#web');
+const initialStage = element('#viewport');
+const stageTemplate = initialStage.cloneNode(true) as HTMLElement;
+stageTemplate.removeAttribute('id');
+stageTemplate.querySelector('iframe')!.removeAttribute('id');
+const pages = new Map<number | null, PanelPage>();
+let active: PanelPage;
+let sourceTabId: number | undefined;
+let bindingBusy = false;
 const address = element<HTMLInputElement>('#address');
 const notice = element('#notice');
 const empty = element('#empty');
@@ -22,33 +28,32 @@ const moreMenu = element('#more-menu');
 const moreButton = element('#more');
 const windowId = (await chrome.windows.getCurrent()).id;
 if (windowId === undefined) throw new Error('Current window has no ID');
-
-let state: PanelSnapshot;
-let loadingTimer: ReturnType<typeof setTimeout> | undefined;
-let pendingNavigation = false;
-let started = false;
 let operation: Promise<unknown> = Promise.resolve();
 
-let recentTitleTracker = new RecentTitleTracker();
-const viewport = new PanelViewport(web, element('#viewport'), () => state?.mode);
 const serial = <T>(task: () => T | PromiseLike<T>): Promise<T> => {
   const next = operation.then(task);
   operation = next.catch(error => showNotice(errorMessage(error), true));
   return next;
 };
-const { request, connect } = createPanelClient(windowId, message => {
-  void serial(() => receiveBackgroundMessage(message));
-});
+const { request, requestFor, connect } = createPanelClient(
+  windowId,
+  message => {
+    void serial(() => receiveBackgroundMessage(message));
+  },
+  () => active?.state.tabId
+);
 const recentMenu = new RecentMenu({
   run: serial,
-  onOpen: navigate,
+  onOpen: input => navigate(input),
   onRemove: async url => {
-    state.recentUrls = await request('PANEL_REMOVE_RECENT', { url });
-    return state;
+    const urls = await request('PANEL_REMOVE_RECENT', { url });
+    for (const page of pages.values()) page.state.recentUrls = urls;
+    return active.state;
   },
   onClear: async () => {
-    state.recentUrls = await request('PANEL_CLEAR_RECENT');
-    return state;
+    const urls = await request('PANEL_CLEAR_RECENT');
+    for (const page of pages.values()) page.state.recentUrls = urls;
+    return active.state;
   }
 });
 
@@ -58,105 +63,136 @@ function showNotice(text = '', canRetry = false) {
   retry.hidden = !canRetry;
 }
 
-function controls() {
+function render(page = active) {
+  if (page !== active || page.disposed) return;
+  const state = page.state;
   recentMenu.render(state);
-  document.body.classList.toggle('mobile', state?.mode === 'mobile');
-  viewport.apply();
+  document.body.classList.toggle('mobile', state.mode === 'mobile');
+  document.body.dataset.scope = state.tabId === null ? 'shared' : 'bound';
+  document.body.dataset.tabId = String(state.tabId ?? 'shared');
+  document.body.dataset.sourceTabId = String(sourceTabId ?? '');
+  page.viewport.apply();
+  if (document.activeElement !== address) address.value = state.url;
+  empty.hidden = Boolean(state.url);
+  showNotice(page.notice);
   const mode = element('#mode');
-  const mobile = state?.mode === 'mobile';
+  const mobile = state.mode === 'mobile';
   element('#mode-label').textContent = mobile ? t('switchToDesktop') : t('switchToMobile');
   mode.title = mobile ? t('mobileModeTitle') : t('desktopModeTitle');
   mode.setAttribute('aria-label', mode.title);
-  element<HTMLButtonElement>('#back').disabled = !state || state.historyIndex <= 0;
-  element<HTMLButtonElement>('#forward').disabled =
-    !state || state.historyIndex >= state.history.length - 1;
-  element<HTMLButtonElement>('#reload').disabled = !state?.url;
-  element<HTMLButtonElement>('#external').disabled = !state?.url;
-  element<HTMLButtonElement>('#close-page').disabled = !state?.url;
-  emptyCurrent.disabled = !state;
+  const bound = state.tabId !== null;
+  const binding = element<HTMLButtonElement>('#binding');
+  binding.setAttribute('aria-pressed', String(bound));
+  binding.disabled = bindingBusy || sourceTabId === undefined;
+  binding.title = t(bound ? 'unbindTabDescription' : 'bindTabDescription');
+  element('#binding-label').textContent = t(bound ? 'unbindTab' : 'bindTab');
+  element<HTMLButtonElement>('#back').disabled = state.historyIndex <= 0;
+  element<HTMLButtonElement>('#forward').disabled = state.historyIndex >= state.history.length - 1;
+  element<HTMLButtonElement>('#reload').disabled = !state.url;
+  element<HTMLButtonElement>('#external').disabled = !state.url;
+  element<HTMLButtonElement>('#close-page').disabled = !state.url;
+  emptyCurrent.disabled = false;
 }
 
-function load(url: string) {
-  if (!url) {
-    clearTimeout(loadingTimer);
-    showNotice();
-    pendingNavigation = false;
-    started = false;
-    address.value = '';
-    empty.hidden = false;
-    // Destroy the old browsing context so late messages cannot reopen the page.
-    web.remove();
-    web.removeAttribute('src');
-    viewport.stage.append(web);
-    viewport.navigate();
-    recentTitleTracker = new RecentTitleTracker();
-    return;
+function pageFor(state: PanelSnapshot) {
+  let page = pages.get(state.tabId);
+  if (!page) {
+    const stage =
+      initialStage.isConnected && !pages.size
+        ? initialStage
+        : (stageTemplate.cloneNode(true) as HTMLElement);
+    stage.hidden = true;
+    if (!stage.isConnected) empty.before(stage);
+    page = new PanelPage(stage, state, render);
+    pages.set(state.tabId, page);
   }
-  showNotice();
-  address.value = url;
-  empty.hidden = true;
-  pendingNavigation = true;
-  clearTimeout(loadingTimer);
-  loadingTimer = setTimeout(() => showNotice(t('loadingSlow')), 12000);
-  viewport.navigate();
-  recentTitleTracker.navigate(url);
-  web.src = url;
-  started = true;
+  return page;
 }
 
-function apply(next: PanelSnapshot, reload = false) {
-  const previous = state;
-  state = next;
-  controls();
-  if (document.activeElement !== address) address.value = state.url;
-  if (!state.url) {
-    if (started) load('');
-  } else if (reload || !started || previous?.url !== state.url || previous?.mode !== state.mode)
-    load(state.url);
+function select(next: PanelSnapshot) {
+  if (next.sourceTabId !== undefined) sourceTabId = next.sourceTabId;
+  const cached = pages.get(next.tabId);
+  if (cached) {
+    // A tab activation snapshot may predate an in-flight report from its live page.
+    // The mounted document owns navigation; activation only selects it and syncs preferences.
+    next = {
+      ...next,
+      url: cached.state.url,
+      history: cached.state.history,
+      historyIndex: cached.state.historyIndex
+    };
+  }
+  const page = pageFor(next);
+  if (active !== page) {
+    if (active) {
+      active.stage.hidden = true;
+      active.stage.removeAttribute('id');
+      active.web.removeAttribute('id');
+    }
+    active = page;
+    page.stage.id = 'viewport';
+    page.web.id = 'web';
+    page.stage.hidden = false;
+    recentMenu.hide();
+    moreMenu.hidePopover();
+    address.value = next.url;
+  }
+  page.apply(next);
+}
+
+function setMode(mode: Mode) {
+  for (const page of pages.values()) {
+    if (page.state.mode !== mode) page.apply({ ...page.state, mode });
+  }
 }
 
 function receiveBackgroundMessage(message: BackgroundMessage) {
   switch (message.type) {
     case 'connected':
-      apply(message.state);
-      showNotice();
+    case 'activate':
+      select(message.state);
       break;
     case 'navigate':
-      apply(message.state);
+      pageFor(message.state).apply(message.state);
       break;
-    case 'recent':
-      if (state) {
-        state.recentUrls = message.urls;
-        state.recentTitles = message.titles || {};
-        recentMenu.render(state);
+    case 'remove-tab': {
+      const page = pages.get(message.tabId);
+      if (page) {
+        page.dispose();
+        pages.delete(message.tabId);
       }
+      break;
+    }
+    case 'recent':
+      for (const page of pages.values()) {
+        page.state.recentUrls = message.urls;
+        page.state.recentTitles = message.titles || {};
+      }
+      if (active && !active.disposed) recentMenu.render(active.state);
       break;
     case 'mode':
-      if (state && message.mode !== state.mode) {
-        state.mode = message.mode;
-        controls();
-        if (state.url) load(state.url);
-      }
+      setMode(message.mode);
       break;
   }
 }
 
-async function navigate(input: string, historyIndex?: number) {
+async function navigate(input: string, historyIndex?: number, page = active) {
+  if (page.disposed) return;
   if (!Number.isInteger(historyIndex)) {
-    apply(await request('PANEL_NAVIGATE', { input }), true);
+    page.apply(await requestFor(page.state.tabId, 'PANEL_NAVIGATE', { input }), true);
     return;
   }
   const url = frameDestination(input, parseInput);
-  navigatePanel(state, url, historyIndex);
-  state = await request('PANEL_SAVE', { state });
-  controls();
-  load(url);
+  navigatePanel(page.state, url, historyIndex);
+  page.apply(await requestFor(page.state.tabId, 'PANEL_SAVE', { state: page.state }), true);
 }
 
 window.addEventListener('message', event => {
+  const page = [...pages.values()].find(
+    page => page.started && event.source === page.web.contentWindow
+  );
   if (
-    !started ||
-    event.source !== web.contentWindow ||
+    !page ||
     !['POCKET_LOCATION', 'POCKET_VIEWPORT', 'POCKET_TITLE'].includes(event.data?.type) ||
     !isWebUrl(event.data.url)
   )
@@ -167,27 +203,33 @@ window.addEventListener('message', event => {
     return;
   }
   void serial(async () => {
-    if (!state?.url || !started || event.source !== web.contentWindow) return;
-    viewport.accept(event.data, event.origin);
+    if (
+      page.disposed ||
+      !page.state.url ||
+      !page.started ||
+      event.source !== page.web.contentWindow
+    )
+      return;
+    page.viewport.accept(event.data, event.origin);
     if (event.data.type === 'POCKET_VIEWPORT') return;
-    const metadata = recentTitleTracker.accept(event.data);
+    const metadata = page.tracker.accept(event.data);
     if (event.data.type === 'POCKET_LOCATION') {
-      commitPanelNavigation(state, event.data.url, pendingNavigation);
-      pendingNavigation = false;
-      if (document.activeElement !== address) address.value = state.url;
-      empty.hidden = true;
-      clearTimeout(loadingTimer);
-      showNotice();
-      controls();
-      state = await request('PANEL_SAVE', { state });
+      commitPanelNavigation(page.state, event.data.url, page.pendingNavigation);
+      page.pendingNavigation = false;
+      clearTimeout(page.loadingTimer);
+      page.notice = '';
+      // Hidden pages still report their own navigation; they cannot write another tab's state.
+      page.state = await requestFor(page.state.tabId, 'PANEL_SAVE', { state: page.state });
+      render(page);
     }
     if (
       metadata &&
-      state.recentUrls.includes(metadata.url) &&
-      state.recentTitles?.[metadata.url] !== metadata.title
+      page.state.recentUrls.includes(metadata.url) &&
+      page.state.recentTitles[metadata.url] !== metadata.title
     ) {
-      state.recentTitles = await request('PANEL_RECENT_TITLE', metadata);
-      recentMenu.render(state);
+      const titles = await requestFor(page.state.tabId, 'PANEL_RECENT_TITLE', metadata);
+      for (const cached of pages.values()) cached.state.recentTitles = titles;
+      if (!active.disposed) recentMenu.render(active.state);
     }
   });
 });
@@ -195,39 +237,71 @@ window.addEventListener('message', event => {
 element('#navigate').addEventListener('submit', event => {
   event.preventDefault();
   const input = address.value;
+  const page = active;
   address.blur();
   recentMenu.hide();
-  void serial(() => navigate(input));
+  void serial(() => navigate(input, undefined, page));
 });
 element<HTMLButtonElement>('#reload').onclick = () => {
-  if (state?.url) load(state.url);
+  if (active?.state.url) active.load(active.state.url);
 };
 element<HTMLButtonElement>('#back').onclick = () => {
-  if (state?.historyIndex > 0)
-    void serial(() => navigate(state.history[state.historyIndex - 1], state.historyIndex - 1));
+  const page = active;
+  const index = page.state.historyIndex - 1;
+  if (index >= 0) void serial(() => navigate(page.state.history[index], index, page));
 };
 element<HTMLButtonElement>('#forward').onclick = () => {
-  if (state && state.historyIndex < state.history.length - 1)
-    void serial(() => navigate(state.history[state.historyIndex + 1], state.historyIndex + 1));
+  const page = active;
+  const index = page.state.historyIndex + 1;
+  if (index < page.state.history.length)
+    void serial(() => navigate(page.state.history[index], index, page));
 };
 element('#mode').onclick = () => {
-  if (state)
-    void serial(async () => {
-      const mode = await request('PANEL_MODE', {
-        mode: state.mode === 'mobile' ? 'desktop' : 'mobile'
-      });
-      if (state.mode !== mode) {
-        state.mode = mode;
-        controls();
-        if (state.url) load(state.url);
+  if (active)
+    void serial(async () =>
+      setMode(
+        await request('PANEL_MODE', {
+          mode: active.state.mode === 'mobile' ? 'desktop' : 'mobile'
+        })
+      )
+    );
+};
+element('#binding').onclick = () => {
+  const page = active;
+  const tabId = sourceTabId;
+  if (!page || tabId === undefined || bindingBusy) return;
+  bindingBusy = true;
+  render();
+  const bound = page.state.tabId === null;
+  void serial(async () => {
+    try {
+      const next = await requestFor(page.state.tabId, 'PANEL_BIND', { sourceTabId: tabId, bound });
+      if (bound) {
+        // Bind the actual open document, including unsaved input and scroll position.
+        // The shared slot is now empty; unbound tabs start from the welcome page.
+        pages.delete(null);
+        page.state = { ...page.state, tabId };
+        pages.set(tabId, page);
+        // Keep an empty shared slot immediately so a queued activation snapshot
+        // from before the transfer cannot recreate the old shared document.
+        pageFor({ ...next, tabId: null, url: '', history: [], historyIndex: -1 });
+      } else {
+        page.dispose();
+        pages.delete(tabId);
       }
-    });
+      select(next);
+    } finally {
+      bindingBusy = false;
+      render();
+    }
+  });
 };
 function openCurrent() {
   emptyCurrent.disabled = true;
+  const page = active;
   void serial(async () => {
     try {
-      apply(await request('PANEL_CURRENT'));
+      page.apply(await requestFor(page.state.tabId, 'PANEL_CURRENT'));
     } finally {
       emptyCurrent.disabled = false;
     }
@@ -240,13 +314,15 @@ element('#empty-address').onclick = () => {
   address.select();
 };
 element<HTMLButtonElement>('#external').onclick = () => {
-  void serial(() => request('PANEL_EXTERNAL'));
+  const tabId = active.state.tabId;
+  void serial(() => requestFor(tabId, 'PANEL_EXTERNAL'));
 };
 element<HTMLButtonElement>('#close-page').onclick = () => {
+  const page = active;
   void serial(async () => {
-    apply(await request('PANEL_CLOSE'));
+    page.apply(await requestFor(page.state.tabId, 'PANEL_CLOSE'));
     recentMenu.hide();
-    address.focus();
+    if (page === active) address.focus();
   });
 };
 element('#help').onclick = () => {
@@ -281,20 +357,14 @@ document.addEventListener(
   },
   true
 );
-// Pointer events inside the cross-origin webpage do not reach this document.
 window.addEventListener('blur', () => moreMenu.hidePopover());
 retry.onclick = () => {
   void serial(async () => {
-    apply(await request('PANEL_READY'), true);
+    select(await request('PANEL_READY'));
+    if (active.state.url) active.load(active.state.url);
     connect();
   });
 };
-web.addEventListener('load', () => {
-  if (started) {
-    empty.hidden = true;
-    clearTimeout(loadingTimer);
-  }
-});
 document.addEventListener('keydown', event => {
   if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'l') {
     event.preventDefault();
@@ -306,6 +376,6 @@ document.addEventListener('keydown', event => {
 });
 
 await serial(async () => {
-  apply(await request('PANEL_READY'));
+  select(await request('PANEL_READY'));
   connect();
 });

@@ -10,7 +10,7 @@
 
 - 用户主动选择打开当前网页时，扩展读取当前标签的网址和标题，用于在侧边栏打开该网页。右键链接、地址输入和搜索同样仅用于用户发起的导航。
 - 扩展在本机保存最近主动打开的最多 10 个网址及对应标题，供“最近打开”列表使用；读取 Chrome 提供的网站图标用于展示列表。
-- 扩展在会话存储中保存各窗口的网址、前进／后退历史；在本地存储中保存最后的导航状态，供网页恢复使用。网址可能包含用户输入的查询参数。
+- 扩展在会话存储中保存各窗口的网址、前进／后退历史；用户主动绑定后，还保存对应标签 ID 与侧窗网址、历史的关系，解除绑定、关闭标签或重启浏览器后清除该绑定；在本地存储中保存最后的导航状态，供网页恢复使用。网址可能包含用户输入的查询参数。
 - 手机／电脑模式、外观偏好保存在本机。扩展读取侧边网页的网址、标题和视口元数据，以同步导航、更新最近标题和适配显示。它不提取主标签的正文、表单内容、密码或 AI 对话内容，也不会自动把主页面内容发送给 AI。
 - 对侧边栏内的请求，扩展调整嵌入兼容响应头；手机模式还会调整设备身份请求头。它不读取或记录响应体，不通过 Cookie API 读取 Cookie。
 
@@ -26,7 +26,7 @@
 
 ### 保存与删除
 
-最近列表支持单条删除或全部清空；清理最近列表不会删除当前网页、导航历史、网页恢复状态或网站 Cookie。“关闭当前网页”清空当前窗口的网页和导航历史，但保留最近列表和其他窗口。偏好与恢复信息在本地保留，直到被后续操作覆盖或删除；会话存储由 Chrome 管理。卸载扩展会移除扩展存储，网站 Cookie 和其他网站数据需在 Chrome 中单独清理。侧窗没有开发者服务器上的浏览记录副本。
+最近列表支持单条删除或全部清空；清理最近列表不会删除当前网页、导航历史、网页恢复状态或网站 Cookie。将网页绑定到标签页时，该网页和历史移入绑定，共享网页及其恢复状态清空；最近列表保留。“关闭当前网页”清空当前显示的侧窗网页和导航历史，但保留最近列表和其他侧窗页面。偏好与恢复信息在本地保留，直到被后续操作覆盖或删除；会话存储由 Chrome 管理。卸载扩展会移除扩展存储，网站 Cookie 和其他网站数据需在 Chrome 中单独清理。侧窗没有开发者服务器上的浏览记录副本。
 
 ### 官网与宣传素材
 
@@ -44,7 +44,7 @@ SideBrowser is developed by yuzhou and opens user-selected websites in Chrome's 
 
 When you explicitly open the current page, the extension reads its URL and title to navigate the sidebar. Context-menu actions, entered URLs, and search terms are used for navigation you request. Up to 10 recently opened URLs and their titles are stored locally for quick reopening; site icons are obtained through Chrome's favicon interface.
 
-Per-window URLs and back/forward history are kept in session storage. The last navigation state is kept locally for restoration. URLs may contain query parameters you enter. Display and appearance preferences are also stored locally. The extension reads the sidebar page's URL, title, and viewport metadata for navigation, recent titles, and layout. It does not extract main-tab body text, form contents, passwords, or AI conversations, and does not automatically send main-page contents to AI.
+Per-window URLs and back/forward history are kept in session storage. When you explicitly bind a side page to a tab, its tab ID is associated with its sidebar URL and history in session storage; unbinding, closing that tab, or restarting the browser clears that binding. The last navigation state is kept locally for restoration. URLs may contain query parameters you enter. Display and appearance preferences are also stored locally. The extension reads the sidebar page's URL, title, and viewport metadata for navigation, recent titles, and layout. It does not extract main-tab body text, form contents, passwords, or AI conversations, and does not automatically send main-page contents to AI.
 
 For sidebar requests, the extension adjusts embedding-related response headers and, in mobile mode, device-identity request headers. It does not read or log response bodies or read cookies through the Cookies API.
 
@@ -60,7 +60,7 @@ Website storage is managed separately by Chrome and the websites. HTTPS sites us
 
 ### Retention and deletion
 
-You can remove individual recent entries or clear the list. This does not clear the current page, navigation history, restoration state, or website cookies. Closing the current page clears that window's page and history while retaining recents and other windows. Local preferences and restoration state remain until overwritten or removed; Chrome manages session storage. Uninstalling removes extension storage. Website cookies and other website data must be cleared separately in Chrome. There is no developer-hosted copy of browsing records.
+You can remove individual recent entries or clear the list. This does not clear the current page, navigation history, restoration state, or website cookies. Binding transfers the page and its history to that tab and clears the shared page and its restoration state, while retaining recents. Closing the current page clears the displayed sidebar page and its history while retaining recents and other side pages. Local preferences and restoration state remain until overwritten or removed; Chrome manages session storage. Uninstalling removes extension storage. Website cookies and other website data must be cleared separately in Chrome. There is no developer-hosted copy of browsing records.
 
 ### Website and media assets
 

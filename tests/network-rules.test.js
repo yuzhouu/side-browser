@@ -61,7 +61,6 @@ test('the shipped manifest uses a global native side panel without a popup or in
   assert.deepEqual(manifest.content_scripts[0].js, ['frame-navigation.js']);
   const background = fs.readFileSync(new URL('../src/background.ts', import.meta.url), 'utf8');
   assert(!/type:\s*['"]popup['"]/.test(background));
-  assert(!background.includes('tabs.onActivated'));
   assert(!background.includes('tabs.onUpdated'));
   assert(!background.includes('sidePanel.setOptions'));
 });

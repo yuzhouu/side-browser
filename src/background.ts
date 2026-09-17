@@ -10,7 +10,14 @@ import type {
 } from './types.js';
 import { parseInput, validMode, isWebUrl } from './config.js';
 import { frameDestination } from './embedding.js';
-import { LAST_KEY, WINDOWS_KEY, MODE_KEY, restorePanel, navigatePanel } from './sidepanel-state.js';
+import {
+  LAST_KEY,
+  WINDOWS_KEY,
+  MODE_KEY,
+  BINDINGS_KEY,
+  restorePanel,
+  navigatePanel
+} from './sidepanel-state.js';
 import {
   RECENT_KEY,
   RECENT_TITLES_KEY,
@@ -32,6 +39,7 @@ const SHELL = chrome.runtime.getURL('sidepanel.html');
 const OPTIONS = chrome.runtime.getURL('options.html');
 const MOBILE_SCRIPTS = ['pocket-mobile-gate', 'pocket-mobile-main'];
 const windows: Record<string, PanelState> = {};
+const tabs: Record<string, { windowId: number; state: PanelState }> = {};
 let last: PanelState;
 let mode: Mode;
 let theme: Theme;
@@ -80,7 +88,7 @@ const ready = (async () => {
       RECENT_TITLES_KEY,
       'pocket-global-overlay-v1'
     ]),
-    chrome.storage.session.get(WINDOWS_KEY)
+    chrome.storage.session.get([WINDOWS_KEY, BINDINGS_KEY])
   ]);
   last = restorePanel(local[LAST_KEY] || local['pocket-global-overlay-v1']);
   mode = validMode(local[MODE_KEY] ?? last.mode);
@@ -89,6 +97,11 @@ const ready = (async () => {
   recentTitles = restoreRecentTitles(local[RECENT_TITLES_KEY], recentUrls);
   for (const [id, saved] of Object.entries(session[WINDOWS_KEY] || {}))
     windows[id] = restorePanel(saved);
+  for (const [id, saved] of Object.entries(session[BINDINGS_KEY] || {})) {
+    const entry = saved as { windowId: number; state: PanelState };
+    if (Number.isInteger(entry?.windowId))
+      tabs[id] = { windowId: entry.windowId, state: restorePanel(entry.state) };
+  }
   await rules();
   await chrome.sidePanel.setPanelBehavior({ openPanelOnActionClick: true });
 })();
@@ -102,24 +115,93 @@ function update<T>(task: () => T | PromiseLike<T>) {
   return result;
 }
 
-function getState(windowId: number): PanelSnapshot {
-  windows[windowId] ||= restorePanel(last);
+function getState(windowId: number, tabId: number | null = null): PanelSnapshot {
+  let state: PanelState;
+  if (tabId === null) {
+    state = windows[windowId] ||= restorePanel(last);
+  } else {
+    const binding = tabs[tabId];
+    if (!binding || binding.windowId !== windowId) throw userError('errorCurrentPage');
+    state = binding.state;
+  }
   return {
-    ...structuredClone(windows[windowId]),
+    ...structuredClone(state),
+    tabId,
     mode,
     recentUrls: [...recentUrls],
     recentTitles: { ...recentTitles }
   };
 }
 
-async function save(windowId: number, value: PanelState) {
-  windows[windowId] = restorePanel({ ...value, mode });
-  last = windows[windowId];
-  await Promise.all([
-    chrome.storage.session.set({ [WINDOWS_KEY]: windows }),
-    chrome.storage.local.set({ [LAST_KEY]: last, [MODE_KEY]: mode })
-  ]);
-  return getState(windowId);
+async function currentState(windowId: number): Promise<PanelSnapshot> {
+  const [tab] = await chrome.tabs.query({ active: true, windowId });
+  const tabId = tab?.id !== undefined && tabs[tab.id]?.windowId === windowId ? tab.id : null;
+  return { ...getState(windowId, tabId), sourceTabId: tab?.id };
+}
+
+async function activeTarget(windowId: number) {
+  return (await currentState(windowId)).tabId;
+}
+
+async function save(windowId: number, value: PanelState, tabId: number | null = null) {
+  const state = restorePanel({ ...value, mode });
+  if (tabId !== null) {
+    getState(windowId, tabId); // Late reports cannot recreate an unbound page.
+    tabs[tabId] = { windowId, state };
+    await chrome.storage.session.set({ [BINDINGS_KEY]: tabs });
+  } else {
+    windows[windowId] = state;
+    last = state;
+    await Promise.all([
+      chrome.storage.session.set({ [WINDOWS_KEY]: windows }),
+      chrome.storage.local.set({ [LAST_KEY]: last, [MODE_KEY]: mode })
+    ]);
+  }
+  return getState(windowId, tabId);
+}
+
+async function activate(windowId: number) {
+  if (ports.has(windowId))
+    publish(windowId, { type: 'activate', state: await currentState(windowId) });
+}
+
+async function setBinding(windowId: number, sourceTabId: number, bound: boolean) {
+  if (!Number.isInteger(sourceTabId) || typeof bound !== 'boolean')
+    throw userError('errorCurrentPage');
+  const tab = await chrome.tabs.get(sourceTabId);
+  if (tab.windowId !== windowId) throw userError('errorCurrentPage');
+  if (bound && !tabs[sourceTabId]) {
+    const binding = { windowId, state: restorePanel(getState(windowId)) };
+    const empty = restorePanel({ mode });
+    // Binding transfers the page out of the shared slot, including its history.
+    // Clear the restart fallback too, and roll it back if the session commit fails.
+    await chrome.storage.local.set({ [LAST_KEY]: empty });
+    try {
+      await chrome.storage.session.set({
+        [BINDINGS_KEY]: { ...tabs, [sourceTabId]: binding },
+        [WINDOWS_KEY]: { ...windows, [windowId]: empty }
+      });
+    } catch (error) {
+      await chrome.storage.local
+        .set({ [LAST_KEY]: last })
+        .catch(restoreError =>
+          reportFailure('Restore shared page after failed binding', restoreError)
+        );
+      throw error;
+    }
+    tabs[sourceTabId] = binding;
+    windows[windowId] = empty;
+    last = empty;
+  } else if (!bound && tabs[sourceTabId]) {
+    const remaining = { ...tabs };
+    delete remaining[sourceTabId];
+    await chrome.storage.session.set({ [BINDINGS_KEY]: remaining });
+    delete tabs[sourceTabId];
+    publish(windowId, { type: 'remove-tab', tabId: sourceTabId });
+  }
+  const state = { ...getState(windowId, bound ? sourceTabId : null), sourceTabId };
+  await activate(windowId);
+  return state;
 }
 
 async function verify(sender: chrome.runtime.MessageSender | undefined, windowId: number) {
@@ -157,19 +239,27 @@ async function saveRecent(urls: string[], titles = recentTitles) {
   return [...recentUrls];
 }
 
-async function navigate(windowId: number, input: unknown, sourceTitle?: string) {
-  const state = getState(windowId);
+async function navigate(
+  windowId: number,
+  input: unknown,
+  sourceTitle?: string,
+  tabId: number | null = null,
+  broadcast = true
+) {
+  const state = getState(windowId, tabId);
   const url = frameDestination(input, parseInput);
   const title = normalizeRecentTitle(sourceTitle);
   await saveRecent(
     rememberRecentUrl(recentUrls, url),
     title ? { ...recentTitles, [url]: title } : recentTitles
   );
-  if (url === state.url) return getState(windowId);
+  if (url === state.url) return getState(windowId, tabId);
   navigatePanel(state, url);
-  await save(windowId, state);
-  publish(windowId, { type: 'navigate', state: getState(windowId) });
-  return getState(windowId);
+  await save(windowId, state, tabId);
+  // Panel requests apply their response directly; echoing it through the port can
+  // replay an older navigation behind a newer queued user action.
+  if (broadcast) publish(windowId, { type: 'navigate', state: getState(windowId, tabId) });
+  return getState(windowId, tabId);
 }
 
 async function setMode(value: unknown) {
@@ -223,15 +313,24 @@ chrome.runtime.onMessage.addListener((message: PanelRequest | SettingsRequest, s
       }
     }
     await verify(sender, message.windowId);
+    // These operations do not depend on a previously selected (possibly closed) tab.
+    if (message.type === 'PANEL_READY') return currentState(message.windowId);
+    if (message.type === 'PANEL_BIND')
+      return setBinding(message.windowId, message.sourceTabId, message.bound);
+    const tabId =
+      message.tabId === undefined ? await activeTarget(message.windowId) : message.tabId;
+    if (tabId !== null) {
+      if (!Number.isInteger(tabId)) throw userError('errorCurrentPage');
+      const tab = await chrome.tabs.get(tabId);
+      if (tab.windowId !== message.windowId) throw userError('errorCurrentPage');
+    }
     switch (message.type) {
-      case 'PANEL_READY':
-        return getState(message.windowId);
       case 'PANEL_SAVE':
-        return save(message.windowId, message.state);
+        return save(message.windowId, message.state, tabId);
       case 'PANEL_NAVIGATE':
-        return navigate(message.windowId, message.input);
+        return navigate(message.windowId, message.input, undefined, tabId, false);
       case 'PANEL_CLOSE':
-        return save(message.windowId, restorePanel({ mode }));
+        return save(message.windowId, restorePanel({ mode }), tabId);
       case 'PANEL_CLEAR_RECENT':
         return saveRecent([]);
       case 'PANEL_REMOVE_RECENT':
@@ -241,7 +340,7 @@ chrome.runtime.onMessage.addListener((message: PanelRequest | SettingsRequest, s
         if (
           title &&
           recentUrls.includes(message.url) &&
-          getState(message.windowId).url === message.pageUrl &&
+          getState(message.windowId, tabId).url === message.pageUrl &&
           recentTitles[message.url] !== title
         )
           await saveRecent(recentUrls, { ...recentTitles, [message.url]: title });
@@ -252,12 +351,15 @@ chrome.runtime.onMessage.addListener((message: PanelRequest | SettingsRequest, s
       case 'PANEL_THEME':
         return setTheme(message.theme);
       case 'PANEL_CURRENT': {
-        const tab = (await chrome.tabs.query({ active: true, windowId: message.windowId }))[0];
+        const tab =
+          tabId === null
+            ? (await chrome.tabs.query({ active: true, windowId: message.windowId }))[0]
+            : await chrome.tabs.get(tabId);
         if (!isWebUrl(tab?.url)) throw userError('errorCurrentPage');
-        return navigate(message.windowId, tab.url, tab.title);
+        return navigate(message.windowId, tab.url, tab.title, tabId, false);
       }
       case 'PANEL_EXTERNAL': {
-        const url = getState(message.windowId).url;
+        const url = getState(message.windowId, tabId).url;
         if (isWebUrl(url))
           await chrome.tabs.create({ windowId: message.windowId, url, active: true });
         return true;
@@ -281,7 +383,7 @@ chrome.runtime.onConnect.addListener(port => {
     port.onDisconnect.addListener(() => {
       if (ports.get(id) === port) ports.delete(id);
     });
-    port.postMessage({ type: 'connected', state: getState(id) });
+    port.postMessage({ type: 'connected', state: await currentState(id) });
   }).catch(error => {
     if (!['errorPanelOnly', 'errorWindowClosed'].includes(error.code))
       reportFailure('Connect panel', error);
@@ -293,8 +395,38 @@ chrome.windows.onRemoved.addListener(id => {
   void update(async () => {
     delete windows[id];
     ports.delete(id);
-    await chrome.storage.session.set({ [WINDOWS_KEY]: windows });
+    for (const [tabId, entry] of Object.entries(tabs))
+      if (entry.windowId === id) delete tabs[tabId];
+    await chrome.storage.session.set({ [WINDOWS_KEY]: windows, [BINDINGS_KEY]: tabs });
   }).catch(error => reportFailure('Remove closed window state', error));
+});
+
+chrome.tabs.onActivated.addListener(({ windowId }) => {
+  void update(() => activate(windowId)).catch(error => reportFailure('Activate tab page', error));
+});
+
+chrome.tabs.onRemoved.addListener((tabId, { windowId, isWindowClosing }) => {
+  void update(async () => {
+    delete tabs[tabId];
+    publish(windowId, { type: 'remove-tab', tabId });
+    await chrome.storage.session.set({ [BINDINGS_KEY]: tabs });
+    if (!isWindowClosing) await activate(windowId);
+  }).catch(error => reportFailure('Remove tab page', error));
+});
+
+chrome.tabs.onDetached.addListener((tabId, { oldWindowId }) => {
+  void update(() => publish(oldWindowId, { type: 'remove-tab', tabId })).catch(error =>
+    reportFailure('Detach tab page', error)
+  );
+});
+chrome.tabs.onAttached.addListener((tabId, { newWindowId }) => {
+  void update(async () => {
+    if (tabs[tabId]) {
+      tabs[tabId].windowId = newWindowId;
+      await chrome.storage.session.set({ [BINDINGS_KEY]: tabs });
+    }
+    await activate(newWindowId);
+  }).catch(error => reportFailure('Attach tab page', error));
 });
 
 chrome.runtime.onStartup.addListener(() => {
@@ -337,12 +469,21 @@ chrome.runtime.onInstalled.addListener(() => {
   }).catch(error => reportFailure('Install context menu and migrate legacy state', error));
 });
 
-function openFromGesture(windowId: number, input: unknown, title?: string) {
+function openFromGesture(windowId: number, input: unknown, title?: string, sourceTabId?: number) {
   // Call open before any await so Chrome retains the user's gesture.
   const opened = chrome.sidePanel.open({ windowId });
-  void update(() => navigate(windowId, input, title)).catch(error =>
-    reportFailure('Open requested page', error)
-  );
+  void update(async () =>
+    navigate(
+      windowId,
+      input,
+      title,
+      sourceTabId === undefined
+        ? await activeTarget(windowId)
+        : tabs[sourceTabId]?.windowId === windowId
+          ? sourceTabId
+          : null
+    )
+  ).catch(error => reportFailure('Open requested page', error));
   void opened.catch(error => reportFailure('Open side panel', error));
 }
 
@@ -351,11 +492,12 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
     openFromGesture(
       tab.windowId,
       info.linkUrl || tab.url,
-      !info.linkUrl || info.linkUrl === tab.url ? tab.title : undefined
+      !info.linkUrl || info.linkUrl === tab.url ? tab.title : undefined,
+      tab.id
     );
 });
 
 chrome.commands.onCommand.addListener((name, tab) => {
   if (name === 'open-current' && isWebUrl(tab?.url))
-    openFromGesture(tab.windowId, tab.url, tab.title);
+    openFromGesture(tab.windowId, tab.url, tab.title, tab.id);
 });

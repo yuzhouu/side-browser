@@ -157,10 +157,10 @@
     "message": "Changer d’onglet et retrouver une page"
   },
   "helpStatePersistence": {
-    "message": "La page du panneau latéral reste ouverte lorsque vous changez d’onglet ou fermez l’onglet d’origine. Chaque fenêtre du navigateur peut afficher sa propre page dans le panneau latéral."
+    "message": "Les onglets non associés d’une fenêtre partagent une page. Choisissez « ⋯ » → « Associer à cet onglet » pour lier la page affichée à cet onglet. Les pages associées conservent leur état au changement d’onglet ; les autres restent partagées. Dissocier revient à la page partagée. Fermer un onglet associé libère sa page."
   },
   "helpStateRestore": {
-    "message": "Après la fermeture du panneau ou du navigateur, la réouverture restaure l’adresse enregistrée. Les saisies non envoyées, la position de lecture et d’autres éléments de la page peuvent être perdus."
+    "message": "L’association transfère la page en cours vers cet onglet et vide la page partagée ainsi que son historique. Les onglets non associés affichent l’accueil jusqu’à l’ouverture d’une nouvelle page partagée. Rouvrir le panneau restaure les adresses de la session, mais les saisies non envoyées peuvent être perdues. Redémarrer le navigateur efface les associations et restaure l’adresse partagée."
   },
   "helpMobileHeading": {
     "message": "Modes d’affichage et dépannage"
@@ -307,6 +307,18 @@
     "message": "Fermer la page web en gardant le panneau latéral ouvert"
   },
   "helpClosePage": {
-    "message": "Choisissez « ⋯ » → « Fermer la page actuelle » pour revenir à l’accueil en gardant le panneau latéral ouvert. L’historique de navigation de cette fenêtre est effacé. Les pages récemment ouvertes restent dans la liste et la page fermée ne sera pas restaurée automatiquement."
+    "message": "Dans « ⋯ », choisissez de fermer la page actuelle pour revenir à l’accueil. Seuls la page affichée et son historique de navigation sont effacés. Les entrées récentes et les autres pages du panneau restent disponibles."
+  },
+  "bindTab": {
+    "message": "Associer à cet onglet"
+  },
+  "unbindTab": {
+    "message": "Dissocier de cet onglet"
+  },
+  "bindTabDescription": {
+    "message": "Associer cette page à l’onglet actuel. Les autres onglets non associés continuent de partager une page."
+  },
+  "unbindTabDescription": {
+    "message": "Dissocier cette page et revenir à la page partagée."
   }
 }

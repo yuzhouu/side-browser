@@ -5,6 +5,7 @@ import { userError } from './errors.js';
 export const LAST_KEY = 'pocket-sidepanel-last-v1';
 export const WINDOWS_KEY = 'pocket-sidepanel-windows-v1';
 export const MODE_KEY = 'pocket-sidepanel-mode-v1';
+export const BINDINGS_KEY = 'pocket-sidepanel-bindings-v1';
 const HISTORY_LIMIT = 100;
 
 export function restorePanel(value: unknown = {}): PanelState {

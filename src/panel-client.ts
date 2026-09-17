@@ -4,17 +4,20 @@ import { userError } from './errors.js';
 // Transport only: the panel decides how incoming state affects its live iframe.
 export function createPanelClient(
   windowId: number,
-  onMessage: (message: BackgroundMessage) => void
+  onMessage: (message: BackgroundMessage) => void,
+  target: () => number | null | undefined = () => undefined
 ) {
   let port: chrome.runtime.Port | null;
 
-  async function request<K extends keyof PanelRequests>(
+  async function requestFor<K extends keyof PanelRequests>(
+    tabId: number | null | undefined,
     type: K,
     ...args: RequestArgs<PanelRequests[K][0]>
   ): Promise<PanelRequests[K][1]> {
     const response: Response<PanelRequests[K][1]> | undefined = await chrome.runtime.sendMessage({
       type,
       windowId,
+      ...(tabId === undefined ? {} : { tabId }),
       ...args[0]
     });
     if (!response) throw userError('errorExtensionUnavailable');
@@ -22,6 +25,13 @@ export function createPanelClient(
       throw Object.assign(new Error(response.error), { code: response.errorCode });
     }
     return response.data;
+  }
+
+  function request<K extends keyof PanelRequests>(
+    type: K,
+    ...args: RequestArgs<PanelRequests[K][0]>
+  ): Promise<PanelRequests[K][1]> {
+    return requestFor(target(), type, ...args);
   }
 
   function connect() {
@@ -36,5 +46,5 @@ export function createPanelClient(
     });
   }
 
-  return { request, connect };
+  return { request, requestFor, connect };
 }

@@ -122,6 +122,12 @@
           <path d="M8 21h8M12 17v4" /></svg
         ><span id="mode-label"></span>
       </button>
+      <button id="binding" type="button" aria-pressed="false" data-i18n-title="bindTabDescription">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="3" y="5" width="18" height="15" rx="2" />
+          <path d="M3 10h18M11 10v10M7 5V3M15 5V3" /></svg
+        ><span id="binding-label" data-i18n="bindTab"></span>
+      </button>
       <div class="theme-options" role="group" aria-labelledby="theme-heading">
         <div id="theme-heading" data-i18n="settingsTheme"></div>
         <button type="button" data-theme-value="system" aria-pressed="true">
@@ -162,9 +168,10 @@
       <span></span><button id="retry" type="button" data-i18n="retry" hidden></button>
     </div>
     <main>
-      <div id="viewport">
+      <div id="viewport" class="page-viewport">
         <iframe
           id="web"
+          class="page-web"
           data-i18n-title="frameTitle"
           sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox allow-downloads allow-modals allow-pointer-lock allow-presentation"
           allow="clipboard-write; fullscreen"

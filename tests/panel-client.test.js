@@ -79,3 +79,34 @@ test('worker disconnect reconnects one port and keeps delivering state to the ex
   ports[1].listeners.message({ type: 'recent', urls: [] });
   assert.deepEqual(received, [{ type: 'connected' }, { type: 'recent', urls: [] }]);
 });
+
+test('page requests capture their tab target and hidden pages use their own explicit target', async context => {
+  const sent = [];
+  runtime(context, {
+    sendMessage: async message => {
+      sent.push(message);
+      return { ok: true, data: {} };
+    }
+  });
+  let selected = 10;
+  const client = createPanelClient(
+    7,
+    () => {},
+    () => selected
+  );
+  const pending = client.request('PANEL_NAVIGATE', { input: 'https://example.com/' });
+  selected = 11;
+  await pending;
+  await client.requestFor(10, 'PANEL_SAVE', { state: { url: 'https://example.com/next' } });
+  await client.request('PANEL_CLOSE');
+  await client.requestFor(null, 'PANEL_SAVE', { state: {} });
+  assert.deepEqual(
+    sent.map(({ windowId, tabId }) => ({ windowId, tabId })),
+    [
+      { windowId: 7, tabId: 10 },
+      { windowId: 7, tabId: 10 },
+      { windowId: 7, tabId: 11 },
+      { windowId: 7, tabId: null }
+    ]
+  );
+});
