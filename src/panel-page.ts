@@ -8,6 +8,8 @@ export class PanelPage {
   readonly web: HTMLIFrameElement;
   readonly viewport: PanelViewport;
   tracker = new RecentTitleTracker();
+  title = '';
+  titleUrl = '';
   started = false;
   pendingNavigation = false;
   disposed = false;
@@ -31,6 +33,8 @@ export class PanelPage {
   load(url: string) {
     clearTimeout(this.loadingTimer);
     this.notice = '';
+    this.title = '';
+    this.titleUrl = '';
     this.pendingNavigation = Boolean(url);
     this.started = Boolean(url);
     this.viewport.navigate();

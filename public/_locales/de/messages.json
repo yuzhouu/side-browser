@@ -320,5 +320,17 @@
   },
   "unbindTabDescription": {
     "message": "Diese Bindung lösen und zur gemeinsamen Seite zurückkehren."
+  },
+  "favorites": {
+    "message": "Favoriten"
+  },
+  "addFavorite": {
+    "message": "Aktuelle Seite zu Favoriten hinzufügen"
+  },
+  "removeFavorite": {
+    "message": "Aus Favoriten entfernen"
+  },
+  "contextFavorite": {
+    "message": "Zu SideBrowser-Favoriten hinzufügen"
   }
 }

@@ -320,5 +320,17 @@
   },
   "unbindTabDescription": {
     "message": "解除這組綁定，返回共用側窗。"
+  },
+  "favorites": {
+    "message": "收藏"
+  },
+  "addFavorite": {
+    "message": "收藏目前網頁"
+  },
+  "removeFavorite": {
+    "message": "取消收藏"
+  },
+  "contextFavorite": {
+    "message": "收藏到側窗"
   }
 }

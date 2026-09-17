@@ -1,5 +1,9 @@
 export type Mode = 'mobile' | 'desktop';
 export type Theme = 'system' | 'light' | 'dark';
+export interface Favorite {
+  url: string;
+  title: string;
+}
 export interface PanelState {
   url: string;
   mode: Mode;
@@ -11,6 +15,7 @@ export interface PanelSnapshot extends PanelState {
   sourceTabId?: number;
   recentUrls: string[];
   recentTitles: Record<string, string>;
+  favorites: Favorite[];
 }
 export interface Settings {
   mode: Mode;
@@ -32,6 +37,7 @@ export type BackgroundMessage =
   | { type: 'connected' | 'navigate' | 'activate'; state: PanelSnapshot }
   | { type: 'remove-tab'; tabId: number }
   | { type: 'recent'; urls: string[]; titles: Record<string, string> }
+  | { type: 'favorites'; favorites: Favorite[] }
   | { type: 'mode'; mode: Mode };
 export interface PanelRequests {
   PANEL_READY: [undefined, PanelSnapshot];
@@ -41,6 +47,9 @@ export interface PanelRequests {
   PANEL_CLEAR_RECENT: [undefined, string[]];
   PANEL_REMOVE_RECENT: [{ url: string }, string[]];
   PANEL_RECENT_TITLE: [{ url: string; pageUrl: string; title: string }, Record<string, string>];
+  PANEL_ADD_FAVORITE: [{ url: string; title: string }, Favorite[]];
+  PANEL_REMOVE_FAVORITE: [{ url: string }, Favorite[]];
+  PANEL_FAVORITE_TITLE: [{ url: string; title: string }, Favorite[]];
   PANEL_MODE: [{ mode: Mode }, Mode];
   PANEL_THEME: [{ theme: Theme }, Theme];
   PANEL_BIND: [{ sourceTabId: number; bound: boolean }, PanelSnapshot];

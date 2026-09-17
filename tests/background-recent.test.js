@@ -10,6 +10,7 @@ import {
   commitPanelNavigation
 } from '../src/sidepanel-state.ts';
 import { THEME_KEY } from '../src/theme-preference.ts';
+import { FAVORITES_KEY, restoreFavorites } from '../src/favorites.ts';
 
 const event = () => ({
   listeners: [],
@@ -90,6 +91,7 @@ async function background(context, localValues = {}, sessionValues = {}) {
     contextMenus: {
       onClicked: event(),
       removeAll: async () => {},
+      update: async () => {},
       create: (_options, callback) => callback()
     },
     i18n: { getMessage: key => key },
@@ -117,6 +119,133 @@ async function background(context, localValues = {}, sessionValues = {}) {
     });
   return { chrome, request, sender, settingsRequest };
 }
+
+test('favorites restore valid unique URLs and titles without the recent-list capacity limit', () => {
+  assert.deepEqual(restoreFavorites(null), []);
+  assert.deepEqual(
+    restoreFavorites([
+      null,
+      {},
+      { url: 'javascript:alert(1)' },
+      { url: 'chrome://settings' },
+      { url: 'bad url' },
+      { url: 'https://a.example', title: ' Home\n page ' },
+      { url: a, title: 'Duplicate' },
+      { url: internal, title: 42 }
+    ]),
+    [
+      { url: a, title: 'Home page' },
+      { url: internal, title: '' }
+    ]
+  );
+  assert.equal(
+    restoreFavorites(
+      Array.from({ length: 20 }, (_, i) => ({
+        url: `https://example.com/${i}`,
+        title: 'x'.repeat(600)
+      }))
+    ).length,
+    20
+  );
+  assert.equal(restoreFavorites([{ url: a, title: 'x'.repeat(600) }])[0].title.length, 512);
+});
+
+test('favorites persist and broadcast independently of recents, stale saves and page bindings', async context => {
+  const { chrome, request, sender, settingsRequest } = await background(context, {
+    [FAVORITES_KEY]: [{ url: b, title: 'Saved before restart' }]
+  });
+  const messages = [];
+  chrome.runtime.onConnect.emit({
+    name: 'pocket-sidepanel:2',
+    sender,
+    onDisconnect: event(),
+    postMessage: message => messages.push(structuredClone(message))
+  });
+  await request('PANEL_NAVIGATE', { input: a });
+  const before = await request('PANEL_READY');
+  const expected = [
+    { url: a, title: 'Home' },
+    { url: b, title: 'Saved before restart' }
+  ];
+  assert.deepEqual(await request('PANEL_ADD_FAVORITE', { url: a, title: 'Home' }), expected);
+  await request('PANEL_SAVE', { state: before });
+  await settingsRequest('SETTINGS_CLEAR_RECENT');
+  await request('PANEL_BIND', { sourceTabId: 10, bound: true });
+  const after = await request('PANEL_READY');
+  assert.equal(after.url, before.url);
+  assert.deepEqual(after.history, before.history);
+  assert.deepEqual(after.favorites, expected);
+  assert.deepEqual((await request('PANEL_READY', {}, 2)).favorites, expected);
+  assert.deepEqual(chrome.storage.local.values[FAVORITES_KEY], expected);
+  assert(messages.some(message => message.type === 'favorites' && message.favorites.length === 2));
+  await request('PANEL_CLOSE');
+  assert.deepEqual((await request('PANEL_READY')).favorites, expected);
+  await request('PANEL_REMOVE_FAVORITE', { url: a });
+  assert.deepEqual((await request('PANEL_READY')).favorites, [expected[1]]);
+  assert.equal((await request('PANEL_READY')).url, '');
+});
+
+test('favorite metadata uses the current exact page and cannot resurrect a removed favorite', async context => {
+  const { request, settingsRequest } = await background(context);
+  await assert.rejects(request('PANEL_ADD_FAVORITE', { url: a, title: 'Empty' }), {
+    code: 'errorCurrentPage'
+  });
+  await request('PANEL_NAVIGATE', { input: a });
+  await request('PANEL_RECENT_TITLE', { url: a, pageUrl: a, title: 'Source title' });
+  await assert.rejects(request('PANEL_ADD_FAVORITE', { url: b, title: 'Wrong page' }), {
+    code: 'errorCurrentPage'
+  });
+  assert.deepEqual(await request('PANEL_ADD_FAVORITE', { url: a, title: '' }), [
+    { url: a, title: 'Source title' }
+  ]);
+  await request('PANEL_FAVORITE_TITLE', { url: b, title: 'Stale title' });
+  await request('PANEL_CLEAR_RECENT');
+  assert.deepEqual(await request('PANEL_FAVORITE_TITLE', { url: a, title: ' Updated\n title ' }), [
+    { url: a, title: 'Updated title' }
+  ]);
+  const before = await request('PANEL_READY');
+  await request('PANEL_REMOVE_FAVORITE', { url: a });
+  await request('PANEL_SAVE', { state: before });
+  assert.deepEqual(await request('PANEL_FAVORITE_TITLE', { url: a, title: 'Late' }), []);
+  await assert.rejects(
+    settingsRequest('PANEL_ADD_FAVORITE', { windowId: 1, url: a, title: 'Untrusted' }),
+    { code: 'errorPanelOnly' }
+  );
+});
+
+test('favorite writes are atomic, retryable, idempotent and serialize concurrent window additions', async context => {
+  const { chrome, request } = await background(context);
+  await request('PANEL_NAVIGATE', { input: a });
+  await request('PANEL_NAVIGATE', { input: b }, 2);
+  const original = chrome.storage.local.set;
+  chrome.storage.local.set = async () => {
+    throw new Error('Storage unavailable');
+  };
+  await assert.rejects(
+    request('PANEL_ADD_FAVORITE', { url: a, title: 'First' }),
+    /Storage unavailable/
+  );
+  assert.deepEqual((await request('PANEL_READY')).favorites, []);
+  chrome.storage.local.set = original;
+  await Promise.all([
+    request('PANEL_ADD_FAVORITE', { url: a, title: 'First' }),
+    request('PANEL_ADD_FAVORITE', { url: b, title: 'Second' }, 2),
+    request('PANEL_ADD_FAVORITE', { url: a, title: 'Duplicate' })
+  ]);
+  const expected = [
+    { url: b, title: 'Second' },
+    { url: a, title: 'First' }
+  ];
+  assert.deepEqual((await request('PANEL_READY')).favorites, expected);
+  chrome.storage.local.set = async () => {
+    throw new Error('Storage unavailable');
+  };
+  await assert.rejects(request('PANEL_REMOVE_FAVORITE', { url: a }), /Storage unavailable/);
+  assert.deepEqual((await request('PANEL_READY')).favorites, expected);
+  chrome.storage.local.set = original;
+  await request('PANEL_REMOVE_FAVORITE', { url: a });
+  assert.deepEqual(await request('PANEL_REMOVE_FAVORITE', { url: a }), [expected[0]]);
+});
 
 test('settings change the shared mode and clear recents without replacing window navigation', async context => {
   const { chrome, request, sender, settingsRequest } = await background(context);
@@ -500,7 +629,58 @@ test('missing legacy content script is expected during installation and still pe
   await request('PANEL_READY');
   assert.equal(chrome.storage.session.values['pocket-page-mount-v1'], undefined);
   assert.equal(menus[0].id, 'open-pocket');
+  assert.deepEqual(menus[1], {
+    id: 'favorite-pocket',
+    title: 'contextFavorite',
+    contexts: ['page', 'frame', 'action'],
+    documentUrlPatterns: ['http://*/*', 'https://*/*']
+  });
   assert.deepEqual(logs, []);
+});
+
+test('page, frame and action menus save the selected page without opening or navigating a panel', async context => {
+  const { chrome, request } = await background(context);
+  let opened = 0;
+  chrome.sidePanel.open = async () => {
+    opened++;
+  };
+  await request('PANEL_NAVIGATE', { input: internal });
+  const before = await request('PANEL_READY');
+  const click = (info, tab) =>
+    chrome.contextMenus.onClicked.emit({ menuItemId: 'favorite-pocket', ...info }, tab);
+  // The toolbar action uses its main tab even when a different page is open in the side panel.
+  click({}, { id: 10, windowId: 1, url: a, title: 'Main tab' });
+  assert.deepEqual((await request('PANEL_READY')).favorites, [{ url: a, title: 'Main tab' }]);
+  // The menu captures its document URL even when the main tab has since navigated.
+  click({ pageUrl: b }, { id: 10, windowId: 1, url: a, title: 'Wrong title' });
+  click({ frameUrl: internal, pageUrl: a }, { id: 10, windowId: 1, url: a, title: 'Parent title' });
+  click({ pageUrl: 'https://a.example' }, { url: a, title: 'Duplicate' });
+  click({ pageUrl: 'chrome://settings' }, { url: a });
+  click({}, undefined);
+  const after = await request('PANEL_READY');
+  assert.deepEqual(after.favorites, [
+    { url: internal, title: '' },
+    { url: b, title: '' },
+    { url: a, title: 'Main tab' }
+  ]);
+  assert.equal(after.url, before.url);
+  assert.deepEqual(after.history, before.history);
+  assert.deepEqual(after.recentUrls, before.recentUrls);
+  assert.equal(opened, 0);
+});
+
+test('browser startup refreshes both context menu labels', async context => {
+  const { chrome, request } = await background(context);
+  const updates = [];
+  chrome.contextMenus.update = async (id, properties) => {
+    updates.push({ id, ...properties });
+  };
+  chrome.runtime.onStartup.emit();
+  await request('PANEL_READY');
+  assert.deepEqual(updates, [
+    { id: 'open-pocket', title: 'contextOpen' },
+    { id: 'favorite-pocket', title: 'contextFavorite' }
+  ]);
 });
 
 test('only explicitly bound tabs are independent; all other tabs share one window page', async context => {

@@ -1,6 +1,6 @@
 import { element } from './dom.js';
 import { validTheme } from './theme-preference.js';
-import type { PanelSnapshot, BackgroundMessage, Mode } from './types.js';
+import type { PanelSnapshot, BackgroundMessage, Mode, Favorite } from './types.js';
 import { PanelPage } from './panel-page.js';
 import { parseInput, isWebUrl } from './config.js';
 import { frameDestination } from './embedding.js';
@@ -8,6 +8,7 @@ import { navigatePanel, commitPanelNavigation } from './sidepanel-state.js';
 import { localizeDocument, t, errorMessage } from './i18n.js';
 import { createPanelClient } from './panel-client.js';
 import { RecentMenu } from './recent-menu.js';
+import { FavoriteList } from './favorite-list.js';
 
 localizeDocument();
 
@@ -56,6 +57,20 @@ const recentMenu = new RecentMenu({
     return active.state;
   }
 });
+const favoriteList = new FavoriteList({
+  run: serial,
+  onOpen: input => navigate(input),
+  onRemove: async url => {
+    const favorites = await request('PANEL_REMOVE_FAVORITE', { url });
+    setFavorites(favorites);
+    return favorites;
+  }
+});
+
+function setFavorites(favorites: Favorite[]) {
+  for (const page of pages.values()) page.state.favorites = favorites;
+  if (active && !active.disposed) render();
+}
 
 function showNotice(text = '', canRetry = false) {
   notice.hidden = !text;
@@ -67,6 +82,13 @@ function render(page = active) {
   if (page !== active || page.disposed) return;
   const state = page.state;
   recentMenu.render(state);
+  favoriteList.render(state.favorites);
+  const favorite = element<HTMLButtonElement>('#favorite');
+  const saved = state.favorites.some(item => item.url === state.url);
+  favorite.disabled = !state.url;
+  favorite.setAttribute('aria-pressed', String(saved));
+  favorite.title = t(saved ? 'removeFavorite' : 'addFavorite');
+  element('#favorite-label').textContent = favorite.title;
   document.body.classList.toggle('mobile', state.mode === 'mobile');
   document.body.dataset.scope = state.tabId === null ? 'shared' : 'bound';
   document.body.dataset.tabId = String(state.tabId ?? 'shared');
@@ -173,6 +195,9 @@ function receiveBackgroundMessage(message: BackgroundMessage) {
     case 'mode':
       setMode(message.mode);
       break;
+    case 'favorites':
+      setFavorites(message.favorites);
+      break;
   }
 }
 
@@ -213,6 +238,10 @@ window.addEventListener('message', event => {
     page.viewport.accept(event.data, event.origin);
     if (event.data.type === 'POCKET_VIEWPORT') return;
     const metadata = page.tracker.accept(event.data);
+    if (metadata) {
+      page.title = metadata.title;
+      page.titleUrl = metadata.pageUrl;
+    }
     if (event.data.type === 'POCKET_LOCATION') {
       commitPanelNavigation(page.state, event.data.url, page.pendingNavigation);
       page.pendingNavigation = false;
@@ -230,6 +259,19 @@ window.addEventListener('message', event => {
       const titles = await requestFor(page.state.tabId, 'PANEL_RECENT_TITLE', metadata);
       for (const cached of pages.values()) cached.state.recentTitles = titles;
       if (!active.disposed) recentMenu.render(active.state);
+    }
+    if (
+      metadata &&
+      page.state.favorites.some(
+        item => item.url === metadata.pageUrl && item.title !== metadata.title
+      )
+    ) {
+      setFavorites(
+        await requestFor(page.state.tabId, 'PANEL_FAVORITE_TITLE', {
+          url: metadata.pageUrl,
+          title: metadata.title
+        })
+      );
     }
   });
 });
@@ -323,6 +365,21 @@ element<HTMLButtonElement>('#close-page').onclick = () => {
     page.apply(await requestFor(page.state.tabId, 'PANEL_CLOSE'));
     recentMenu.hide();
     if (page === active) address.focus();
+  });
+};
+element('#favorite').onclick = () => {
+  const page = active;
+  const url = page.state.url;
+  const saved = page.state.favorites.some(item => item.url === url);
+  if (!url) return;
+  void serial(async () => {
+    const favorites = saved
+      ? await requestFor(page.state.tabId, 'PANEL_REMOVE_FAVORITE', { url })
+      : await requestFor(page.state.tabId, 'PANEL_ADD_FAVORITE', {
+          url,
+          title: page.titleUrl === url ? page.title : ''
+        });
+    setFavorites(favorites);
   });
 };
 element('#help').onclick = () => {

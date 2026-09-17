@@ -320,5 +320,17 @@
   },
   "unbindTabDescription": {
     "message": "この固定を解除し、共有ページに戻ります。"
+  },
+  "favorites": {
+    "message": "お気に入り"
+  },
+  "addFavorite": {
+    "message": "現在のページをお気に入りに追加"
+  },
+  "removeFavorite": {
+    "message": "お気に入りから削除"
+  },
+  "contextFavorite": {
+    "message": "SideBrowserのお気に入りに追加"
   }
 }

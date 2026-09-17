@@ -320,5 +320,17 @@
   },
   "unbindTabDescription": {
     "message": "Release this binding and return to the shared page."
+  },
+  "favorites": {
+    "message": "Favorites"
+  },
+  "addFavorite": {
+    "message": "Add current page to favorites"
+  },
+  "removeFavorite": {
+    "message": "Remove from favorites"
+  },
+  "contextFavorite": {
+    "message": "Add to SideBrowser favorites"
   }
 }

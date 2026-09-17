@@ -320,5 +320,17 @@
   },
   "unbindTabDescription": {
     "message": "Dissocier cette page et revenir à la page partagée."
+  },
+  "favorites": {
+    "message": "Favoris"
+  },
+  "addFavorite": {
+    "message": "Ajouter la page actuelle aux favoris"
+  },
+  "removeFavorite": {
+    "message": "Retirer des favoris"
+  },
+  "contextFavorite": {
+    "message": "Ajouter aux favoris SideBrowser"
   }
 }

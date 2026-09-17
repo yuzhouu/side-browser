@@ -6,7 +6,8 @@ import type {
   Settings,
   PanelRequest,
   SettingsRequest,
-  BackgroundMessage
+  BackgroundMessage,
+  Favorite
 } from './types.js';
 import { parseInput, validMode, isWebUrl } from './config.js';
 import { frameDestination } from './embedding.js';
@@ -30,6 +31,7 @@ import { PANEL_RULE_IDS, panelRules } from './network-rules.js';
 import { t } from './i18n.js';
 import { userError } from './errors.js';
 import { THEME_KEY, validTheme } from './theme-preference.js';
+import { FAVORITES_KEY, restoreFavorites } from './favorites.js';
 
 function isSettingsRequest(message: PanelRequest | SettingsRequest): message is SettingsRequest {
   return message.type.startsWith('SETTINGS_');
@@ -45,6 +47,7 @@ let mode: Mode;
 let theme: Theme;
 let recentUrls: string[] = [];
 let recentTitles: Record<string, string> = {};
+let favorites: Favorite[] = [];
 let queue: Promise<unknown> = Promise.resolve();
 const ports = new Map<number, chrome.runtime.Port>();
 
@@ -86,6 +89,7 @@ const ready = (async () => {
       THEME_KEY,
       RECENT_KEY,
       RECENT_TITLES_KEY,
+      FAVORITES_KEY,
       'pocket-global-overlay-v1'
     ]),
     chrome.storage.session.get([WINDOWS_KEY, BINDINGS_KEY])
@@ -95,6 +99,7 @@ const ready = (async () => {
   theme = validTheme(local[THEME_KEY]);
   recentUrls = restoreRecentUrls(local[RECENT_KEY]);
   recentTitles = restoreRecentTitles(local[RECENT_TITLES_KEY], recentUrls);
+  favorites = restoreFavorites(local[FAVORITES_KEY]);
   for (const [id, saved] of Object.entries(session[WINDOWS_KEY] || {}))
     windows[id] = restorePanel(saved);
   for (const [id, saved] of Object.entries(session[BINDINGS_KEY] || {})) {
@@ -129,7 +134,8 @@ function getState(windowId: number, tabId: number | null = null): PanelSnapshot 
     tabId,
     mode,
     recentUrls: [...recentUrls],
-    recentTitles: { ...recentTitles }
+    recentTitles: { ...recentTitles },
+    favorites: structuredClone(favorites)
   };
 }
 
@@ -239,6 +245,22 @@ async function saveRecent(urls: string[], titles = recentTitles) {
   return [...recentUrls];
 }
 
+async function saveFavorites(next: Favorite[]) {
+  await chrome.storage.local.set({ [FAVORITES_KEY]: next });
+  favorites = next;
+  for (const id of ports.keys())
+    publish(id, { type: 'favorites', favorites: structuredClone(favorites) });
+  return structuredClone(favorites);
+}
+
+async function addFavorite(input: unknown, sourceTitle?: string) {
+  const [entry] = restoreFavorites([{ url: input, title: sourceTitle }]);
+  if (!entry) throw userError('errorUnsupportedUrl');
+  if (favorites.some(item => item.url === entry.url)) return structuredClone(favorites);
+  entry.title ||= recentTitles[entry.url] || '';
+  return saveFavorites([entry, ...favorites]);
+}
+
 async function navigate(
   windowId: number,
   input: unknown,
@@ -335,6 +357,25 @@ chrome.runtime.onMessage.addListener((message: PanelRequest | SettingsRequest, s
         return saveRecent([]);
       case 'PANEL_REMOVE_RECENT':
         return saveRecent(recentUrls.filter(url => url !== message.url));
+      case 'PANEL_ADD_FAVORITE': {
+        const url = getState(message.windowId, tabId).url;
+        if (!isWebUrl(url) || message.url !== url) throw userError('errorCurrentPage');
+        return addFavorite(url, message.title);
+      }
+      case 'PANEL_REMOVE_FAVORITE':
+        return saveFavorites(favorites.filter(item => item.url !== message.url));
+      case 'PANEL_FAVORITE_TITLE': {
+        const title = normalizeRecentTitle(message.title);
+        if (
+          title &&
+          getState(message.windowId, tabId).url === message.url &&
+          favorites.some(item => item.url === message.url && item.title !== title)
+        )
+          return saveFavorites(
+            favorites.map(item => (item.url === message.url ? { ...item, title } : item))
+          );
+        return structuredClone(favorites);
+      }
       case 'PANEL_RECENT_TITLE': {
         const title = normalizeRecentTitle(message.title);
         if (
@@ -431,9 +472,10 @@ chrome.tabs.onAttached.addListener((tabId, { newWindowId }) => {
 
 chrome.runtime.onStartup.addListener(() => {
   // Context menus persist across restarts, including a change of Chrome UI language.
-  void update(() => chrome.contextMenus.update('open-pocket', { title: t('contextOpen') })).catch(
-    error => reportFailure('Update context menu language', error)
-  );
+  void update(async () => {
+    await chrome.contextMenus.update('open-pocket', { title: t('contextOpen') });
+    await chrome.contextMenus.update('favorite-pocket', { title: t('contextFavorite') });
+  }).catch(error => reportFailure('Update context menu language', error));
 });
 
 chrome.runtime.onInstalled.addListener(() => {
@@ -451,21 +493,23 @@ chrome.runtime.onInstalled.addListener(() => {
         });
     await chrome.storage.session.remove(key);
     await chrome.contextMenus.removeAll();
-    await new Promise<void>((resolve, reject) => {
-      chrome.contextMenus.create(
-        {
-          id: 'open-pocket',
-          title: t('contextOpen'),
-          contexts: ['page', 'link', 'action'],
-          documentUrlPatterns: ['http://*/*', 'https://*/*']
-        },
-        () => {
-          const error = chrome.runtime.lastError;
-          if (error) reject(new Error(error.message));
-          else resolve();
-        }
-      );
-    });
+    for (const entry of [
+      { id: 'open-pocket', title: t('contextOpen'), contexts: ['page', 'link', 'action'] },
+      { id: 'favorite-pocket', title: t('contextFavorite'), contexts: ['page', 'frame', 'action'] }
+    ] satisfies chrome.contextMenus.CreateProperties[])
+      await new Promise<void>((resolve, reject) => {
+        chrome.contextMenus.create(
+          {
+            ...entry,
+            documentUrlPatterns: ['http://*/*', 'https://*/*']
+          },
+          () => {
+            const error = chrome.runtime.lastError;
+            if (error) reject(new Error(error.message));
+            else resolve();
+          }
+        );
+      });
   }).catch(error => reportFailure('Install context menu and migrate legacy state', error));
 });
 
@@ -488,6 +532,16 @@ function openFromGesture(windowId: number, input: unknown, title?: string, sourc
 }
 
 chrome.contextMenus.onClicked.addListener((info, tab) => {
+  if (info.menuItemId === 'favorite-pocket') {
+    // A frame menu targets that frame; the action menu targets the main tab.
+    // Saving never opens a panel or changes its running page/history.
+    const url = info.frameUrl || info.pageUrl || tab?.url;
+    if (isWebUrl(url))
+      void update(() => addFavorite(url, url === tab?.url ? tab.title : undefined)).catch(error =>
+        reportFailure('Favorite requested page', error)
+      );
+    return;
+  }
   if (info.menuItemId === 'open-pocket' && tab?.windowId)
     openFromGesture(
       tab.windowId,

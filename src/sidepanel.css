@@ -449,6 +449,108 @@ main {
   outline-offset: 2px;
   border-radius: 3px;
 }
+#more-menu #favorite[aria-pressed='true'] {
+  color: var(--accent-strong);
+}
+#favorite[aria-pressed='true'] svg {
+  fill: currentColor;
+}
+#favorites {
+  margin-top: 28px;
+  padding-top: 20px;
+  border-top: 1px solid var(--divider);
+  text-align: left;
+}
+#favorites-heading {
+  margin: 0 0 10px;
+  color: var(--empty-title);
+  font-size: 12px;
+  font-weight: 600;
+}
+#favorite-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
+  gap: 8px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.favorite-item {
+  position: relative;
+  min-width: 0;
+  border: 1px solid var(--divider);
+  border-radius: 10px;
+  background: var(--surface);
+}
+.favorite-item .favorite-open {
+  width: 100%;
+  height: 44px;
+  border-radius: 9px;
+}
+.favorite-open .recent-icon,
+.favorite-open .recent-icon svg,
+.favorite-open .recent-icon img {
+  width: 24px;
+  height: 24px;
+}
+.favorite-item .favorite-remove {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  width: 18px;
+  height: 18px;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--subtle);
+  opacity: 0;
+  pointer-events: none;
+}
+.favorite-item:hover .favorite-remove,
+.favorite-item:focus-within .favorite-remove {
+  opacity: 1;
+  pointer-events: auto;
+}
+.favorite-remove:hover {
+  color: var(--remove-text);
+  background: var(--remove-hover);
+}
+.favorite-remove svg {
+  width: 11px;
+  height: 11px;
+}
+@media (hover: none) {
+  .favorite-item .favorite-remove {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+#favorite-tooltip {
+  position: fixed;
+  inset: auto;
+  width: max-content;
+  max-width: min(300px, calc(100vw - 16px));
+  margin: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--menu);
+  color: var(--panel-text);
+  box-shadow: 0 5px 18px var(--shadow);
+  pointer-events: none;
+  overflow-wrap: anywhere;
+  line-height: 1.6;
+  text-align: left;
+}
+.favorite-tooltip-title {
+  font-size: 12px;
+  font-weight: 600;
+}
+.favorite-tooltip-url {
+  margin-top: 4px;
+  font-size: 11px;
+  color: var(--subtle);
+}
 [hidden] {
   display: none !important;
 }

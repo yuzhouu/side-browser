@@ -7,6 +7,7 @@ import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright';
 import { attachTarget, poll } from './browser/cdp.mjs';
 import { checkTabPages } from './browser/tab-pages.mjs';
+import { checkFavorites } from './browser/favorites.mjs';
 
 const rootPath = fileURLToPath(new URL('../dist/', import.meta.url));
 const manifest = JSON.parse(await readFile(new URL('../dist/manifest.json', import.meta.url)));
@@ -1000,6 +1001,31 @@ try {
   assert.equal((await state()).url, '');
   assert.deepEqual((await state()).history, []);
   pass('Browser restart clears bindings and does not restore a page transferred out of sharing');
+  const savedFavorites = await checkFavorites({
+    panel,
+    state,
+    navigate,
+    loaded,
+    frameAt,
+    screenshot,
+    openPanel,
+    base,
+    catalog
+  });
+  await shutdown();
+  await launch();
+  panel = await openPanel();
+  await poll(
+    () =>
+      panel.evaluate(
+        "!document.querySelector('#empty').hidden && !document.querySelector('#favorites').hidden"
+      ),
+    'favorites restored after browser restart'
+  );
+  assert.deepEqual((await state()).favorites, savedFavorites);
+  await panel.click('.favorite-open');
+  await loaded(savedFavorites[0].url);
+  pass('Full browser restart preserves favorites and they reopen from the blank page');
   assert.deepEqual(diagnostics.errors, []);
   const warnings = [...new Set(diagnostics.warnings)];
   assert(

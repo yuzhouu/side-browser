@@ -107,6 +107,17 @@
       </li>
     </template>
     <div id="more-menu" popover role="group" data-i18n-aria-label="more">
+      <button
+        id="favorite"
+        type="button"
+        aria-pressed="false"
+        data-i18n-title="addFavorite"
+        disabled
+      >
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2-5.6-3-5.6 3 1.1-6.2L3 9.6l6.2-.9Z" /></svg
+        ><span id="favorite-label" data-i18n="addFavorite"></span>
+      </button>
       <button id="external" type="button" data-i18n-title="openExternalTitle" disabled>
         <svg viewBox="0 0 24 24" aria-hidden="true">
           <path d="M14 4h6v6M20 4 10 14M10 4H4v16h16v-6" /></svg
@@ -199,6 +210,10 @@
               <span data-i18n="emptySearch"></span>
             </button>
           </div>
+          <section id="favorites" aria-labelledby="favorites-heading" hidden>
+            <h2 id="favorites-heading" data-i18n="favorites"></h2>
+            <ul id="favorite-list"></ul>
+          </section>
           <ul class="empty-tips">
             <li>
               <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -219,6 +234,27 @@
         </div>
       </section>
     </main>
+    <template id="favorite-item-template">
+      <li class="favorite-item">
+        <button class="favorite-open" type="button">
+          <span class="recent-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="9" />
+              <ellipse cx="12" cy="12" rx="4" ry="9" />
+              <path d="M3 12h18" />
+            </svg>
+            <img width="16" height="16" alt="" hidden />
+          </span>
+        </button>
+        <button class="favorite-remove" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7 7 10 10M17 7 7 17" /></svg>
+        </button>
+      </li>
+    </template>
+    <div id="favorite-tooltip" role="tooltip" popover="manual">
+      <div class="favorite-tooltip-title"></div>
+      <div class="favorite-tooltip-url"></div>
+    </div>
     <script type="module" src="sidepanel.ts"></script>
   </body>
 </html>
