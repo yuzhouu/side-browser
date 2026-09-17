@@ -1,0 +1,150 @@
+{
+  "version": "1.0.0",
+  "renderedAt": "2026-09-17T02:20:46.537Z",
+  "defaultLocale": "zh-CN",
+  "locales": [
+    "zh-CN",
+    "en"
+  ],
+  "design": "design.html",
+  "captures": {
+    "zh-CN": "assets/source/capture.json",
+    "en": "assets/source/en/capture.json"
+  },
+  "screenshotMethod": "Unmodified screenshots from native Chrome side panel in each locale. Exact HTML/CSS text, framing and crops added outside the product UI. AI overview, research page and marquee combine screenshots of the main tab and sidebar. Detail pages intentionally focus on specific sidebar controls.",
+  "aiSite": "https://chatgpt.com/",
+  "sourceBrowsers": {
+    "zh-CN": "149.0.7827.55",
+    "en": "149.0.7827.55"
+  },
+  "exports": [
+    {
+      "file": "zh-CN/01-ai-beside-you.png",
+      "locale": "zh-CN",
+      "width": 1280,
+      "height": 800,
+      "bytes": 232315,
+      "sha256": "8cd25e5e2ac2c57cef3914c1db1bc6b3d5b08002d32a471218c5ab2f1798992e"
+    },
+    {
+      "file": "zh-CN/02-research-in-context.png",
+      "locale": "zh-CN",
+      "width": 1280,
+      "height": 800,
+      "bytes": 258007,
+      "sha256": "f71e28c8ea0e6bb3ee7988c4251d04867638ab7a0b9685f99c16175678f4e5c4"
+    },
+    {
+      "file": "zh-CN/03-open-in-one-step.png",
+      "locale": "zh-CN",
+      "width": 1280,
+      "height": 800,
+      "bytes": 130498,
+      "sha256": "ca30c0aceaf5a041f067626bd511d3b814ab2261977236b4489d973aadc6ae75"
+    },
+    {
+      "file": "zh-CN/04-recent-pages.png",
+      "locale": "zh-CN",
+      "width": 1280,
+      "height": 800,
+      "bytes": 233661,
+      "sha256": "816531c040b45f35cfd681ba433c8f323d241cb6060d67d8eee9cfc3239fd097"
+    },
+    {
+      "file": "zh-CN/05-make-it-yours.png",
+      "locale": "zh-CN",
+      "width": 1280,
+      "height": 800,
+      "bytes": 269185,
+      "sha256": "e47d9509287a468d6dd1f1f9a1b39e7dacb72c99907139f4fa1bff95233f6f2f"
+    },
+    {
+      "file": "zh-CN/promo-small-440x280.png",
+      "locale": "zh-CN",
+      "width": 440,
+      "height": 280,
+      "bytes": 17893,
+      "sha256": "a3d51823aa5b5ef54497861798677b29e1f973c3ea30f071245507382fe36b8d"
+    },
+    {
+      "file": "zh-CN/promo-marquee-1400x560.png",
+      "locale": "zh-CN",
+      "width": 1400,
+      "height": 560,
+      "bytes": 188483,
+      "sha256": "e8c1a45a4621341766a7a8fb7da0ff56436de9295fe2357328b78c2a246b18f2"
+    },
+    {
+      "file": "zh-CN/store-icon-128.png",
+      "locale": "zh-CN",
+      "width": 128,
+      "height": 128,
+      "bytes": 2167,
+      "sha256": "3de57d91defad350fb685e5d9d78ce07542b0979877bfd7cfa099bec56422698"
+    },
+    {
+      "file": "en/01-ai-beside-you.png",
+      "locale": "en",
+      "width": 1280,
+      "height": 800,
+      "bytes": 252938,
+      "sha256": "d34000ee155bfc1933c3795cf8d9f52e537fa47716b6f3fa6222c5b3da0bc89e"
+    },
+    {
+      "file": "en/02-research-in-context.png",
+      "locale": "en",
+      "width": 1280,
+      "height": 800,
+      "bytes": 340337,
+      "sha256": "f1a940db523426e594628792bfe756e5074968d6fecd35cb68514a1eb7975fba"
+    },
+    {
+      "file": "en/03-open-in-one-step.png",
+      "locale": "en",
+      "width": 1280,
+      "height": 800,
+      "bytes": 123008,
+      "sha256": "aaeb4df5a33e63adf383d10ee6c101c6c9680b0202c867c9ba31d4ef31bbce8b"
+    },
+    {
+      "file": "en/04-recent-pages.png",
+      "locale": "en",
+      "width": 1280,
+      "height": 800,
+      "bytes": 168086,
+      "sha256": "c4c377d89164587d94d2978bd3aa5ff58d5db2784cd64b3a49bbd151ec5ba1fa"
+    },
+    {
+      "file": "en/05-make-it-yours.png",
+      "locale": "en",
+      "width": 1280,
+      "height": 800,
+      "bytes": 203851,
+      "sha256": "7cc218fff71868b3183c18f876bcd19486e33faf76f074bc8f423c1dfa03c9cb"
+    },
+    {
+      "file": "en/promo-small-440x280.png",
+      "locale": "en",
+      "width": 440,
+      "height": 280,
+      "bytes": 17382,
+      "sha256": "eb784630c1f44aa400dd9c678ccb071b68b18c5c52b84f610898698d22919e41"
+    },
+    {
+      "file": "en/promo-marquee-1400x560.png",
+      "locale": "en",
+      "width": 1400,
+      "height": 560,
+      "bytes": 221555,
+      "sha256": "af2635405988c96cd917fc86b70bb82b34c5d6d28c1fe87cf5831ad46adfd0a1"
+    },
+    {
+      "file": "en/store-icon-128.png",
+      "locale": "en",
+      "width": 128,
+      "height": 128,
+      "bytes": 2167,
+      "sha256": "3de57d91defad350fb685e5d9d78ce07542b0979877bfd7cfa099bec56422698"
+    }
+  ]
+}

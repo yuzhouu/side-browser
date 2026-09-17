@@ -64,7 +64,8 @@ export const content = {
     exportError: '图片暂未生成，请刷新后重试。',
     exportNote: '1280 × 800 PNG · 中英文／浅深色 · 主页面 + 侧窗',
     library: '现成素材，直接取用。',
-    libraryNote: '商店说明图为中文版，包含功能文字与真实截图。',
+    libraryNote:
+      '当前展示中文版，含中文说明与真实中文界面；切换语言可查看英文版。下载包包含两套素材。',
     bundle: '下载素材包',
     png: '下载 PNG',
     artTitles: [
@@ -179,7 +180,8 @@ export const content = {
     exportError: 'Could not generate the image. Please refresh and try again.',
     exportNote: '1280 × 800 PNG · Your language and theme · Main page + sidebar',
     library: 'Ready to use. Ready to share.',
-    libraryNote: 'Store images include Chinese feature descriptions and real screenshots.',
+    libraryNote:
+      'English copy and real English UI screenshots. Switch languages for the Chinese set. The download includes both.',
     bundle: 'Download media kit',
     png: 'Download PNG',
     artTitles: [

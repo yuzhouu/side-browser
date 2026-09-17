@@ -6,7 +6,13 @@ import { attachTarget, poll } from './browser/cdp.mjs';
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 
-const output = resolve('store/assets/source');
+const locale = process.env.STORE_LOCALE || 'zh-CN';
+assert(['zh-CN', 'en'].includes(locale), 'STORE_LOCALE must be zh-CN or en');
+const english = locale === 'en';
+const articleUrl = english
+  ? 'https://en.wikipedia.org/wiki/Pomodoro_Technique'
+  : 'https://zh.wikipedia.org/wiki/%E7%95%AA%E8%8C%84%E5%B7%A5%E4%BD%9C%E6%B3%95';
+const output = resolve('store/assets/source', english ? 'en' : '');
 const profile = await mkdtemp(join(tmpdir(), 'sidebrowser-store-'));
 await mkdir(output, { recursive: true });
 let executablePath = process.env.CHROME_PATH || chromium.executablePath();
@@ -15,7 +21,7 @@ if (process.platform === 'darwin') {
   executablePath = join(profile, 'chrome.sh');
   await writeFile(
     executablePath,
-    `#!/bin/sh\nexec '${original.replaceAll("'", "'\\''")}' -AppleLanguages '(zh-CN)' "$@"\n`,
+    `#!/bin/sh\nexec '${original.replaceAll("'", "'\\''")}' -AppleLanguages '(${locale})' "$@"\n`,
     { mode: 0o700 }
   );
 }
@@ -29,8 +35,15 @@ try {
 }
 const evidence = {
   ...previous,
+  locale,
+  ...(english
+    ? {
+        researchScene:
+          'Two English Wikipedia pages; English research artwork uses main-research.png and wiki.png.'
+      }
+    : {}),
   capturedAt: new Date().toISOString(),
-  captures: previous.captures || [],
+  captures: (previous.captures || []).filter(item => !english || item.name !== 'search'),
   diagnostics
 };
 const saveEvidence = () =>
@@ -44,7 +57,7 @@ try {
     args: [
       `--load-extension=${resolve('dist')}`,
       `--disable-extensions-except=${resolve('dist')}`,
-      '--lang=zh-CN',
+      `--lang=${locale}`,
       '--window-size=1440,1000'
     ],
     ignoreDefaultArgs: ['--disable-extensions']
@@ -75,10 +88,10 @@ try {
     () => panel.evaluate("Boolean(document.querySelector('#mode-label')?.textContent)"),
     'initialized'
   );
-  await control.goto(
-    'https://zh.wikipedia.org/wiki/%E7%95%AA%E8%8C%84%E5%B7%A5%E4%BD%9C%E6%B3%95',
-    { waitUntil: 'load', timeout: 45000 }
-  );
+  const browserLocale = await worker.evaluate(() => chrome.i18n.getUILanguage());
+  assert(english ? /^en(?:-|$)/.test(browserLocale) : browserLocale === locale);
+  evidence.browserLocale = browserLocale;
+  await control.goto(articleUrl, { waitUntil: 'load', timeout: 45000 });
   await control.locator('h1').waitFor();
   await control.evaluate(() => document.fonts.ready);
   await new Promise(r => setTimeout(r, 4000));
@@ -93,13 +106,18 @@ try {
     viewport: await control.evaluate(() => ({ width: innerWidth, height: innerHeight }))
   };
   // A second real main page gives the encyclopedia scene a distinct reading context.
-  await control.goto('https://zh.wikipedia.org/wiki/%E6%97%B6%E9%97%B4%E7%AE%A1%E7%90%86', {
-    waitUntil: 'load',
-    timeout: 45000
-  });
+  await control.goto(
+    english
+      ? 'https://en.wikipedia.org/wiki/Time_management'
+      : 'https://zh.wikipedia.org/wiki/%E6%97%B6%E9%97%B4%E7%AE%A1%E7%90%86',
+    { waitUntil: 'load', timeout: 45000 }
+  );
   await control.locator('h1').waitFor();
   await control.evaluate(() => document.fonts.ready);
-  const intro = control.locator('p').filter({ hasText: '时间管理就是' }).first();
+  const intro = control
+    .locator('p')
+    .filter({ hasText: english ? 'Time management is' : '时间管理就是' })
+    .first();
   await control.mouse.wheel(
     0,
     (await intro.evaluate(element => element.getBoundingClientRect().top)) - 28
@@ -154,11 +172,15 @@ try {
   await capture('welcome');
   for (const [name, url] of [
     ['ai-chatgpt', 'https://chatgpt.com/'],
-    ['wiki', 'https://zh.wikipedia.org/wiki/%E7%95%AA%E8%8C%84%E5%B7%A5%E4%BD%9C%E6%B3%95'],
-    [
-      'search',
-      'https://www.google.com/search?q=%E7%95%AA%E8%8C%84%E5%B7%A5%E4%BD%9C%E6%B3%95&hl=zh-CN'
-    ]
+    ['wiki', articleUrl],
+    ...(!english
+      ? [
+          [
+            'search',
+            'https://www.google.com/search?q=%E7%95%AA%E8%8C%84%E5%B7%A5%E4%BD%9C%E6%B3%95&hl=zh-CN'
+          ]
+        ]
+      : [])
   ]) {
     await panel.fill('#address', url);
     await panel.press('Enter');
@@ -186,11 +208,13 @@ try {
           const value = await candidate.evaluate(
             '({url:location.href,title:document.title,text:document.body.innerText.slice(0,450)})'
           );
+          if (/\/sorry\/|recaptcha|unusual traffic|not a robot/i.test(value.url + value.text))
+            return false;
           const expected =
             name === 'ai-chatgpt'
               ? /ChatGPT/.test(value.title) &&
                 /你想|询问|聊天|What can|Ask|Chat with/.test(value.text)
-              : /番茄工作法/.test(value.title);
+              : (english ? /Pomodoro/i : /番茄工作法/).test(value.title);
           return expected && value.text.length > 50 && value;
         }, `${name} rendered content`);
         frame = candidate;
@@ -216,12 +240,28 @@ try {
     await capture(name, { resolvedUrl: rendered.url, title: rendered.title });
   }
   await panel.click('#recent');
+  await poll(
+    () => panel.evaluate("document.querySelector('#recent-menu').matches(':popover-open')"),
+    'recent menu open'
+  );
   await capture('recent');
   await panel.press('Escape');
   await panel.click('#more');
+  await poll(
+    () => panel.evaluate("document.querySelector('#more-menu').matches(':popover-open')"),
+    'more menu open'
+  );
   await capture('more-light');
-  await panel.click('[data-theme-value="dark"]');
+  await panel.evaluate('document.querySelector(\'[data-theme-value="dark"]\').click()');
+  await poll(
+    () => panel.evaluate("document.documentElement.dataset.theme === 'dark'"),
+    'dark theme applied'
+  );
   await panel.click('#more');
+  await poll(
+    () => panel.evaluate("document.querySelector('#more-menu').matches(':popover-open')"),
+    'dark more menu open'
+  );
   await capture('more-dark');
   await saveEvidence();
 } finally {

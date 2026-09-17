@@ -47,9 +47,28 @@ const zip = unzipSync(
 assert.equal(JSON.parse(new TextDecoder().decode(zip['manifest.json'])).version, pkg.version);
 assert(!Object.keys(zip).some(path => /^(website|store|site-dist|node_modules)\//.test(path)));
 const media = unzipSync(await readFile(join(root, 'assets/downloads/sidebrowser-media.zip')));
-assert(media['description.zh-CN.txt'] && media['description.en.txt'] && media['sidebrowser.svg']);
+assert(media['zh-CN/description.txt'] && media['en/description.txt'] && media['sidebrowser.svg']);
+assert.equal(Object.keys(media).filter(name => name.endsWith('.png')).length, 16);
+assert.equal(
+  Object.keys(media).filter(name => name.startsWith('en/') && name.endsWith('.png')).length,
+  8
+);
 for (const name of Object.keys(media).filter(name => name.endsWith('.png'))) {
   assert.equal(Buffer.from(media[name]).subarray(0, 8).toString('hex'), '89504e470d0a1a0a');
+  assert.deepEqual(Buffer.from(media[name]), await readFile(join(root, 'assets', name)), name);
+}
+for (const prefix of ['', 'en/']) {
+  const assetPrefix = prefix || 'zh-CN/';
+  const gallery = await readFile(join(root, prefix, 'media/index.html'), 'utf8');
+  const images = [...gallery.matchAll(/class="asset-image" href="([^"]+)"/g)].map(
+    match => match[1]
+  );
+  assert.equal(images.length, 7);
+  assert(images.every(path => path.startsWith(`${base}assets/${assetPrefix}`)));
+  assert(gallery.includes(`${base}assets/${assetPrefix}store-icon-128.png`));
+  const home = await readFile(join(root, prefix, 'index.html'), 'utf8');
+  assert(home.includes(`${base}assets/${assetPrefix}01-ai-beside-you.png`));
+  assert(home.includes(`${base}assets/${assetPrefix}promo-marquee-1400x560.png`));
 }
 const zh = await readFile(join(root, 'privacy/index.html'), 'utf8');
 const en = await readFile(join(root, 'en/privacy/index.html'), 'utf8');

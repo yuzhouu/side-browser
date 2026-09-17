@@ -24,7 +24,10 @@ RESEARCH WITHOUT LOSING YOUR PLACE
 Read Wikipedia, use Google Search, look up terms, or consult documentation while continuing your task in the main tab. Enter a URL or search keywords directly in the address bar.
 
 KEEP YOUR SIDEBAR PAGE ACROSS TABS
-Switch tabs or close the source tab in the same Chrome window without recreating the running sidebar page. Each browser window has its own sidebar page and back/forward history.
+By default, unbound tabs in the same Chrome window share one sidebar. Switch between those tabs or close the original source tab without recreating the running sidebar page. Each browser window has its own shared page and back/forward history.
+
+BIND A PAGE TO ONE TAB WHEN YOU NEED TO
+Use the More menu to bind the current sidebar page to a tab while keeping that page running. Other unbound tabs return to the welcome screen, where you can open a new shared page. Bound tabs have their own page and history. Unbinding closes that independent page and returns to the shared sidebar; closing a bound tab also releases its page.
 
 EVERYDAY CONTROLS, CLOSE AT HAND
 • Open the current page with one click, the context menu, or Alt + Shift + P (Mac: Option + Shift + P).

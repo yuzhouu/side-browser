@@ -1,6 +1,6 @@
 # Chrome 扩展商店提交资料
 
-资料版本：1.0.0 · 核对日期：2026-09-16。此文件用于开发者后台填写，不属于公开商品介绍。
+资料版本：1.0.0 · 素材更新日期：2026-09-17。此文件用于开发者后台填写，不属于公开商品介绍；后台字段名称仍需在提交时核对。
 
 ## 商店详情
 
@@ -9,7 +9,7 @@
 | 分类定位 | **效率工具** |
 | 新版后台细分类 | 如后台仍提供“效率工具 / Productivity”，按此选择；如仅提供新版分类，选 **Workflow & Planning（工作流程与规划）**，与边工作边查资料的用途对应。分类不写入 manifest。 |
 | 默认语言 | English，与 `public/manifest.json` 的 `default_locale: en` 一致；添加简体中文商店本地化。 |
-| 名称和描述 | 复制 `listing.en.md`、`listing.zh-CN.md` 对应字段和正文；简短介绍与对应语言包一致。 |
+| 名称和描述 | 复制 `en/listing.md`、`zh-CN/listing.md` 对应字段和正文；简短介绍与对应语言包一致。 |
 | 网站 | https://yuzhouu.github.io/side-browser/ |
 | 支持网址 | https://github.com/yuzhouu/side-browser/issues |
 | 隐私政策 | https://yuzhouu.github.io/side-browser/privacy/ （English: https://yuzhouu.github.io/side-browser/en/privacy/）。正文统一来自 `docs/privacy-policy.md`，由 GitHub Pages 工作流发布；提交前确认该次部署成功且未登录可访问。 |
@@ -23,15 +23,15 @@ Open a user-selected website in Chrome's native side panel so the user can consu
 
 ### sidePanel
 
-Displays the extension's browser interface in Chrome's native side panel. The same window keeps one sidebar page across tab switches; this is the extension's core function.
+Displays the extension's browser interface in Chrome's native side panel. Unbound tabs in the same window share one sidebar page across tab switches. Users can explicitly bind a running side page to a tab to keep an independent page and history. This is the extension's core browsing function.
 
 ### tabs
 
-Reads the active tab's URL and title when the user explicitly opens the current page through the toolbar, context menu, or shortcut. It is not used to record general browsing activity or monitor tab switching. Users can also open the sidebar URL in a normal tab; creating that tab itself does not require this permission. URL/title access for the explicit open-current action is the reason for the permission.
+Reads the active tab's URL and title when the user explicitly opens the current page through the toolbar, context menu, or shortcut. The extension also responds to tab activation and closure to select or release explicitly bound side pages, without recording general browsing activity. Tab lifecycle events themselves do not require this permission. Users can also open the sidebar URL in a normal tab; creating that tab itself does not require this permission. URL/title access for the explicit open-current action is the reason for the permission.
 
 ### storage
 
-Stores window navigation state in session storage and the last restoration state, up to 10 recently opened URLs with their titles, mobile/desktop preference, and appearance preference in local storage. This data enables page restoration and recent reopening. It is not synced or uploaded to the developer.
+Stores window navigation state and explicitly requested tab-to-sidebar bindings, including tab IDs, sidebar URLs, and history, in session storage. Stores the last shared-page restoration state, up to 10 recently opened URLs with their titles, mobile/desktop preference, and appearance preference in local storage. This data enables page restoration and recent reopening. Binding moves the page out of the shared state; unbinding or closing the bound tab releases that independent page. Bindings end when the browser session ends. Data is not synced or uploaded to the developer.
 
 ### favicon
 
@@ -85,8 +85,9 @@ Requires Chrome 145 or later. No SideBrowser account, license key, or paid accou
 - [ ] 在开发者后台填入 https://yuzhouu.github.io/side-browser/privacy/ 。
 - [ ] 在后台确认账号联系邮箱、开发者注册状态和分发地区。
 - [ ] 上传 `releases/sidebrowser-1.0.0.zip`；若此版本号已在商店使用，应先提升版本再打包。
-- [ ] 上传 `store/assets/` 的商店图标、5 张说明截图、440×280 小宣传图；1400×560 横幅为可选。
-- [ ] 将中文说明图放入简体中文本地化；英文介绍可先使用同组展示图，图内界面为中文。
+- [x] 两套本地化素材：每种语言 5 张说明图、440×280 小宣传图、1400×560 横幅；图内说明与真实界面均为对应语言。
+- [ ] 默认 English 上传 `store/en/` 的英文图片；简体中文本地化上传 `store/zh-CN/` 的中文图片。两个文件夹均包含同一商店图标 `store-icon-128.png`；1400×560 横幅为可选。
+- [ ] 可分别解压 `releases/sidebrowser-store-en-1.0.0.zip` 与 `releases/sidebrowser-store-zh-CN-1.0.0.zip`，从对应 `listing.md` 复制名称、简短介绍与详细介绍。
 - [ ] 核对后台实际字段和预览，然后提交审核。
 
 本地准备不代表商店已提交或审核通过。此次没有推送仓库、发布隐私页面或访问开发者账号。

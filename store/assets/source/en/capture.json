@@ -1,0 +1,90 @@
+{
+  "locale": "en",
+  "capturedAt": "2026-09-17T02:02:40.968Z",
+  "captures": [
+    {
+      "name": "welcome",
+      "capturedAt": "2026-09-17T02:02:52.620Z",
+      "sha256": "a0bba07fbaacac079dbd7d76a832858d86ea4a17763d64e7be12a03632f2d407",
+      "width": 360,
+      "height": 645,
+      "dpr": 2,
+      "viewport": "native Chrome side panel; no viewport emulation",
+      "url": ""
+    },
+    {
+      "name": "ai-chatgpt",
+      "capturedAt": "2026-09-17T02:02:57.951Z",
+      "sha256": "d2efc5f7218aa4a64a3b4d9b8bddc522155862136c2e601482c1b34f843d6fd9",
+      "width": 360,
+      "height": 645,
+      "dpr": 2,
+      "viewport": "native Chrome side panel; no viewport emulation",
+      "url": "https://chatgpt.com/",
+      "resolvedUrl": "https://chatgpt.com/",
+      "title": "ChatGPT: Chat, Work, Create & Code with AI"
+    },
+    {
+      "name": "wiki",
+      "capturedAt": "2026-09-17T02:03:02.837Z",
+      "sha256": "446c43120e1bd8a3ad9f8a7d0ce720ec0aa3154406e40746a3d10d62930b070f",
+      "width": 360,
+      "height": 645,
+      "dpr": 2,
+      "viewport": "native Chrome side panel; no viewport emulation",
+      "url": "https://en.wikipedia.org/wiki/Pomodoro_Technique",
+      "resolvedUrl": "https://en.wikipedia.org/wiki/Pomodoro_Technique",
+      "title": "Pomodoro Technique - Wikipedia"
+    },
+    {
+      "name": "recent",
+      "capturedAt": "2026-09-17T02:03:02.906Z",
+      "sha256": "f58389c614045f99502b0dc73386ce08f2398bc60e0bde8feb7992d6361239eb",
+      "width": 360,
+      "height": 645,
+      "dpr": 2,
+      "viewport": "native Chrome side panel; no viewport emulation",
+      "url": "https://en.wikipedia.org/wiki/Pomodoro_Technique"
+    },
+    {
+      "name": "more-light",
+      "capturedAt": "2026-09-17T02:03:03.103Z",
+      "sha256": "5b9ef41f703d7491cce61b5079089fe9f13dc0bb5467d4b7dbac4775e8526554",
+      "width": 360,
+      "height": 645,
+      "dpr": 2,
+      "viewport": "native Chrome side panel; no viewport emulation",
+      "url": "https://en.wikipedia.org/wiki/Pomodoro_Technique"
+    },
+    {
+      "name": "more-dark",
+      "capturedAt": "2026-09-17T02:03:03.315Z",
+      "sha256": "abe7981b84e98bf24479a6831bdb79df851efd73d120828e560f8dcb9784e573",
+      "width": 360,
+      "height": 645,
+      "dpr": 2,
+      "viewport": "native Chrome side panel; no viewport emulation",
+      "url": "https://en.wikipedia.org/wiki/Pomodoro_Technique"
+    }
+  ],
+  "diagnostics": {
+    "errors": [],
+    "warnings": [
+      "An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing."
+    ]
+  },
+  "browser": "149.0.7827.55",
+  "browserLocale": "en-US",
+  "mainPage": {
+    "capturedAt": "2026-09-17T02:02:50.462Z",
+    "sha256": "4ffbecf44997dfa2c15a1a2f5e10294bfe6b21f0ec9a6017bcef34c493610839",
+    "url": "https://en.wikipedia.org/wiki/Pomodoro_Technique",
+    "title": "Pomodoro Technique - Wikipedia",
+    "viewport": {
+      "width": 1054,
+      "height": 685
+    }
+  },
+  "aiRetainedAcrossTabSwitch": true,
+  "researchScene": "Two English Wikipedia pages. Google returned a CAPTCHA during capture and is not used in the English artwork."
+}
