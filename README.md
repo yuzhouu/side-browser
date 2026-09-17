@@ -94,14 +94,15 @@ Chrome 管理原生侧边栏的位置、宽度和关闭按钮。常规左键点�
 npm run dev           # 监听源码与静态资源，重建 dist/；Chrome 中手动重新加载
 npm run typecheck     # TypeScript 严格类型检查
 npm run build         # 检查类型并生成可加载的 dist/
-npm run package       # 构建并输出 releases/sidebrowser-1.0.0.zip
+npm run release       # 构建、测试通过后清空 releases/，仅保留最新安装 ZIP
+npm run package       # 构建后同样清空 releases/ 并打包，不额外运行测试
 npm test              # 构建、模块测试和产物检查
 npm run format:check
 npx playwright install chromium
 npm run test:browser  # 独立 Chrome 加载 dist/ 并执行原生侧边栏回归
 ```
 
-Vite 负责三个页面和后台的模块构建，注入网页的脚本单独输出为 IIFE；`tsc` 负责类型检查。产物不含源码映射、开发客户端或第三方运行依赖。ZIP 根目录直接包含 `manifest.json`。构建目录和新安装包不提交 Git。
+Vite 负责三个页面和后台的模块构建，注入网页的脚本单独输出为 IIFE；`tsc` 负责类型检查。产物不含源码映射、开发客户端或第三方运行依赖。ZIP 根目录直接包含 `manifest.json`。`releases/` 是可清空的生成目录，不存放手工文件；每次打包移除旧安装包、旧商店资料包和历史归档。`npm run release` 构建或测试失败时保留上次安装包。构建目录和整个 `releases/` 不提交 Git，以上命令不会创建 GitHub Release 或上传文件。
 
 浏览器回归使用独立临时配置，不接触日常 Chrome 资料或登录；可用 `QA_LOCALE=zh-CN npm run test:browser` 检查中文界面。自定义浏览器路径、模块边界和回归范围见 [开发与回归](docs/development.md)。
 
@@ -115,7 +116,7 @@ Vite 负责三个页面和后台的模块构建，注入网页的脚本单独输
 
 ## 独立项目
 
-本目录是 Codex 项目的源码根目录。项目交接与既有决策见 [项目说明](docs/project-context.md)，历史验证见 [验证记录](docs/verification-history.md)，当前交付包为 [`releases/sidebrowser-1.0.0.zip`](releases/sidebrowser-1.0.0.zip)，早期安装包保存在 `releases/archive/`，仅供历史归档。
+本目录是 Codex 项目的源码根目录。项目交接与既有决策见 [项目说明](docs/project-context.md)，历史验证见 [验证记录](docs/verification-history.md)。运行 `npm run release` 后，当前安装包为本地 `releases/sidebrowser-1.0.0.zip`；该目录只保留本次生成的包，不再保留历史归档。商店资料仅在单独运行 `npm run store:package` 时重新生成。
 
 ## 官网
 

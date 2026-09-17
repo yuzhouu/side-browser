@@ -2,11 +2,11 @@
 
 ## 当前基线
 
-侧窗 · SideBrowser 当前版本为 1.0.0（2026-09-16 统一版本编号），项目从原会话工作区的 `outputs/pocket-browser` 复制成独立项目。原始位置：`/Users/yuzhou/Documents/Codex/2026-09-14/new-chat`。早期安装包保存在 `releases/archive/sidebrowser-1.6.5.zip`；原会话的源码和安装包仍保留。英文品牌已统一为 `SideBrowser`，npm 包名为 `sidebrowser-extension`，中文品牌为「侧窗」，中文 slogan 为「侧窗小境，意赴遐荒」，英文 slogan 为 “Another page. Right beside you.”。旧名称安装包 `releases/archive/sidebrowse-1.6.5.zip` 仅作历史归档。
+侧窗 · SideBrowser 当前版本为 1.0.0（2026-09-16 统一版本编号），项目从原会话工作区的 `outputs/pocket-browser` 复制成独立项目。原始位置：`/Users/yuzhou/Documents/Codex/2026-09-14/new-chat`。早期安装包曾保存在 `releases/archive/sidebrowser-1.6.5.zip`，现已按仅保留最新包的规则清理；原会话的源码和安装包仍保留。英文品牌已统一为 `SideBrowser`，npm 包名为 `sidebrowser-extension`，中文品牌为「侧窗」，中文 slogan 为「侧窗小境，意赴遐荒」，英文 slogan 为 “Another page. Right beside you.”。旧名称 `sidebrowse-1.6.5.zip` 仅为历史记录，不再保存在本地发布目录。
 
 ## 使用与开发
 
-本地源码目录继续使用 `sidebrowse`，应用源文件已迁至 `src/` 并采用 TypeScript strict；`public/` 存放 manifest、语言包和运行图标。Vite 生成独立 `dist/`，`npm run package` 输出 `releases/sidebrowser-1.0.0.zip`，ZIP 根目录直接包含 manifest，不再额外嵌套目录。开发依赖、文档、测试与设计素材不会打包。
+本地源码目录继续使用 `sidebrowse`，应用源文件已迁至 `src/` 并采用 TypeScript strict；`public/` 存放 manifest、语言包和运行图标。Vite 生成独立 `dist/`。`npm run release` 先重新构建并运行测试，成功后清空整个 `releases/`，只输出最新 `releases/sidebrowser-1.0.0.zip`；`npm run package` 同样清空后打包，但不额外运行测试。ZIP 根目录直接包含 manifest，不再额外嵌套目录。构建或测试失败时保留上次的包；旧安装包、商店资料包和历史归档不再保留，商店资料需要时运行 `npm run store:package` 重新生成。整个 `releases/` 已从 Git 跟踪中移除并忽略，仅为本地生成目录，打包命令不上传 GitHub。开发依赖、文档、测试与设计素材不会打包。
 
 使用 Node 22.12+，先执行 `npm ci`、`npm run build`，再在 Chrome 145+ 扩展管理页加载 `dist/`。`npm run dev` 监听源码和静态资源重建产物，修改后在 Chrome 点击重新加载。`npm test` 和 `npm run test:browser` 都会先构建。既有独立安装文件夹可用新 ZIP 内容覆盖并保留加载路径；从源码根目录改为加载 `dist/` 会被 Chrome 视为另一个未打包扩展，原身份的数据不会自动转入。
 
@@ -16,7 +16,7 @@
 
 地址栏右侧时钟按钮提供「最近打开」快捷切换，保留 10 条、重复网址置顶，支持单条删除和一键清空。每条网站图标通过 Chrome 的 `_favicon/` 接口与 `favicon` 权限读取，加载失败保留默认网站图标。标题通过来源标签页及内嵌网页的 `document.title` 获取，动态标题变化单独上报 `POCKET_TITLE`，不产生导航历史。标题独立存储于 `pocket-sidepanel-recent-titles-v1`，URL 列表格式不变；删除、清空或超出 10 条上限时同时清理对应标题。缺少标题时先显示域名，再次打开加载后补全；内部新页面不能覆盖原条目的标题。点击列表外部或下方网页时关闭最近列表，单条删除时保持展开。列表通过独立本地存储键 `pocket-sidepanel-recent-v1` 跨窗口共用并在重启后保留；`recent-urls.ts` 负责验证、去重与上限。只有地址输入／搜索、打开当前网页、右键、快捷键和最近条目选择会记录；网页内部跳转、重定向、刷新、模式切换、前进后退、自动恢复与外部新标签打开不记录。不从旧历史推导最近条目，单条删除与清空不影响当前网页或窗口导航历史，普通 `PANEL_SAVE` 不能写回最近列表。
 
-源码支持简体中文、繁体中文、英文、日语、德语、法语和西班牙语，使用 Chrome 原生 `chrome.i18n` 自动跟随浏览器界面语言，英文为兜底语言。语言包位于 `public/_locales/` 下的 `en`、`zh_CN`、`zh_TW`、`ja`、`de`、`fr`、`es` 目录；`i18n.ts` 翻译正文、提示和无障碍标签，底层模块返回稳定错误码。扩展内没有独立语言开关。浏览器重启时同步右键菜单语言。国际化接入前的历史 ZIP 已移至 `releases/archive/`；验证当前源码请构建后加载 `dist/`。
+源码支持简体中文、繁体中文、英文、日语、德语、法语和西班牙语，使用 Chrome 原生 `chrome.i18n` 自动跟随浏览器界面语言，英文为兜底语言。语言包位于 `public/_locales/` 下的 `en`、`zh_CN`、`zh_TW`、`ja`、`de`、`fr`、`es` 目录；`i18n.ts` 翻译正文、提示和无障碍标签，底层模块返回稳定错误码。扩展内没有独立语言开关。浏览器重启时同步右键菜单语言。国际化接入前的历史 ZIP 已清理；验证当前源码请构建后加载 `dist/`。
 
 Chrome 的「选项」入口打开 `options.html` 设置页：手机／PC 共用模式自动保存并同步到已打开的侧边栏，最近记录支持确认后清空，显示当前快捷键并可进入 Chrome 快捷键管理。语言继续跟随浏览器。`help.html` 独立承载「关于与帮助」，两页可以互相切换，侧边栏「更多」菜单也可在新标签页打开帮助。面向用户的帮助包含使用方法、网页恢复、显示问题、隐私说明、GitHub Issues 反馈入口以及作者 `yuzhou` 和版权信息（GitHub 账号仍为 `yuzhouu`）；不显示版本号，不包含研发历程、测试记录、内部实现或旧版迁移步骤。
 
@@ -46,7 +46,7 @@ NGA 登录后的完整网页没有使用用户 Cookie 验证。附件中的 curl
 
 关闭当前网页功能（2026-09-16）：类型检查、构建、54 项 Node 测试和格式检查通过。Chrome for Testing 149、简体中文、独立配置验证「更多」关闭后 iframe 卸载、空态／地址栏焦点、旧网页排队消息隔离、最近记录与其他窗口保留、最近条目重开、加载中关闭、面板刷新与浏览器重启后空态恢复；原生 360px 与 320px／480px 模拟排版通过，无运行错误或新增控制台警告。
 
-本项目已从原会话复制为独立 Codex 项目，并完成 SideBrowser 品牌名称统一；源码远程仓库为 [yuzhouu/side-browser](https://github.com/yuzhouu/side-browser)，SSH 地址为 `git@github.com:yuzhouu/side-browser.git`，默认分支为 `main`；未发布到扩展商店。当前源码还包含国际化与最近打开快捷入口，历史 ZIP 保存在 `releases/archive/`，当前 ZIP 由 `npm run package` 从 `dist/` 生成。后续开发从当前源码和本交接说明继续。
+本项目已从原会话复制为独立 Codex 项目，并完成 SideBrowser 品牌名称统一；源码远程仓库为 [yuzhouu/side-browser](https://github.com/yuzhouu/side-browser)，SSH 地址为 `git@github.com:yuzhouu/side-browser.git`，默认分支为 `main`；未发布到扩展商店。当前源码还包含国际化与最近打开快捷入口，当前 ZIP 由 `npm run release` 或 `npm run package` 从 `dist/` 生成，`releases/` 每次打包清空后仅保留最新产物。后续开发从当前源码和本交接说明继续。
 
 官网（2026-09-17）：`website/` 保存中英文内容与主题样式，`scripts/site-build.mjs` 将首页／隐私页分别生成中英文静态路由到独立的 `site-dist/`，以 `/side-browser/` 为 Pages 子路径。首页包含真实场景预览、默认共享与按需绑定说明、安装步骤和扩展 ZIP；宣传素材入口、展示区、生成器、素材页与素材包已移除，商店资料继续独立保留在 `store/`。隐私正文复用 `docs/privacy-policy.md`；网站无运行依赖、统计或远程字体。主题存于网站自己的本地存储，语言由 URL 决定。部署和验证记录见 `docs/website.md`。
 

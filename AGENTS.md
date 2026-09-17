@@ -6,7 +6,8 @@
 
 - `npm run dev`：监听源码和静态资源，重新生成 `dist/`；修改后在 Chrome 重新加载扩展。
 - `npm run typecheck` / `npm run build`：严格类型检查／生成干净的扩展产物。
-- `npm run package`：构建并将 `dist/` 内容打包到 `releases/sidebrowser-<版本>.zip`，ZIP 根目录有 manifest.json。
+- `npm run release`：重新构建、通过测试后清空 `releases/`，只输出最新 `sidebrowser-<版本>.zip`；仅本地打包，不上传。
+- `npm run package`：构建后同样清空 `releases/` 并生成 ZIP，根目录有 manifest.json；不额外运行测试。
 - `npm test`：构建后运行 Node 内置测试及产物检查；项目无第三方运行依赖。
 - `npm run format:check` / `npm run format`：检查／统一源码格式；开发工具使用 `npm ci` 安装。
 - `npm run test:browser`：构建并加载 `dist/`，运行独立 Chrome 原生侧边栏回归；环境准备及范围见 `docs/development.md`。

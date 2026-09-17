@@ -18,7 +18,10 @@ npm run dev
 npm run typecheck
 npm test
 
-# 生成 ZIP，根目录直接包含 manifest.json
+# 本地发布打包：重新构建、测试通过后清空 releases/，只保留新 ZIP
+npm run release
+
+# 仅构建与打包，同样清空 releases/；ZIP 根目录直接包含 manifest.json
 npm run package
 
 npm run format
@@ -47,7 +50,7 @@ macOS 应指向 `.app/Contents/MacOS/Google Chrome for Testing` 可执行文件�
 - `src/`：TypeScript、HTML、CSS；`types.ts` 定义页面／后台消息和状态，`dom.ts` 获取必需的模板元素。
 - `public/`：`manifest.json`、`_locales/` 和 16／32／48／128px 运行图标，构建时原样复制。
 - `dist/`：Vite 生成的可加载扩展；每次构建先清空，禁止手动修改，不提交 Git。
-- `releases/sidebrowser-<版本>.zip`：`npm run package` 生成的当前安装包，仅包含 `dist/`；旧安装包移到 `releases/archive/`。
+- `releases/sidebrowser-<版本>.zip`：`npm run release` 或 `npm run package` 生成的当前安装包，仅包含 `dist/`。打包时清空整个 `releases/`（含旧包、商店资料包和归档），只保留新安装包；不要在此存放手工文件。整个目录不提交 Git，命令不上传 GitHub。`npm run release` 构建或测试失败时不会清理上次安装包。`npm run store:package` 会在清空并生成扩展包后，另外生成本次的商店资料包。
 - `tests/`、`scripts/`、`docs/`、`icons/`、`output/`、`node_modules/`：测试、工具、文档和设计资源，不进入产物。
 
 Vite 多页面入口处理侧边栏、设置、帮助和后台 ES module，页面引用与共用资源自动生成。`frame-navigation`、`mobile-identity-gate`、`mobile-identity-main` 分别构建为自包含 IIFE，供 Chrome 以普通脚本注入；手机参数模块直接打入 gate。文件名保持 manifest 和动态注册所需的稳定路径，不使用扩展框架或开发服务器。

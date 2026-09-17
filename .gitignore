@@ -3,5 +3,7 @@ node_modules/
 coverage/
 dist/
 *.log
-releases/*.zip
+releases/
+*.crx
+*.pem
 site-dist/
