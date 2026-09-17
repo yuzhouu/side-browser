@@ -341,5 +341,8 @@
   },
   "helpAppearance": {
     "message": "Choose light, dark, or system appearance in Settings or “⋯”. Appearance is shared across windows and changes without reloading pages. Websites may use their own theme settings. The interface follows Chrome’s language; English, Simplified Chinese, Traditional Chinese, Japanese, German, French, and Spanish are supported."
+  },
+  "helpWebsite": {
+    "message": "Visit website"
   }
 }

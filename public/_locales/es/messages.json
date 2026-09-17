@@ -341,5 +341,8 @@
   },
   "helpAppearance": {
     "message": "Elige el tema claro, oscuro o del sistema en Ajustes o «⋯». Se aplica a todas las ventanas sin recargar las páginas. Los sitios pueden usar su propio tema. La interfaz sigue el idioma de Chrome y admite español, inglés, chino simplificado y tradicional, japonés, alemán y francés."
+  },
+  "helpWebsite": {
+    "message": "Visitar el sitio web"
   }
 }

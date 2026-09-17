@@ -341,5 +341,8 @@
   },
   "helpAppearance": {
     "message": "Wähle Hell, Dunkel oder System in den Einstellungen oder unter „⋯“. Das Erscheinungsbild gilt für alle Fenster und lädt Seiten nicht neu. Websites können eigene Designs verwenden. Die Sprache folgt Chrome; unterstützt werden Deutsch, Englisch, vereinfachtes und traditionelles Chinesisch, Japanisch, Französisch und Spanisch."
+  },
+  "helpWebsite": {
+    "message": "Website besuchen"
   }
 }

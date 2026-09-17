@@ -33,6 +33,31 @@ li {
   color: var(--muted);
   margin: 0 0 24px;
 }
+.help-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px 20px;
+  margin-bottom: 12px;
+}
+.help-heading h1 {
+  margin: 0;
+}
+.help-heading .help-website {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.help-heading .help-website:hover {
+  color: var(--accent);
+  text-decoration: underline;
+}
 a {
   color: var(--accent);
   text-underline-offset: 3px;

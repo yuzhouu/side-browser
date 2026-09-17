@@ -341,5 +341,8 @@
   },
   "helpAppearance": {
     "message": "Choisissez le thème clair, sombre ou système dans les paramètres ou « ⋯ ». Ce choix s’applique à toutes les fenêtres sans recharger les pages. Les sites peuvent utiliser leur propre thème. L’interface suit la langue de Chrome et prend en charge le français, l’anglais, le chinois simplifié et traditionnel, le japonais, l’allemand et l’espagnol."
+  },
+  "helpWebsite": {
+    "message": "Visiter le site officiel"
   }
 }
