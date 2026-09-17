@@ -17,7 +17,7 @@ Use the English set for the default English listing and the Chinese set for the 
 
 ## Screenshot sources
 
-Both sets use real website and extension screenshots, with localized captions outside the product UI. The English captures were taken on 2026-09-17 using Chrome for Testing 149 in an independent en-US profile, with the current `dist/` extension. The native side panel measured 360 × 645 CSS pixels at DPR 2. Source screenshots and capture receipts are in `../assets/source/en/`; Chinese sources and their original capture records remain in `../assets/source/`.
+Both sets use real website and extension screenshots, with localized captions outside the product UI. The English captures were taken on 2026-09-17 using Chrome for Testing 149 in an independent en-US profile, with the current `dist/` extension. The native side panel measured 360 × 645 CSS pixels at DPR 2. Source screenshots and capture receipts are in `../assets/source/en/`; Chinese sources are in `../assets/source/`. Welcome, favorite, recent, and More-menu captures have been refreshed for the current features in both languages; unchanged third-party scenes keep their original timestamps. Each source receipt records its own capture time and hash.
 
 ChatGPT is shown signed out; no conversation was submitted. The English research image pairs Wikipedia's Time management and Pomodoro Technique articles. Google presented a CAPTCHA during English capture, so it was not used. Chinese research artwork retains its previously captured Wikipedia and Google example. These websites are examples, not a fixed supported-site list or an endorsement.
 
@@ -28,6 +28,9 @@ Upload the composed PNGs, not the raw source screenshots. No AI-generated interf
 ```sh
 # Only when fresh English source captures are needed:
 STORE_LOCALE=en npm run store:capture
+
+# Refresh only welcome, favorites, recents, and More menus:
+STORE_CAPTURE_SCOPE=features STORE_LOCALE=en npm run store:capture
 
 # Render both sets from saved captures:
 npm run store:render
@@ -41,3 +44,5 @@ Run these commands from the project root. Set `CHROME_PATH` to an installed Chro
 The shared `../manifest.json` records each image's locale, dimensions, byte count, and SHA-256. Packaging verifies both complete language sets. Developer-dashboard permission explanations and submission notes are in `../submission.md`; the permission text to paste is already in English. Public privacy text is in `../../docs/privacy-policy.md`.
 
 Preparation is local. Store submission and publication are separate actions.
+
+Feature coverage: favorite shortcuts with wrapping icon rows and full-URL hover tips, recent pages, page/icon context menus, per-tab binding, close-page behavior, display modes, and appearance. Image 04 covers favorites and recents; image 05 shows current menus and binding.

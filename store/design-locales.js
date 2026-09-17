@@ -41,27 +41,26 @@
       '.eyebrow': '03 / OPEN IN ONE STEP',
       h1: 'Your next page.<br>One click away.',
       '.lead': 'Start with the current page, a link,<br>or a new question.',
-      '.step strong': ['Open the current page', 'Right-click a link'],
+      '.step strong': ['Open the current page', 'Right-click to open or favorite'],
       '.step p': [
         'Use the top-left button or the welcome screen.',
-        'Shortcut: Alt + Shift + P (Mac: ⌥ ⇧ P)'
+        'Open page: Alt + Shift + P (Mac: ⌥ ⇧ P)'
       ],
       '.toolbar-caption': 'Actual toolbar · Open page / Back / Forward / Reload / Address / More',
       '.foot > span': 'Another page. Right beside you.'
     },
     '04-recent-pages': {
-      '.eyebrow': '04 / RECENT PAGES',
-      h1: 'Back to a page.<br>Back to your flow.',
-      '.lead': 'The clock in the address bar keeps<br>recently opened pages close at hand.',
+      '.eyebrow': '04 / FAVORITES & RECENTS',
+      h1: 'Keep your favorites.<br>Find your way back.',
+      '.lead': 'Favorite icons on the welcome screen.<br>Recent pages one click away.',
       '.ten p':
-        'recently opened URLs<br><span style="font-size:18px;color:#627b8c">Reopen a page to move it to the top</span>',
-      '.step strong': ['Recognize it. Reopen it.', 'Remove one, or clear the list'],
+        'recently opened URLs<br><span style="font-size:18px;color:#627b8c">Stored separately from favorites</span>',
+      '.step strong': ['Icons that wrap into rows', 'Hover for the title and full URL'],
       '.step p': [
-        'Find pages by their site icon and title.',
-        'Your current page and navigation history stay.'
+        'Keep favorite websites on the welcome screen.',
+        'Remove favorites individually; clear recents anytime.'
       ],
-      '.foot > span':
-        'URLs and titles stay on your device. Clearing recent pages leaves the current page and navigation history intact.'
+      '.foot > span': 'URLs and titles stay on your device. Clearing recents keeps your favorites.'
     },
     '05-make-it-yours': {
       '.panel-tag': ['Light · More menu', 'Dark · More menu'],
@@ -71,12 +70,12 @@
       '.step strong': [
         'Mobile or desktop view',
         'Light, dark, or system',
-        'Need more room? Open a tab.'
+        'Bind a page to the current tab'
       ],
       '.step p': [
         'Changing the view reloads the page.',
         'Change appearance without reloading.',
-        'Or close the page to return to welcome.'
+        'Come back to your tab and keep going.'
       ],
       '.foot > span':
         'Mobile view adapts page display. Each website controls how it responds to your theme.'

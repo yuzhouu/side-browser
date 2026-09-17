@@ -1,10 +1,10 @@
 {
   "locale": "en",
-  "capturedAt": "2026-09-17T02:02:40.968Z",
+  "capturedAt": "2026-09-17T04:53:03.662Z",
   "captures": [
     {
       "name": "welcome",
-      "capturedAt": "2026-09-17T02:02:52.620Z",
+      "capturedAt": "2026-09-17T04:53:05.406Z",
       "sha256": "a0bba07fbaacac079dbd7d76a832858d86ea4a17763d64e7be12a03632f2d407",
       "width": 360,
       "height": 645,
@@ -38,8 +38,8 @@
     },
     {
       "name": "recent",
-      "capturedAt": "2026-09-17T02:03:02.906Z",
-      "sha256": "f58389c614045f99502b0dc73386ce08f2398bc60e0bde8feb7992d6361239eb",
+      "capturedAt": "2026-09-17T04:53:33.090Z",
+      "sha256": "7e5af71013f9421eac04ae92b3e68d5cc0dc48236dcbc260a29bbcf3e0a6ad3b",
       "width": 360,
       "height": 645,
       "dpr": 2,
@@ -48,8 +48,8 @@
     },
     {
       "name": "more-light",
-      "capturedAt": "2026-09-17T02:03:03.103Z",
-      "sha256": "5b9ef41f703d7491cce61b5079089fe9f13dc0bb5467d4b7dbac4775e8526554",
+      "capturedAt": "2026-09-17T04:53:33.162Z",
+      "sha256": "083337a34540a0aa1e631736d300a1fbc5efadf071ec7a8b54b10aa17cb8c4ca",
       "width": 360,
       "height": 645,
       "dpr": 2,
@@ -58,13 +58,35 @@
     },
     {
       "name": "more-dark",
-      "capturedAt": "2026-09-17T02:03:03.315Z",
-      "sha256": "abe7981b84e98bf24479a6831bdb79df851efd73d120828e560f8dcb9784e573",
+      "capturedAt": "2026-09-17T04:53:33.314Z",
+      "sha256": "6553dcc483e4ff8106c21abd75c42fef7085c6df08c7d1a0237c5508f61d179c",
       "width": 360,
       "height": 645,
       "dpr": 2,
       "viewport": "native Chrome side panel; no viewport emulation",
       "url": "https://en.wikipedia.org/wiki/Pomodoro_Technique"
+    },
+    {
+      "name": "favorites",
+      "capturedAt": "2026-09-17T04:53:29.588Z",
+      "sha256": "d8c21e17068be0fa9bad026cc1bf9542d2e9ec897bab710079454f8a2c8917b1",
+      "width": 360,
+      "height": 645,
+      "dpr": 2,
+      "viewport": "native Chrome side panel; no viewport emulation",
+      "url": "",
+      "setup": "Eight demo favorites of public websites saved through the extension message API; no webpage content or UI replaced."
+    },
+    {
+      "name": "favorites-hover",
+      "capturedAt": "2026-09-17T04:53:29.670Z",
+      "sha256": "75f27e2a1410f180fc6cc7a0430a613e81dbc820a64af9f9ab07d73aaeca5e26",
+      "width": 360,
+      "height": 645,
+      "dpr": 2,
+      "viewport": "native Chrome side panel; no viewport emulation",
+      "url": "",
+      "setup": "Real hover over the Wikipedia favorite; title and complete saved URL."
     }
   ],
   "diagnostics": {
@@ -86,5 +108,48 @@
     }
   },
   "aiRetainedAcrossTabSwitch": true,
-  "researchScene": "Two English Wikipedia pages. Google returned a CAPTCHA during capture and is not used in the English artwork."
+  "researchScene": "Two English Wikipedia pages; English research artwork uses main-research.png and wiki.png.",
+  "demoSiteVisits": [
+    {
+      "url": "https://chatgpt.com/",
+      "documentLoaded": true,
+      "resolvedPage": "https://chatgpt.com/"
+    },
+    {
+      "url": "https://en.wikipedia.org/wiki/Pomodoro_Technique",
+      "documentLoaded": true,
+      "resolvedPage": "https://en.wikipedia.org/wiki/Pomodoro_Technique"
+    },
+    {
+      "url": "https://www.google.com/",
+      "documentLoaded": true,
+      "resolvedPage": "https://www.google.com.hk/"
+    },
+    {
+      "url": "https://github.com/",
+      "documentLoaded": true,
+      "resolvedPage": "https://github.com/"
+    },
+    {
+      "url": "https://developer.mozilla.org/",
+      "documentLoaded": true,
+      "resolvedPage": "https://developer.mozilla.org/en-US/"
+    },
+    {
+      "url": "https://developer.chrome.com/",
+      "documentLoaded": true,
+      "resolvedPage": "https://developer.chrome.com/"
+    },
+    {
+      "url": "https://www.figma.com/",
+      "documentLoaded": true,
+      "resolvedPage": "https://www.figma.com/"
+    },
+    {
+      "url": "https://www.notion.so/",
+      "error": "page.goto: net::ERR_CONNECTION_CLOSED at https://www.notion.so/",
+      "documentLoaded": false
+    }
+  ],
+  "demoSiteVisitsNote": "Temporary public-page visits only prime Chrome favicon cache. A loaded document is not proof of website compatibility; challenge pages may load. Unavailable icons retain Chrome defaults. No demo visit was used as a website-content screenshot."
 }

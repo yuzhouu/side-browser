@@ -151,7 +151,7 @@
     "message": "Cliquez sur l’icône de SideBrowser pour ouvrir le panneau latéral. Saisissez une adresse ou des termes de recherche Google, puis appuyez sur Entrée. « Ouvrir la page actuelle » ouvre l’adresse de l’onglet actif dans le panneau latéral."
   },
   "helpStartShortcut": {
-    "message": "Vous pouvez aussi faire un clic droit sur une page ou un lien et choisir « Ouvrir dans SideBrowser ». Consultez ou modifiez votre raccourci clavier dans les paramètres. Faites glisser le bord du panneau pour ajuster sa largeur."
+    "message": "Un clic droit sur une page, un lien ou l’icône de l’extension permet une ouverture dans SideBrowser. Le raccourci par défaut pour la page actuelle est Alt + Maj + P (Mac : ⌥ + ⇧ + P) ; consultez-le ou modifiez-le dans les paramètres. Faites glisser le bord du panneau pour régler sa largeur."
   },
   "helpStateHeading": {
     "message": "Changer d’onglet et retrouver une page"
@@ -166,7 +166,7 @@
     "message": "Modes d’affichage et dépannage"
   },
   "helpMobileViewport": {
-    "message": "Passez du mode mobile au mode ordinateur dans les paramètres ou le menu « ⋯ ». Le mode mobile convient aux panneaux étroits et reste compatible avec la souris et la molette. La mise en page dépend du site."
+    "message": "Le mode mobile/ordinateur est partagé entre les fenêtres. Le changer recharge toutes les pages latérales en cours. Le mode mobile adapte la zone d’affichage et l’identité du navigateur tout en conservant la souris, le survol et la molette. Il ne simule pas entièrement un appareil."
   },
   "helpEmbeddingLimits": {
     "message": "Si une page est lente, essayez de la recharger. Certains sites, écrans de connexion ou vidéos peuvent mal fonctionner dans le panneau. Utilisez « ⋯ » pour ouvrir la page actuelle dans un nouvel onglet."
@@ -175,7 +175,7 @@
     "message": "Confidentialité et données"
   },
   "helpPrivacy": {
-    "message": "Les préférences, les adresses et titres récemment ouverts ainsi que les adresses et historiques de navigation servant à restaurer les pages sont conservés sur votre appareil, sans être transmis au développeur. Effacer les entrées récentes supprime uniquement cette liste, pas les adresses de restauration, les historiques de navigation ou les données des sites. Les sites et moteurs de recherche appliquent leurs propres politiques de confidentialité."
+    "message": "Favoris, pages récentes, préférences, URL et historique de restauration restent sur votre appareil sans être envoyés au développeur. Supprimer une liste ne modifie ni l’autre liste, ni les pages ouvertes, ni l’historique de navigation, ni les cookies des sites. Les sites et moteurs de recherche traitent leurs requêtes et vos saisies selon leurs propres politiques de confidentialité."
   },
   "settingsTitle": {
     "message": "SideBrowser · Paramètres"
@@ -259,7 +259,7 @@
     "message": "Ouvrez les paramètres de SideBrowser pour effectuer cette action."
   },
   "helpRecent": {
-    "message": "Cliquez sur l’horloge dans la barre d’adresse pour afficher les pages récemment ouvertes. Sélectionnez une entrée pour la rouvrir, supprimez des entrées ou effacez la liste. Cette liste est commune à toutes les fenêtres et reste disponible après un redémarrage du navigateur."
+    "message": "L’horloge de la barre d’adresse affiche les 10 dernières URL ouvertes volontairement. Rouvrir une page la place en tête. La navigation interne, le rechargement et les boutons précédent/suivant ne créent pas d’entrée. Supprimez une entrée ou toute la liste. Celle-ci est partagée entre les fenêtres et conservée après redémarrage. La vider ne supprime pas les favoris."
   },
   "helpFeedback": {
     "message": "Retours et suggestions"
@@ -307,7 +307,7 @@
     "message": "Fermer la page web en gardant le panneau latéral ouvert"
   },
   "helpClosePage": {
-    "message": "Dans « ⋯ », choisissez de fermer la page actuelle pour revenir à l’accueil. Seuls la page affichée et son historique de navigation sont effacés. Les entrées récentes et les autres pages du panneau restent disponibles."
+    "message": "« ⋯ » → « Fermer la page actuelle » revient à l’accueil en gardant le panneau ouvert. Seules la page affichée et son historique précédent/suivant sont effacés. Les favoris, les pages récentes, les associations aux onglets, les préférences et les autres pages restent disponibles. La page fermée ne revient pas automatiquement à la réouverture ou au redémarrage."
   },
   "bindTab": {
     "message": "Associer à cet onglet"
@@ -332,5 +332,14 @@
   },
   "contextFavorite": {
     "message": "Ajouter aux favoris SideBrowser"
+  },
+  "helpFavorites": {
+    "message": "Choisissez « ⋯ » → « Ajouter la page actuelle aux favoris » pour enregistrer la page latérale. Vous pouvez aussi faire un clic droit sur une page web ou sur l’icône SideBrowser de la barre d’outils, puis choisir « Ajouter aux favoris SideBrowser ». Cette action enregistre la page sans l’ouvrir ni changer la page latérale."
+  },
+  "helpFavoriteShortcuts": {
+    "message": "Les favoris apparaissent sous l’écran d’accueil vide sous forme d’icônes, avec retour à la ligne automatique. Survolez une icône ou sélectionnez-la au clavier pour voir son titre et son URL complète ; cliquez pour l’ouvrir dans le panneau actuel. Retirez un favori avec son bouton de suppression ou « ⋯ » → « Retirer des favoris ». Ils sont partagés entre les fenêtres, conservés après redémarrage et distincts des favoris Chrome."
+  },
+  "helpAppearance": {
+    "message": "Choisissez le thème clair, sombre ou système dans les paramètres ou « ⋯ ». Ce choix s’applique à toutes les fenêtres sans recharger les pages. Les sites peuvent utiliser leur propre thème. L’interface suit la langue de Chrome et prend en charge le français, l’anglais, le chinois simplifié et traditionnel, le japonais, l’allemand et l’espagnol."
   }
 }

@@ -13,3 +13,5 @@
 真实原图及来源记录在 `../assets/source/`；共用排版源稿为 `../design.html`，图片尺寸和 SHA-256 清单为 `../manifest.json`。在项目根目录运行 `npm run store:render` 会同时导出两种语言到各自文件夹，运行 `npm run store:package` 会校验并生成两套独立 ZIP 与完整准备包。
 
 提交字段与权限说明见 [../submission.md](../submission.md)，中英文隐私政策见 [../../docs/privacy-policy.md](../../docs/privacy-policy.md)。
+
+本轮覆盖收藏图标换行与完整网址提示、最近记录、网页／扩展图标右键入口、标签绑定、关闭网页、显示模式和外观。第 4 张展示收藏与最近记录，第 5 张使用最新菜单并说明绑定。

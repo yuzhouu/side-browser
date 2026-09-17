@@ -1,15 +1,15 @@
 {
-  "capturedAt": "2026-09-16T09:10:18.052Z",
+  "capturedAt": "2026-09-17T04:52:10.602Z",
   "captures": [
     {
       "name": "welcome",
+      "capturedAt": "2026-09-17T04:52:12.439Z",
+      "sha256": "b2b0c3cb04ab64cd687776c38e9fb060becb9774def84a349d3c78bdde66a301",
       "width": 360,
       "height": 645,
       "dpr": 2,
       "viewport": "native Chrome side panel; no viewport emulation",
-      "url": "",
-      "capturedAt": "2026-09-16T09:13:30.661Z",
-      "sha256": "24b1ac2c8853843021b0e36abb822b6f373c14410343611ce8607b0228033c3c"
+      "url": ""
     },
     {
       "name": "ai-chatgpt",
@@ -43,33 +43,55 @@
     },
     {
       "name": "recent",
+      "capturedAt": "2026-09-17T04:52:38.781Z",
+      "sha256": "3889eb363540a7c9f9ea302e479a88e18a6bad90b269c59288ed6a9a3af0ec8c",
       "width": 360,
       "height": 645,
       "dpr": 2,
       "viewport": "native Chrome side panel; no viewport emulation",
-      "url": "https://www.google.com/search?q=%E7%95%AA%E8%8C%84%E5%B7%A5%E4%BD%9C%E6%B3%95&hl=zh-CN",
-      "capturedAt": "2026-09-16T09:10:57.362Z",
-      "sha256": "164767ff1c48caf049eec5e0ae0be968172b9d3f345e5f0f0932f7c29940fc12"
+      "url": "https://zh.wikipedia.org/wiki/%E7%95%AA%E8%8C%84%E5%B7%A5%E4%BD%9C%E6%B3%95"
     },
     {
       "name": "more-light",
+      "capturedAt": "2026-09-17T04:52:38.861Z",
+      "sha256": "0d78e6211ed7f79249677d505e0dd5fd2009f46d91b7844ba6f2413598c65d51",
       "width": 360,
       "height": 645,
       "dpr": 2,
       "viewport": "native Chrome side panel; no viewport emulation",
-      "url": "https://www.google.com/search?q=%E7%95%AA%E8%8C%84%E5%B7%A5%E4%BD%9C%E6%B3%95&hl=zh-CN",
-      "capturedAt": "2026-09-16T09:10:57.446Z",
-      "sha256": "6ad26bc90ea0e32f6ee911f8c74f7334fd638df73f24e6b1cab440e5ae72d6c9"
+      "url": "https://zh.wikipedia.org/wiki/%E7%95%AA%E8%8C%84%E5%B7%A5%E4%BD%9C%E6%B3%95"
     },
     {
       "name": "more-dark",
+      "capturedAt": "2026-09-17T04:52:39.025Z",
+      "sha256": "6d43db2f478e99351562672a49f342a50718d629e76ec6971d50d7a387016ced",
       "width": 360,
       "height": 645,
       "dpr": 2,
       "viewport": "native Chrome side panel; no viewport emulation",
-      "url": "https://www.google.com/search?q=%E7%95%AA%E8%8C%84%E5%B7%A5%E4%BD%9C%E6%B3%95&hl=zh-CN",
-      "capturedAt": "2026-09-16T09:10:57.543Z",
-      "sha256": "32809dd22574fe401791efdc3279115137047bedda88bcfaeaf467ca1b05cf7f"
+      "url": "https://zh.wikipedia.org/wiki/%E7%95%AA%E8%8C%84%E5%B7%A5%E4%BD%9C%E6%B3%95"
+    },
+    {
+      "name": "favorites",
+      "capturedAt": "2026-09-17T04:52:35.809Z",
+      "sha256": "a054255036ba58aee74173f2c65a0df1b50ab963c33b2c12897fb0cb13ee72c3",
+      "width": 360,
+      "height": 645,
+      "dpr": 2,
+      "viewport": "native Chrome side panel; no viewport emulation",
+      "url": "",
+      "setup": "Eight demo favorites of public websites saved through the extension message API; no webpage content or UI replaced."
+    },
+    {
+      "name": "favorites-hover",
+      "capturedAt": "2026-09-17T04:52:35.870Z",
+      "sha256": "ef156dd0b9e455ae925a3d457bff496402869b334dc7b08a3c0605c5cc6c4676",
+      "width": 360,
+      "height": 645,
+      "dpr": 2,
+      "viewport": "native Chrome side panel; no viewport emulation",
+      "url": "",
+      "setup": "Real hover over the Wikipedia favorite; title and complete saved URL."
     }
   ],
   "diagnostics": {
@@ -90,5 +112,50 @@
     "sha256": "f1c63699ccacd60eb4e2fc1c331ce86353c7e424831f2f74d122491c36491693"
   },
   "aiRetainedAcrossTabSwitch": true,
-  "provenanceNote": "Native screenshots captured in isolated Chrome for Testing sessions on 2026-09-16. ChatGPT, wiki, main page and welcome were refreshed after waiting for content. A later Google recapture timed out; the previously successful Google search, recent menu and appearance captures from this same preparation session were retained. Per-image timestamps and hashes identify the delivered files; all delivered images were visually inspected."
+  "provenanceNote": "Native screenshots captured in isolated Chrome for Testing sessions on 2026-09-16. ChatGPT, wiki, main page and welcome were refreshed after waiting for content. A later Google recapture timed out; the previously successful Google search, recent menu and appearance captures from this same preparation session were retained. Per-image timestamps and hashes identify the delivered files; all delivered images were visually inspected.",
+  "locale": "zh-CN",
+  "browserLocale": "zh-CN",
+  "demoSiteVisits": [
+    {
+      "url": "https://chatgpt.com/",
+      "documentLoaded": true,
+      "resolvedPage": "https://chatgpt.com/"
+    },
+    {
+      "url": "https://zh.wikipedia.org/wiki/%E7%95%AA%E8%8C%84%E5%B7%A5%E4%BD%9C%E6%B3%95",
+      "documentLoaded": true,
+      "resolvedPage": "https://zh.wikipedia.org/wiki/%E7%95%AA%E8%8C%84%E5%B7%A5%E4%BD%9C%E6%B3%95"
+    },
+    {
+      "url": "https://www.google.com/",
+      "documentLoaded": true,
+      "resolvedPage": "https://www.google.com.hk/"
+    },
+    {
+      "url": "https://github.com/",
+      "documentLoaded": true,
+      "resolvedPage": "https://github.com/"
+    },
+    {
+      "url": "https://developer.mozilla.org/",
+      "documentLoaded": true,
+      "resolvedPage": "https://developer.mozilla.org/zh-CN/"
+    },
+    {
+      "url": "https://developer.chrome.com/",
+      "documentLoaded": true,
+      "resolvedPage": "https://developer.chrome.com/"
+    },
+    {
+      "url": "https://www.figma.com/",
+      "documentLoaded": true,
+      "resolvedPage": "https://www.figma.com/"
+    },
+    {
+      "url": "https://www.notion.so/",
+      "error": "page.goto: Timeout 20000ms exceeded.",
+      "documentLoaded": false
+    }
+  ],
+  "demoSiteVisitsNote": "Temporary public-page visits only prime Chrome favicon cache. A loaded document is not proof of website compatibility; challenge pages may load. Unavailable icons retain Chrome defaults. No demo visit was used as a website-content screenshot."
 }

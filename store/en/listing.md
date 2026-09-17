@@ -5,7 +5,7 @@
 - Name: SideBrowser
 - Category intent: Productivity; choose Workflow & Planning if the dashboard requires a current subcategory.
 - Language: English
-- Short description: Open AI and reference sites in your browser sidebar. Ask, research, and work side by side with fewer tab switches.
+- Short description: Keep websites beside your work. Save favorites, reopen recent pages, and bind a sidebar page to a tab when needed.
 - Website: https://yuzhouu.github.io/side-browser/en/
 - Support: https://github.com/yuzhouu/side-browser/issues
 
@@ -29,15 +29,18 @@ By default, unbound tabs in the same Chrome window share one sidebar. Switch bet
 BIND A PAGE TO ONE TAB WHEN YOU NEED TO
 Use the More menu to bind the current sidebar page to a tab while keeping that page running. Other unbound tabs return to the welcome screen, where you can open a new shared page. Bound tabs have their own page and history. Unbinding closes that independent page and returns to the shared sidebar; closing a bound tab also releases its page.
 
+SAVE YOUR FAVORITES, OPEN THEM QUICKLY
+Choose Add current page to favorites in the sidebar’s More menu, or right-click a webpage or the SideBrowser toolbar icon and choose Add to SideBrowser favorites. Favorites appear below the empty welcome screen as a row of website icons, wrapping onto a new row when needed. Hover to see the title and full URL; click to open in the current sidebar. Remove favorites individually. Clearing recent pages leaves favorites intact.
+
 EVERYDAY CONTROLS, CLOSE AT HAND
 • Open the current page with one click, the context menu, or Alt + Shift + P (Mac: Option + Shift + P).
 • Navigate back and forward, reload, enter URLs, and search from a compact toolbar.
 • Reopen your 10 most recently opened addresses. Remove individual entries or clear the list.
 • Switch between mobile and desktop views; choose light, dark, or system appearance.
-• Continue the sidebar page in a regular tab, or close it to return to the welcome screen.
+• Continue the sidebar page in a regular tab, or close it to return to the welcome screen while keeping favorites, recents, and the tab binding.
 
 LOCAL PREFERENCES AND HISTORY
-Preferences, recently opened URLs and titles, and URLs and navigation history used for restoration are stored on your device, not uploaded to the developer. There is no developer-operated proxy, advertising tracker, or telemetry. Website requests go to the sites you open; keyword searches use Google. Those services have their own privacy policies.
+Preferences, favorite and recently opened URLs and titles, and URLs and navigation history used for restoration are stored on your device, not uploaded to the developer. Favorites and recents are shared across windows and survive browser restarts. Favorites are separate from Chrome bookmarks; tab bindings end when Chrome restarts. There is no developer-operated proxy, advertising tracker, or telemetry. Website requests go to the sites you open; keyword searches use Google. Those services have their own privacy policies.
 
 BEFORE YOU START
 Requires Chrome 145 or later. SideBrowser itself needs no account. Individual websites may require an account, subscription, or payment. Login policies, third-party cookies, network conditions, and embedding restrictions can affect compatibility. If a site does not work in the sidebar, open it in a regular tab from the More menu. Mobile view is a display compatibility feature, not full device emulation. After closing the panel or restarting Chrome, saved URLs can be restored, but unsent conversations, form contents, and scroll positions are not guaranteed to persist.

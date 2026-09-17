@@ -151,7 +151,7 @@
     "message": "Klicke auf das SideBrowser-Symbol, um die Seitenleiste zu öffnen. Gib eine Adresse oder einen Google-Suchbegriff ein und drücke Enter. Mit „Aktuelle Seite öffnen“ öffnest du die Adresse des aktiven Tabs in der Seitenleiste."
   },
   "helpStartShortcut": {
-    "message": "Klicke mit der rechten Maustaste auf eine Seite oder einen Link und wähle „In SideBrowser öffnen“. Dein Tastenkürzel kannst du in den Einstellungen ansehen und ändern. Ziehe am Rand der Seitenleiste, um ihre Breite anzupassen."
+    "message": "Öffne Webseiten, Links oder die aktuelle Seite über das Rechtsklickmenü des Erweiterungssymbols in SideBrowser. Standardkürzel für die aktuelle Seite: Alt + Umschalt + P (Mac: ⌥ + ⇧ + P). Du kannst es in den Einstellungen ansehen und ändern. Ziehe am Rand der Seitenleiste, um ihre Breite anzupassen."
   },
   "helpStateHeading": {
     "message": "Tabs wechseln und Seiten wiederherstellen"
@@ -166,7 +166,7 @@
     "message": "Anzeigemodi und Hilfe bei Problemen"
   },
   "helpMobileViewport": {
-    "message": "Wechsle in den Einstellungen oder im Menü „⋯“ zwischen Mobil- und Desktop-Modus. Der Mobilmodus eignet sich für schmale Seitenleisten und unterstützt weiterhin Maus und Mausrad. Das Layout hängt von der Website ab."
+    "message": "Der Mobil-/Desktopmodus gilt für alle Fenster. Ein Wechsel lädt alle laufenden Seiten in der Seitenleiste neu. Der Mobilmodus passt Ansichtsbereich und Browserkennung an und behält Maus, Hover und Mausrad bei. Er ist keine vollständige Geräteemulation."
   },
   "helpEmbeddingLimits": {
     "message": "Wenn eine Seite langsam lädt, lade sie erneut. Manche Websites, Anmeldungen oder Videos funktionieren möglicherweise nicht in der Seitenleiste. Öffne die aktuelle Seite über „⋯“ in einem neuen Tab."
@@ -175,7 +175,7 @@
     "message": "Datenschutz und Daten"
   },
   "helpPrivacy": {
-    "message": "Einstellungen, zuletzt geöffnete Adressen und Titel sowie Adressen und Navigationsverläufe zur Wiederherstellung werden auf deinem Gerät gespeichert und nicht an den Entwickler übertragen. Das Leeren der Liste entfernt nur die zuletzt geöffneten Einträge, nicht die gespeicherten Seitenadressen, Navigationsverläufe oder Website-Daten. Für Websites und Suchanbieter gelten deren eigene Datenschutzrichtlinien."
+    "message": "Favoriten, zuletzt geöffnete Seiten, Einstellungen und URLs samt Verlauf zur Wiederherstellung bleiben auf deinem Gerät und werden nicht an den Entwickler übertragen. Das Löschen einer Liste verändert weder die andere Liste noch offene Seiten, Navigationsverlauf oder Website-Cookies. Websites und Suchdienste verarbeiten Anfragen und Eingaben nach ihren eigenen Datenschutzrichtlinien."
   },
   "settingsTitle": {
     "message": "SideBrowser · Einstellungen"
@@ -259,7 +259,7 @@
     "message": "Öffne die SideBrowser-Einstellungen für diese Aktion."
   },
   "helpRecent": {
-    "message": "Klicke auf die Uhr in der Adressleiste, um zuletzt geöffnete Seiten zu sehen. Wähle einen Eintrag zum Öffnen, entferne einzelne Einträge oder leere die Liste. Die Liste gilt für alle Fenster und bleibt nach einem Browser-Neustart erhalten."
+    "message": "Die Uhr in der Adressleiste zeigt die letzten 10 ausdrücklich geöffneten URLs. Erneutes Öffnen verschiebt einen Eintrag nach oben. Navigation innerhalb einer Seite, Neuladen sowie Vor und Zurück zählen nicht mit. Du kannst einzelne Einträge oder die ganze Liste löschen. Sie gilt für alle Fenster und bleibt nach Neustarts erhalten. Favoriten werden dabei nicht gelöscht."
   },
   "helpFeedback": {
     "message": "Feedback & Vorschläge"
@@ -307,7 +307,7 @@
     "message": "Webseite schließen und die Seitenleiste geöffnet lassen"
   },
   "helpClosePage": {
-    "message": "Wählen Sie unter „⋯“ die Option zum Schließen der aktuellen Seite, um zum Begrüßungsbildschirm zurückzukehren. Nur die angezeigte Seite und ihr Navigationsverlauf werden gelöscht. Zuletzt geöffnete Einträge und andere Seiten bleiben erhalten."
+    "message": "„⋯“ → „Aktuelle Seite schließen“ führt zum Willkommensbildschirm; die Seitenleiste bleibt offen. Nur die angezeigte Seite und ihr Vor-/Zurück-Verlauf werden gelöscht. Favoriten, zuletzt geöffnete Seiten, Tab-Bindungen, Einstellungen und andere Seiten bleiben erhalten. Die geschlossene Seite wird beim erneuten Öffnen oder Browserneustart nicht automatisch wiederhergestellt."
   },
   "bindTab": {
     "message": "An aktuellen Tab binden"
@@ -332,5 +332,14 @@
   },
   "contextFavorite": {
     "message": "Zu SideBrowser-Favoriten hinzufügen"
+  },
+  "helpFavorites": {
+    "message": "Wähle „⋯“ → „Aktuelle Seite zu Favoriten hinzufügen“, um die aktuelle Seitenleisten-Seite zu speichern. Du kannst auch eine Webseite oder das SideBrowser-Symbol in der Symbolleiste rechtsklicken und „Zu SideBrowser-Favoriten hinzufügen“ wählen. Dabei wird die Seite nur gespeichert, nicht geöffnet oder gewechselt."
+  },
+  "helpFavoriteShortcuts": {
+    "message": "Favoriten erscheinen als Website-Symbole unter dem leeren Willkommensbildschirm und brechen bei Platzmangel in weitere Zeilen um. Mit Mauszeiger oder Tastaturfokus siehst du Titel und vollständige URL. Ein Klick öffnet die Seite in der aktuellen Seitenleiste. Entferne Favoriten über die Löschtaste am Symbol oder „⋯“ → „Aus Favoriten entfernen“. Sie gelten für alle Fenster, bleiben nach Neustarts erhalten und sind getrennt von Chrome-Lesezeichen."
+  },
+  "helpAppearance": {
+    "message": "Wähle Hell, Dunkel oder System in den Einstellungen oder unter „⋯“. Das Erscheinungsbild gilt für alle Fenster und lädt Seiten nicht neu. Websites können eigene Designs verwenden. Die Sprache folgt Chrome; unterstützt werden Deutsch, Englisch, vereinfachtes und traditionelles Chinesisch, Japanisch, Französisch und Spanisch."
   }
 }

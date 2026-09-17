@@ -6,13 +6,12 @@ export const content = {
     description:
       '输入任意网址，把你习惯使用的网站放到侧边。AI、搜索、百科、文档或其他网页，由你选择，让主页面的工作继续。',
     tagline: '侧窗小境，意赴遐荒。',
-    nav: ['功能', '宣传素材', '隐私政策'],
+    nav: ['功能', '隐私政策'],
     download: '下载扩展',
     how: '查看使用方式',
     compatible: '适用于 Chrome 145+ · 免费 · 无需侧窗账号',
     scenes: ['AI 在身边', '资料在手边', '搜索不打断'],
     examplesNote: '这些网站只是使用示例，你可以打开自己常用的网站。',
-    artworkExample: '使用示例 · 输入网址，换成你的常用网站',
     sceneNotes: [
       '在侧边打开 ChatGPT，主页面留在眼前。',
       '维基百科就在旁边，阅读和查证同时进行。',
@@ -26,17 +25,31 @@ export const content = {
     steps: [
       ['打开你的网站', '输入任意网址，或一键把当前网页放进侧边。'],
       ['按你的习惯使用', '常用工具留在侧边，阅读、提问、查资料或处理自己的事情。'],
-      ['切换标签，继续工作', '同一窗口内，侧边网页持续运行。']
+      ['切换标签，继续工作', '同一窗口默认共用侧窗，也可按需绑定到某个标签。']
     ],
     detailTitle: '少一点来回，多一点专注。',
     details: [
-      ['最近打开', '10 个最近主动打开的网址，随时回来。'],
+      ['收藏快捷打开', '欢迎页图标横排、自动换行，悬停查看标题与完整网址。'],
+      ['随手收藏', '从侧窗更多菜单，或右键网页、工具栏扩展图标收藏。'],
+      ['最近打开', '保留 10 个最近主动打开的网址，可单条删除或清空；收藏独立保留。'],
       ['自由切换', '手机或电脑视图，浅色、深色或跟随系统。'],
-      ['本地保存', '偏好与浏览记录保存在本机，不上传给开发者。']
+      ['关闭当前网页', '回到欢迎页，保留收藏、最近记录、绑定和其他侧窗网页。'],
+      ['本地保存', '收藏、最近记录和偏好跨窗口共用，重启后保留，不上传开发者。']
     ],
-    shareTitle: '好用的侧窗，<br>也值得被分享。',
-    shareDescription: '品牌标识、真实截图与介绍文案，一处获取。',
-    mediaLink: '获取宣传素材',
+    bindingTitle: '共用一个侧窗，<br>也能各有专属。',
+    bindingIntro: '为阅读的标签留一页参考，为写作的标签留一个 AI 网页。切回来，接着用。',
+    bindingModes: [
+      ['默认共用', '同一窗口内，所有未绑定的标签共用一个侧窗网页。切换标签，侧边的工作继续。'],
+      [
+        '按需绑定',
+        '在侧窗「⋯」中选择「绑定到当前标签页」，为这个标签保留专属网页。切换标签时，输入、滚动位置和浏览历史继续保留。'
+      ]
+    ],
+    bindingQuestion: '绑定后，其他标签会怎样？',
+    bindingNotes: [
+      '当前网页和历史会移到绑定标签，原共享网页随之清空。其他未绑定标签先回到欢迎页，你可以再为它们打开一个共享网页。',
+      '解除绑定会释放专属网页，回到当前共享网页。关闭绑定标签或重启浏览器也会清除绑定。'
+    ],
     installTitle: '让另一个网页，<br>出现在你身边。',
     installNote: '当前提供 ZIP 安装包，Chrome 扩展商店版本尚未上线。',
     installSteps: [
@@ -53,61 +66,11 @@ export const content = {
     light: '切换到浅色',
     dark: '切换到深色',
     skip: '跳到正文',
-    mediaTitle: '把侧窗，分享出去。',
-    mediaDescription:
-      '把自己常用的网站放到侧边，让两个网页并排工作。用真实截图与功能说明，分享侧窗的使用方式。',
-    preview: '宣传图预览',
     sceneLabel: '选择使用示例',
-    export: '下载说明图 PNG',
-    exporting: '正在生成…',
-    exportDone: '图片已生成，开始下载。',
-    exportError: '图片暂未生成，请刷新后重试。',
-    exportNote: '1280 × 800 PNG · 中英文／浅深色 · 主页面 + 侧窗',
-    library: '现成素材，直接取用。',
-    libraryNote:
-      '当前展示中文版，含中文说明与真实中文界面；切换语言可查看英文版。下载包包含两套素材。',
-    bundle: '下载素材包',
-    png: '下载 PNG',
-    artTitles: [
-      '常用的网站，就在你手边',
-      '边读边查，资料随手可得',
-      '打开当前网页，一步就到',
-      '最近打开，随时回来',
-      '让侧窗适合你的习惯'
-    ],
-    promoSmall: '小尺寸宣传图',
-    promoWide: '横幅宣传图',
-    logo: '品牌标识',
-    logoNote: '蓝色主窗，黄色侧窗。使用时请保留原色与比例。',
-    svg: '下载 SVG',
-    icon: '下载图标 PNG',
-    copyTitle: '一段介绍，就能说清楚。',
-    copy: '复制介绍',
-    copied: '已复制',
-    copyFailed: '请选中文字后手动复制。',
-    blurb:
-      '侧窗 · SideBrowser 是一款 Chrome 侧边栏浏览器扩展。输入任意网址，在侧边打开自己习惯使用的网站，让主页面的工作继续。AI、搜索、百科、文档或其他网页，由你选择。ChatGPT、维基百科和 Google 搜索只是使用示例。支持最近打开、手机／电脑视图与深浅色外观；网站的登录与嵌入规则可能影响使用。',
-    artworkHeadings: [
-      ['常用的网站，', '就在你手边。'],
-      ['边读边查，', '资料随手可得。'],
-      ['搜索一下，', '不用离开当前页。']
-    ],
-    artworkBodies: [
-      '输入任意网址，打开你熟悉的网站。这里以 ChatGPT 为例，边工作边提问。',
-      '以维基百科为例：主页面读时间管理文章，侧边查阅番茄工作法，两边对照。',
-      '以 Google 搜索为例：在地址栏输入关键词，搜索结果就在侧边展开。'
-    ],
-    artworkPoints: [
-      ['自己选择侧边的网站', '主页面与侧窗并排看', '切换标签，侧边继续'],
-      ['百科与正文并排看', '随时查词、核对资料', '最近打开，快速回来'],
-      ['网址与关键词都能输入', '结果留在侧边，工作继续', '需要时在新标签页打开']
-    ],
-    artworkFooter: 'Chrome 侧边栏浏览器扩展',
-    realCapture: '真实主页面与原生侧边栏截图组合',
     mainLabels: ['主页面 · 维基百科', '主页面 · 时间管理', '主页面 · 维基百科'],
     sideLabels: ['侧窗 · ChatGPT', '侧窗 · 维基百科', '侧窗 · Google 搜索'],
     policyTitle: '隐私政策',
-    updated: '更新于 2026 年 9 月 16 日 · 扩展版本 1.0.0',
+    updated: '更新于 2026 年 9 月 17 日 · 扩展版本 1.0.0',
     policyIntro: '清楚说明侧窗处理什么数据、如何保存，以及如何删除。',
     notFound: '这个页面不在侧窗里。',
     home: '返回首页'
@@ -119,13 +82,12 @@ export const content = {
     description:
       'Enter any website URL and keep your familiar tools beside your work. AI, search, references, documents and more—you choose what opens.',
     tagline: 'Another page. Right beside you.',
-    nav: ['Features', 'Media kit', 'Privacy'],
+    nav: ['Features', 'Privacy'],
     download: 'Download extension',
     how: 'How it works',
     compatible: 'For Chrome 145+ · Free · No SideBrowser account',
     scenes: ['Ask AI', 'Look it up', 'Search alongside'],
     examplesNote: 'These websites are examples. Open the websites that work for you.',
-    artworkExample: 'An example · Enter a URL to open your own websites',
     sceneNotes: [
       'Open ChatGPT beside the page you are working on.',
       'Read and check references with Wikipedia alongside.',
@@ -142,17 +104,53 @@ export const content = {
         'Work your way',
         'Keep your familiar tools alongside to read, ask, research or get things done.'
       ],
-      ['Switch tabs. Keep going.', 'Your sidebar page stays running in the same window.']
+      [
+        'Switch tabs. Keep going.',
+        'Share a sidebar in one window, or bind it to a tab when needed.'
+      ]
     ],
     detailTitle: 'Less switching. More focus.',
     details: [
-      ['Find your way back', 'Reopen up to 10 recently opened pages.'],
+      [
+        'Favorite shortcuts',
+        'Welcome-screen icons wrap into rows. Hover for the title and full URL.'
+      ],
+      [
+        'Save a favorite',
+        'Use More in the sidebar, or right-click a webpage or the extension toolbar icon.'
+      ],
+      [
+        'Find your way back',
+        'Reopen up to 10 recent pages. Remove entries or clear recents while keeping favorites.'
+      ],
       ['Make it yours', 'Mobile or desktop view. Light, dark or system appearance.'],
-      ['Keep it local', 'Preferences and browsing records stay on your device.']
+      [
+        'Close the current page',
+        'Return to welcome while keeping favorites, recents, bindings, and other side pages.'
+      ],
+      [
+        'Keep it local',
+        'Favorites, recents, and preferences are shared across windows and survive restarts on your device.'
+      ]
     ],
-    shareTitle: 'A little sidebar.<br>A lot to share.',
-    shareDescription: 'Brand assets, real screenshots and product copy, all in one place.',
-    mediaLink: 'Get the media kit',
+    bindingTitle: 'One shared sidebar.<br>Or one for a tab.',
+    bindingIntro:
+      'Keep a reference beside your reading tab, or an AI page beside your writing tab. Come back and pick up where you left off.',
+    bindingModes: [
+      [
+        'Shared by default',
+        'All unbound tabs in the same window share one sidebar page. Switch tabs and keep your side page running.'
+      ],
+      [
+        'Bind when you need to',
+        'In the sidebar’s “⋯” menu, choose “Bind to current tab” to give that tab its own page. Your input, scroll position and browsing history stay in place as you switch tabs.'
+      ]
+    ],
+    bindingQuestion: 'What happens to the other tabs?',
+    bindingNotes: [
+      'The current page and its history move to the bound tab, leaving the shared sidebar empty. Other unbound tabs show the welcome screen until you open a new shared page.',
+      'Unbinding releases the dedicated page and returns to the current shared page. Closing the bound tab or restarting Chrome also clears the binding.'
+    ],
     installTitle: 'Your next page.<br>Right by your side.',
     installNote: 'Available as a ZIP download. The Chrome Web Store listing is not live yet.',
     installSteps: [
@@ -169,66 +167,11 @@ export const content = {
     light: 'Switch to light',
     dark: 'Switch to dark',
     skip: 'Skip to content',
-    mediaTitle: 'Meet your next share.',
-    mediaDescription:
-      'Keep your own websites alongside and work with two pages in view. Share how SideBrowser works with real screenshots and feature descriptions.',
-    preview: 'Promotional image preview',
     sceneLabel: 'Choose an example',
-    export: 'Download image PNG',
-    exporting: 'Generating…',
-    exportDone: 'Image ready. Download started.',
-    exportError: 'Could not generate the image. Please refresh and try again.',
-    exportNote: '1280 × 800 PNG · Your language and theme · Main page + sidebar',
-    library: 'Ready to use. Ready to share.',
-    libraryNote:
-      'English copy and real English UI screenshots. Switch languages for the Chinese set. The download includes both.',
-    bundle: 'Download media kit',
-    png: 'Download PNG',
-    artTitles: [
-      'Your websites, right beside you',
-      'Research in context',
-      'Open a page in one step',
-      'Return to recent pages',
-      'Make the sidebar yours'
-    ],
-    promoSmall: 'Small promotional tile',
-    promoWide: 'Promotional banner',
-    logo: 'Brand assets',
-    logoNote:
-      'A blue main window. A yellow side window. Please preserve the colors and proportions.',
-    svg: 'Download SVG',
-    icon: 'Download icon PNG',
-    copyTitle: 'A few words about SideBrowser.',
-    copy: 'Copy description',
-    copied: 'Copied',
-    copyFailed: 'Select the text and copy it manually.',
-    blurb:
-      'SideBrowser is a Chrome side-panel browser extension. Enter any website URL to keep your familiar websites beside your work. AI, search, references, documents and more—you choose what opens. ChatGPT, Wikipedia and Google Search are just examples. Includes recent pages, mobile and desktop views, and light and dark appearance. Website sign-in and embedding rules may affect availability.',
-    artworkHeadings: [
-      ['Your websites.', 'Right beside you.'],
-      ['Read. Look up.', 'Keep your place.'],
-      ['Find an answer.', 'Keep your focus.']
-    ],
-    artworkBodies: [
-      'Enter any website URL. Here, ChatGPT keeps questions beside your work.',
-      'Wikipedia example: read about time management and look up the Pomodoro technique alongside.',
-      'Google Search example: type keywords in the address bar to search alongside.'
-    ],
-    artworkPoints: [
-      ['Choose your own websites', 'Keep both pages in view', 'Switch tabs, keep the sidebar'],
-      ['Read with context in view', 'Check facts as you go', 'Reopen recent pages quickly'],
-      [
-        'Enter a URL or search terms',
-        'Keep results beside your work',
-        'Open in a new tab when needed'
-      ]
-    ],
-    artworkFooter: 'A side-panel browser for Chrome',
-    realCapture: 'Real main-page and native sidebar captures, composed',
     mainLabels: ['Main page · Wikipedia', 'Main page · Time management', 'Main page · Wikipedia'],
     sideLabels: ['Sidebar · ChatGPT', 'Sidebar · Wikipedia', 'Sidebar · Google'],
     policyTitle: 'Privacy policy',
-    updated: 'Updated September 16, 2026 · Extension version 1.0.0',
+    updated: 'Updated September 17, 2026 · Extension version 1.0.0',
     policyIntro: 'What SideBrowser handles, where it is stored, and how to delete it.',
     notFound: 'This page has stepped outside.',
     home: 'Back to home'
@@ -236,10 +179,3 @@ export const content = {
 };
 export const scenes = ['ai-chatgpt', 'wiki', 'search'];
 export const mainScenes = ['main-reference', 'main-research', 'main-reference'];
-export const storeImages = [
-  '01-ai-beside-you',
-  '02-research-in-context',
-  '03-open-in-one-step',
-  '04-recent-pages',
-  '05-make-it-yours'
-];

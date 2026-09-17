@@ -14,38 +14,45 @@ const page = await context.newPage();
 const errors = [];
 page.on('pageerror', error => errors.push(error.message));
 page.on('console', message => {
-  if (message.type() === 'error') errors.push(message.text());
+  if (['error', 'warning'].includes(message.type())) errors.push(message.text());
 });
 try {
-  const captures = [];
   for (const locale of ['zh', 'en']) {
     const prefix = locale === 'en' ? 'en/' : '';
-    await page.goto(base + prefix + 'media/');
+    await page.goto(base + prefix);
+    assert.equal(
+      await page.title(),
+      locale === 'zh'
+        ? '侧窗 · SideBrowser — 常用的网站，就在你手边'
+        : 'SideBrowser — Your websites, right beside you'
+    );
+    assert.equal(await page.locator('h1').count(), 1);
+    assert.equal(await page.locator('a[href*="/media/"]').count(), 0);
     for (const theme of ['light', 'dark']) {
       if ((await page.locator('html').getAttribute('data-theme')) !== theme)
         await page.locator('[data-theme-toggle]').click();
-      for (const [index, scene] of ['ai-chatgpt', 'wiki', 'search'].entries()) {
-        await page.locator('#scene-select').selectOption(String(index));
-        await page.waitForFunction(() => !document.querySelector('#export-image').disabled);
-        const downloaded = page.waitForEvent('download');
-        await page.locator('#export-image').click();
-        const file = await downloaded;
-        assert.equal(
-          file.suggestedFilename(),
-          `sidebrowser-${scene}-${locale}-${theme}-1280x800.png`
-        );
-        const path = `${output}/${file.suggestedFilename()}`;
-        await file.saveAs(path);
-        const bytes = await readFile(path);
-        assert.equal(bytes.subarray(0, 8).toString('hex'), '89504e470d0a1a0a');
-        assert.equal(bytes.readUInt32BE(16), 1280);
-        assert.equal(bytes.readUInt32BE(20), 800);
-        assert.equal(bytes[25], 2, 'Store-compatible RGB PNG without alpha');
-        assert(bytes.length > 25000, 'Image should contain screenshot pixels');
-        captures.push(file.suggestedFilename());
+      await page.locator('.binding-faq summary').click();
+      assert(await page.locator('.binding-faq').evaluate(element => element.open));
+      assert(await page.locator('.binding-faq p').first().isVisible());
+      for (const width of [1440, 390, 320]) {
+        await page.setViewportSize({ width, height: 1000 });
+        const geometry = await page.evaluate(() => ({
+          width: document.documentElement.clientWidth,
+          scroll: document.documentElement.scrollWidth
+        }));
+        assert(geometry.scroll <= geometry.width, `Binding overflow: ${locale}/${theme}/${width}`);
       }
+      await page
+        .locator('.binding')
+        .screenshot({ path: `${output}/binding-${locale}-${theme}-320.png` });
+      await page.setViewportSize({ width: 1440, height: 1000 });
+      await page
+        .locator('.binding')
+        .screenshot({ path: `${output}/binding-${locale}-${theme}.png` });
+      await page.locator('.binding-faq summary').click();
+      assert(!(await page.locator('.binding-faq').evaluate(element => element.open)));
     }
-    for (const route of ['', 'media/', 'privacy/']) {
+    for (const route of ['', 'privacy/']) {
       await page.goto(base + prefix + route);
       assert.equal(
         await page.locator('html').getAttribute('data-theme'),
@@ -93,16 +100,29 @@ try {
     await page.locator('[data-theme-toggle]').click();
     await page.screenshot({ path: `${output}/home-${locale}-light.png`, fullPage: true });
   }
-  await page.goto(base + 'en/media/');
+  await page.goto(base);
+  await page.locator('.language').click();
+  assert.equal(page.url(), base + 'en/');
+  assert.equal(await page.locator('html').getAttribute('data-theme'), 'light');
+  await page.locator('.nav a').last().click();
+  assert.equal(page.url(), base + 'en/privacy/');
+  await page.locator('.language').click();
+  assert.equal(page.url(), base + 'privacy/');
+  await page.locator('.header .brand').click();
+  assert.equal(page.url(), base);
   const zipPromise = page.waitForEvent('download');
-  await page.locator('a[download][href$="sidebrowser-media.zip"]').click();
+  await page.locator('a[download][href$=".zip"]').click();
   const zip = await zipPromise;
   await zip.saveAs(`${output}/${zip.suggestedFilename()}`);
   const buffer = await readFile(`${output}/${zip.suggestedFilename()}`);
   assert.equal(buffer.subarray(0, 2).toString(), 'PK');
+  for (const path of ['media/', 'en/media/', 'assets/downloads/sidebrowser-media.zip']) {
+    const response = await context.request.get(base + path);
+    assert.equal(response.status(), 404, `Removed public asset: ${path}`);
+  }
   assert.deepEqual(errors, []);
   console.log(
-    `Verified ${captures.length} real PNG downloads (3 scenes × 2 languages × 2 themes), media ZIP, persisted theme and 6 pages at 1440/768/390/320px. No console errors. Screenshots: ${output}`
+    `Verified bilingual binding details in both themes, removed media routes, extension ZIP download, scene/language navigation, persisted theme and 4 pages at 1440/768/390/320px. No console errors or warnings. Screenshots: ${output}`
   );
 } finally {
   await browser.close();

@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "renderedAt": "2026-09-17T02:20:46.537Z",
+  "renderedAt": "2026-09-17T04:54:07.588Z",
   "defaultLocale": "zh-CN",
   "locales": [
     "zh-CN",
@@ -39,24 +39,24 @@
       "locale": "zh-CN",
       "width": 1280,
       "height": 800,
-      "bytes": 130498,
-      "sha256": "ca30c0aceaf5a041f067626bd511d3b814ab2261977236b4489d973aadc6ae75"
+      "bytes": 131716,
+      "sha256": "41df85cb2a91572050f839c2c49b4c92a268cc057b1b59216f3db235fc39cd0d"
     },
     {
       "file": "zh-CN/04-recent-pages.png",
       "locale": "zh-CN",
       "width": 1280,
       "height": 800,
-      "bytes": 233661,
-      "sha256": "816531c040b45f35cfd681ba433c8f323d241cb6060d67d8eee9cfc3239fd097"
+      "bytes": 161536,
+      "sha256": "e461b512fc5713dcef417dd4a0ba6191235a2e9a329f5a1484023700b3d7bee0"
     },
     {
       "file": "zh-CN/05-make-it-yours.png",
       "locale": "zh-CN",
       "width": 1280,
       "height": 800,
-      "bytes": 269185,
-      "sha256": "e47d9509287a468d6dd1f1f9a1b39e7dacb72c99907139f4fa1bff95233f6f2f"
+      "bytes": 246263,
+      "sha256": "57880f6705ba6abd38c770b09520cdc96dc7f7f7ffdb50b4446fb15049309b1f"
     },
     {
       "file": "zh-CN/promo-small-440x280.png",
@@ -87,8 +87,8 @@
       "locale": "en",
       "width": 1280,
       "height": 800,
-      "bytes": 252938,
-      "sha256": "d34000ee155bfc1933c3795cf8d9f52e537fa47716b6f3fa6222c5b3da0bc89e"
+      "bytes": 252937,
+      "sha256": "267af7d71959e48c41267b18534bf3cd7521b4cf6b94ccee91774d7f9ac8285c"
     },
     {
       "file": "en/02-research-in-context.png",
@@ -103,24 +103,24 @@
       "locale": "en",
       "width": 1280,
       "height": 800,
-      "bytes": 123008,
-      "sha256": "aaeb4df5a33e63adf383d10ee6c101c6c9680b0202c867c9ba31d4ef31bbce8b"
+      "bytes": 125441,
+      "sha256": "edd65128380b19ff329ab2fed1e6019cdd6e443ce6e579ae1a388be0530670df"
     },
     {
       "file": "en/04-recent-pages.png",
       "locale": "en",
       "width": 1280,
       "height": 800,
-      "bytes": 168086,
-      "sha256": "c4c377d89164587d94d2978bd3aa5ff58d5db2784cd64b3a49bbd151ec5ba1fa"
+      "bytes": 152197,
+      "sha256": "35ba42927cf643a35be1da5d3493084a2ce8a864ea0358529241cdad67490f6b"
     },
     {
       "file": "en/05-make-it-yours.png",
       "locale": "en",
       "width": 1280,
       "height": 800,
-      "bytes": 203851,
-      "sha256": "7cc218fff71868b3183c18f876bcd19486e33faf76f074bc8f423c1dfa03c9cb"
+      "bytes": 219825,
+      "sha256": "f990dfdbd87e15d8728beab19cb03a70ff6de2f0321c5c4fc60fec65c68aade0"
     },
     {
       "file": "en/promo-small-440x280.png",

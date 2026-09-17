@@ -14,10 +14,10 @@
 | `submission.md` | 分类映射、权限用途、隐私披露、审核说明、发布剩余步骤 |
 | `../docs/privacy-policy.md` | 可公开发布的中英文隐私政策 |
 | `zh-CN/01-ai-beside-you.png` / `en/01-ai-beside-you.png` | 在侧边使用 ChatGPT，手动提问，切标签时继续运行 |
-| `zh-CN/02-research-in-context.png` / `en/02-research-in-context.png` | 维基百科与 Google 并排查资料 |
+| `zh-CN/02-research-in-context.png` / `en/02-research-in-context.png` | 公开网页与参考资料并排查阅（中文 Google，英文 Wikipedia） |
 | `zh-CN/03-open-in-one-step.png` / `en/03-open-in-one-step.png` | 打开当前网页、右键入口、快捷键与导航栏 |
-| `zh-CN/04-recent-pages.png` / `en/04-recent-pages.png` | 最近 10 条、快速重开、删除与清空 |
-| `zh-CN/05-make-it-yours.png` / `en/05-make-it-yours.png` | 手机／电脑视图、深浅色、新标签继续 |
+| `zh-CN/04-recent-pages.png` / `en/04-recent-pages.png` | 收藏图标自动换行、完整网址提示，以及最近 10 条 |
+| `zh-CN/05-make-it-yours.png` / `en/05-make-it-yours.png` | 手机／电脑视图、深浅色与按需绑定 |
 | `zh-CN/promo-small-440x280.png` / `en/promo-small-440x280.png` | 必填的小宣传图，品牌与侧边浏览图形 |
 | `zh-CN/promo-marquee-1400x560.png` / `en/promo-marquee-1400x560.png` | 可选大横幅，品牌、说明文字与 ChatGPT 实拍 |
 | `zh-CN/store-icon-128.png` / `en/store-icon-128.png` | 商店上传图标；同一品牌 SVG，图形约 96px，外围透明留白 |
@@ -28,9 +28,9 @@
 
 ## 截图来源与内容边界
 
-截图来自独立临时配置中的 Chrome for Testing。中文素材沿用已有来源记录，英文素材于 2026-09-17 加载当前项目 `dist/` 重新采集，Chrome 界面语言为 en-US。侧边栏为真实原生 360×645 CSS 像素、DPR 2；不是通过模拟视口宣称 Chrome 支持更窄宽度。无个人账号、日常浏览记录或用户 Cookie。
+截图来自独立临时配置中的 Chrome for Testing。中英文欢迎页、收藏与更多菜单随功能更新重新采集；未受影响的第三方网页和主页面截图沿用原始来源记录。各文件自己的采集时间与 SHA-256 见中文 `assets/source/capture.json` 和英文 `assets/source/en/capture.json`，不将旧截图标记为本次重拍。侧边栏为真实原生 360×645 CSS 像素、DPR 2；不是通过模拟视口宣称 Chrome 支持更窄宽度。无个人账号、日常浏览记录或用户 Cookie。
 
-扩展 UI 与第三方网页均为真实截图，没有 AI 重绘、替换按钮、伪造 AI 回复、伪造评价或服务背书。说明页通过 HTML/CSS 添加外部标题、文字、品牌与框架。第 2 张将主标签和侧边栏两次实拍组合展示，并明确标注；第 3 张对真实导航栏作局部放大。小宣传图中的窗口是概念图形，不是额外产品功能。
+扩展 UI 与第三方网页均为真实截图，没有 AI 重绘、替换按钮、伪造 AI 回复、伪造评价或服务背书。说明页通过 HTML/CSS 添加外部标题、文字、品牌与框架。第 2 张将主标签和侧边栏两次实拍组合展示，并明确标注；第 3 张对真实导航栏作局部放大。第 4 张展示扩展真实渲染的收藏与悬停提示；使用独立配置中的 8 个公开网站示例收藏，没有修改截图中的界面或网页内容。小宣传图中的窗口是概念图形，不是额外产品功能。
 
 ChatGPT 截图为未登录首页；没有提交对话。中文版 Google 搜索使用公开关键词“番茄工作法”，维基百科为同名公开词条。英文资料查询图展示 Wikipedia 的 Time management 与 Pomodoro Technique；英文 Google 搜索采集遇到验证码，因此未采用。第三方品牌只用于说明所访问的网站；SideBrowser 与这些网站无隶属关系。页面可用性记录只代表拍摄时显示成功，不证明所有登录、对话或网站始终可用。
 
@@ -43,6 +43,10 @@ npm run store:capture
 # 采集英文界面到 assets/source/en/，不会覆盖中文原图
 STORE_LOCALE=en npm run store:capture
 
+# 仅补拍欢迎页、收藏、最近列表与更多菜单，保留既有第三方网页来源
+STORE_CAPTURE_SCOPE=features npm run store:capture
+STORE_CAPTURE_SCOPE=features STORE_LOCALE=en npm run store:capture
+
 # 使用两套已保存的真实截图，同时导出中文和英文
 npm run store:render
 
@@ -52,6 +56,6 @@ npm run store:package
 
 可通过 `CHROME_PATH` 指定已安装的 Chrome for Testing 路径。截图只操作新建的临时配置，退出时删除该配置。每张截图完成后写入来源记录；内容加载超时或出现验证码不作为成功素材。`design.html` 是共用排版及中文文案，`design-locales.js` 提供英文文案与真实英文截图映射；打开 `design.html?lang=en` 可预览英文源稿。重新渲染后需逐张检查 100% 和缩小显示。网站页面变更可能需要更新采集等待条件。
 
-图片尺寸按 [Chrome 官方图片规范](https://developer.chrome.com/docs/webstore/images) 准备。现成商店说明图提供简体中文和英文两套；官网素材生成器另外提供 ChatGPT、维基百科、Google 搜索三个场景的中英文／浅深色说明图。公开隐私政策位于 https://yuzhouu.github.io/side-browser/privacy/ ，由 Pages 工作流发布。提交前确认部署成功，并完成开发者账号信息和审核字段，详见 `submission.md`。
+图片尺寸按 [Chrome 官方图片规范](https://developer.chrome.com/docs/webstore/images) 准备。现成商店说明图提供简体中文和英文两套，集中在本目录维护与预览；官网介绍产品、安装与隐私，不提供素材生成器。公开隐私政策位于 https://yuzhouu.github.io/side-browser/privacy/ ，由 Pages 工作流发布。提交前确认部署成功，并完成开发者账号信息和审核字段，详见 `submission.md`。
 
-主页面对照更新：AI 主宣传图和横幅展示主页面与 ChatGPT 侧窗；百科／搜索情景也在官网生成器中并排展示。最近记录、快速打开和外观图保留局部细节说明。`source/main-reference.png` 为主页面番茄工作法文章，`source/main-research.png` 为正常滚动到正文的时间管理文章，其来源、尺寸与哈希见相邻 JSON。
+主页面对照更新：AI 主宣传图和横幅展示主页面与 ChatGPT 侧窗；百科／搜索情景在官网首页并排展示。收藏与最近记录、快速打开和外观图提供局部细节说明。`source/main-reference.png` 为主页面番茄工作法文章，`source/main-research.png` 为正常滚动到正文的时间管理文章，其来源、尺寸与哈希见相邻 JSON。
