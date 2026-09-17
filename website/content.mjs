@@ -2,14 +2,17 @@ export const content = {
   zh: {
     lang: 'zh-CN',
     name: '侧窗 · SideBrowser',
-    title: 'AI 与资料，<br><em>就在手边。</em>',
-    description: '在侧边打开 ChatGPT、维基百科和 Google 搜索，让主页面的工作继续。',
+    title: '常用的网站，<br><em>就在你手边。</em>',
+    description:
+      '输入任意网址，把你习惯使用的网站放到侧边。AI、搜索、百科、文档或其他网页，由你选择，让主页面的工作继续。',
     tagline: '侧窗小境，意赴遐荒。',
     nav: ['功能', '宣传素材', '隐私政策'],
     download: '下载扩展',
     how: '查看使用方式',
     compatible: '适用于 Chrome 145+ · 免费 · 无需侧窗账号',
     scenes: ['AI 在身边', '资料在手边', '搜索不打断'],
+    examplesNote: '这些网站只是使用示例，你可以打开自己常用的网站。',
+    artworkExample: '使用示例 · 输入网址，换成你的常用网站',
     sceneNotes: [
       '在侧边打开 ChatGPT，主页面留在眼前。',
       '维基百科就在旁边，阅读和查证同时进行。',
@@ -21,8 +24,8 @@ export const content = {
       '主页面阅读维基百科，右侧侧窗使用 Google 搜索'
     ],
     steps: [
-      ['打开一个网页', '输入网址，或一键把当前网页放进侧边。'],
-      ['边看边提问', '主页面留在眼前，随时提问、查词和对照资料。'],
+      ['打开你的网站', '输入任意网址，或一键把当前网页放进侧边。'],
+      ['按你的习惯使用', '常用工具留在侧边，阅读、提问、查资料或处理自己的事情。'],
       ['切换标签，继续工作', '同一窗口内，侧边网页持续运行。']
     ],
     detailTitle: '少一点来回，多一点专注。',
@@ -51,9 +54,10 @@ export const content = {
     dark: '切换到深色',
     skip: '跳到正文',
     mediaTitle: '把侧窗，分享出去。',
-    mediaDescription: '主页面与侧窗并排呈现，用真实截图说明边工作、边提问或查资料的方式。',
+    mediaDescription:
+      '把自己常用的网站放到侧边，让两个网页并排工作。用真实截图与功能说明，分享侧窗的使用方式。',
     preview: '宣传图预览',
-    sceneLabel: '选择场景',
+    sceneLabel: '选择使用示例',
     export: '下载说明图 PNG',
     exporting: '正在生成…',
     exportDone: '图片已生成，开始下载。',
@@ -64,7 +68,7 @@ export const content = {
     bundle: '下载素材包',
     png: '下载 PNG',
     artTitles: [
-      'AI 在侧边，工作不断线',
+      '常用的网站，就在你手边',
       '边读边查，资料随手可得',
       '打开当前网页，一步就到',
       '最近打开，随时回来',
@@ -81,19 +85,19 @@ export const content = {
     copied: '已复制',
     copyFailed: '请选中文字后手动复制。',
     blurb:
-      '侧窗 · SideBrowser 是一款 Chrome 侧边栏浏览器扩展。在侧边打开 ChatGPT、维基百科和 Google 搜索，边工作边提问、查资料，减少标签切换。支持最近打开、手机／电脑视图与深浅色外观。',
+      '侧窗 · SideBrowser 是一款 Chrome 侧边栏浏览器扩展。输入任意网址，在侧边打开自己习惯使用的网站，让主页面的工作继续。AI、搜索、百科、文档或其他网页，由你选择。ChatGPT、维基百科和 Google 搜索只是使用示例。支持最近打开、手机／电脑视图与深浅色外观；网站的登录与嵌入规则可能影响使用。',
     artworkHeadings: [
-      ['AI 在侧边，', '工作不断线。'],
+      ['常用的网站，', '就在你手边。'],
       ['边读边查，', '资料随手可得。'],
       ['搜索一下，', '不用离开当前页。']
     ],
     artworkBodies: [
-      '在侧边打开 ChatGPT，边工作边提问、整理思路。',
-      '主页面阅读时间管理文章，侧边查阅番茄工作法，两边对照。',
-      '在地址栏输入关键词，Google 搜索就在侧边展开。'
+      '输入任意网址，打开你熟悉的网站。这里以 ChatGPT 为例，边工作边提问。',
+      '以维基百科为例：主页面读时间管理文章，侧边查阅番茄工作法，两边对照。',
+      '以 Google 搜索为例：在地址栏输入关键词，搜索结果就在侧边展开。'
     ],
     artworkPoints: [
-      ['主页面留在眼前', '手动提问，自由对照', '切换标签，侧边继续'],
+      ['自己选择侧边的网站', '主页面与侧窗并排看', '切换标签，侧边继续'],
       ['百科与正文并排看', '随时查词、核对资料', '最近打开，快速回来'],
       ['网址与关键词都能输入', '结果留在侧边，工作继续', '需要时在新标签页打开']
     ],
@@ -110,15 +114,17 @@ export const content = {
   en: {
     lang: 'en',
     name: 'SideBrowser',
-    title: 'AI & answers.<br><em>Right beside you.</em>',
+    title: 'Your websites.<br><em>Right beside you.</em>',
     description:
-      'Keep ChatGPT, Wikipedia and Google Search beside your work. Stay on the page that matters.',
+      'Enter any website URL and keep your familiar tools beside your work. AI, search, references, documents and more—you choose what opens.',
     tagline: 'Another page. Right beside you.',
     nav: ['Features', 'Media kit', 'Privacy'],
     download: 'Download extension',
     how: 'How it works',
     compatible: 'For Chrome 145+ · Free · No SideBrowser account',
     scenes: ['Ask AI', 'Look it up', 'Search alongside'],
+    examplesNote: 'These websites are examples. Open the websites that work for you.',
+    artworkExample: 'An example · Enter a URL to open your own websites',
     sceneNotes: [
       'Open ChatGPT beside the page you are working on.',
       'Read and check references with Wikipedia alongside.',
@@ -130,8 +136,11 @@ export const content = {
       'Wikipedia in the main page with Google Search in the sidebar'
     ],
     steps: [
-      ['Open another page', 'Enter a URL or bring the current page into the sidebar.'],
-      ['Think side by side', 'Ask a question or check a reference with your work in view.'],
+      ['Open your websites', 'Enter any website URL or bring the current page into the sidebar.'],
+      [
+        'Work your way',
+        'Keep your familiar tools alongside to read, ask, research or get things done.'
+      ],
       ['Switch tabs. Keep going.', 'Your sidebar page stays running in the same window.']
     ],
     detailTitle: 'Less switching. More focus.',
@@ -161,9 +170,9 @@ export const content = {
     skip: 'Skip to content',
     mediaTitle: 'Meet your next share.',
     mediaDescription:
-      'Show the main page and sidebar together. Share how AI and references fit beside your work.',
+      'Keep your own websites alongside and work with two pages in view. Share how SideBrowser works with real screenshots and feature descriptions.',
     preview: 'Promotional image preview',
-    sceneLabel: 'Choose a scene',
+    sceneLabel: 'Choose an example',
     export: 'Download image PNG',
     exporting: 'Generating…',
     exportDone: 'Image ready. Download started.',
@@ -174,7 +183,7 @@ export const content = {
     bundle: 'Download media kit',
     png: 'Download PNG',
     artTitles: [
-      'AI beside your work',
+      'Your websites, right beside you',
       'Research in context',
       'Open a page in one step',
       'Return to recent pages',
@@ -192,23 +201,19 @@ export const content = {
     copied: 'Copied',
     copyFailed: 'Select the text and copy it manually.',
     blurb:
-      'SideBrowser is a Chrome side-panel browser extension. Open ChatGPT, Wikipedia and Google Search beside your work to ask questions and look things up with fewer tab switches. Includes recent pages, mobile and desktop views, and light and dark appearance.',
+      'SideBrowser is a Chrome side-panel browser extension. Enter any website URL to keep your familiar websites beside your work. AI, search, references, documents and more—you choose what opens. ChatGPT, Wikipedia and Google Search are just examples. Includes recent pages, mobile and desktop views, and light and dark appearance. Website sign-in and embedding rules may affect availability.',
     artworkHeadings: [
-      ['AI beside you.', 'Stay in the flow.'],
+      ['Your websites.', 'Right beside you.'],
       ['Read. Look up.', 'Keep your place.'],
       ['Find an answer.', 'Keep your focus.']
     ],
     artworkBodies: [
-      'Open ChatGPT beside your work to ask questions and organize your ideas.',
-      'Read about time management and look up the Pomodoro technique alongside.',
-      'Type keywords in the address bar to open Google Search alongside.'
+      'Enter any website URL. Here, ChatGPT keeps questions beside your work.',
+      'Wikipedia example: read about time management and look up the Pomodoro technique alongside.',
+      'Google Search example: type keywords in the address bar to search alongside.'
     ],
     artworkPoints: [
-      [
-        'Keep the main page in view',
-        'Ask and compare at your pace',
-        'Switch tabs, keep the sidebar'
-      ],
+      ['Choose your own websites', 'Keep both pages in view', 'Switch tabs, keep the sidebar'],
       ['Read with context in view', 'Check facts as you go', 'Reopen recent pages quickly'],
       [
         'Enter a URL or search terms',

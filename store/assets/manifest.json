@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "renderedAt": "2026-09-16T10:08:12.127Z",
+  "renderedAt": "2026-09-17T01:20:09.834Z",
   "locale": "zh-CN",
   "design": "../design.html",
   "capture": "source/capture.json",
@@ -12,15 +12,15 @@
       "file": "01-ai-beside-you.png",
       "width": 1280,
       "height": 800,
-      "bytes": 258472,
-      "sha256": "6581c8353d37cd53e08f11276a6eb26f96b6e2fc7f46927ee7ece13267702827"
+      "bytes": 259246,
+      "sha256": "e88995da40aa4cb3b32dcbf8e197e2db3c6fa81b53448bc4ca55fe516b092a2e"
     },
     {
       "file": "02-research-in-context.png",
       "width": 1280,
       "height": 800,
-      "bytes": 256478,
-      "sha256": "4b01a4d121f518f5ba4130ccc35c9cd308252a43cabcdcfea69b38e6dbe26515"
+      "bytes": 258007,
+      "sha256": "f71e28c8ea0e6bb3ee7988c4251d04867638ab7a0b9685f99c16175678f4e5c4"
     },
     {
       "file": "03-open-in-one-step.png",
@@ -47,15 +47,15 @@
       "file": "promo-small-440x280.png",
       "width": 440,
       "height": 280,
-      "bytes": 17105,
-      "sha256": "8a7caa1d0a3967bcccf4c365f501bc25c53ba4940f5ba61d328bf77ef6147466"
+      "bytes": 17893,
+      "sha256": "a3d51823aa5b5ef54497861798677b29e1f973c3ea30f071245507382fe36b8d"
     },
     {
       "file": "promo-marquee-1400x560.png",
       "width": 1400,
       "height": 560,
-      "bytes": 184389,
-      "sha256": "4099c45fe067bffee223650b4a6bae7ee452fe8cc681b2cb32bf9e4fe4b80632"
+      "bytes": 188483,
+      "sha256": "e8c1a45a4621341766a7a8fb7da0ff56436de9295fe2357328b78c2a246b18f2"
     },
     {
       "file": "store-icon-128.png",

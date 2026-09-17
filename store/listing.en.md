@@ -13,9 +13,9 @@
 
 Another page. Right beside you.
 
-Keep AI and reference material beside the page you are working on.
+Your websites. Right beside you.
 
-SideBrowser opens another website in Chrome's native side panel. Keep writing, reading, or researching in your main tab while using a compatible AI website, search engine, encyclopedia, or documentation site beside it.
+SideBrowser opens another website in Chrome's native side panel. Enter any website URL to keep your familiar tools beside your work: AI, search, references, documents and more. You choose what opens. Keep writing, reading or researching in your main tab with fewer interruptions. ChatGPT, Wikipedia and Google Search below are just examples; open the websites that work for you.
 
 ASK AI WHILE YOU WORK
 Open ChatGPT or another compatible AI website in the sidebar. Type a question or paste material to explore ideas, clarify concepts, or refine a draft while keeping the original page in view. SideBrowser does not automatically read your main page or send its contents to AI. AI functionality is provided by the website you open.

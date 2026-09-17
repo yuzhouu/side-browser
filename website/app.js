@@ -115,6 +115,9 @@ if (canvas) {
       context.fillRect(0, 0, 1280, 800);
       context.drawImage(logo, 48, 30, 34, 34);
       text(copy.name, 96, 56, 23, ink, 700);
+      context.textAlign = 'right';
+      text(copy.artworkExample, 1232, 54, 16, muted);
+      context.textAlign = 'left';
       text(copy.realCapture, 48, 786, 12, muted);
       const heading = copy.artworkHeadings[index].join(data.locale === 'zh' ? '' : ' ');
       text(heading, 48, 128, data.locale === 'zh' ? 46 : 43, ink, 750);
@@ -169,7 +172,7 @@ if (canvas) {
       });
       canvas.setAttribute(
         'aria-label',
-        `${copy.artworkHeadings[index].join(' ')} ${copy.artworkBodies[index]}`
+        `${copy.artworkHeadings[index].join(' ')} ${copy.artworkBodies[index]} ${copy.examplesNote}`
       );
       ready = true;
       exportButton.disabled = false;
