@@ -148,7 +148,7 @@
     "message": "Premiers pas"
   },
   "helpStartNavigation": {
-    "message": "Cliquez sur l’icône de SideBrowser pour ouvrir le panneau latéral. Saisissez une adresse ou des termes de recherche Google, puis appuyez sur Entrée. « Ouvrir la page actuelle » ouvre l’adresse de l’onglet actif dans le panneau latéral."
+    "message": "Cliquez sur l’icône de SideBrowser pour ouvrir le panneau latéral. Saisissez une adresse ou des termes de recherche, puis appuyez sur Entrée. « Ouvrir la page actuelle » ouvre l’adresse de l’onglet actif dans le panneau latéral."
   },
   "helpStartShortcut": {
     "message": "Un clic droit sur une page, un lien ou l’icône de l’extension permet une ouverture dans SideBrowser. Le raccourci par défaut pour la page actuelle est Alt + Maj + P (Mac : ⌥ + ⇧ + P) ; consultez-le ou modifiez-le dans les paramètres. Faites glisser le bord du panneau pour régler sa largeur."
@@ -344,5 +344,38 @@
   },
   "helpWebsite": {
     "message": "Visiter le site officiel"
+  },
+  "addressSuggestions": {
+    "message": "Suggestions d’adresses"
+  },
+  "suggestionRecent": {
+    "message": "Récent dans SideBrowser"
+  },
+  "suggestionFavorite": {
+    "message": "Favori SideBrowser"
+  },
+  "suggestionHistory": {
+    "message": "Historique Chrome"
+  },
+  "suggestionBookmark": {
+    "message": "Favori Chrome"
+  },
+  "settingsSearchEngine": {
+    "message": "Moteur de recherche"
+  },
+  "settingsSearchEngineDescription": {
+    "message": "Utilisé pour les recherches dans toutes les barres latérales. Les résultats s’ouvrent dans la barre latérale."
+  },
+  "searchEngineBaidu": {
+    "message": "Baidu"
+  },
+  "searchWithEngine": {
+    "message": "Rechercher avec $ENGINE$",
+    "placeholders": {
+      "engine": {
+        "content": "$1",
+        "example": "Google"
+      }
+    }
   }
 }

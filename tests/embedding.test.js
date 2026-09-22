@@ -10,3 +10,23 @@ test('embedded search stays in the iframe and rejects executable schemes', () =>
   assert.equal(frameDestination('example.com', parseInput), 'https://example.com/');
   assert.throws(() => frameDestination('javascript:alert(1)', parseInput));
 });
+
+test('search destinations use the selected engine while URLs remain unchanged', () => {
+  const text = '测试 & cats #?';
+  for (const [engine, prefix] of Object.entries({
+    google: 'https://www.google.com/search?q=',
+    bing: 'https://www.bing.com/search?q=',
+    baidu: 'https://www.baidu.com/s?wd=',
+    duckduckgo: 'https://duckduckgo.com/?q='
+  })) {
+    assert.equal(frameDestination(text, parseInput, engine), prefix + encodeURIComponent(text));
+    assert.equal(
+      frameDestination('example.com/docs', parseInput, engine),
+      'https://example.com/docs'
+    );
+  }
+  assert.equal(
+    frameDestination('words', parseInput, 'unknown'),
+    'https://www.google.com/search?q=words'
+  );
+});

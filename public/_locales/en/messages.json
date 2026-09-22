@@ -148,7 +148,7 @@
     "message": "Getting started"
   },
   "helpStartNavigation": {
-    "message": "Click the SideBrowser extension icon to open the sidebar. Enter an address or Google search term and press Enter. Use “Open current page” to open the active tab’s address in the sidebar."
+    "message": "Click the SideBrowser extension icon to open the sidebar. Enter an address or search term and press Enter. Use “Open current page” to open the active tab’s address in the sidebar."
   },
   "helpStartShortcut": {
     "message": "Right-click a webpage, link, or the extension toolbar icon to open it in SideBrowser. The default open-current-page shortcut is Alt + Shift + P (Mac: ⌥ + ⇧ + P); view or change it in Settings. Drag the sidebar edge to resize it."
@@ -344,5 +344,38 @@
   },
   "helpWebsite": {
     "message": "Visit website"
+  },
+  "addressSuggestions": {
+    "message": "Address suggestions"
+  },
+  "suggestionRecent": {
+    "message": "SideBrowser recent"
+  },
+  "suggestionFavorite": {
+    "message": "SideBrowser favorite"
+  },
+  "suggestionHistory": {
+    "message": "Chrome history"
+  },
+  "suggestionBookmark": {
+    "message": "Chrome bookmark"
+  },
+  "settingsSearchEngine": {
+    "message": "Search engine"
+  },
+  "settingsSearchEngineDescription": {
+    "message": "Used for keyword searches in every sidebar. Results open in the sidebar."
+  },
+  "searchEngineBaidu": {
+    "message": "Baidu"
+  },
+  "searchWithEngine": {
+    "message": "Search with $ENGINE$",
+    "placeholders": {
+      "engine": {
+        "content": "$1",
+        "example": "Google"
+      }
+    }
   }
 }

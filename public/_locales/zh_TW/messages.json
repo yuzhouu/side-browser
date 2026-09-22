@@ -148,7 +148,7 @@
     "message": "開始使用"
   },
   "helpStartNavigation": {
-    "message": "點擊側窗擴充功能圖示開啟側邊欄。輸入網址或 Google 搜尋詞，再按 Enter；點擊「開啟目前網頁」可將目前分頁的網址開啟到側邊欄。"
+    "message": "點擊側窗擴充功能圖示開啟側邊欄。輸入網址或 搜尋詞，再按 Enter；點擊「開啟目前網頁」可將目前分頁的網址開啟到側邊欄。"
   },
   "helpStartShortcut": {
     "message": "在網頁、連結或瀏覽器工具列上的側窗圖示按右鍵，即可在側窗開啟。預設快捷鍵 Alt + Shift + P（Mac：⌥ + ⇧ + P）開啟目前網頁，可在設定頁查看和修改。拖曳側邊欄邊緣可調整寬度。"
@@ -344,5 +344,38 @@
   },
   "helpWebsite": {
     "message": "前往官網"
+  },
+  "addressSuggestions": {
+    "message": "網址建議"
+  },
+  "suggestionRecent": {
+    "message": "側窗最近開啟"
+  },
+  "suggestionFavorite": {
+    "message": "側窗收藏"
+  },
+  "suggestionHistory": {
+    "message": "Chrome 瀏覽記錄"
+  },
+  "suggestionBookmark": {
+    "message": "Chrome 書籤"
+  },
+  "settingsSearchEngine": {
+    "message": "搜尋引擎"
+  },
+  "settingsSearchEngineDescription": {
+    "message": "用於所有側窗的關鍵字搜尋，搜尋結果在側窗中開啟。"
+  },
+  "searchEngineBaidu": {
+    "message": "百度"
+  },
+  "searchWithEngine": {
+    "message": "使用 $ENGINE$ 搜尋",
+    "placeholders": {
+      "engine": {
+        "content": "$1",
+        "example": "Google"
+      }
+    }
   }
 }

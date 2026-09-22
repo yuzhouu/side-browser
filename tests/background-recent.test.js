@@ -263,11 +263,13 @@ test('settings change the shared mode and clear recents without replacing window
   assert.deepEqual(await settingsRequest('SETTINGS_GET'), {
     mode: 'desktop',
     theme: 'system',
+    searchEngine: 'google',
     recentCount: 2
   });
   assert.deepEqual(await settingsRequest('SETTINGS_MODE', { mode: 'mobile' }), {
     mode: 'mobile',
     theme: 'system',
+    searchEngine: 'google',
     recentCount: 2
   });
   assert.equal(chrome.storage.local.values[MODE_KEY], 'mobile');
@@ -275,6 +277,7 @@ test('settings change the shared mode and clear recents without replacing window
   assert.deepEqual(await settingsRequest('SETTINGS_CLEAR_RECENT'), {
     mode: 'mobile',
     theme: 'system',
+    searchEngine: 'google',
     recentCount: 0
   });
   await request('PANEL_SAVE', { state: first });
@@ -850,4 +853,61 @@ test('binding transfers and clears shared history without affecting other window
   const unbound = await request('PANEL_BIND', { sourceTabId: 10, bound: false });
   assert.equal(unbound.url, '');
   assert.deepEqual(unbound.history, []);
+});
+
+test('search engine preference persists, broadcasts without navigation, and controls keyword navigation', async context => {
+  const key = 'pocket-search-engine-v1';
+  const { chrome, request, settingsRequest, sender } = await background(context, { [key]: 'bing' });
+  assert.equal((await settingsRequest('SETTINGS_GET')).searchEngine, 'bing');
+  const before = await request('PANEL_NAVIGATE', { input: a });
+  const messages = [];
+  chrome.runtime.onConnect.emit({
+    name: 'pocket-sidepanel:1',
+    sender,
+    onDisconnect: event(),
+    postMessage: message => messages.push(message)
+  });
+  await settingsRequest('SETTINGS_SEARCH_ENGINE', { searchEngine: 'baidu' });
+  const after = await request('PANEL_READY');
+  assert.equal(after.url, before.url);
+  assert.deepEqual(after.history, before.history);
+  assert.equal(after.searchEngine, 'baidu');
+  assert.equal((await request('PANEL_READY', {}, 2)).searchEngine, 'baidu');
+  assert.equal(chrome.storage.local.values[key], 'baidu');
+  assert(
+    messages.some(message => message.type === 'search-engine' && message.searchEngine === 'baidu')
+  );
+  const searched = await request('PANEL_NAVIGATE', { input: '搜索 & words' });
+  assert.equal(searched.url, 'https://www.baidu.com/s?wd=' + encodeURIComponent('搜索 & words'));
+  assert.equal(searched.recentUrls[0], searched.url);
+  await request('PANEL_SAVE', { state: before });
+  assert.equal((await settingsRequest('SETTINGS_GET')).searchEngine, 'baidu');
+  await assert.rejects(
+    settingsRequest(
+      'SETTINGS_SEARCH_ENGINE',
+      { searchEngine: 'bing' },
+      { id: 'test', url: 'https://example.com/' }
+    ),
+    { code: 'errorSettingsOnly' }
+  );
+  const originalSet = chrome.storage.local.set;
+  chrome.storage.local.set = async () => {
+    throw new Error('Storage unavailable');
+  };
+  await assert.rejects(
+    settingsRequest('SETTINGS_SEARCH_ENGINE', { searchEngine: 'duckduckgo' }),
+    /Storage unavailable/
+  );
+  assert.equal((await settingsRequest('SETTINGS_GET')).searchEngine, 'baidu');
+  chrome.storage.local.set = originalSet;
+  await settingsRequest('SETTINGS_SEARCH_ENGINE', { searchEngine: 'duckduckgo' });
+  assert.equal(
+    (await request('PANEL_NAVIGATE', { input: 'words' })).url,
+    'https://duckduckgo.com/?q=words'
+  );
+});
+
+test('invalid stored search engines fall back to Google', async context => {
+  const { settingsRequest } = await background(context, { 'pocket-search-engine-v1': 'unknown' });
+  assert.equal((await settingsRequest('SETTINGS_GET')).searchEngine, 'google');
 });

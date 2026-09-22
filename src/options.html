@@ -25,6 +25,18 @@
         <h2 id="browsing-heading" data-i18n="settingsBrowsing"></h2>
         <div class="setting-row">
           <div class="setting-copy">
+            <label for="search-engine" data-i18n="settingsSearchEngine"></label>
+            <p id="search-engine-description" data-i18n="settingsSearchEngineDescription"></p>
+          </div>
+          <select id="search-engine" aria-describedby="search-engine-description" disabled>
+            <option value="google">Google</option>
+            <option value="bing">Bing</option>
+            <option value="baidu" data-i18n="searchEngineBaidu"></option>
+            <option value="duckduckgo">DuckDuckGo</option>
+          </select>
+        </div>
+        <div class="setting-row">
+          <div class="setting-copy">
             <label for="theme" data-i18n="settingsTheme"></label>
             <p id="theme-description" data-i18n="settingsThemeDescription"></p>
           </div>

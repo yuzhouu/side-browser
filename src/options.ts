@@ -1,5 +1,6 @@
 import { element } from './dom.js';
 import { validMode } from './config.js';
+import { SEARCH_ENGINE_KEY, validSearchEngine } from './search-engine.js';
 import { validTheme } from './theme-preference.js';
 import type { Settings, SettingsRequests, RequestArgs, Response } from './types.js';
 import { localizeDocument, t, errorMessage } from './i18n.js';
@@ -11,6 +12,7 @@ import { THEME_KEY } from './theme-preference.js';
 localizeDocument();
 const mode = element<HTMLSelectElement>('#mode');
 const theme = element<HTMLSelectElement>('#theme');
+const searchEngine = element<HTMLSelectElement>('#search-engine');
 const clear = element<HTMLButtonElement>('#clear-recent');
 const confirmation = element('#clear-confirmation');
 const confirmClear = element<HTMLButtonElement>('#confirm-clear');
@@ -37,12 +39,14 @@ async function request<K extends keyof SettingsRequests>(
 function render() {
   mode.disabled = busy || !settings;
   theme.disabled = busy || !settings;
+  searchEngine.disabled = busy || !settings;
   clear.disabled = busy || !settings?.recentCount;
   confirmClear.disabled = cancelClear.disabled = busy;
   if (!settings) return;
   if (!busy) {
     mode.value = settings.mode;
     theme.value = settings.theme;
+    searchEngine.value = settings.searchEngine;
   }
   element('#recent-count').textContent = t('settingsRecentCount', String(settings.recentCount));
   if (!settings.recentCount) confirmation.hidden = true;
@@ -98,6 +102,13 @@ mode.addEventListener('change', () =>
 theme.addEventListener('change', () =>
   change('SETTINGS_THEME', [{ theme: validTheme(theme.value) }], 'settingsSaved')
 );
+searchEngine.addEventListener('change', () =>
+  change(
+    'SETTINGS_SEARCH_ENGINE',
+    [{ searchEngine: validSearchEngine(searchEngine.value) }],
+    'settingsSaved'
+  )
+);
 clear.addEventListener('click', () => {
   confirmation.hidden = false;
   cancelClear.focus();
@@ -135,7 +146,10 @@ async function readShortcut() {
 chrome.storage.onChanged.addListener((changes, area) => {
   if (
     area === 'local' &&
-    (MODE_KEY in changes || THEME_KEY in changes || RECENT_KEY in changes) &&
+    (MODE_KEY in changes ||
+      THEME_KEY in changes ||
+      SEARCH_ENGINE_KEY in changes ||
+      RECENT_KEY in changes) &&
     !busy
   )
     void refresh();

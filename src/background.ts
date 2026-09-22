@@ -1,5 +1,6 @@
 import type {
   Mode,
+  SearchEngine,
   Theme,
   PanelState,
   PanelSnapshot,
@@ -31,6 +32,7 @@ import { PANEL_RULE_IDS, panelRules } from './network-rules.js';
 import { t } from './i18n.js';
 import { userError } from './errors.js';
 import { THEME_KEY, validTheme } from './theme-preference.js';
+import { SEARCH_ENGINE_KEY, validSearchEngine } from './search-engine.js';
 import { FAVORITES_KEY, restoreFavorites } from './favorites.js';
 
 function isSettingsRequest(message: PanelRequest | SettingsRequest): message is SettingsRequest {
@@ -45,6 +47,7 @@ const tabs: Record<string, { windowId: number; state: PanelState }> = {};
 let last: PanelState;
 let mode: Mode;
 let theme: Theme;
+let searchEngine: SearchEngine;
 let recentUrls: string[] = [];
 let recentTitles: Record<string, string> = {};
 let favorites: Favorite[] = [];
@@ -87,6 +90,7 @@ const ready = (async () => {
       LAST_KEY,
       MODE_KEY,
       THEME_KEY,
+      SEARCH_ENGINE_KEY,
       RECENT_KEY,
       RECENT_TITLES_KEY,
       FAVORITES_KEY,
@@ -97,6 +101,7 @@ const ready = (async () => {
   last = restorePanel(local[LAST_KEY] || local['pocket-global-overlay-v1']);
   mode = validMode(local[MODE_KEY] ?? last.mode);
   theme = validTheme(local[THEME_KEY]);
+  searchEngine = validSearchEngine(local[SEARCH_ENGINE_KEY]);
   recentUrls = restoreRecentUrls(local[RECENT_KEY]);
   recentTitles = restoreRecentTitles(local[RECENT_TITLES_KEY], recentUrls);
   favorites = restoreFavorites(local[FAVORITES_KEY]);
@@ -133,6 +138,7 @@ function getState(windowId: number, tabId: number | null = null): PanelSnapshot 
     ...structuredClone(state),
     tabId,
     mode,
+    searchEngine,
     recentUrls: [...recentUrls],
     recentTitles: { ...recentTitles },
     favorites: structuredClone(favorites)
@@ -269,7 +275,7 @@ async function navigate(
   broadcast = true
 ) {
   const state = getState(windowId, tabId);
-  const url = frameDestination(input, parseInput);
+  const url = frameDestination(input, parseInput, searchEngine);
   const title = normalizeRecentTitle(sourceTitle);
   await saveRecent(
     rememberRecentUrl(recentUrls, url),
@@ -307,8 +313,15 @@ async function setTheme(value: unknown) {
   return theme;
 }
 
+async function setSearchEngine(value: unknown) {
+  const next = validSearchEngine(value);
+  await chrome.storage.local.set({ [SEARCH_ENGINE_KEY]: next });
+  searchEngine = next;
+  for (const id of ports.keys()) publish(id, { type: 'search-engine', searchEngine });
+}
+
 function getSettings(): Settings {
-  return { mode, theme, recentCount: recentUrls.length };
+  return { mode, theme, searchEngine, recentCount: recentUrls.length };
 }
 
 chrome.runtime.onMessage.addListener((message: PanelRequest | SettingsRequest, sender, reply) => {
@@ -326,6 +339,9 @@ chrome.runtime.onMessage.addListener((message: PanelRequest | SettingsRequest, s
           return getSettings();
         case 'SETTINGS_THEME':
           await setTheme(message.theme);
+          return getSettings();
+        case 'SETTINGS_SEARCH_ENGINE':
+          await setSearchEngine(message.searchEngine);
           return getSettings();
         case 'SETTINGS_CLEAR_RECENT':
           await saveRecent([]);

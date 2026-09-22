@@ -554,3 +554,59 @@ main {
 [hidden] {
   display: none !important;
 }
+
+#address-suggestions {
+  position: fixed;
+  inset: 35px 5px auto auto;
+  width: 420px;
+  max-width: calc(100vw - 10px);
+  max-height: min(480px, calc(100dvh - 43px));
+  margin: 0;
+  padding: 4px;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  background: var(--menu);
+  color: var(--panel-text);
+  box-shadow: 0 5px 18px var(--shadow);
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+.address-option {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 62px;
+  padding: 7px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.address-option img {
+  flex-shrink: 0;
+}
+.address-option:hover {
+  background: var(--hover);
+}
+.address-option[aria-selected='true'] {
+  background: var(--selected);
+}
+.suggestion-source {
+  color: var(--subtle);
+  font-size: 10px;
+}
+
+.address-option[data-kind='search'] {
+  min-height: 48px;
+  border-bottom: 1px solid var(--divider);
+}
+.address-option > svg {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+}
+.search-query {
+  color: var(--subtle);
+}

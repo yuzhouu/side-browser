@@ -148,7 +148,7 @@
     "message": "使い方"
   },
   "helpStartNavigation": {
-    "message": "SideBrowser の拡張機能アイコンをクリックしてサイドバーを開きます。アドレスや Google の検索語を入力して Enter を押します。「現在のページを開く」で現在のタブのアドレスをサイドバーに開けます。"
+    "message": "SideBrowser の拡張機能アイコンをクリックしてサイドバーを開きます。アドレスや の検索語を入力して Enter を押します。「現在のページを開く」で現在のタブのアドレスをサイドバーに開けます。"
   },
   "helpStartShortcut": {
     "message": "ウェブページ、リンク、ツールバーの拡張機能アイコンを右クリックして SideBrowser で開けます。現在のページを開く初期ショートカットは Alt + Shift + P（Mac：⌥ + ⇧ + P）です。設定で確認・変更できます。サイドバーの端をドラッグして幅を調整できます。"
@@ -344,5 +344,38 @@
   },
   "helpWebsite": {
     "message": "公式サイトを開く"
+  },
+  "addressSuggestions": {
+    "message": "アドレス候補"
+  },
+  "suggestionRecent": {
+    "message": "SideBrowser の最近のページ"
+  },
+  "suggestionFavorite": {
+    "message": "SideBrowser のお気に入り"
+  },
+  "suggestionHistory": {
+    "message": "Chrome の履歴"
+  },
+  "suggestionBookmark": {
+    "message": "Chrome のブックマーク"
+  },
+  "settingsSearchEngine": {
+    "message": "検索エンジン"
+  },
+  "settingsSearchEngineDescription": {
+    "message": "すべてのサイドバーのキーワード検索に使用します。結果はサイドバーに表示されます。"
+  },
+  "searchEngineBaidu": {
+    "message": "Baidu"
+  },
+  "searchWithEngine": {
+    "message": "$ENGINE$ で検索",
+    "placeholders": {
+      "engine": {
+        "content": "$1",
+        "example": "Google"
+      }
+    }
   }
 }

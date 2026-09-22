@@ -8,6 +8,8 @@ import { chromium } from 'playwright';
 import { attachTarget, poll } from './browser/cdp.mjs';
 import { checkTabPages } from './browser/tab-pages.mjs';
 import { checkFavorites } from './browser/favorites.mjs';
+import { checkSearchEngine } from './browser/search-engine.mjs';
+import { checkAddressSuggestions } from './browser/address-suggestions.mjs';
 
 const rootPath = fileURLToPath(new URL('../dist/', import.meta.url));
 const manifest = JSON.parse(await readFile(new URL('../dist/manifest.json', import.meta.url)));
@@ -369,7 +371,7 @@ try {
     await panel.evaluate(
       "[...document.querySelector('header').children].map(element => element.id || element.className)"
     ),
-    ['current', 'toolbar-separator', 'back', 'forward', 'reload', 'navigate', 'more']
+    ['current', 'toolbar-separator', 'back', 'forward', 'close-current', 'navigate', 'more']
   );
   pass('Panel identity, localized empty state and toolbar order');
   await screenshot('native-empty');
@@ -611,7 +613,7 @@ try {
   await panel.click('#forward');
   inner = await loaded(`${base}/next`);
   const beforeReload = await inner.evaluate('window.token');
-  await panel.click('#reload');
+  await inner.evaluate('location.reload()');
   await poll(
     () =>
       inner.evaluate(`Boolean(window.token) && window.token !== ${JSON.stringify(beforeReload)}`),
@@ -926,7 +928,7 @@ try {
     assert(
       await panel.evaluate(`document.querySelector('#address').value === '' &&
       document.querySelector('#notice').hidden &&
-      ['back', 'forward', 'reload', 'external', 'close-page'].every(id =>
+      ['back', 'forward', 'close-current', 'external', 'close-page'].every(id =>
         document.getElementById(id).disabled)`)
     );
     assert.deepEqual((await state()).history, []);
@@ -1026,6 +1028,35 @@ try {
   await panel.click('.favorite-open');
   await loaded(savedFavorites[0].url);
   pass('Full browser restart preserves favorites and they reopen from the blank page');
+  await checkAddressSuggestions({
+    panel,
+    state,
+    navigate,
+    loaded,
+    frameAt,
+    screenshot,
+    base,
+    catalog
+  });
+  await checkSearchEngine({
+    panel,
+    context,
+    extension,
+    state,
+    navigate,
+    loaded,
+    frameAt,
+    screenshot,
+    base,
+    fixture,
+    output,
+    catalog
+  });
+  await shutdown();
+  await launch();
+  panel = await openPanel();
+  assert.equal((await state()).searchEngine, 'duckduckgo');
+  pass('Browser restart preserves the selected search engine');
   assert.deepEqual(diagnostics.errors, []);
   const warnings = [...new Set(diagnostics.warnings)];
   assert(

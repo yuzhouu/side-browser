@@ -9,6 +9,7 @@ import { localizeDocument, t, errorMessage } from './i18n.js';
 import { createPanelClient } from './panel-client.js';
 import { RecentMenu } from './recent-menu.js';
 import { FavoriteList } from './favorite-list.js';
+import { AddressAutocomplete } from './address-autocomplete.js';
 
 localizeDocument();
 
@@ -67,6 +68,20 @@ const favoriteList = new FavoriteList({
   }
 });
 
+const autocomplete = new AddressAutocomplete(
+  () => active?.state,
+  openAddress,
+  () => active?.state.searchEngine || 'google'
+);
+
+function openAddress(input: string) {
+  const page = active;
+  autocomplete.hide();
+  address.blur();
+  recentMenu.hide();
+  if (page) void serial(() => navigate(input, undefined, page));
+}
+
 function setFavorites(favorites: Favorite[]) {
   for (const page of pages.values()) page.state.favorites = favorites;
   if (active && !active.disposed) render();
@@ -82,6 +97,7 @@ function render(page = active) {
   if (page !== active || page.disposed) return;
   const state = page.state;
   recentMenu.render(state);
+  autocomplete.sync();
   favoriteList.render(state.favorites);
   const favorite = element<HTMLButtonElement>('#favorite');
   const saved = state.favorites.some(item => item.url === state.url);
@@ -110,7 +126,7 @@ function render(page = active) {
   element('#binding-label').textContent = t(bound ? 'unbindTab' : 'bindTab');
   element<HTMLButtonElement>('#back').disabled = state.historyIndex <= 0;
   element<HTMLButtonElement>('#forward').disabled = state.historyIndex >= state.history.length - 1;
-  element<HTMLButtonElement>('#reload').disabled = !state.url;
+  element<HTMLButtonElement>('#close-current').disabled = !state.url;
   element<HTMLButtonElement>('#external').disabled = !state.url;
   element<HTMLButtonElement>('#close-page').disabled = !state.url;
   emptyCurrent.disabled = false;
@@ -157,6 +173,7 @@ function select(next: PanelSnapshot) {
     page.stage.hidden = false;
     recentMenu.hide();
     moreMenu.hidePopover();
+    autocomplete.hide();
     address.value = next.url;
   }
   page.apply(next);
@@ -190,10 +207,17 @@ function receiveBackgroundMessage(message: BackgroundMessage) {
         page.state.recentUrls = message.urls;
         page.state.recentTitles = message.titles || {};
       }
-      if (active && !active.disposed) recentMenu.render(active.state);
+      if (active && !active.disposed) {
+        recentMenu.render(active.state);
+        autocomplete.sync();
+      }
       break;
     case 'mode':
       setMode(message.mode);
+      break;
+    case 'search-engine':
+      for (const page of pages.values()) page.state.searchEngine = message.searchEngine;
+      autocomplete.sync();
       break;
     case 'favorites':
       setFavorites(message.favorites);
@@ -278,15 +302,8 @@ window.addEventListener('message', event => {
 
 element('#navigate').addEventListener('submit', event => {
   event.preventDefault();
-  const input = address.value;
-  const page = active;
-  address.blur();
-  recentMenu.hide();
-  void serial(() => navigate(input, undefined, page));
+  if (!autocomplete.isComposing) openAddress(autocomplete.value);
 });
-element<HTMLButtonElement>('#reload').onclick = () => {
-  if (active?.state.url) active.load(active.state.url);
-};
 element<HTMLButtonElement>('#back').onclick = () => {
   const page = active;
   const index = page.state.historyIndex - 1;
@@ -359,14 +376,16 @@ element<HTMLButtonElement>('#external').onclick = () => {
   const tabId = active.state.tabId;
   void serial(() => requestFor(tabId, 'PANEL_EXTERNAL'));
 };
-element<HTMLButtonElement>('#close-page').onclick = () => {
+function closeCurrentPage() {
   const page = active;
   void serial(async () => {
     page.apply(await requestFor(page.state.tabId, 'PANEL_CLOSE'));
     recentMenu.hide();
     if (page === active) address.focus();
   });
-};
+}
+element<HTMLButtonElement>('#close-current').onclick = closeCurrentPage;
+element<HTMLButtonElement>('#close-page').onclick = closeCurrentPage;
 element('#favorite').onclick = () => {
   const page = active;
   const url = page.state.url;

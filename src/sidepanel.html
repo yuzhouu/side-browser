@@ -35,14 +35,14 @@
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m10 6 6 6-6 6M4 12h12" /></svg>
       </button>
       <button
-        id="reload"
+        id="close-current"
         type="button"
-        data-i18n-aria-label="reload"
-        data-i18n-title="reload"
+        data-i18n-aria-label="closePage"
+        data-i18n-title="closePageTitle"
         disabled
       >
         <svg viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M20 7v5h-5M19.5 12a7.5 7.5 0 1 0-2.2 5.3M20 12l-2.7-5.3" />
+          <path d="m6 6 12 12M18 6 6 18" />
         </svg>
       </button>
       <form id="navigate">
@@ -50,6 +50,10 @@
           id="address"
           data-i18n-aria-label="address"
           data-i18n-placeholder="address"
+          role="combobox"
+          aria-autocomplete="list"
+          aria-expanded="false"
+          aria-controls="address-suggestions"
           autocomplete="off"
           spellcheck="false"
           enterkeyhint="go"
@@ -80,6 +84,12 @@
         </svg>
       </button>
     </header>
+    <div
+      id="address-suggestions"
+      popover="manual"
+      role="listbox"
+      data-i18n-aria-label="addressSuggestions"
+    ></div>
     <div id="recent-menu" popover role="group" aria-labelledby="recent-heading">
       <div class="recent-heading">
         <span id="recent-heading" data-i18n="recentOpened"></span

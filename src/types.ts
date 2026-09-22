@@ -1,3 +1,4 @@
+export type SearchEngine = 'google' | 'bing' | 'baidu' | 'duckduckgo';
 export type Mode = 'mobile' | 'desktop';
 export type Theme = 'system' | 'light' | 'dark';
 export interface Favorite {
@@ -13,6 +14,7 @@ export interface PanelState {
 export interface PanelSnapshot extends PanelState {
   tabId: number | null;
   sourceTabId?: number;
+  searchEngine: SearchEngine;
   recentUrls: string[];
   recentTitles: Record<string, string>;
   favorites: Favorite[];
@@ -21,6 +23,7 @@ export interface Settings {
   mode: Mode;
   theme: Theme;
   recentCount: number;
+  searchEngine: SearchEngine;
 }
 export type ParsedInput =
   | { kind: 'home' }
@@ -38,7 +41,8 @@ export type BackgroundMessage =
   | { type: 'remove-tab'; tabId: number }
   | { type: 'recent'; urls: string[]; titles: Record<string, string> }
   | { type: 'favorites'; favorites: Favorite[] }
-  | { type: 'mode'; mode: Mode };
+  | { type: 'mode'; mode: Mode }
+  | { type: 'search-engine'; searchEngine: SearchEngine };
 export interface PanelRequests {
   PANEL_READY: [undefined, PanelSnapshot];
   PANEL_SAVE: [{ state: PanelState }, PanelSnapshot];
@@ -60,6 +64,7 @@ export interface SettingsRequests {
   SETTINGS_GET: [undefined, Settings];
   SETTINGS_MODE: [{ mode: Mode }, Settings];
   SETTINGS_THEME: [{ theme: Theme }, Settings];
+  SETTINGS_SEARCH_ENGINE: [{ searchEngine: SearchEngine }, Settings];
   SETTINGS_CLEAR_RECENT: [undefined, Settings];
 }
 export type RequestArgs<T> = T extends undefined ? [] : [data: T];

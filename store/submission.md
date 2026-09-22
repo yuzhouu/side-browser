@@ -1,6 +1,6 @@
 # Chrome 扩展商店提交资料
 
-资料版本：1.0.0 · 素材更新日期：2026-09-17。此文件用于开发者后台填写，不属于公开商品介绍；后台字段名称仍需在提交时核对。
+资料版本：1.1.0 · 文案更新日期：2026-09-22；截图素材沿用 2026-09-17 采集版本。此文件用于开发者后台填写，不属于公开商品介绍；后台字段名称仍需在提交时核对。
 
 当前状态：已在 [Chrome 应用商店](https://chromewebstore.google.com/detail/jlankbdlgdjliaccjkhccphfjmmpgkho?utm_source=item-share-cb) 上架（2026-09-22 更新）。
 
@@ -31,9 +31,17 @@ Displays the extension's browser interface in Chrome's native side panel. Unboun
 
 Reads the active tab's URL and title when the user explicitly opens or favorites the current page through the toolbar or context menu, or opens it with the shortcut. The extension also responds to tab activation and closure to select or release explicitly bound side pages, without recording general browsing activity. Tab lifecycle events themselves do not require this permission. Users can also open the sidebar URL in a normal tab; creating that tab itself does not require this permission. URL/title access for the explicit open-current and favorite actions is the reason for the permission.
 
+### history
+
+Queries matching Chrome history URLs and titles as the user types in the sidebar address bar. Results are used locally for address suggestions, are not copied into extension storage, and are never uploaded to the developer. Does not modify Chrome history.
+
+### bookmarks
+
+Queries matching Chrome bookmark URLs and titles for sidebar address suggestions. Does not create, edit, or delete Chrome bookmarks. Results stay on the device and are not copied into extension storage.
+
 ### storage
 
-Stores window navigation state and explicitly requested tab-to-sidebar bindings, including tab IDs, sidebar URLs, and history, in session storage. Stores the last shared-page restoration state, favorite URLs and titles, up to 10 recently opened URLs with their titles, mobile/desktop preference, and appearance preference in local storage. This data enables page restoration, favorite shortcuts, and recent reopening. Binding moves the page out of the shared state; unbinding or closing the bound tab releases that independent page. Bindings end when the browser session ends. Data is not synced or uploaded to the developer.
+Stores window navigation state and explicitly requested tab-to-sidebar bindings, including tab IDs, sidebar URLs, and history, in session storage. Stores the last shared-page restoration state, favorite URLs and titles, up to 10 recently opened URLs with their titles, mobile/desktop preference, appearance preference, and the selected search engine in local storage. This data enables page restoration, favorite shortcuts, and recent reopening. Binding moves the page out of the shared state; unbinding or closing the bound tab releases that independent page. Bindings end when the browser session ends. Data is not synced or uploaded to the developer.
 
 ### favicon
 
@@ -67,7 +75,7 @@ All extension functionality is implemented in bundled JavaScript. The extension 
 
 | 后台数据类别 | 本版本填写依据 |
 | --- | --- |
-| Web history / 网页浏览记录 | 选中：本地处理用户选择的网址、收藏与最近网址、侧边导航历史及恢复状态；不上传开发者。 |
+| Web history / 网页浏览记录 | 选中：本地处理用户选择的网址、收藏与最近网址、侧边导航历史及恢复状态；输入时只读查询匹配的 Chrome 浏览历史和书签以提供地址联想；不上传开发者。 |
 | Website content / 网站内容 | 选中：读取网页标题和视口元数据；标题用于收藏和最近列表。不是读取正文或 AI 对话。 |
 | Personally identifiable information、Health、Financial and payment、Authentication information、Personal communications、Location、User activity | 扩展本身没有提取／存储这些类别的独立功能；不因第三方网站自己的表单就声称扩展收集了密码或对话。用户选择的网站正常处理其请求和输入，须与隐私政策的第三方说明一致。如后续添加采集功能须重新核对。 |
 
@@ -75,7 +83,11 @@ All extension functionality is implemented in bundled JavaScript. The extension 
 
 ## 给审核人员的操作说明（可直接粘贴）
 
-Requires Chrome 145 or later. No SideBrowser account, license key, or paid account is needed. Install, open a public HTTP(S) page, click the SideBrowser extension icon, then use Open current page or enter a URL in the sidebar address bar. Try a public documentation page to test without signing in. Navigate to another tab in the same window and verify the sidebar page remains open. Use the clock button to reopen recent addresses. From More, add the current page as a favorite, then close the current page. The welcome screen shows favorite icons that wrap into rows; hover for the title and full URL, then click to reopen. Try the favorite action in a webpage or extension icon context menu, and remove a favorite from More or its icon. Clearing recents must retain favorites. Bind the current page to the active tab from More, then switch to an unbound tab: the shared welcome screen is empty until another shared page is opened. Switch back to resume the bound page. Closing the current side page retains its binding; unbinding or closing the bound browser tab releases that independent page. The More menu also includes mobile/desktop switching, appearance controls, and opening in a normal tab. Appearance changes do not reload pages. Mode changes intentionally reload the webpage. Third-party AI sites may require their own accounts and are not required to test the extension. Embedding and login restrictions vary by website. The screenshots use actual extension UI; external site availability is not a guarantee of universal support.
+Requires Chrome 145 or later. No SideBrowser account, license key, or paid account is needed. Install, open a public HTTP(S) page, click the SideBrowser extension icon, then use Open current page or enter a URL in the sidebar address bar. Try a public documentation page to test without signing in. Navigate to another tab in the same window and verify the sidebar page remains open. In Settings, choose Google, Bing, Baidu, or DuckDuckGo. The first address suggestion searches the current input with that engine. The toolbar close button returns the sidebar to the welcome page. Type part of a URL or title to see suggestions from SideBrowser recents/favorites and Chrome history/bookmarks; use arrow keys and Enter or click a suggestion to open it in the sidebar. Browser history and bookmarks remain unchanged. Use the clock button to reopen recent addresses. From More, add the current page as a favorite, then close the current page. The welcome screen shows favorite icons that wrap into rows; hover for the title and full URL, then click to reopen. Try the favorite action in a webpage or extension icon context menu, and remove a favorite from More or its icon. Clearing recents must retain favorites. Bind the current page to the active tab from More, then switch to an unbound tab: the shared welcome screen is empty until another shared page is opened. Switch back to resume the bound page. Closing the current side page retains its binding; unbinding or closing the bound browser tab releases that independent page. The More menu also includes mobile/desktop switching, appearance controls, and opening in a normal tab. Appearance changes do not reload pages. Mode changes intentionally reload the webpage. Third-party AI sites may require their own accounts and are not required to test the extension. Embedding and login restrictions vary by website. The screenshots use actual extension UI; external site availability is not a guarantee of universal support.
+
+## 1.1.0 更新包
+
+本地安装包：`releases/sidebrowser-1.1.0.zip`。更新内容见根目录 `CHANGELOG.md`。新增的 `history` 和 `bookmarks` 权限用于本机地址联想，用途说明已列在上方；提交时使用本版隐私说明。
 
 ## 首次上架准备清单（历史记录）
 

@@ -148,7 +148,7 @@
     "message": "Primeros pasos"
   },
   "helpStartNavigation": {
-    "message": "Haz clic en el icono de SideBrowser para abrir el panel lateral. Escribe una dirección o términos de búsqueda de Google y pulsa Intro. Usa «Abrir página actual» para abrir la dirección de la pestaña activa en el panel lateral."
+    "message": "Haz clic en el icono de SideBrowser para abrir el panel lateral. Escribe una dirección o términos de búsqueda de y pulsa Intro. Usa «Abrir página actual» para abrir la dirección de la pestaña activa en el panel lateral."
   },
   "helpStartShortcut": {
     "message": "Haz clic derecho en una página, un enlace o el icono de la extensión para abrir en SideBrowser. El atajo predeterminado para la página actual es Alt + Mayús + P (Mac: ⌥ + ⇧ + P); puedes verlo y cambiarlo en Ajustes. Arrastra el borde del panel para ajustar su anchura."
@@ -344,5 +344,38 @@
   },
   "helpWebsite": {
     "message": "Visitar el sitio web"
+  },
+  "addressSuggestions": {
+    "message": "Sugerencias de direcciones"
+  },
+  "suggestionRecent": {
+    "message": "Reciente en SideBrowser"
+  },
+  "suggestionFavorite": {
+    "message": "Favorito de SideBrowser"
+  },
+  "suggestionHistory": {
+    "message": "Historial de Chrome"
+  },
+  "suggestionBookmark": {
+    "message": "Marcador de Chrome"
+  },
+  "settingsSearchEngine": {
+    "message": "Motor de búsqueda"
+  },
+  "settingsSearchEngineDescription": {
+    "message": "Se usa para buscar en todas las barras laterales. Los resultados se abren en la barra lateral."
+  },
+  "searchEngineBaidu": {
+    "message": "Baidu"
+  },
+  "searchWithEngine": {
+    "message": "Buscar con $ENGINE$",
+    "placeholders": {
+      "engine": {
+        "content": "$1",
+        "example": "Google"
+      }
+    }
   }
 }

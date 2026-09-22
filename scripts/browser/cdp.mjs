@@ -20,6 +20,7 @@ export async function attachTarget(root, targetId, diagnostics) {
   const { sessionId } = await root.send('Target.attachToTarget', { targetId, flatten: false });
   const pending = new Map();
   let sequence = 0;
+  let fixtureBody;
 
   function finish(id, error, result) {
     const request = pending.get(id);
@@ -35,6 +36,16 @@ export async function attachTarget(root, targetId, diagnostics) {
     const message = JSON.parse(event.message);
     if (message.id) {
       finish(message.id, message.error && new Error(message.error.message), message.result);
+    }
+    if (message.method === 'Fetch.requestPaused' && fixtureBody !== undefined) {
+      void target
+        .send('Fetch.fulfillRequest', {
+          requestId: message.params.requestId,
+          responseCode: 200,
+          responseHeaders: [{ name: 'Content-Type', value: 'text/html; charset=utf-8' }],
+          body: fixtureBody
+        })
+        .catch(error => diagnostics.errors.push(error.message));
     }
     if (message.method === 'Runtime.exceptionThrown') {
       const details = message.params.exceptionDetails;
@@ -69,6 +80,13 @@ export async function attachTarget(root, targetId, diagnostics) {
             message: JSON.stringify({ id, method, params })
           })
           .catch(error => finish(id, error));
+      });
+    },
+    // Serve deterministic content at real search URLs without contacting search providers.
+    async mockResponse(patterns, body) {
+      fixtureBody = Buffer.from(body).toString('base64');
+      await this.send('Fetch.enable', {
+        patterns: patterns.map(urlPattern => ({ urlPattern, requestStage: 'Request' }))
       });
     },
     async evaluate(expression) {

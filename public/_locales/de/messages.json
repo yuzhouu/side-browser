@@ -148,7 +148,7 @@
     "message": "Erste Schritte"
   },
   "helpStartNavigation": {
-    "message": "Klicke auf das SideBrowser-Symbol, um die Seitenleiste zu öffnen. Gib eine Adresse oder einen Google-Suchbegriff ein und drücke Enter. Mit „Aktuelle Seite öffnen“ öffnest du die Adresse des aktiven Tabs in der Seitenleiste."
+    "message": "Klicke auf das SideBrowser-Symbol, um die Seitenleiste zu öffnen. Gib eine Adresse oder einen-Suchbegriff ein und drücke Enter. Mit „Aktuelle Seite öffnen“ öffnest du die Adresse des aktiven Tabs in der Seitenleiste."
   },
   "helpStartShortcut": {
     "message": "Öffne Webseiten, Links oder die aktuelle Seite über das Rechtsklickmenü des Erweiterungssymbols in SideBrowser. Standardkürzel für die aktuelle Seite: Alt + Umschalt + P (Mac: ⌥ + ⇧ + P). Du kannst es in den Einstellungen ansehen und ändern. Ziehe am Rand der Seitenleiste, um ihre Breite anzupassen."
@@ -344,5 +344,38 @@
   },
   "helpWebsite": {
     "message": "Website besuchen"
+  },
+  "addressSuggestions": {
+    "message": "Adressvorschläge"
+  },
+  "suggestionRecent": {
+    "message": "Zuletzt in SideBrowser"
+  },
+  "suggestionFavorite": {
+    "message": "SideBrowser-Favorit"
+  },
+  "suggestionHistory": {
+    "message": "Chrome-Verlauf"
+  },
+  "suggestionBookmark": {
+    "message": "Chrome-Lesezeichen"
+  },
+  "settingsSearchEngine": {
+    "message": "Suchmaschine"
+  },
+  "settingsSearchEngineDescription": {
+    "message": "Für die Stichwortsuche in allen Seitenleisten. Ergebnisse öffnen sich in der Seitenleiste."
+  },
+  "searchEngineBaidu": {
+    "message": "Baidu"
+  },
+  "searchWithEngine": {
+    "message": "Mit $ENGINE$ suchen",
+    "placeholders": {
+      "engine": {
+        "content": "$1",
+        "example": "Google"
+      }
+    }
   }
 }

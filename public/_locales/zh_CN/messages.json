@@ -148,7 +148,7 @@
     "message": "开始使用"
   },
   "helpStartNavigation": {
-    "message": "点击侧窗扩展图标打开侧边栏。输入网址或 Google 搜索词，然后按回车；点击「打开当前网页」可把当前标签页的网址打开到侧边栏。"
+    "message": "点击侧窗扩展图标打开侧边栏。输入网址或 搜索词，然后按回车；点击「打开当前网页」可把当前标签页的网址打开到侧边栏。"
   },
   "helpStartShortcut": {
     "message": "右键网页、链接或浏览器工具栏上的侧窗图标可在侧窗中打开。默认快捷键 Alt + Shift + P（Mac：⌥ + ⇧ + P）打开当前网页，可在设置页查看和修改。拖动侧边栏边缘可调整宽度。"
@@ -344,5 +344,38 @@
   },
   "helpWebsite": {
     "message": "访问官网"
+  },
+  "addressSuggestions": {
+    "message": "网址联想"
+  },
+  "suggestionRecent": {
+    "message": "侧窗最近打开"
+  },
+  "suggestionFavorite": {
+    "message": "侧窗收藏"
+  },
+  "suggestionHistory": {
+    "message": "Chrome 浏览历史"
+  },
+  "suggestionBookmark": {
+    "message": "Chrome 书签"
+  },
+  "settingsSearchEngine": {
+    "message": "搜索引擎"
+  },
+  "settingsSearchEngineDescription": {
+    "message": "用于所有侧窗的关键词搜索，搜索结果在侧窗中打开。"
+  },
+  "searchEngineBaidu": {
+    "message": "百度"
+  },
+  "searchWithEngine": {
+    "message": "用 $ENGINE$ 搜索",
+    "placeholders": {
+      "engine": {
+        "content": "$1",
+        "example": "Google"
+      }
+    }
   }
 }
