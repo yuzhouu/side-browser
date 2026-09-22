@@ -2,6 +2,8 @@
 
 资料版本：1.0.0 · 素材更新日期：2026-09-17。此文件用于开发者后台填写，不属于公开商品介绍；后台字段名称仍需在提交时核对。
 
+当前状态：已在 [Chrome 应用商店](https://chromewebstore.google.com/detail/jlankbdlgdjliaccjkhccphfjmmpgkho?utm_source=item-share-cb) 上架（2026-09-22 更新）。
+
 ## 商店详情
 
 | 字段 | 填写内容 |
@@ -75,7 +77,7 @@ All extension functionality is implemented in bundled JavaScript. The extension 
 
 Requires Chrome 145 or later. No SideBrowser account, license key, or paid account is needed. Install, open a public HTTP(S) page, click the SideBrowser extension icon, then use Open current page or enter a URL in the sidebar address bar. Try a public documentation page to test without signing in. Navigate to another tab in the same window and verify the sidebar page remains open. Use the clock button to reopen recent addresses. From More, add the current page as a favorite, then close the current page. The welcome screen shows favorite icons that wrap into rows; hover for the title and full URL, then click to reopen. Try the favorite action in a webpage or extension icon context menu, and remove a favorite from More or its icon. Clearing recents must retain favorites. Bind the current page to the active tab from More, then switch to an unbound tab: the shared welcome screen is empty until another shared page is opened. Switch back to resume the bound page. Closing the current side page retains its binding; unbinding or closing the bound browser tab releases that independent page. The More menu also includes mobile/desktop switching, appearance controls, and opening in a normal tab. Appearance changes do not reload pages. Mode changes intentionally reload the webpage. Third-party AI sites may require their own accounts and are not required to test the extension. Embedding and login restrictions vary by website. The screenshots use actual extension UI; external site availability is not a guarantee of universal support.
 
-## 上传与发布清单
+## 首次上架准备清单（历史记录）
 
 - [x] 中英文商店名称、简短介绍、详细介绍。
 - [x] 与 manifest 对应的单一用途、权限和数据处理说明。
@@ -90,7 +92,7 @@ Requires Chrome 145 or later. No SideBrowser account, license key, or paid accou
 - [ ] 可分别解压 `releases/sidebrowser-store-en-1.0.0.zip` 与 `releases/sidebrowser-store-zh-CN-1.0.0.zip`，从对应 `listing.md` 复制名称、简短介绍与详细介绍。
 - [ ] 核对后台实际字段和预览，然后提交审核。
 
-本地准备不代表商店已提交或审核通过。此次没有推送仓库、发布隐私页面或访问开发者账号。
+以上勾选状态保留首次准备时的记录，不代表当前发布状态。扩展现已上架；后续更新仍需重新核对版本、资料与后台字段。
 
 ## 官方参考
 

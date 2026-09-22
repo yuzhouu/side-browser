@@ -17,7 +17,7 @@
 
 `.github/workflows/pages.yml` 使用 GitHub 官方 checkout、setup-node、configure-pages、upload-pages-artifact、deploy-pages Actions。main 推送自动执行；PR 只构建验证，不部署。也可在 Actions 页手动运行。工作流只为部署 job 授予 `pages: write` 和 `id-token: write`。
 
-初次在仓库 Settings → Pages → Build and deployment 中把 Source 设为 GitHub Actions。此操作由仓库拥有者完成。部署成功后，商店“隐私政策”填 https://yuzhouu.github.io/side-browser/privacy/ 。网站提供 ZIP 安装说明，不显示尚不存在的商店安装链接。
+初次在仓库 Settings → Pages → Build and deployment 中把 Source 设为 GitHub Actions。此操作由仓库拥有者完成。部署成功后，商店“隐私政策”填 https://yuzhouu.github.io/side-browser/privacy/ 。网站主要安装入口指向 [Chrome 应用商店](https://chromewebstore.google.com/detail/jlankbdlgdjliaccjkhccphfjmmpgkho?utm_source=item-share-cb)，中英文首页均说明商店安装步骤；ZIP 下载和折叠的手动安装说明作为备用入口保留。
 
 参考：[GitHub 自定义 Pages 工作流](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages)。
 

@@ -1,3 +1,6 @@
+export const storeUrl =
+  'https://chromewebstore.google.com/detail/jlankbdlgdjliaccjkhccphfjmmpgkho?utm_source=item-share-cb';
+
 export const content = {
   zh: {
     lang: 'zh-CN',
@@ -7,7 +10,9 @@ export const content = {
       '输入任意网址，把你习惯使用的网站放到侧边。AI、搜索、百科、文档或其他网页，由你选择，让主页面的工作继续。',
     tagline: '侧窗小境，意赴遐荒。',
     nav: ['功能', '隐私政策'],
-    download: '下载扩展',
+    install: '添加至 Chrome',
+    download: '下载 ZIP',
+    manualInstall: '手动安装 ZIP',
     how: '查看使用方式',
     compatible: '适用于 Chrome 145+ · 免费 · 无需侧窗账号',
     scenes: ['AI 在身边', '资料在手边', '搜索不打断'],
@@ -51,8 +56,13 @@ export const content = {
       '解除绑定会释放专属网页，回到当前共享网页。关闭绑定标签或重启浏览器也会清除绑定。'
     ],
     installTitle: '让另一个网页，<br>出现在你身边。',
-    installNote: '当前提供 ZIP 安装包，Chrome 扩展商店版本尚未上线。',
+    installNote: '已在 Chrome 应用商店上架，免费安装即可使用。',
     installSteps: [
+      '打开 Chrome 应用商店中的侧窗页面，点击「添加至 Chrome」。',
+      '确认添加扩展程序，将侧窗固定到工具栏。',
+      '点击侧窗图标，输入网址或打开当前网页，开始使用。'
+    ],
+    manualInstallSteps: [
       '下载并解压安装包，保留解压后的文件夹。',
       '在 Chrome 打开 chrome://extensions，开启「开发者模式」。',
       '点击「加载已解压的扩展程序」，选择解压后的文件夹。',
@@ -83,7 +93,9 @@ export const content = {
       'Enter any website URL and keep your familiar tools beside your work. AI, search, references, documents and more—you choose what opens.',
     tagline: 'Another page. Right beside you.',
     nav: ['Features', 'Privacy'],
-    download: 'Download extension',
+    install: 'Add to Chrome',
+    download: 'Download ZIP',
+    manualInstall: 'Install manually from ZIP',
     how: 'How it works',
     compatible: 'For Chrome 145+ · Free · No SideBrowser account',
     scenes: ['Ask AI', 'Look it up', 'Search alongside'],
@@ -152,8 +164,13 @@ export const content = {
       'Unbinding releases the dedicated page and returns to the current shared page. Closing the bound tab or restarting Chrome also clears the binding.'
     ],
     installTitle: 'Your next page.<br>Right by your side.',
-    installNote: 'Available as a ZIP download. The Chrome Web Store listing is not live yet.',
+    installNote: 'Now available on the Chrome Web Store. Free to install and use.',
     installSteps: [
+      'Open SideBrowser on the Chrome Web Store and click “Add to Chrome”.',
+      'Confirm “Add extension”, then pin SideBrowser to your toolbar.',
+      'Click the SideBrowser icon and enter a URL or open your current page.'
+    ],
+    manualInstallSteps: [
       'Download and unzip the package. Keep the extracted folder.',
       'Open chrome://extensions in Chrome and enable Developer mode.',
       'Click “Load unpacked” and select the extracted folder.',

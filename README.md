@@ -1,6 +1,8 @@
 # 侧窗 · SideBrowser 1.0.0
 
-商店上架资料见 [store/README.md](store/README.md)：效率工具分类、中英文介绍、ChatGPT／维基百科／Google 功能说明图、隐私政策和提交字段；[打开素材预览](store/index.html)。
+已在 [Chrome 应用商店](https://chromewebstore.google.com/detail/jlankbdlgdjliaccjkhccphfjmmpgkho?utm_source=item-share-cb) 上架，免费安装即可使用。
+
+商店资料见 [store/README.md](store/README.md)：效率工具分类、中英文介绍、ChatGPT／维基百科／Google 功能说明图、隐私政策和提交字段；[打开素材预览](store/index.html)。
 
 侧窗小境，意赴遐荒
 
@@ -12,11 +14,13 @@ Another page. Right beside you.
 
 ## 安装与更新
 
-1. 需要 **Chrome 145 及以上**。本版使用 Chrome 145 的 `topDomains` 请求规则，将兼容处理限定在本扩展内。
-2. 使用发布 ZIP：解压到一个固定的安装文件夹，在 `chrome://extensions` 开启开发者模式，加载该文件夹（根目录含 `manifest.json`）。从源码开发：先执行 `npm ci` 和 `npm run build`，只加载 `dist/`。
-3. 升级时将新 ZIP 内容覆盖原安装文件夹，并刷新原来的扩展卡片，保留原扩展身份。不要同时启用新旧版本。过去从源码根目录加载的开发版本改用 `dist/` 后会获得新身份，旧数据不会自动转入。
-4. 如果旧版注入的页面浮层仍然存在，刷新该普通网页一次。新版不再注入页面浮层。
-5. 点击扩展图标打开原生侧边栏。在扩展详情中允许访问要浏览的网站。
+1. 使用 **Chrome 145 及以上**，前往 [Chrome 应用商店](https://chromewebstore.google.com/detail/jlankbdlgdjliaccjkhccphfjmmpgkho?utm_source=item-share-cb)，点击「添加至 Chrome」并确认添加扩展程序。
+2. 将侧窗固定到工具栏，点击扩展图标打开原生侧边栏，输入网址或打开当前网页。
+3. 商店安装的版本由 Chrome 自动更新。
+
+如需手动安装 ZIP：解压到固定文件夹，在 `chrome://extensions` 开启开发者模式，选择「加载已解压的扩展程序」并加载该文件夹。更新时用新 ZIP 覆盖原文件夹，再刷新扩展卡片。从源码开发请先执行 `npm ci` 和 `npm run build`，只加载 `dist/`。
+
+手动加载版与商店版属于不同扩展身份，本地数据不会自动迁移；切换安装方式后不要同时启用两个版本。
 
 ## 使用
 
@@ -122,7 +126,7 @@ Vite 负责三个页面和后台的模块构建，注入网页的脚本单独输
 
 [官网](https://yuzhouu.github.io/side-browser/) · [English](https://yuzhouu.github.io/side-browser/en/) · [隐私政策](https://yuzhouu.github.io/side-browser/privacy/)
 
-官网支持中英文、浅深色，介绍常用场景、收藏快捷打开、最近记录、默认共享与按需绑定，提供扩展 ZIP、安装说明和隐私政策。商店上架素材单独保留在 `store/`，不在官网展示或下载。
+官网支持中英文、浅深色，介绍常用场景、收藏快捷打开、最近记录、默认共享与按需绑定，提供 Chrome 应用商店安装入口、备用 ZIP、安装说明和隐私政策。商店上架素材单独保留在 `store/`，不在官网展示或下载。
 
 ```sh
 npm run site:build       # 构建扩展 ZIP 和独立静态官网 site-dist/

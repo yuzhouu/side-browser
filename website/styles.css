@@ -400,18 +400,21 @@ p {
   margin-top: 10px;
   font-size: 15px;
 }
-.binding-faq {
+.binding-faq,
+.manual-install {
   margin-top: 24px;
   border-top: 1px solid var(--line);
   padding-top: 18px;
   font-size: 14px;
 }
-.binding-faq summary {
+.binding-faq summary,
+.manual-install summary {
   cursor: pointer;
   color: var(--blue);
   font-weight: 650;
 }
-.binding-faq p {
+.binding-faq p,
+.manual-install p {
   margin-top: 14px;
 }
 .install {
