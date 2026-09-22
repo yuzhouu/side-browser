@@ -29,7 +29,7 @@ async function compile() {
     });
   }
   await build({ configFile: path('../vite.config.ts') });
-  console.log('Built dist/. Reload the extension in chrome://extensions.');
+  console.log('Built dist/. Reload the extension in chrome://extensions or edge://extensions.');
 }
 
 if (!watch) {

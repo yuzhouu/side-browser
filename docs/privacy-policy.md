@@ -4,20 +4,20 @@
 
 ## 简体中文
 
-侧窗 · SideBrowser 由 yuzhou 开发，在 Chrome 原生侧边栏中打开用户选择的网页。侧窗本身没有账号系统，不运营收集浏览记录的服务器，不含遥测或广告追踪。
+侧窗 · SideBrowser 由 yuzhou 开发，在 Chrome 或 Microsoft Edge 的原生侧边栏中打开用户选择的网页。侧窗本身没有账号系统，不运营收集浏览记录的服务器，不含遥测或广告追踪。
 
 ### 扩展处理的数据与用途
 
 - 用户主动选择打开当前网页时，扩展读取当前标签的网址和标题，用于在侧边栏打开该网页。右键链接、地址输入和搜索用于用户发起的导航；右键收藏读取目标网页的网址和可用标题用于保存收藏，不会自动打开网页。
-- 扩展在本机保存最近主动打开的最多 10 个网址及对应标题，供“最近打开”列表使用；读取 Chrome 提供的网站图标用于展示列表。
-- 用户通过侧窗菜单、网页右键或扩展图标右键主动收藏的网页网址和标题独立保存在本机，供空白页下方快捷打开；收藏列表同样使用 Chrome 提供的网站图标，收藏操作不读写 Chrome 原生书签。
+- 扩展在本机保存最近主动打开的最多 10 个网址及对应标题，供“最近打开”列表使用；读取浏览器提供的网站图标用于展示列表。
+- 用户通过侧窗菜单、网页右键或扩展图标右键主动收藏的网页网址和标题独立保存在本机，供空白页下方快捷打开；收藏列表同样使用浏览器提供的网站图标，收藏操作不读写浏览器原生书签。
 - 扩展在会话存储中保存各窗口的网址、前进／后退历史；用户主动绑定后，还保存对应标签 ID 与侧窗网址、历史的关系，解除绑定、关闭标签或重启浏览器后清除该绑定；在本地存储中保存最后的导航状态，供网页恢复使用。网址可能包含用户输入的查询参数。
 - 手机／电脑模式、外观和搜索引擎偏好保存在本机。扩展读取侧边网页的网址、标题和视口元数据，以同步导航、更新收藏和最近记录的标题和适配显示。它不提取主标签的正文、表单内容、密码或 AI 对话内容，也不会自动把主页面内容发送给 AI。
 - 对侧边栏内的请求，扩展调整嵌入兼容响应头；手机模式还会调整设备身份请求头。它不读取或记录响应体，不通过 Cookie API 读取 Cookie。
 
-以上扩展状态使用 Chrome 的本地／会话存储，不使用 Chrome 同步存储，不上传给开发者，不出售，也不用于广告、信用评估或与侧边浏览无关的用途。开发者不通过扩展远程查看这些记录。
+以上扩展状态使用浏览器的本地／会话存储，不使用浏览器同步存储，不上传给开发者，不出售，也不用于广告、信用评估或与侧边浏览无关的用途。开发者不通过扩展远程查看这些记录。
 
-在侧窗地址栏输入时，联想会合并侧窗收藏、最近打开与匹配的 Chrome 浏览历史、书签。`history` 和 `bookmarks` 权限仅用于查询联想所需的网址和标题。输入和查询结果在本机处理，不发送给联想服务或开发者，也不复制到扩展存储。选择建议后会正常打开并加入侧窗最近记录。清空侧窗最近记录不会删除 Chrome 浏览历史或书签。
+在侧窗地址栏输入时，联想会合并侧窗收藏、最近打开与匹配的浏览器浏览历史、书签。`history` 和 `bookmarks` 权限仅用于查询联想所需的网址和标题。输入和查询结果在本机处理，不发送给联想服务或开发者，也不复制到扩展存储。选择建议后会正常打开并加入侧窗最近记录。清空侧窗最近记录不会删除浏览器浏览历史或书签。
 
 ### 访问网站与第三方
 
@@ -25,13 +25,13 @@
 
 提交地址栏中的关键词搜索或点击搜索候选时，会向设置中所选的搜索引擎（Google、Bing、百度或 DuckDuckGo，默认 Google）发送关键词；该搜索网址也可能进入扩展的本地记录。通过帮助页打开 GitHub 或主动提交反馈时，GitHub 及收到反馈的开发者会获得用户主动提供的内容；请勿在公开反馈中包含密码、私人对话或带令牌的网址。侧窗不会自动附加诊断、浏览记录或页面内容。
 
-网站数据由 Chrome 与网站管理，与扩展本地记录分开。HTTPS 网页使用网站提供的加密连接；用户主动打开的 HTTP 网页仍受其自身连接安全性限制，扩展不提供代理或额外加密。
+网站数据由浏览器与网站管理，与扩展本地记录分开。HTTPS 网页使用网站提供的加密连接；用户主动打开的 HTTP 网页仍受其自身连接安全性限制，扩展不提供代理或额外加密。
 
 ### 保存与删除
 
 收藏会在浏览器重启后保留，可在更多菜单或空白页收藏列表中逐条取消。清空最近记录、关闭网页及绑定／解除绑定不会删除收藏。
 
-最近列表支持单条删除或全部清空；清理最近列表不会删除当前网页、导航历史、网页恢复状态或网站 Cookie。将网页绑定到标签页时，该网页和历史移入绑定，共享网页及其恢复状态清空；最近列表保留。“关闭当前网页”清空当前显示的侧窗网页和导航历史，但保留收藏、最近列表、标签绑定和其他侧窗页面。偏好与恢复信息在本地保留，直到被后续操作覆盖或删除；会话存储由 Chrome 管理。卸载扩展会移除扩展存储，网站 Cookie 和其他网站数据需在 Chrome 中单独清理。侧窗没有开发者服务器上的浏览记录副本。
+最近列表支持单条删除或全部清空；清理最近列表不会删除当前网页、导航历史、网页恢复状态或网站 Cookie。将网页绑定到标签页时，该网页和历史移入绑定，共享网页及其恢复状态清空；最近列表保留。“关闭当前网页”清空当前显示的侧窗网页和导航历史，但保留收藏、最近列表、标签绑定和其他侧窗页面。偏好与恢复信息在本地保留，直到被后续操作覆盖或删除；会话存储由浏览器管理。卸载扩展会移除扩展存储，网站 Cookie 和其他网站数据需在浏览器中单独清理。侧窗没有开发者服务器上的浏览记录副本。
 
 ### 官网
 
@@ -43,35 +43,35 @@
 
 ## English
 
-SideBrowser is developed by yuzhou and opens user-selected websites in Chrome's native side panel. It has no account system, browsing-history server, telemetry, or advertising trackers.
+SideBrowser is developed by yuzhou and opens user-selected websites in the native side panel of Chrome or Microsoft Edge. It has no account system, browsing-history server, telemetry, or advertising trackers.
 
 ### Data handled and purpose
 
-URLs and titles of pages you explicitly favorite from the side panel, a page context menu, or the extension icon context menu are stored separately on your device for quick access from the blank page. Favorite icons use Chrome's favicon interface. The extension does not modify Chrome bookmarks.
+URLs and titles of pages you explicitly favorite from the side panel, a page context menu, or the extension icon context menu are stored separately on your device for quick access from the blank page. Favorite icons use the browser's favicon interface. The extension does not modify browser bookmarks.
 
-When you explicitly open the current page, the extension reads its URL and title to navigate the sidebar. Open context-menu actions, entered URLs, and search terms are used for navigation you request. Favorite context-menu actions read the target page’s URL and available title to save it without automatically opening it. Up to 10 recently opened URLs and their titles are stored locally for quick reopening; site icons are obtained through Chrome's favicon interface.
+When you explicitly open the current page, the extension reads its URL and title to navigate the sidebar. Open context-menu actions, entered URLs, and search terms are used for navigation you request. Favorite context-menu actions read the target page’s URL and available title to save it without automatically opening it. Up to 10 recently opened URLs and their titles are stored locally for quick reopening; site icons are obtained through the browser's favicon interface.
 
 Per-window URLs and back/forward history are kept in session storage. When you explicitly bind a side page to a tab, its tab ID is associated with its sidebar URL and history in session storage; unbinding, closing that tab, or restarting the browser clears that binding. The last navigation state is kept locally for restoration. URLs may contain query parameters you enter. Display, appearance, and search engine preferences are also stored locally. The extension reads the sidebar page's URL, title, and viewport metadata for navigation, favorite and recent titles, and layout. It does not extract main-tab body text, form contents, passwords, or AI conversations, and does not automatically send main-page contents to AI.
 
 For sidebar requests, the extension adjusts embedding-related response headers and, in mobile mode, device-identity request headers. It does not read or log response bodies or read cookies through the Cookies API.
 
-Extension state uses Chrome local/session storage, not sync storage. It is not uploaded to the developer, sold, used for advertising or credit decisions, or used for purposes unrelated to sidebar browsing. The developer cannot remotely inspect these records through the extension.
+Extension state uses browser local/session storage, not sync storage. It is not uploaded to the developer, sold, used for advertising or credit decisions, or used for purposes unrelated to sidebar browsing. The developer cannot remotely inspect these records through the extension.
 
-While you type in the sidebar address bar, suggestions combine local SideBrowser favorites and recents with matching Chrome browsing history and bookmarks. The history and bookmarks permissions are used only to query URLs and titles for these suggestions. Query text and results are processed on your device, are not sent to a suggestion service or the developer, and are not copied into extension storage. Selecting a suggestion opens it normally and adds it to SideBrowser recents. Clearing SideBrowser recents does not delete Chrome history or bookmarks.
+While you type in the sidebar address bar, suggestions combine local SideBrowser favorites and recents with matching browser browsing history and bookmarks. The history and bookmarks permissions are used only to query URLs and titles for these suggestions. Query text and results are processed on your device, are not sent to a suggestion service or the developer, and are not copied into extension storage. Selecting a suggestion opens it normally and adds it to SideBrowser recents. Clearing SideBrowser recents does not delete browser history or bookmarks.
 
 ### Websites and third parties
 
-Websites you open receive normal browser requests, including URLs, IP addresses, headers, and authentication information that Chrome permits. Content you submit on those sites is handled by those sites under their own privacy policies. AI is provided by the selected website; SideBrowser includes no AI model or AI account and does not automatically submit conversations.
+Websites you open receive normal browser requests, including URLs, IP addresses, headers, and authentication information that the browser permits. Content you submit on those sites is handled by those sites under their own privacy policies. AI is provided by the selected website; SideBrowser includes no AI model or AI account and does not automatically submit conversations.
 
 Submitting an address-bar keyword search or choosing the search action sends the query to the selected search engine: Google (the default), Bing, Baidu, or DuckDuckGo. The search URL may also be stored in the extension's local records. Opening GitHub or submitting feedback exposes the information you choose to share to GitHub and, for feedback, the developer. Do not include passwords, private conversations, or token-bearing URLs in public issues. SideBrowser does not automatically attach diagnostics, browsing history, or page content.
 
-Website storage is managed separately by Chrome and the websites. HTTPS sites use their own encrypted connections. User-selected HTTP sites retain the limitations of HTTP; the extension does not provide a proxy or additional encryption.
+Website storage is managed separately by the browser and the websites. HTTPS sites use their own encrypted connections. User-selected HTTP sites retain the limitations of HTTP; the extension does not provide a proxy or additional encryption.
 
 ### Retention and deletion
 
 Favorites persist across browser restarts. You can remove them individually from the More menu or the favorites list on the blank page. Clearing recents, closing a page, binding, and unbinding do not remove favorites.
 
-You can remove individual recent entries or clear the list. This does not clear the current page, navigation history, restoration state, or website cookies. Binding transfers the page and its history to that tab and clears the shared page and its restoration state, while retaining recents. Closing the current page clears the displayed sidebar page and its history while retaining favorites, recents, tab bindings, and other side pages. Local preferences and restoration state remain until overwritten or removed; Chrome manages session storage. Uninstalling removes extension storage. Website cookies and other website data must be cleared separately in Chrome. There is no developer-hosted copy of browsing records.
+You can remove individual recent entries or clear the list. This does not clear the current page, navigation history, restoration state, or website cookies. Binding transfers the page and its history to that tab and clears the shared page and its restoration state, while retaining recents. Closing the current page clears the displayed sidebar page and its history while retaining favorites, recents, tab bindings, and other side pages. Local preferences and restoration state remain until overwritten or removed; the browser manages session storage. Uninstalling removes extension storage. Website cookies and other website data must be cleared separately in the browser. There is no developer-hosted copy of browsing records.
 
 ### Website
 

@@ -4,7 +4,7 @@
 
 English · [简体中文](README.zh-CN.md)
 
-SideBrowser brings your favorite websites into Chrome’s native side panel. Keep AI tools, search, references, and documents beside your main page while you write, read, or research.
+SideBrowser brings your favorite websites into the native side panel of Chrome and Microsoft Edge. Keep AI tools, search, references, and documents beside your main page while you write, read, or research.
 
 [Install from the Chrome Web Store](https://chromewebstore.google.com/detail/jlankbdlgdjliaccjkhccphfjmmpgkho) · [Website](https://yuzhouu.github.io/side-browser/en/) · [Feedback](https://github.com/yuzhouu/side-browser/issues)
 
@@ -18,9 +18,9 @@ SideBrowser brings your favorite websites into Chrome’s native side panel. Kee
 ## Find and reopen pages quickly
 
 - **One address bar for URLs and search.** Enter a website address or search keywords with Google, Bing, Baidu, or DuckDuckGo. Choose your preferred engine in Settings; Google is the default.
-- **Suggestions as you type.** Find matches from SideBrowser favorites and recent pages, plus Chrome history and bookmarks. Suggestions show their source and support arrow keys, Enter, and Escape.
-- **Favorites within reach.** Save the current page from the More menu, or save a webpage from the right-click menu. Favorites appear as website icons on the welcome screen; hover or focus to see the title and full URL, then click to open. SideBrowser favorites are separate from Chrome bookmarks.
-- **Your 10 most recently opened addresses.** Reopen a page from the clock button beside the address bar, remove individual entries, or clear the list. Favorites and recent pages are shared across windows and kept after restarting Chrome.
+- **Suggestions as you type.** Find matches from SideBrowser favorites and recent pages, plus browser history and bookmarks. Suggestions show their source and support arrow keys, Enter, and Escape.
+- **Favorites within reach.** Save the current page from the More menu, or save a webpage from the right-click menu. Favorites appear as website icons on the welcome screen; hover or focus to see the title and full URL, then click to open. SideBrowser favorites are separate from browser bookmarks.
+- **Your 10 most recently opened addresses.** Reopen a page from the clock button beside the address bar, remove individual entries, or clear the list. Favorites and recent pages are shared across windows and kept after restarting the browser.
 
 ## Everyday browsing controls
 
@@ -30,7 +30,7 @@ Closing a page returns to the welcome screen while keeping favorites, recent pag
 
 Choose **mobile or desktop view** and **light, dark, or system appearance**. These preferences apply across windows. Switching the view reloads running sidebar pages; changing the appearance does not. Website theme support depends on the site.
 
-The interface follows Chrome’s language and supports English, Simplified Chinese, Traditional Chinese, Japanese, German, French, and Spanish.
+The interface follows your browser’s language and supports English, Simplified Chinese, Traditional Chinese, Japanese, German, French, and Spanish.
 
 ## Get started
 
@@ -38,11 +38,13 @@ The interface follows Chrome’s language and supports English, Simplified Chine
 2. Pin SideBrowser to the toolbar and click its icon to open the side panel.
 3. Enter an address or search, or choose **Open current page**.
 
+For Microsoft Edge, build the project or extract the release ZIP, open `edge://extensions`, enable **Developer mode**, and choose **Load unpacked**. Select `dist/` or the extracted folder containing `manifest.json`. Use a current desktop Edge version with Chromium 145 or later. An Edge Add-ons listing has not been published yet.
+
 SideBrowser is free to install and requires no SideBrowser account. Websites you open may require their own login or subscription. More help is available from **More → About & Help**.
 
 ## Your data stays under your control
 
-SideBrowser stores favorites, recent pages, preferences, and page restoration data on your device. Address suggestions query Chrome history and bookmarks locally without modifying them. The extension does not upload your records to the developer or use telemetry or a developer-operated proxy. Website and search requests go to the services you choose.
+SideBrowser stores favorites, recent pages, preferences, and page restoration data on your device. Address suggestions query browser history and bookmarks locally without modifying them. The extension does not upload your records to the developer or use telemetry or a developer-operated proxy. Website and search requests go to the services you choose.
 
 See the [Privacy Policy](docs/privacy-policy.md) for details.
 
@@ -50,4 +52,4 @@ See the [Privacy Policy](docs/privacy-policy.md) for details.
 
 Some websites restrict embedded browsing or depend on login and third-party cookie settings. If a page does not work in the sidebar, use the More menu to open it in a regular tab. Mobile view adapts website display; it is not full device emulation.
 
-While the sidebar remains open, switching tabs keeps its running pages in place. After closing the side panel or restarting Chrome, saved URLs can be restored, but form input, scroll position, and unsent content are not guaranteed to survive. Tab bindings last for the current browser session; unbinding a tab or closing a bound tab closes its independent sidebar page.
+While the sidebar remains open, switching tabs keeps its running pages in place. After closing the side panel or restarting the browser, saved URLs can be restored, but form input, scroll position, and unsent content are not guaranteed to survive. Tab bindings last for the current browser session; unbinding a tab or closing a bound tab closes its independent sidebar page.

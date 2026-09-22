@@ -33,6 +33,12 @@ npm run test:browser
 QA_LOCALE=zh-CN npm run test:browser
 # 可选语言：en、zh-CN、zh-TW、ja、de、fr、es
 QA_LOCALE=fr npm run test:browser
+
+# 已安装桌面版 Microsoft Edge；同一套原生侧栏回归与同一份 dist/
+QA_BROWSER=edge npm run test:browser
+QA_BROWSER=edge QA_LOCALE=zh-CN npm run test:browser
+# 可选：指定 Edge 可执行文件（也可使用仅解压到临时目录的 Edge）
+QA_BROWSER=edge EDGE_PATH='/absolute/path/to/Microsoft Edge' npm run test:browser
 ```
 
 浏览器回归需要图形桌面（Linux CI 可使用 Xvfb），以检查真实原生 side panel。脚本每次创建独立临时配置，不使用日常 Chrome 资料或登录数据；本地测试服务器只监听 `127.0.0.1`。结束时关闭浏览器、服务器并删除测试配置，截图保留在终端输出的临时目录。
@@ -44,6 +50,12 @@ CHROME_PATH='/absolute/path/to/chrome' QA_OUTPUT_DIR=/tmp/sidebrowser-qa npm run
 ```
 
 macOS 应指向 `.app/Contents/MacOS/Google Chrome for Testing` 可执行文件。脚本会在临时配置中生成启动包装脚本，以应用指定的 Chrome 界面语言。普通发行版 Chrome 对命令行加载未打包扩展的限制可能不同，请使用测试版浏览器。
+
+Edge 在 macOS 默认使用 `/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge`，其他平台使用 Playwright 的 `msedge` 通道；可用 `EDGE_PATH` 覆盖。脚本不会安装浏览器。测试会核对真实 UA、Chromium 145+ 版本及 `topDomains` 会话规则是否注册成功，防止选错浏览器或用旧版浏览器得到误导结果。每次运行仍使用独立临时配置。
+
+`src/browser.ts` 只负责浏览器专属设置入口；Chrome API 命名空间和 `chrome-extension://` 协议在 Edge 中继续使用。界面文案使用通用浏览器名称。手机模式在两种浏览器中均使用 Android Chrome 兼容身份，版本来自 UA 的 Chromium 标记，网络请求头与注入脚本共用同一个身份生成函数。
+
+非当前网页的 `.page-viewport[hidden]` 使用 `visibility: hidden` 和绝对定位保留布局，同时禁止鼠标交互。不要将它改回 `display: none`：Edge 在隐藏 iframe 更新 history 后可能丢失滚动位置，已有标签绑定回归覆盖隐藏导航、后台重启后切回的滚动与文档保留。
 
 ## 目录与构建边界
 

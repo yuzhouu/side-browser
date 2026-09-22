@@ -112,7 +112,7 @@
     "message": "不支持的网址。"
   },
   "errorChromeVersion": {
-    "message": "无法读取 Chrome 版本，手机模式未启用。"
+    "message": "无法读取浏览器版本，手机模式未启用。"
   },
   "errorExtensionUnavailable": {
     "message": "扩展没有响应，请重试。"
@@ -139,7 +139,7 @@
     "message": "侧窗小境，意赴遐荒"
   },
   "helpLanguage": {
-    "message": "界面语言自动跟随 Chrome。"
+    "message": "界面语言自动跟随浏览器。"
   },
   "helpHeading": {
     "message": "关于与帮助"
@@ -208,13 +208,13 @@
     "message": "界面语言"
   },
   "settingsFollowBrowser": {
-    "message": "跟随 Chrome"
+    "message": "跟随浏览器"
   },
   "settingsShortcut": {
     "message": "打开当前网页"
   },
   "settingsShortcutDescription": {
-    "message": "在侧边栏中打开当前标签页，可在 Chrome 中修改快捷键。"
+    "message": "在侧边栏中打开当前标签页，可在浏览器中修改快捷键。"
   },
   "settingsManageShortcut": {
     "message": "管理快捷键"
@@ -337,10 +337,10 @@
     "message": "选择「⋯」→「收藏当前网页」保存侧窗中正在浏览的网页。也可右键网页或浏览器工具栏上的侧窗图标，选择「收藏到侧窗」；右键收藏只保存网页，不会打开或切换当前侧窗。"
   },
   "helpFavoriteShortcuts": {
-    "message": "收藏显示在空白欢迎页下方，以网站图标横向排列，放不下自动换行。悬停或用键盘聚焦图标可查看标题和完整网址，点击即可在当前侧窗打开。用图标旁的删除按钮，或「⋯」→「取消收藏」可移除收藏。收藏跨窗口共用、重启后保留，与 Chrome 原生书签分开保存。"
+    "message": "收藏显示在空白欢迎页下方，以网站图标横向排列，放不下自动换行。悬停或用键盘聚焦图标可查看标题和完整网址，点击即可在当前侧窗打开。用图标旁的删除按钮，或「⋯」→「取消收藏」可移除收藏。收藏跨窗口共用、重启后保留，与浏览器原生书签分开保存。"
   },
   "helpAppearance": {
-    "message": "在设置页或「⋯」中选择浅色、深色或跟随系统。外观跨窗口共用，切换时不重载网页；部分网站使用自己的主题设置。界面自动跟随 Chrome 语言，支持简体中文、繁体中文、英文、日语、德语、法语和西班牙语。"
+    "message": "在设置页或「⋯」中选择浅色、深色或跟随系统。外观跨窗口共用，切换时不重载网页；部分网站使用自己的主题设置。界面自动跟随浏览器语言，支持简体中文、繁体中文、英文、日语、德语、法语和西班牙语。"
   },
   "helpWebsite": {
     "message": "访问官网"
@@ -355,10 +355,10 @@
     "message": "侧窗收藏"
   },
   "suggestionHistory": {
-    "message": "Chrome 浏览历史"
+    "message": "浏览器历史"
   },
   "suggestionBookmark": {
-    "message": "Chrome 书签"
+    "message": "浏览器书签"
   },
   "settingsSearchEngine": {
     "message": "搜索引擎"

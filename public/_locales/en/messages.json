@@ -112,7 +112,7 @@
     "message": "This address is not supported."
   },
   "errorChromeVersion": {
-    "message": "Could not read the Chrome version. Mobile mode has not been enabled."
+    "message": "Could not read the browser version. Mobile mode has not been enabled."
   },
   "errorExtensionUnavailable": {
     "message": "The extension did not respond. Try again."
@@ -139,7 +139,7 @@
     "message": "Another page. Right beside you."
   },
   "helpLanguage": {
-    "message": "The interface language follows Chrome automatically."
+    "message": "The interface language follows your browser automatically."
   },
   "helpHeading": {
     "message": "About & help"
@@ -208,13 +208,13 @@
     "message": "Interface language"
   },
   "settingsFollowBrowser": {
-    "message": "Follow Chrome"
+    "message": "Follow browser"
   },
   "settingsShortcut": {
     "message": "Open current page"
   },
   "settingsShortcutDescription": {
-    "message": "Open the active tab in the sidebar. You can change this shortcut in Chrome."
+    "message": "Open the active tab in the sidebar. You can change this shortcut in your browser."
   },
   "settingsManageShortcut": {
     "message": "Manage shortcuts"
@@ -307,7 +307,7 @@
     "message": "Close the webpage and keep the sidebar open"
   },
   "helpClosePage": {
-    "message": "Choose “⋯” → “Close current page” to return to welcome while keeping the sidebar open. Only the displayed page and its back/forward history are cleared. Favorites, recents, tab bindings, preferences, and other side pages remain. The closed page will not automatically return when you reopen the sidebar or restart Chrome."
+    "message": "Choose “⋯” → “Close current page” to return to welcome while keeping the sidebar open. Only the displayed page and its back/forward history are cleared. Favorites, recents, tab bindings, preferences, and other side pages remain. The closed page will not automatically return when you reopen the sidebar or restart your browser."
   },
   "bindTab": {
     "message": "Bind to current tab"
@@ -337,10 +337,10 @@
     "message": "Choose “⋯” → “Add current page to favorites” to save the sidebar page. You can also right-click a webpage or the SideBrowser toolbar icon and choose “Add to SideBrowser favorites”; this saves the page without opening it."
   },
   "helpFavoriteShortcuts": {
-    "message": "Favorites appear below the empty welcome screen as website icons. They wrap into new rows when needed. Hover or focus an icon to see its title and full URL; click to open it in the current sidebar. Remove a favorite with its delete button or “⋯” → “Remove from favorites”. Favorites are shared across windows, survive restarts, and are separate from Chrome bookmarks."
+    "message": "Favorites appear below the empty welcome screen as website icons. They wrap into new rows when needed. Hover or focus an icon to see its title and full URL; click to open it in the current sidebar. Remove a favorite with its delete button or “⋯” → “Remove from favorites”. Favorites are shared across windows, survive restarts, and are separate from browser bookmarks."
   },
   "helpAppearance": {
-    "message": "Choose light, dark, or system appearance in Settings or “⋯”. Appearance is shared across windows and changes without reloading pages. Websites may use their own theme settings. The interface follows Chrome’s language; English, Simplified Chinese, Traditional Chinese, Japanese, German, French, and Spanish are supported."
+    "message": "Choose light, dark, or system appearance in Settings or “⋯”. Appearance is shared across windows and changes without reloading pages. Websites may use their own theme settings. The interface follows your browser’s language; English, Simplified Chinese, Traditional Chinese, Japanese, German, French, and Spanish are supported."
   },
   "helpWebsite": {
     "message": "Visit website"
@@ -355,10 +355,10 @@
     "message": "SideBrowser favorite"
   },
   "suggestionHistory": {
-    "message": "Chrome history"
+    "message": "Browser history"
   },
   "suggestionBookmark": {
-    "message": "Chrome bookmark"
+    "message": "Browser bookmark"
   },
   "settingsSearchEngine": {
     "message": "Search engine"

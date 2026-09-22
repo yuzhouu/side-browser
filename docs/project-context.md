@@ -2,6 +2,8 @@
 
 ## 当前基线
 
+2026-09-22 补充：Chrome 与 Microsoft Edge 共用源码、`dist/` 与通用 ZIP；设置页按宿主浏览器打开快捷键管理，七种语言的界面使用通用浏览器称呼。Edge 安装及商店准备见 [Edge 发布](edge-publishing.md)，`QA_BROWSER=edge` 可运行同一套独立原生侧栏回归。手机模式继续使用共用 Android Chrome 兼容身份；最低 Chromium 145 的请求隔离规则保持不变。Edge Add-ons 尚未上架。
+
 侧窗 · SideBrowser 当前版本为 1.1.0（2026-09-22；2026-09-16 的统一版本基线为 1.0.0），项目从原会话工作区的 `outputs/pocket-browser` 复制成独立项目。原始位置：`/Users/yuzhou/Documents/Codex/2026-09-14/new-chat`。早期安装包曾保存在 `releases/archive/sidebrowser-1.6.5.zip`，现已按仅保留最新包的规则清理；原会话的源码和安装包仍保留。英文品牌已统一为 `SideBrowser`，npm 包名为 `sidebrowser-extension`，中文品牌为「侧窗」，中文 slogan 为「侧窗小境，意赴遐荒」，英文 slogan 为 “Another page. Right beside you.”。旧名称 `sidebrowse-1.6.5.zip` 仅为历史记录，不再保存在本地发布目录。
 
 ## 使用与开发

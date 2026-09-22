@@ -555,6 +555,15 @@ main {
   display: none !important;
 }
 
+/* Keep inactive iframe layout alive: Edge can lose its saved scroll position
+   when a display:none document changes history while hidden. */
+.page-viewport[hidden] {
+  display: block !important;
+  position: absolute;
+  visibility: hidden;
+  pointer-events: none;
+}
+
 #address-suggestions {
   position: fixed;
   inset: 35px 5px auto auto;

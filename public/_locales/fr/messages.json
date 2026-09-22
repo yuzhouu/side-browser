@@ -112,7 +112,7 @@
     "message": "Cette adresse n’est pas prise en charge."
   },
   "errorChromeVersion": {
-    "message": "Impossible de déterminer la version de Chrome. La vue mobile n’a pas été activée."
+    "message": "Impossible de déterminer la version du navigateur. La vue mobile n’a pas été activée."
   },
   "errorExtensionUnavailable": {
     "message": "L’extension ne répond pas. Réessayez."
@@ -139,7 +139,7 @@
     "message": "SideBrowser · Un navigateur dans votre panneau latéral."
   },
   "helpLanguage": {
-    "message": "La langue de l’interface suit automatiquement celle de Chrome."
+    "message": "La langue de l’interface suit automatiquement celle du navigateur."
   },
   "helpHeading": {
     "message": "À propos et aide"
@@ -208,13 +208,13 @@
     "message": "Langue de l’interface"
   },
   "settingsFollowBrowser": {
-    "message": "Comme dans Chrome"
+    "message": "Comme dans le navigateur"
   },
   "settingsShortcut": {
     "message": "Ouvrir la page actuelle"
   },
   "settingsShortcutDescription": {
-    "message": "Ouvrez l’onglet actif dans le panneau latéral. Ce raccourci peut être modifié dans Chrome."
+    "message": "Ouvrez l’onglet actif dans le panneau latéral. Ce raccourci peut être modifié dans le navigateur."
   },
   "settingsManageShortcut": {
     "message": "Gérer les raccourcis"
@@ -337,10 +337,10 @@
     "message": "Choisissez « ⋯ » → « Ajouter la page actuelle aux favoris » pour enregistrer la page latérale. Vous pouvez aussi faire un clic droit sur une page web ou sur l’icône SideBrowser de la barre d’outils, puis choisir « Ajouter aux favoris SideBrowser ». Cette action enregistre la page sans l’ouvrir ni changer la page latérale."
   },
   "helpFavoriteShortcuts": {
-    "message": "Les favoris apparaissent sous l’écran d’accueil vide sous forme d’icônes, avec retour à la ligne automatique. Survolez une icône ou sélectionnez-la au clavier pour voir son titre et son URL complète ; cliquez pour l’ouvrir dans le panneau actuel. Retirez un favori avec son bouton de suppression ou « ⋯ » → « Retirer des favoris ». Ils sont partagés entre les fenêtres, conservés après redémarrage et distincts des favoris Chrome."
+    "message": "Les favoris apparaissent sous l’écran d’accueil vide sous forme d’icônes, avec retour à la ligne automatique. Survolez une icône ou sélectionnez-la au clavier pour voir son titre et son URL complète ; cliquez pour l’ouvrir dans le panneau actuel. Retirez un favori avec son bouton de suppression ou « ⋯ » → « Retirer des favoris ». Ils sont partagés entre les fenêtres, conservés après redémarrage et distincts des favoris du navigateur."
   },
   "helpAppearance": {
-    "message": "Choisissez le thème clair, sombre ou système dans les paramètres ou « ⋯ ». Ce choix s’applique à toutes les fenêtres sans recharger les pages. Les sites peuvent utiliser leur propre thème. L’interface suit la langue de Chrome et prend en charge le français, l’anglais, le chinois simplifié et traditionnel, le japonais, l’allemand et l’espagnol."
+    "message": "Choisissez le thème clair, sombre ou système dans les paramètres ou « ⋯ ». Ce choix s’applique à toutes les fenêtres sans recharger les pages. Les sites peuvent utiliser leur propre thème. L’interface suit la langue du navigateur et prend en charge le français, l’anglais, le chinois simplifié et traditionnel, le japonais, l’allemand et l’espagnol."
   },
   "helpWebsite": {
     "message": "Visiter le site officiel"
@@ -355,10 +355,10 @@
     "message": "Favori SideBrowser"
   },
   "suggestionHistory": {
-    "message": "Historique Chrome"
+    "message": "Historique du navigateur"
   },
   "suggestionBookmark": {
-    "message": "Favori Chrome"
+    "message": "Favori du navigateur"
   },
   "settingsSearchEngine": {
     "message": "Moteur de recherche"

@@ -6,7 +6,7 @@ export function panelRules(
   mode: Mode,
   userAgent: string
 ): chrome.declarativeNetRequest.Rule[] {
-  // Chrome 145+: scope to this extension's non-tab document tree, including
+  // Chromium 145+ (Chrome and Edge): scope to this extension's non-tab document tree, including
   // native navigations whose initiator is now the embedded website.
   const requests = { tabIds: [-1], topDomains: [extensionId] };
   const documents: chrome.declarativeNetRequest.RuleCondition = {

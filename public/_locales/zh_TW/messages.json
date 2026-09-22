@@ -112,7 +112,7 @@
     "message": "不支援此網址。"
   },
   "errorChromeVersion": {
-    "message": "無法讀取 Chrome 版本，尚未啟用手機模式。"
+    "message": "無法讀取瀏覽器版本，尚未啟用手機模式。"
   },
   "errorExtensionUnavailable": {
     "message": "擴充功能沒有回應，請再試一次。"
@@ -139,7 +139,7 @@
     "message": "側窗小境，意赴遐荒"
   },
   "helpLanguage": {
-    "message": "介面語言自動跟隨 Chrome。"
+    "message": "介面語言自動跟隨瀏覽器。"
   },
   "helpHeading": {
     "message": "關於與說明"
@@ -208,13 +208,13 @@
     "message": "介面語言"
   },
   "settingsFollowBrowser": {
-    "message": "跟隨 Chrome"
+    "message": "跟隨瀏覽器"
   },
   "settingsShortcut": {
     "message": "開啟目前網頁"
   },
   "settingsShortcutDescription": {
-    "message": "在側邊欄開啟目前分頁，可在 Chrome 中變更快捷鍵。"
+    "message": "在側邊欄開啟目前分頁，可在瀏覽器中變更快捷鍵。"
   },
   "settingsManageShortcut": {
     "message": "管理快捷鍵"
@@ -337,10 +337,10 @@
     "message": "選擇「⋯」→「收藏目前網頁」儲存側窗中正在瀏覽的網頁。也可在網頁或瀏覽器工具列上的側窗圖示按右鍵，選擇「收藏到側窗」；此操作只儲存網頁，不會開啟或切換目前側窗。"
   },
   "helpFavoriteShortcuts": {
-    "message": "收藏顯示在空白歡迎頁下方，網站圖示橫向排列，空間不足時自動換行。將滑鼠移到圖示上或以鍵盤聚焦，可查看標題和完整網址；點擊即可在目前側窗開啟。使用圖示旁的刪除按鈕或「⋯」→「取消收藏」移除。收藏跨視窗共用，重新啟動後保留，與 Chrome 原生書籤分開儲存。"
+    "message": "收藏顯示在空白歡迎頁下方，網站圖示橫向排列，空間不足時自動換行。將滑鼠移到圖示上或以鍵盤聚焦，可查看標題和完整網址；點擊即可在目前側窗開啟。使用圖示旁的刪除按鈕或「⋯」→「取消收藏」移除。收藏跨視窗共用，重新啟動後保留，與瀏覽器原生書籤分開儲存。"
   },
   "helpAppearance": {
-    "message": "在設定頁或「⋯」選擇淺色、深色或跟隨系統。外觀跨視窗共用，切換時不重新載入網頁；部分網站使用自己的佈景主題設定。介面自動跟隨 Chrome 語言，支援繁體中文、簡體中文、英文、日文、德文、法文和西班牙文。"
+    "message": "在設定頁或「⋯」選擇淺色、深色或跟隨系統。外觀跨視窗共用，切換時不重新載入網頁；部分網站使用自己的佈景主題設定。介面自動跟隨瀏覽器語言，支援繁體中文、簡體中文、英文、日文、德文、法文和西班牙文。"
   },
   "helpWebsite": {
     "message": "前往官網"
@@ -355,10 +355,10 @@
     "message": "側窗收藏"
   },
   "suggestionHistory": {
-    "message": "Chrome 瀏覽記錄"
+    "message": "瀏覽器記錄"
   },
   "suggestionBookmark": {
-    "message": "Chrome 書籤"
+    "message": "瀏覽器書籤"
   },
   "settingsSearchEngine": {
     "message": "搜尋引擎"

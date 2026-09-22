@@ -112,7 +112,7 @@
     "message": "Diese Adresse wird nicht unterstützt."
   },
   "errorChromeVersion": {
-    "message": "Die Chrome-Version konnte nicht ermittelt werden. Die Mobilansicht wurde nicht aktiviert."
+    "message": "Die Browserversion konnte nicht ermittelt werden. Die Mobilansicht wurde nicht aktiviert."
   },
   "errorExtensionUnavailable": {
     "message": "Die Erweiterung antwortet nicht. Versuche es erneut."
@@ -139,7 +139,7 @@
     "message": "SideBrowser · Ein Browser in deiner Seitenleiste."
   },
   "helpLanguage": {
-    "message": "Die Sprache richtet sich automatisch nach Chrome."
+    "message": "Die Sprache richtet sich automatisch nach dem Browser."
   },
   "helpHeading": {
     "message": "Über & Hilfe"
@@ -208,13 +208,13 @@
     "message": "Sprache"
   },
   "settingsFollowBrowser": {
-    "message": "Wie in Chrome"
+    "message": "Wie im Browser"
   },
   "settingsShortcut": {
     "message": "Aktuelle Seite öffnen"
   },
   "settingsShortcutDescription": {
-    "message": "Öffne den aktiven Tab in der Seitenleiste. Das Tastenkürzel lässt sich in Chrome ändern."
+    "message": "Öffne den aktiven Tab in der Seitenleiste. Das Tastenkürzel lässt sich im Browser ändern."
   },
   "settingsManageShortcut": {
     "message": "Tastenkürzel verwalten"
@@ -337,10 +337,10 @@
     "message": "Wähle „⋯“ → „Aktuelle Seite zu Favoriten hinzufügen“, um die aktuelle Seitenleisten-Seite zu speichern. Du kannst auch eine Webseite oder das SideBrowser-Symbol in der Symbolleiste rechtsklicken und „Zu SideBrowser-Favoriten hinzufügen“ wählen. Dabei wird die Seite nur gespeichert, nicht geöffnet oder gewechselt."
   },
   "helpFavoriteShortcuts": {
-    "message": "Favoriten erscheinen als Website-Symbole unter dem leeren Willkommensbildschirm und brechen bei Platzmangel in weitere Zeilen um. Mit Mauszeiger oder Tastaturfokus siehst du Titel und vollständige URL. Ein Klick öffnet die Seite in der aktuellen Seitenleiste. Entferne Favoriten über die Löschtaste am Symbol oder „⋯“ → „Aus Favoriten entfernen“. Sie gelten für alle Fenster, bleiben nach Neustarts erhalten und sind getrennt von Chrome-Lesezeichen."
+    "message": "Favoriten erscheinen als Website-Symbole unter dem leeren Willkommensbildschirm und brechen bei Platzmangel in weitere Zeilen um. Mit Mauszeiger oder Tastaturfokus siehst du Titel und vollständige URL. Ein Klick öffnet die Seite in der aktuellen Seitenleiste. Entferne Favoriten über die Löschtaste am Symbol oder „⋯“ → „Aus Favoriten entfernen“. Sie gelten für alle Fenster, bleiben nach Neustarts erhalten und sind getrennt von Browser-Lesezeichen."
   },
   "helpAppearance": {
-    "message": "Wähle Hell, Dunkel oder System in den Einstellungen oder unter „⋯“. Das Erscheinungsbild gilt für alle Fenster und lädt Seiten nicht neu. Websites können eigene Designs verwenden. Die Sprache folgt Chrome; unterstützt werden Deutsch, Englisch, vereinfachtes und traditionelles Chinesisch, Japanisch, Französisch und Spanisch."
+    "message": "Wähle Hell, Dunkel oder System in den Einstellungen oder unter „⋯“. Das Erscheinungsbild gilt für alle Fenster und lädt Seiten nicht neu. Websites können eigene Designs verwenden. Die Sprache folgt dem Browser; unterstützt werden Deutsch, Englisch, vereinfachtes und traditionelles Chinesisch, Japanisch, Französisch und Spanisch."
   },
   "helpWebsite": {
     "message": "Website besuchen"
@@ -355,10 +355,10 @@
     "message": "SideBrowser-Favorit"
   },
   "suggestionHistory": {
-    "message": "Chrome-Verlauf"
+    "message": "Browserverlauf"
   },
   "suggestionBookmark": {
-    "message": "Chrome-Lesezeichen"
+    "message": "Browser-Lesezeichen"
   },
   "settingsSearchEngine": {
     "message": "Suchmaschine"

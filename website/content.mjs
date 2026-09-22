@@ -14,7 +14,7 @@ export const content = {
     download: '下载 ZIP',
     manualInstall: '手动安装 ZIP',
     how: '查看使用方式',
-    compatible: '适用于 Chrome 145+ · 免费 · 无需侧窗账号',
+    compatible: 'Chrome 145+ · Edge 请使用最新版 · 免费',
     scenes: ['AI 在身边', '资料在手边', '搜索不打断'],
     examplesNote: '这些网站只是使用示例，你可以打开自己常用的网站。',
     sceneNotes: [
@@ -56,7 +56,7 @@ export const content = {
       '解除绑定会释放专属网页，回到当前共享网页。关闭绑定标签或重启浏览器也会清除绑定。'
     ],
     installTitle: '让另一个网页，<br>出现在你身边。',
-    installNote: '已在 Chrome 应用商店上架，免费安装即可使用。',
+    installNote: '已在 Chrome 应用商店上架。Edge 可下载 ZIP 手动安装。',
     installSteps: [
       '打开 Chrome 应用商店中的侧窗页面，点击「添加至 Chrome」。',
       '确认添加扩展程序，将侧窗固定到工具栏。',
@@ -64,7 +64,7 @@ export const content = {
     ],
     manualInstallSteps: [
       '下载并解压安装包，保留解压后的文件夹。',
-      '在 Chrome 打开 chrome://extensions，开启「开发者模式」。',
+      '在 Chrome 打开 chrome://extensions，或在 Edge 打开 edge://extensions，开启「开发者模式」。',
       '点击「加载已解压的扩展程序」，选择解压后的文件夹。',
       '将侧窗固定到工具栏，点击扩展图标开始使用。'
     ],
@@ -97,7 +97,7 @@ export const content = {
     download: 'Download ZIP',
     manualInstall: 'Install manually from ZIP',
     how: 'How it works',
-    compatible: 'For Chrome 145+ · Free · No SideBrowser account',
+    compatible: 'Chrome 145+ · Use current Edge · Free',
     scenes: ['Ask AI', 'Look it up', 'Search alongside'],
     examplesNote: 'These websites are examples. Open the websites that work for you.',
     sceneNotes: [
@@ -161,10 +161,11 @@ export const content = {
     bindingQuestion: 'What happens to the other tabs?',
     bindingNotes: [
       'The current page and its history move to the bound tab, leaving the shared sidebar empty. Other unbound tabs show the welcome screen until you open a new shared page.',
-      'Unbinding releases the dedicated page and returns to the current shared page. Closing the bound tab or restarting Chrome also clears the binding.'
+      'Unbinding releases the dedicated page and returns to the current shared page. Closing the bound tab or restarting the browser also clears the binding.'
     ],
     installTitle: 'Your next page.<br>Right by your side.',
-    installNote: 'Now available on the Chrome Web Store. Free to install and use.',
+    installNote:
+      'Available on the Chrome Web Store. For Edge, download the ZIP and install manually.',
     installSteps: [
       'Open SideBrowser on the Chrome Web Store and click “Add to Chrome”.',
       'Confirm “Add extension”, then pin SideBrowser to your toolbar.',
@@ -172,7 +173,7 @@ export const content = {
     ],
     manualInstallSteps: [
       'Download and unzip the package. Keep the extracted folder.',
-      'Open chrome://extensions in Chrome and enable Developer mode.',
+      'Open chrome://extensions in Chrome or edge://extensions in Edge, then enable Developer mode.',
       'Click “Load unpacked” and select the extracted folder.',
       'Pin SideBrowser to the toolbar, then click its icon to get started.'
     ],

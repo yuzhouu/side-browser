@@ -14,6 +14,10 @@ import { checkAddressSuggestions } from './browser/address-suggestions.mjs';
 const rootPath = fileURLToPath(new URL('../dist/', import.meta.url));
 const manifest = JSON.parse(await readFile(new URL('../dist/manifest.json', import.meta.url)));
 const locale = process.env.QA_LOCALE || 'en';
+const browser = process.env.QA_BROWSER || 'chrome';
+assert(['chrome', 'edge'].includes(browser), 'QA_BROWSER must be chrome or edge');
+const browserName = browser === 'edge' ? 'Microsoft Edge' : 'Chrome';
+const shortcutsUrl = `${browser === 'edge' ? 'edge' : 'chrome'}://extensions/shortcuts`;
 const supportedLocales = ['en', 'zh-CN', 'zh-TW', 'ja', 'de', 'fr', 'es'];
 assert(
   supportedLocales.includes(locale),
@@ -106,11 +110,17 @@ async function navigate(url, destination = url) {
   await poll(async () => (await recents())[0] === url, 'recent entry rendered');
 }
 async function launch() {
-  let executablePath = process.env.CHROME_PATH || chromium.executablePath();
-  if (process.platform === 'darwin') {
-    // macOS uses AppleLanguages for Chrome UI; Playwright args only accept flags.
+  let executablePath =
+    browser === 'edge'
+      ? process.env.EDGE_PATH ||
+        (process.platform === 'darwin'
+          ? '/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge'
+          : undefined)
+      : process.env.CHROME_PATH || chromium.executablePath();
+  if (process.platform === 'darwin' && executablePath) {
+    // macOS uses AppleLanguages for browser UI; Playwright args only accept flags.
     const quotedPath = `'${executablePath.replaceAll("'", "'\\''")}'`;
-    executablePath = join(profile, 'launch-chrome.sh');
+    executablePath = join(profile, 'launch-browser.sh');
     await writeFile(
       executablePath,
       `#!/bin/sh\nexec ${quotedPath} -AppleLanguages '(${locale})' "$@"\n`,
@@ -119,6 +129,7 @@ async function launch() {
   }
   context = await chromium.launchPersistentContext(profile, {
     executablePath,
+    ...(!executablePath && browser === 'edge' ? { channel: 'msedge' } : {}),
     headless: false,
     viewport: null,
     args: [
@@ -140,6 +151,21 @@ async function launch() {
   context.on('page', observe);
   await context.grantPermissions(['local-network-access']);
   const worker = context.serviceWorkers()[0] || (await context.waitForEvent('serviceworker'));
+  const userAgent = await worker.evaluate(() => navigator.userAgent);
+  assert.equal(/\bEdg\//.test(userAgent), browser === 'edge', `Unexpected browser: ${userAgent}`);
+  assert(
+    Number(/(?:Chrome|Chromium)\/(\d+)/.exec(userAgent)?.[1]) >= 145,
+    'Browser must use Chromium 145+ for scoped network rules'
+  );
+  await poll(async () => {
+    const rules = await worker.evaluate(() => chrome.declarativeNetRequest.getSessionRules());
+    return (
+      rules.length >= 2 &&
+      rules.every(
+        rule => rule.condition.topDomains?.length === 1 && rule.condition.tabIds?.[0] === -1
+      )
+    );
+  }, 'browser accepted scoped topDomains rules');
   // URL.origin for extension schemes is "null" in Node.
   extension = worker.url().slice(0, worker.url().lastIndexOf('/'));
   root = await context.browser().newBrowserCDPSession();
@@ -147,7 +173,7 @@ async function launch() {
   const workerTarget = (await targets()).find(item => item.url === worker.url());
   await attach(workerTarget.targetId);
   console.log(
-    `Chrome ${context.browser().version()}, ${locale}; isolated profile; screenshots: ${output}`
+    `${browserName} ${context.browser().version()}, ${locale}; isolated profile; screenshots: ${output}`
   );
 }
 async function shutdown() {
@@ -327,7 +353,7 @@ try {
   const shortcutsOpened = context.waitForEvent('page');
   await options.locator('#manage-shortcut').click();
   const shortcuts = await shortcutsOpened;
-  await shortcuts.waitForURL('chrome://extensions/shortcuts');
+  await shortcuts.waitForURL(shortcutsUrl);
   await shortcuts.close();
   await options.locator('a[href="help.html"]').click();
   await options.waitForURL(`${extension}/help.html`);
@@ -336,7 +362,7 @@ try {
   await options.waitForURL(`${extension}/options.html`);
   await poll(() => options.locator('#mode').isEnabled(), 'settings return link');
   pass(
-    'Chrome options entry, localized settings, saved mode, shortcuts, help navigation and 960px/320px layouts'
+    `${browserName} options entry, localized settings, saved mode, shortcuts, help navigation and 960px/320px layouts`
   );
   await help.close();
   pass('Localized help without version display, document language and 960px/320px layouts');

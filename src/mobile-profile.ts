@@ -1,5 +1,7 @@
 export const PHONE = Object.freeze({ width: 390, height: 844, dpr: 2 });
 export function mobileIdentity(desktopUA: string) {
+  // Use the Chromium version in both Chrome and Edge. Both hosts present the same
+  // Android Chrome compatibility profile, keeping request and JavaScript hints aligned.
   const version = /(?:Chrome|Chromium)\/([\d.]+)/.exec(desktopUA)?.[1];
   // Shared by the background and the bundled isolated-world identity script.
   if (!version)

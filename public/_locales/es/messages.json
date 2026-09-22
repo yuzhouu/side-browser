@@ -112,7 +112,7 @@
     "message": "Esta dirección no es compatible."
   },
   "errorChromeVersion": {
-    "message": "No se pudo obtener la versión de Chrome. La vista móvil no se ha activado."
+    "message": "No se pudo obtener la versión del navegador. La vista móvil no se ha activado."
   },
   "errorExtensionUnavailable": {
     "message": "La extensión no responde. Inténtalo de nuevo."
@@ -139,7 +139,7 @@
     "message": "SideBrowser · Un navegador en tu panel lateral."
   },
   "helpLanguage": {
-    "message": "El idioma de la interfaz sigue automáticamente el de Chrome."
+    "message": "El idioma de la interfaz sigue automáticamente el del navegador."
   },
   "helpHeading": {
     "message": "Acerca de y ayuda"
@@ -208,13 +208,13 @@
     "message": "Idioma de la interfaz"
   },
   "settingsFollowBrowser": {
-    "message": "Igual que Chrome"
+    "message": "Igual que el navegador"
   },
   "settingsShortcut": {
     "message": "Abrir página actual"
   },
   "settingsShortcutDescription": {
-    "message": "Abre la pestaña activa en el panel lateral. Puedes cambiar este atajo en Chrome."
+    "message": "Abre la pestaña activa en el panel lateral. Puedes cambiar este atajo en el navegador."
   },
   "settingsManageShortcut": {
     "message": "Gestionar atajos"
@@ -307,7 +307,7 @@
     "message": "Cerrar la página web y mantener abierto el panel lateral"
   },
   "helpClosePage": {
-    "message": "«⋯» → «Cerrar la página actual» vuelve a la bienvenida y mantiene abierto el panel. Solo borra la página visible y su historial de atrás/adelante. Conserva favoritos, páginas recientes, vinculaciones a pestañas, preferencias y otras páginas laterales. La página cerrada no se restaura automáticamente al reabrir el panel o reiniciar Chrome."
+    "message": "«⋯» → «Cerrar la página actual» vuelve a la bienvenida y mantiene abierto el panel. Solo borra la página visible y su historial de atrás/adelante. Conserva favoritos, páginas recientes, vinculaciones a pestañas, preferencias y otras páginas laterales. La página cerrada no se restaura automáticamente al reabrir el panel o reiniciar el navegador."
   },
   "bindTab": {
     "message": "Vincular a esta pestaña"
@@ -337,10 +337,10 @@
     "message": "Elige «⋯» → «Añadir la página actual a favoritos» para guardar la página lateral. También puedes hacer clic derecho en una página web o en el icono de SideBrowser de la barra de herramientas y elegir «Añadir a favoritos de SideBrowser». Esta acción solo guarda la página; no la abre ni cambia la página lateral."
   },
   "helpFavoriteShortcuts": {
-    "message": "Los favoritos aparecen como iconos debajo de la pantalla de bienvenida vacía y pasan a otra fila cuando falta espacio. Al pasar el cursor o dar foco con el teclado se muestran el título y la URL completa. Haz clic para abrirlos en el panel actual. Elimínalos con su botón de borrar o «⋯» → «Quitar de favoritos». Se comparten entre ventanas, se conservan al reiniciar y son independientes de los marcadores de Chrome."
+    "message": "Los favoritos aparecen como iconos debajo de la pantalla de bienvenida vacía y pasan a otra fila cuando falta espacio. Al pasar el cursor o dar foco con el teclado se muestran el título y la URL completa. Haz clic para abrirlos en el panel actual. Elimínalos con su botón de borrar o «⋯» → «Quitar de favoritos». Se comparten entre ventanas, se conservan al reiniciar y son independientes de los marcadores del navegador."
   },
   "helpAppearance": {
-    "message": "Elige el tema claro, oscuro o del sistema en Ajustes o «⋯». Se aplica a todas las ventanas sin recargar las páginas. Los sitios pueden usar su propio tema. La interfaz sigue el idioma de Chrome y admite español, inglés, chino simplificado y tradicional, japonés, alemán y francés."
+    "message": "Elige el tema claro, oscuro o del sistema en Ajustes o «⋯». Se aplica a todas las ventanas sin recargar las páginas. Los sitios pueden usar su propio tema. La interfaz sigue el idioma del navegador y admite español, inglés, chino simplificado y tradicional, japonés, alemán y francés."
   },
   "helpWebsite": {
     "message": "Visitar el sitio web"
@@ -355,10 +355,10 @@
     "message": "Favorito de SideBrowser"
   },
   "suggestionHistory": {
-    "message": "Historial de Chrome"
+    "message": "Historial del navegador"
   },
   "suggestionBookmark": {
-    "message": "Marcador de Chrome"
+    "message": "Marcador del navegador"
   },
   "settingsSearchEngine": {
     "message": "Motor de búsqueda"

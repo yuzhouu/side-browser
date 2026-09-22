@@ -1,4 +1,5 @@
 import { element } from './dom.js';
+import { shortcutsUrl } from './browser.js';
 import { validMode } from './config.js';
 import { SEARCH_ENGINE_KEY, validSearchEngine } from './search-engine.js';
 import { validTheme } from './theme-preference.js';
@@ -129,7 +130,7 @@ retry.addEventListener('click', () => {
   void refresh();
 });
 element('#manage-shortcut').addEventListener('click', () => {
-  void chrome.tabs.create({ url: 'chrome://extensions/shortcuts' }).catch(error => {
+  void chrome.tabs.create({ url: shortcutsUrl(navigator.userAgent) }).catch(error => {
     showStatus(errorMessage(error), true);
   });
 });
