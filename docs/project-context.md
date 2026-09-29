@@ -2,7 +2,7 @@
 
 ## 当前基线
 
-2026-09-22 补充：Chrome 与 Microsoft Edge 共用源码、`dist/` 与通用 ZIP；设置页按宿主浏览器打开快捷键管理，七种语言的界面使用通用浏览器称呼。Edge 安装及商店准备见 [Edge 发布](edge-publishing.md)，`QA_BROWSER=edge` 可运行同一套独立原生侧栏回归。手机模式继续使用共用 Android Chrome 兼容身份；最低 Chromium 145 的请求隔离规则保持不变。Edge Add-ons 尚未上架。
+2026-09-22 补充：Chrome 与 Microsoft Edge 共用源码、`dist/` 与通用 ZIP；设置页按宿主浏览器打开快捷键管理，七种语言的界面使用通用浏览器称呼。Edge 安装及发布说明见 [Edge 发布](edge-publishing.md)，`QA_BROWSER=edge` 可运行同一套独立原生侧栏回归。手机模式继续使用共用 Android Chrome 兼容身份；最低 Chromium 145 的请求隔离规则保持不变。已在 [Microsoft Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/%E4%BE%A7%E7%AA%97-%C2%B7-sidebrowser/ejdcoddocalfdcgkadfenfpjplkkjmbi) 上架（2026-09-29 更新）。
 
 侧窗 · SideBrowser 当前版本为 1.1.0（2026-09-22；2026-09-16 的统一版本基线为 1.0.0），项目从原会话工作区的 `outputs/pocket-browser` 复制成独立项目。原始位置：`/Users/yuzhou/Documents/Codex/2026-09-14/new-chat`。早期安装包曾保存在 `releases/archive/sidebrowser-1.6.5.zip`，现已按仅保留最新包的规则清理；原会话的源码和安装包仍保留。英文品牌已统一为 `SideBrowser`，npm 包名为 `sidebrowser-extension`，中文品牌为「侧窗」，中文 slogan 为「侧窗小境，意赴遐荒」，英文 slogan 为 “Another page. Right beside you.”。旧名称 `sidebrowse-1.6.5.zip` 仅为历史记录，不再保存在本地发布目录。
 
@@ -48,7 +48,7 @@ NGA 登录后的完整网页没有使用用户 Cookie 验证。附件中的 curl
 
 关闭当前网页功能（2026-09-16）：类型检查、构建、54 项 Node 测试和格式检查通过。Chrome for Testing 149、简体中文、独立配置验证「更多」关闭后 iframe 卸载、空态／地址栏焦点、旧网页排队消息隔离、最近记录与其他窗口保留、最近条目重开、加载中关闭、面板刷新与浏览器重启后空态恢复；原生 360px 与 320px／480px 模拟排版通过，无运行错误或新增控制台警告。
 
-本项目已从原会话复制为独立 Codex 项目，并完成 SideBrowser 品牌名称统一；源码远程仓库为 [yuzhouu/side-browser](https://github.com/yuzhouu/side-browser)，SSH 地址为 `git@github.com:yuzhouu/side-browser.git`，默认分支为 `main`；已发布到 Chrome 应用商店。当前源码还包含国际化与最近打开快捷入口，当前 ZIP 由 `npm run release` 或 `npm run package` 从 `dist/` 生成，`releases/` 每次打包清空后仅保留最新产物。后续开发从当前源码和本交接说明继续。
+本项目已从原会话复制为独立 Codex 项目，并完成 SideBrowser 品牌名称统一；源码远程仓库为 [yuzhouu/side-browser](https://github.com/yuzhouu/side-browser)，SSH 地址为 `git@github.com:yuzhouu/side-browser.git`，默认分支为 `main`；已发布到 Chrome 应用商店和 Microsoft Edge Add-ons。当前源码还包含国际化与最近打开快捷入口，当前 ZIP 由 `npm run release` 或 `npm run package` 从 `dist/` 生成，`releases/` 每次打包清空后仅保留最新产物。后续开发从当前源码和本交接说明继续。
 
 官网（2026-09-17）：`website/` 保存中英文内容与主题样式，`scripts/site-build.mjs` 将首页／隐私页分别生成中英文静态路由到独立的 `site-dist/`，以 `/side-browser/` 为 Pages 子路径。首页包含真实场景预览、默认共享与按需绑定说明、商店安装入口、安装步骤和备用扩展 ZIP；宣传素材入口、展示区、生成器、素材页与素材包已移除，商店资料继续独立保留在 `store/`。隐私正文复用 `docs/privacy-policy.md`；网站无运行依赖、统计或远程字体。主题存于网站自己的本地存储，语言由 URL 决定。部署和验证记录见 `docs/website.md`。
 

@@ -1,6 +1,6 @@
 # Microsoft Edge 发布
 
-Chrome 与 Edge 共用源码、`public/manifest.json`、`dist/` 和 `sidebrowser-<版本>.zip`。无需复制项目或维护第二套版本；现有 `npm run release` 仍只生成最新的一个通用 ZIP。Edge Add-ons 尚未上架。
+Chrome 与 Edge 共用源码、`public/manifest.json`、`dist/` 和 `sidebrowser-<版本>.zip`。无需复制项目或维护第二套版本；现有 `npm run release` 仍只生成最新的一个通用 ZIP。已在 [Microsoft Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/%E4%BE%A7%E7%AA%97-%C2%B7-sidebrowser/ejdcoddocalfdcgkadfenfpjplkkjmbi) 上架（2026-09-29 更新）。
 
 ## 兼容边界
 
@@ -18,7 +18,7 @@ Chrome 与 Edge 共用源码、`public/manifest.json`、`dist/` 和 `sidebrowser
 4. 当前界面支持七种语言，商店营销资料只有英文与简体中文；按 Partner Center 实际列出的语言补齐必填介绍和图标，或调整商店展示语言。截图应重新采集 Edge 实际界面。
 5. 现有 1280×800 截图、440×280 小宣传图、1400×560 大宣传图尺寸可复用，图标至少 128×128，官方推荐 300×300。素材内容需与待提交版本一致。
 6. 更新并部署官网隐私政策，确认公开链接可访问。填写单一用途、各项权限原因、数据用途及远程代码声明，特别说明历史／书签仅在本地用于地址联想，网页内容由用户选择的网站提供。
-7. 提交审核。获批后再添加真实的 Edge 商店链接；两个商店分别审核、发布更新。扩展在不同浏览器中的收藏、最近记录与偏好分别保存，不自动迁移或同步。
+7. 提交审核。两个商店分别审核、发布更新。扩展在不同浏览器中的收藏、最近记录与偏好分别保存，不自动迁移或同步。
 
 ## Single purpose description（单一用途，可直接粘贴）
 

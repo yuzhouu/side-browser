@@ -6,7 +6,7 @@ English · [简体中文](README.zh-CN.md)
 
 SideBrowser brings your favorite websites into the native side panel of Chrome and Microsoft Edge. Keep AI tools, search, references, and documents beside your main page while you write, read, or research.
 
-[Install from the Chrome Web Store](https://chromewebstore.google.com/detail/jlankbdlgdjliaccjkhccphfjmmpgkho) · [Website](https://yuzhouu.github.io/side-browser/en/) · [Feedback](https://github.com/yuzhouu/side-browser/issues)
+[Install from the Chrome Web Store](https://chromewebstore.google.com/detail/jlankbdlgdjliaccjkhccphfjmmpgkho) · [Install from Microsoft Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/%E4%BE%A7%E7%AA%97-%C2%B7-sidebrowser/ejdcoddocalfdcgkadfenfpjplkkjmbi) · [Website](https://yuzhouu.github.io/side-browser/en/) · [Feedback](https://github.com/yuzhouu/side-browser/issues)
 
 ## Keep your tools beside your work
 
@@ -34,11 +34,9 @@ The interface follows your browser’s language and supports English, Simplified
 
 ## Get started
 
-1. Install SideBrowser from the [Chrome Web Store](https://chromewebstore.google.com/detail/jlankbdlgdjliaccjkhccphfjmmpgkho) in **Chrome 145 or later**.
+1. Install SideBrowser from the [Chrome Web Store](https://chromewebstore.google.com/detail/jlankbdlgdjliaccjkhccphfjmmpgkho) in **Chrome 145 or later**, or from [Microsoft Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/%E4%BE%A7%E7%AA%97-%C2%B7-sidebrowser/ejdcoddocalfdcgkadfenfpjplkkjmbi) in **Microsoft Edge** (Chromium 145 or later).
 2. Pin SideBrowser to the toolbar and click its icon to open the side panel.
 3. Enter an address or search, or choose **Open current page**.
-
-For Microsoft Edge, build the project or extract the release ZIP, open `edge://extensions`, enable **Developer mode**, and choose **Load unpacked**. Select `dist/` or the extracted folder containing `manifest.json`. Use a current desktop Edge version with Chromium 145 or later. An Edge Add-ons listing has not been published yet.
 
 SideBrowser is free to install and requires no SideBrowser account. Websites you open may require their own login or subscription. More help is available from **More → About & Help**.
 

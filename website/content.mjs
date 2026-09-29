@@ -1,6 +1,9 @@
 export const storeUrl =
   'https://chromewebstore.google.com/detail/jlankbdlgdjliaccjkhccphfjmmpgkho?utm_source=item-share-cb';
 
+export const edgeStoreUrl =
+  'https://microsoftedge.microsoft.com/addons/detail/%E4%BE%A7%E7%AA%97-%C2%B7-sidebrowser/ejdcoddocalfdcgkadfenfpjplkkjmbi';
+
 export const content = {
   zh: {
     lang: 'zh-CN',
@@ -11,6 +14,7 @@ export const content = {
     tagline: '侧窗小境，意赴遐荒。',
     nav: ['功能', '隐私政策'],
     install: '添加至 Chrome',
+    installEdge: '添加至 Edge',
     download: '下载 ZIP',
     manualInstall: '手动安装 ZIP',
     how: '查看使用方式',
@@ -56,9 +60,9 @@ export const content = {
       '解除绑定会释放专属网页，回到当前共享网页。关闭绑定标签或重启浏览器也会清除绑定。'
     ],
     installTitle: '让另一个网页，<br>出现在你身边。',
-    installNote: '已在 Chrome 应用商店上架。Edge 可下载 ZIP 手动安装。',
+    installNote: '已在 Chrome 应用商店和 Microsoft Edge Add-ons 上架。',
     installSteps: [
-      '打开 Chrome 应用商店中的侧窗页面，点击「添加至 Chrome」。',
+      '选择对应浏览器的商店入口，在商店页面添加侧窗扩展。',
       '确认添加扩展程序，将侧窗固定到工具栏。',
       '点击侧窗图标，输入网址或打开当前网页，开始使用。'
     ],
@@ -94,6 +98,7 @@ export const content = {
     tagline: 'Another page. Right beside you.',
     nav: ['Features', 'Privacy'],
     install: 'Add to Chrome',
+    installEdge: 'Add to Edge',
     download: 'Download ZIP',
     manualInstall: 'Install manually from ZIP',
     how: 'How it works',
@@ -164,10 +169,9 @@ export const content = {
       'Unbinding releases the dedicated page and returns to the current shared page. Closing the bound tab or restarting the browser also clears the binding.'
     ],
     installTitle: 'Your next page.<br>Right by your side.',
-    installNote:
-      'Available on the Chrome Web Store. For Edge, download the ZIP and install manually.',
+    installNote: 'Available on the Chrome Web Store and Microsoft Edge Add-ons.',
     installSteps: [
-      'Open SideBrowser on the Chrome Web Store and click “Add to Chrome”.',
+      'Choose the store for your browser and add SideBrowser from its listing.',
       'Confirm “Add extension”, then pin SideBrowser to your toolbar.',
       'Click the SideBrowser icon and enter a URL or open your current page.'
     ],

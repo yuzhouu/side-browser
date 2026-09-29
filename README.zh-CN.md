@@ -6,7 +6,7 @@
 
 侧窗将你常用的网站放进 Chrome 和 Microsoft Edge 的原生侧边栏。主页面继续写作、阅读或研究，侧边打开 AI、搜索、资料和文档，减少来回切换标签的打断。
 
-[从 Chrome 应用商店安装](https://chromewebstore.google.com/detail/jlankbdlgdjliaccjkhccphfjmmpgkho) · [官网](https://yuzhouu.github.io/side-browser/) · [问题反馈](https://github.com/yuzhouu/side-browser/issues)
+[从 Chrome 应用商店安装](https://chromewebstore.google.com/detail/jlankbdlgdjliaccjkhccphfjmmpgkho) · [从 Microsoft Edge Add-ons 安装](https://microsoftedge.microsoft.com/addons/detail/%E4%BE%A7%E7%AA%97-%C2%B7-sidebrowser/ejdcoddocalfdcgkadfenfpjplkkjmbi) · [官网](https://yuzhouu.github.io/side-browser/) · [问题反馈](https://github.com/yuzhouu/side-browser/issues)
 
 ## 常用工具，就在手边
 
@@ -34,7 +34,7 @@
 
 ## 开始使用
 
-1. 使用 **Chrome 145 或更高版本**，从 [Chrome 应用商店](https://chromewebstore.google.com/detail/jlankbdlgdjliaccjkhccphfjmmpgkho) 安装侧窗。
+1. 使用 **Chrome 145 或更高版本**，从 [Chrome 应用商店](https://chromewebstore.google.com/detail/jlankbdlgdjliaccjkhccphfjmmpgkho) 安装侧窗；使用 **Microsoft Edge**（Chromium 145 或更高版本），从 [Microsoft Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/%E4%BE%A7%E7%AA%97-%C2%B7-sidebrowser/ejdcoddocalfdcgkadfenfpjplkkjmbi) 安装。
 2. 将侧窗固定到工具栏，点击图标打开侧边栏。
 3. 输入网址或搜索关键词，或选择「打开当前网页」。
 
@@ -51,7 +51,3 @@
 部分网站限制嵌入浏览，或受登录与第三方 Cookie 设置影响。如果网页无法在侧窗正常使用，可从「更多」在普通新标签页打开。手机视图用于网页显示适配，不等同于完整设备模拟。
 
 侧边栏保持打开时，切换标签会保留正在运行的网页。关闭侧边栏或重启浏览器后，可以恢复保存的网址，但不保证恢复表单输入、滚动位置或未发送内容。标签绑定仅在当前浏览器会话有效；解除绑定或关闭已绑定标签，会关闭对应的独立侧窗网页。
-
-## Microsoft Edge 安装
-
-Chrome 与 Edge 共用同一份扩展包。使用当前桌面版 Edge（Chromium 145 或更高版本），在 `edge://extensions` 开启「开发者模式」，点击「加载解压缩的扩展」，选择构建后的 `dist/` 或 ZIP 解压后包含 `manifest.json` 的文件夹。Edge Add-ons 商店尚未上架。
