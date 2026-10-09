@@ -46,7 +46,7 @@ export const content = {
       ['收藏快捷打开', '欢迎页图标横排、自动换行，悬停查看标题与完整网址。'],
       ['随手收藏', '从侧窗更多菜单，或右键网页、工具栏扩展图标收藏。'],
       ['最近打开', '保留 10 个最近主动打开的网址，可单条删除或清空；收藏独立保留。'],
-      ['自由切换', '手机或电脑视图，浅色、深色或跟随系统。'],
+      ['自由切换', '按网站选择窄屏或窗口宽度，需要时请求手机版。外观可选浅色、深色或跟随系统。'],
       ['关闭当前网页', '回到欢迎页，保留收藏、最近记录、绑定和其他侧窗网页。'],
       ['本地保存', '收藏、最近记录和偏好跨窗口共用，重启后保留，不上传开发者。']
     ],
@@ -150,7 +150,10 @@ export const content = {
         'Find your way back',
         'Reopen up to 10 recent pages. Remove entries or clear recents while keeping favorites.'
       ],
-      ['Make it yours', 'Mobile or desktop view. Light, dark or system appearance.'],
+      [
+        'Make it yours',
+        'Narrow or full-width layout per site, with optional mobile-site requests. Light, dark or system appearance.'
+      ],
       [
         'Close the current page',
         'Return to welcome while keeping favorites, recents, bindings, and other side pages.'
@@ -269,7 +272,7 @@ export const content = {
       ],
       [
         '見やすい表示に',
-        'モバイル表示と PC 表示を切り替え。外観はライト、ダーク、システム設定から選べます。'
+        'サイトごとに狭いレイアウトやウィンドウ幅を選択し、必要に応じてモバイルサイトを要求できます。外観も選べます。'
       ],
       [
         '今のページを閉じる',

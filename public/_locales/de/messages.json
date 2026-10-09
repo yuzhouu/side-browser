@@ -67,16 +67,16 @@
     "message": "Seite aus der Seitenleiste in einem neuen Browser-Tab öffnen"
   },
   "switchToDesktop": {
-    "message": "Zur Desktopansicht"
+    "message": "Volle Breite verwenden"
   },
   "switchToMobile": {
-    "message": "Zur Mobilansicht"
+    "message": "Schmales Layout verwenden"
   },
   "mobileModeTitle": {
-    "message": "Mobilansicht ist aktiv. Zur Desktopansicht wechseln"
+    "message": "Schmales Layout aktiv. Zur vollen Breite wechseln"
   },
   "desktopModeTitle": {
-    "message": "Desktopansicht ist aktiv. Zur Mobilansicht wechseln"
+    "message": "Volle Breite aktiv. Zum schmalen Layout wechseln"
   },
   "retry": {
     "message": "Erneut versuchen"
@@ -112,7 +112,7 @@
     "message": "Diese Adresse wird nicht unterstützt."
   },
   "errorChromeVersion": {
-    "message": "Die Browserversion konnte nicht ermittelt werden. Die Mobilansicht wurde nicht aktiviert."
+    "message": "Die Browserversion konnte nicht gelesen werden. Die mobile Website wurde nicht angefordert."
   },
   "errorExtensionUnavailable": {
     "message": "Die Erweiterung antwortet nicht. Versuche es erneut."
@@ -166,7 +166,7 @@
     "message": "Anzeigemodi und Hilfe bei Problemen"
   },
   "helpMobileViewport": {
-    "message": "Der Mobil-/Desktopmodus gilt für alle Fenster. Ein Wechsel lädt alle laufenden Seiten in der Seitenleiste neu. Der Mobilmodus passt Ansichtsbereich und Browserkennung an und behält Maus, Hover und Mausrad bei. Er ist keine vollständige Geräteemulation."
+    "message": "Das schmale Layout passt Breite und Skalierung an und behält die echte Browserkennung bei. Die Auswahl wird pro Website gespeichert. „Mobile Website anfordern“ ist optional und lädt die Website neu. Bei wiederholter Verifizierung ausschalten. Falls die Website weiterhin nicht lädt, verwenden Sie einen normalen Tab."
   },
   "helpEmbeddingLimits": {
     "message": "Wenn eine Seite langsam lädt, lade sie erneut. Manche Websites, Anmeldungen oder Videos funktionieren möglicherweise nicht in der Seitenleiste. Öffne die aktuelle Seite über „⋯“ in einem neuen Tab."
@@ -193,16 +193,16 @@
     "message": "Browser-Einstellungen"
   },
   "settingsMode": {
-    "message": "Anzeigemodus"
+    "message": "Standardlayout"
   },
   "settingsModeDescription": {
-    "message": "Gilt für alle Fenster. Ein Moduswechsel lädt die Seite in jeder geöffneten Seitenleiste neu."
+    "message": "Gilt für Websites ohne eigene Einstellung. Layoutänderungen behalten die Seite und Ihre Eingaben bei."
   },
   "settingsMobile": {
-    "message": "Mobil"
+    "message": "Schmales Layout"
   },
   "settingsDesktop": {
-    "message": "Desktop"
+    "message": "Volle Breite"
   },
   "settingsLanguage": {
     "message": "Sprache"
@@ -295,7 +295,7 @@
     "message": "Die Seite bleibt hier, wenn Sie den Tab wechseln."
   },
   "emptyModeHint": {
-    "message": "Wechseln Sie oben rechts über „⋯“ zwischen Mobil- und Desktopansicht."
+    "message": "Nach dem Öffnen wählen Sie unter „⋯“ das Layout oder die mobile Website."
   },
   "emptyHelp": {
     "message": "Anleitung ansehen"
@@ -377,5 +377,26 @@
         "example": "Google"
       }
     }
+  },
+  "sitePreferencesHeading": {
+    "message": "Website-Einstellungen"
+  },
+  "sitePreferencesHint": {
+    "message": "Auswahl für diese Website speichern."
+  },
+  "requestMobile": {
+    "message": "Mobile Website anfordern"
+  },
+  "requestMobileDescription": {
+    "message": "Lädt diese Website mit einer mobilen Browserkennung neu. Bei wiederholter Verifizierung ausschalten."
+  },
+  "resetSite": {
+    "message": "Standard verwenden"
+  },
+  "settingsSitesDescription": {
+    "message": "Wählen Sie das Layout oder die mobile Website im Mehr-Menü der Seitenleiste. Die Auswahl gilt für diesen exakten Hostnamen in allen Seitenleisten."
+  },
+  "settingsSitesEmpty": {
+    "message": "Keine Website-Einstellungen gespeichert."
   }
 }

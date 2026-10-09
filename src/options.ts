@@ -9,6 +9,7 @@ import { MODE_KEY } from './sidepanel-state.js';
 import { RECENT_KEY } from './recent-urls.js';
 import { userError } from './errors.js';
 import { THEME_KEY } from './theme-preference.js';
+import { SITE_PREFERENCES_KEY } from './site-preferences.js';
 
 localizeDocument();
 const mode = element<HTMLSelectElement>('#mode');
@@ -51,6 +52,39 @@ function render() {
   }
   element('#recent-count').textContent = t('settingsRecentCount', String(settings.recentCount));
   if (!settings.recentCount) confirmation.hidden = true;
+  const sites = Object.entries(settings.sitePreferences).sort(([a], [b]) => a.localeCompare(b));
+  element('#sites-empty').hidden = sites.length > 0;
+  element('#site-preferences').replaceChildren(
+    ...sites.map(([hostname, preference]) => {
+      const row = document.createElement('div');
+      row.className = 'setting-row';
+      const description = document.createElement('div');
+      description.className = 'setting-copy';
+      const name = document.createElement('h3');
+      name.textContent = hostname;
+      const detail = document.createElement('p');
+      detail.textContent = t(
+        preference.requestMobile
+          ? 'requestMobile'
+          : preference.mode === 'mobile'
+            ? 'settingsMobile'
+            : 'settingsDesktop'
+      );
+      description.append(name, detail);
+      const reset = document.createElement('button');
+      reset.type = 'button';
+      reset.textContent = t('resetSite');
+      reset.setAttribute('aria-label', `${t('resetSite')} · ${hostname}`);
+      reset.dataset.hostname = hostname;
+      reset.disabled = busy;
+      reset.addEventListener('click', async () => {
+        await change('SETTINGS_RESET_SITE', [{ hostname }], 'settingsSaved');
+        element<HTMLHeadingElement>('#sites-heading').focus();
+      });
+      row.append(description, reset);
+      return row;
+    })
+  );
 }
 
 function showStatus(message: string, error = false) {
@@ -148,6 +182,7 @@ chrome.storage.onChanged.addListener((changes, area) => {
   if (
     area === 'local' &&
     (MODE_KEY in changes ||
+      SITE_PREFERENCES_KEY in changes ||
       THEME_KEY in changes ||
       SEARCH_ENGINE_KEY in changes ||
       RECENT_KEY in changes) &&

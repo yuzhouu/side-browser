@@ -28,7 +28,9 @@ Open the current webpage in one click, from the webpage or link context menu, or
 
 Closing a page returns to the welcome screen while keeping favorites, recent pages, preferences, and any tab binding. You can also open the sidebar page in a regular tab from the More menu.
 
-Choose **mobile or desktop view** and **light, dark, or system appearance**. These preferences apply across windows. Switching the view reloads running sidebar pages; changing the appearance does not. Website theme support depends on the site.
+Choose **narrow layout or full width** for each website. Layout changes preserve the page and your input, and use your real browser identity by default. Enable **Request mobile site** only when needed; changing this option reloads that website. Choices are remembered by exact hostname across sidebars and can be reset in Settings. If verification repeats, turn off Request mobile site.
+
+Choose **light, dark, or system appearance** across windows without reloading pages. Website theme support depends on the site.
 
 The interface follows your browser’s language and supports English, Simplified Chinese, Traditional Chinese, Japanese, German, French, and Spanish.
 

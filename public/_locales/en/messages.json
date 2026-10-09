@@ -67,16 +67,16 @@
     "message": "Open the sidebar page in a new browser tab"
   },
   "switchToDesktop": {
-    "message": "Switch to desktop mode"
+    "message": "Use full width"
   },
   "switchToMobile": {
-    "message": "Switch to mobile mode"
+    "message": "Use narrow layout"
   },
   "mobileModeTitle": {
-    "message": "Mobile mode is on. Switch to desktop mode"
+    "message": "Narrow layout is on. Use full width"
   },
   "desktopModeTitle": {
-    "message": "Desktop mode is on. Switch to mobile mode"
+    "message": "Full width is on. Use narrow layout"
   },
   "retry": {
     "message": "Retry"
@@ -112,7 +112,7 @@
     "message": "This address is not supported."
   },
   "errorChromeVersion": {
-    "message": "Could not read the browser version. Mobile mode has not been enabled."
+    "message": "Could not read the browser version. Request mobile site has not been enabled."
   },
   "errorExtensionUnavailable": {
     "message": "The extension did not respond. Try again."
@@ -166,7 +166,7 @@
     "message": "Display modes and troubleshooting"
   },
   "helpMobileViewport": {
-    "message": "Mobile/desktop mode is shared across windows. Switching mode reloads every running side page. Mobile mode adapts the viewport and browser identity while keeping mouse, hover, and scroll-wheel support; it is not full device emulation."
+    "message": "Narrow layout adjusts page width and scaling while keeping your real browser identity. Layout choices are saved per website. “Request mobile site” is optional and reloads that website; turn it off if verification repeats. Use a regular tab if the site still cannot open."
   },
   "helpEmbeddingLimits": {
     "message": "If a page loads slowly, try reloading it. Some websites, sign-in flows, or videos may not work in the sidebar. Use “⋯” to open the current page in a new tab."
@@ -193,16 +193,16 @@
     "message": "Browsing preferences"
   },
   "settingsMode": {
-    "message": "Page display mode"
+    "message": "Default page layout"
   },
   "settingsModeDescription": {
-    "message": "Shared across all windows. Switching modes reloads the page in every open sidebar."
+    "message": "Applies to sites without a saved choice. Layout changes keep the page open and preserve your input."
   },
   "settingsMobile": {
-    "message": "Mobile"
+    "message": "Narrow layout"
   },
   "settingsDesktop": {
-    "message": "Desktop"
+    "message": "Full width"
   },
   "settingsLanguage": {
     "message": "Interface language"
@@ -295,7 +295,7 @@
     "message": "Your page stays here when you switch tabs."
   },
   "emptyModeHint": {
-    "message": "Use “⋯” at the top right to switch between mobile and desktop views."
+    "message": "After opening a page, use “⋯” to choose its layout or request the mobile site."
   },
   "emptyHelp": {
     "message": "View the getting started guide"
@@ -377,5 +377,26 @@
         "example": "Google"
       }
     }
+  },
+  "sitePreferencesHeading": {
+    "message": "Website preferences"
+  },
+  "sitePreferencesHint": {
+    "message": "Choices are saved for this website."
+  },
+  "requestMobile": {
+    "message": "Request mobile site"
+  },
+  "requestMobileDescription": {
+    "message": "Reloads this website with a mobile browser identity. If verification keeps repeating, turn this off."
+  },
+  "resetSite": {
+    "message": "Use defaults"
+  },
+  "settingsSitesDescription": {
+    "message": "Choose a layout or request the mobile site from the sidebar’s more menu. Saved choices apply to this exact hostname in all sidebars."
+  },
+  "settingsSitesEmpty": {
+    "message": "No website preferences saved."
   }
 }

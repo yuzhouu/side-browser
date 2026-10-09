@@ -10,6 +10,7 @@ import {
   commitPanelNavigation
 } from '../src/sidepanel-state.ts';
 import { THEME_KEY } from '../src/theme-preference.ts';
+import { SITE_PREFERENCES_KEY } from '../src/site-preferences.ts';
 import { FAVORITES_KEY, restoreFavorites } from '../src/favorites.ts';
 
 const event = () => ({
@@ -71,10 +72,26 @@ async function background(context, localValues = {}, sessionValues = {}) {
       onInstalled: event()
     },
     scripting: {
-      getRegisteredContentScripts: async () => [],
-      registerContentScripts: async () => {}
+      registered: [],
+      async getRegisteredContentScripts() {
+        return structuredClone(this.registered);
+      },
+      async unregisterContentScripts() {
+        this.registered = [];
+      },
+      async registerContentScripts(scripts) {
+        this.registered = structuredClone(scripts);
+      }
     },
-    declarativeNetRequest: { updateSessionRules: async () => {} },
+    declarativeNetRequest: {
+      rules: [],
+      async getSessionRules() {
+        return structuredClone(this.rules);
+      },
+      async updateSessionRules({ addRules }) {
+        this.rules = structuredClone(addRules);
+      }
+    },
     sidePanel: { setPanelBehavior: async () => {}, open: async () => {} },
     windows: { get: async () => ({ type: 'normal' }), onRemoved: event() },
     tabs: {
@@ -262,20 +279,25 @@ test('settings change the shared mode and clear recents without replacing window
   });
   assert.deepEqual(await settingsRequest('SETTINGS_GET'), {
     mode: 'desktop',
+    sitePreferences: {},
     theme: 'system',
     searchEngine: 'google',
     recentCount: 2
   });
   assert.deepEqual(await settingsRequest('SETTINGS_MODE', { mode: 'mobile' }), {
     mode: 'mobile',
+    sitePreferences: {},
     theme: 'system',
     searchEngine: 'google',
     recentCount: 2
   });
   assert.equal(chrome.storage.local.values[MODE_KEY], 'mobile');
-  assert(messages.some(message => message.type === 'mode' && message.mode === 'mobile'));
+  assert(
+    messages.some(message => message.type === 'preferences' && message.defaultMode === 'mobile')
+  );
   assert.deepEqual(await settingsRequest('SETTINGS_CLEAR_RECENT'), {
     mode: 'mobile',
+    sitePreferences: {},
     theme: 'system',
     searchEngine: 'google',
     recentCount: 0
@@ -396,20 +418,16 @@ test('unknown theme preferences fall back to following the system', async contex
   assert.equal((await settingsRequest('SETTINGS_THEME', { theme: 'unknown' })).theme, 'system');
 });
 
-test('a failed settings mode change preserves the preference and can be retried', async context => {
+test('a failed default layout write preserves the preference and can be retried', async context => {
   const { chrome, settingsRequest } = await background(context);
-  const original = chrome.declarativeNetRequest.updateSessionRules;
-  let fail = true;
-  chrome.declarativeNetRequest.updateSessionRules = async () => {
-    if (fail) {
-      fail = false;
-      throw new Error('Rules unavailable');
-    }
+  const original = chrome.storage.local.set;
+  chrome.storage.local.set = async () => {
+    throw new Error('Storage unavailable');
   };
-  await assert.rejects(settingsRequest('SETTINGS_MODE', { mode: 'mobile' }), /Rules unavailable/);
+  await assert.rejects(settingsRequest('SETTINGS_MODE', { mode: 'mobile' }), /Storage unavailable/);
   assert.equal((await settingsRequest('SETTINGS_GET')).mode, 'desktop');
   assert.equal(chrome.storage.local.values[MODE_KEY], 'desktop');
-  chrome.declarativeNetRequest.updateSessionRules = original;
+  chrome.storage.local.set = original;
   assert.equal((await settingsRequest('SETTINGS_MODE', { mode: 'mobile' })).mode, 'mobile');
 });
 
@@ -910,4 +928,115 @@ test('search engine preference persists, broadcasts without navigation, and cont
 test('invalid stored search engines fall back to Google', async context => {
   const { settingsRequest } = await background(context, { 'pocket-search-engine-v1': 'unknown' });
   assert.equal((await settingsRequest('SETTINGS_GET')).searchEngine, 'google');
+});
+
+test('legacy mobile migrates to native identity; per-site choices survive stale saves and default changes', async context => {
+  const { chrome, request, settingsRequest, sender } = await background(context, {
+    [MODE_KEY]: 'mobile'
+  });
+  assert.equal(chrome.scripting.registered.length, 0);
+  assert.equal(chrome.declarativeNetRequest.rules.length, 2);
+  const original = await request('PANEL_NAVIGATE', { input: a });
+  assert.equal(original.requestMobile, false);
+  await request('PANEL_NAVIGATE', { input: b }, 2);
+  const messages = [];
+  chrome.runtime.onConnect.emit({
+    name: 'pocket-sidepanel:2',
+    sender,
+    onDisconnect: event(),
+    postMessage: message => messages.push(message)
+  });
+  const preference = { mode: 'mobile', requestMobile: true };
+  await request('PANEL_SITE_PREFERENCE', { url: a, preference });
+  assert.equal((await request('PANEL_READY')).requestMobile, true);
+  assert.equal((await request('PANEL_READY', {}, 2)).requestMobile, false);
+  assert(
+    messages.some(
+      message =>
+        message.type === 'preferences' && message.sitePreferences['a.example']?.requestMobile
+    )
+  );
+  assert.deepEqual(chrome.scripting.registered[0].matches, ['*://a.example/*']);
+  assert.equal(chrome.declarativeNetRequest.rules.length, 4);
+  await settingsRequest('SETTINGS_MODE', { mode: 'desktop' });
+  await request('PANEL_SAVE', { state: original });
+  assert.equal((await request('PANEL_READY')).mode, 'mobile');
+  assert.equal((await request('PANEL_READY')).requestMobile, true);
+  assert.equal((await request('PANEL_READY', {}, 2)).mode, 'desktop');
+  assert.deepEqual(chrome.storage.local.values[SITE_PREFERENCES_KEY], { 'a.example': preference });
+  // An internal redirect to a different hostname returns to its own preference.
+  await request('PANEL_SAVE', { state: { ...original, url: b } });
+  assert.equal((await request('PANEL_READY')).requestMobile, false);
+  await request('PANEL_NAVIGATE', { input: internal });
+  assert.equal((await request('PANEL_READY')).requestMobile, true);
+  await settingsRequest('SETTINGS_RESET_SITE', { hostname: 'a.example' });
+  assert.equal((await request('PANEL_READY')).mode, 'desktop');
+  assert.equal((await request('PANEL_READY')).requestMobile, false);
+  assert.equal(chrome.scripting.registered.length, 0);
+  assert.equal(chrome.declarativeNetRequest.rules.length, 2);
+});
+
+test('site preferences restore before navigation and reject stale or unauthorized changes', async context => {
+  const preference = { mode: 'mobile', requestMobile: true };
+  const { request, settingsRequest, chrome } = await background(context, {
+    [SITE_PREFERENCES_KEY]: { 'a.example': preference }
+  });
+  assert.equal(chrome.declarativeNetRequest.rules.length, 4);
+  await request('PANEL_NAVIGATE', { input: a });
+  await assert.rejects(request('PANEL_SITE_PREFERENCE', { url: b, preference }), {
+    code: 'errorCurrentPage'
+  });
+  await assert.rejects(
+    request('PANEL_SITE_PREFERENCE', { url: a, preference: { mode: 'mobile' } }),
+    { code: 'errorUnknownOperation' }
+  );
+  await assert.rejects(
+    settingsRequest('PANEL_SITE_PREFERENCE', { windowId: 1, url: a, preference }),
+    { code: 'errorPanelOnly' }
+  );
+  await assert.rejects(
+    settingsRequest(
+      'SETTINGS_RESET_SITE',
+      { hostname: 'a.example' },
+      { id: 'test', url: 'https://a.example/' }
+    ),
+    { code: 'errorSettingsOnly' }
+  );
+  await request('PANEL_SITE_PREFERENCE', { url: a, preference: null });
+  assert.equal((await request('PANEL_READY')).requestMobile, false);
+});
+
+test('site rule and storage failures roll back rules and scripts and remain retryable', async context => {
+  const { request, chrome } = await background(context);
+  await request('PANEL_NAVIGATE', { input: a });
+  const preference = { mode: 'mobile', requestMobile: true };
+  const originalUpdate = chrome.declarativeNetRequest.updateSessionRules;
+  const originalWrite = chrome.storage.local.set;
+  for (const target of ['rules', 'storage']) {
+    let fail = true;
+    if (target === 'rules')
+      chrome.declarativeNetRequest.updateSessionRules = async function (args) {
+        if (fail) {
+          fail = false;
+          throw new Error('Unavailable');
+        }
+        return originalUpdate.call(this, args);
+      };
+    else
+      chrome.storage.local.set = async function (args) {
+        if (fail) {
+          fail = false;
+          throw new Error('Unavailable');
+        }
+        return originalWrite.call(this, args);
+      };
+    await assert.rejects(request('PANEL_SITE_PREFERENCE', { url: a, preference }), /Unavailable/);
+    assert.equal((await request('PANEL_READY')).requestMobile, false);
+    assert.equal(chrome.declarativeNetRequest.rules.length, 2);
+    assert.equal(chrome.scripting.registered.length, 0);
+    chrome.declarativeNetRequest.updateSessionRules = originalUpdate;
+    chrome.storage.local.set = originalWrite;
+  }
+  await request('PANEL_SITE_PREFERENCE', { url: a, preference });
+  assert.equal((await request('PANEL_READY')).requestMobile, true);
 });

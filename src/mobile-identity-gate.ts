@@ -4,7 +4,7 @@ import { mobileIdentity } from './mobile-profile.js';
   // using the actual extension ID; ordinary site frames cannot claim it.
   if (
     window === window.top ||
-    location.ancestorOrigins[0] !== `chrome-extension://${chrome.runtime.id}`
+    Array.from(location.ancestorOrigins).at(-1) !== `chrome-extension://${chrome.runtime.id}`
   )
     return;
   const detail = JSON.stringify({

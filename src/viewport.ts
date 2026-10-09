@@ -64,8 +64,7 @@ export function fitViewport({
     deviceHeight,
     width: logicalWidth,
     height: Math.ceil(deviceHeight / scale),
-    scale,
-    dpr: PHONE.dpr
+    scale
   };
 }
 
@@ -110,7 +109,6 @@ export class PanelViewport {
   }
   apply() {
     const parent = this.stage.parentElement!;
-    const mobile = this.mode() === 'mobile';
     const fit = fitViewport({
       mode: this.mode(),
       width: parent.clientWidth,
@@ -124,10 +122,5 @@ export class PanelViewport {
       transform: `scale(${fit.scale})`
     });
     this.fit = fit;
-    if (this.documentId && this.origin)
-      this.frame.contentWindow?.postMessage(
-        { type: 'POCKET_VIEWPORT_METRICS', documentId: this.documentId, mobile, ...fit },
-        this.origin
-      );
   }
 }

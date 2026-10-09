@@ -1,6 +1,15 @@
 export type SearchEngine = 'google' | 'bing' | 'baidu' | 'duckduckgo';
 export type Mode = 'mobile' | 'desktop';
 export type Theme = 'system' | 'light' | 'dark';
+export interface SitePreference {
+  mode: Mode;
+  requestMobile: boolean;
+}
+export type SitePreferences = Record<string, SitePreference>;
+export interface BrowsingPreferences {
+  defaultMode: Mode;
+  sitePreferences: SitePreferences;
+}
 export interface Favorite {
   url: string;
   title: string;
@@ -11,7 +20,8 @@ export interface PanelState {
   history: string[];
   historyIndex: number;
 }
-export interface PanelSnapshot extends PanelState {
+export interface PanelSnapshot extends PanelState, BrowsingPreferences {
+  requestMobile: boolean;
   tabId: number | null;
   sourceTabId?: number;
   searchEngine: SearchEngine;
@@ -21,6 +31,7 @@ export interface PanelSnapshot extends PanelState {
 }
 export interface Settings {
   mode: Mode;
+  sitePreferences: SitePreferences;
   theme: Theme;
   recentCount: number;
   searchEngine: SearchEngine;
@@ -41,7 +52,7 @@ export type BackgroundMessage =
   | { type: 'remove-tab'; tabId: number }
   | { type: 'recent'; urls: string[]; titles: Record<string, string> }
   | { type: 'favorites'; favorites: Favorite[] }
-  | { type: 'mode'; mode: Mode }
+  | ({ type: 'preferences' } & BrowsingPreferences)
   | { type: 'search-engine'; searchEngine: SearchEngine };
 export interface PanelRequests {
   PANEL_READY: [undefined, PanelSnapshot];
@@ -55,6 +66,7 @@ export interface PanelRequests {
   PANEL_REMOVE_FAVORITE: [{ url: string }, Favorite[]];
   PANEL_FAVORITE_TITLE: [{ url: string; title: string }, Favorite[]];
   PANEL_MODE: [{ mode: Mode }, Mode];
+  PANEL_SITE_PREFERENCE: [{ url: string; preference: SitePreference | null }, BrowsingPreferences];
   PANEL_THEME: [{ theme: Theme }, Theme];
   PANEL_BIND: [{ sourceTabId: number; bound: boolean }, PanelSnapshot];
   PANEL_CURRENT: [undefined, PanelSnapshot];
@@ -63,6 +75,7 @@ export interface PanelRequests {
 export interface SettingsRequests {
   SETTINGS_GET: [undefined, Settings];
   SETTINGS_MODE: [{ mode: Mode }, Settings];
+  SETTINGS_RESET_SITE: [{ hostname: string }, Settings];
   SETTINGS_THEME: [{ theme: Theme }, Settings];
   SETTINGS_SEARCH_ENGINE: [{ searchEngine: SearchEngine }, Settings];
   SETTINGS_CLEAR_RECENT: [undefined, Settings];

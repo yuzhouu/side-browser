@@ -67,16 +67,16 @@
     "message": "在新的瀏覽器分頁開啟側邊欄中的網頁"
   },
   "switchToDesktop": {
-    "message": "切換至電腦模式"
+    "message": "使用視窗寬度"
   },
   "switchToMobile": {
-    "message": "切換至手機模式"
+    "message": "使用窄螢幕版面"
   },
   "mobileModeTitle": {
-    "message": "目前為手機模式，切換至電腦模式"
+    "message": "目前為窄螢幕版面，切換為視窗寬度"
   },
   "desktopModeTitle": {
-    "message": "目前為電腦模式，切換至手機模式"
+    "message": "目前為視窗寬度，切換為窄螢幕版面"
   },
   "retry": {
     "message": "重試"
@@ -112,7 +112,7 @@
     "message": "不支援此網址。"
   },
   "errorChromeVersion": {
-    "message": "無法讀取瀏覽器版本，尚未啟用手機模式。"
+    "message": "無法讀取瀏覽器版本，未啟用要求手機版。"
   },
   "errorExtensionUnavailable": {
     "message": "擴充功能沒有回應，請再試一次。"
@@ -166,7 +166,7 @@
     "message": "顯示模式與常見問題"
   },
   "helpMobileViewport": {
-    "message": "手機／電腦模式跨視窗共用，切換會重新載入所有執行中的側窗網頁。手機模式調整網頁檢視區和瀏覽器識別，保留滑鼠、懸停和滾輪操作，不等同完整裝置模擬。"
+    "message": "窄螢幕版面只調整網頁寬度與縮放，保留真實瀏覽器身分。版面選擇依網站儲存。「要求手機版」為選用功能，切換時會重新載入該網站；如反覆驗證，請關閉它。仍無法開啟時，請使用一般分頁。"
   },
   "helpEmbeddingLimits": {
     "message": "如果網頁載入緩慢，可以重新整理再試。部分網站的登入、影片或網頁無法在側邊欄內正常使用，可透過「⋯」選擇在新分頁開啟目前網頁。"
@@ -193,16 +193,16 @@
     "message": "瀏覽偏好"
   },
   "settingsMode": {
-    "message": "網頁顯示模式"
+    "message": "預設網頁版面"
   },
   "settingsModeDescription": {
-    "message": "所有視窗共用此設定。切換模式會重新載入已開啟的側邊欄網頁。"
+    "message": "適用於未個別設定的網站。切換版面會保留目前網頁與輸入。"
   },
   "settingsMobile": {
-    "message": "手機模式"
+    "message": "窄螢幕版面"
   },
   "settingsDesktop": {
-    "message": "電腦模式"
+    "message": "視窗寬度"
   },
   "settingsLanguage": {
     "message": "介面語言"
@@ -295,7 +295,7 @@
     "message": "切換分頁，這裡的網頁也會保留。"
   },
   "emptyModeHint": {
-    "message": "在右上角「⋯」切換手機或電腦顯示。"
+    "message": "開啟網頁後，在「⋯」選擇版面或要求手機版。"
   },
   "emptyHelp": {
     "message": "查看使用指南"
@@ -377,5 +377,26 @@
         "example": "Google"
       }
     }
+  },
+  "sitePreferencesHeading": {
+    "message": "網站偏好"
+  },
+  "sitePreferencesHint": {
+    "message": "自動記住此網站的選擇。"
+  },
+  "requestMobile": {
+    "message": "要求手機版"
+  },
+  "requestMobileDescription": {
+    "message": "以手機瀏覽器身分重新載入此網站。如反覆要求驗證，請關閉此選項。"
+  },
+  "resetSite": {
+    "message": "恢復預設"
+  },
+  "settingsSitesDescription": {
+    "message": "在側窗的更多選單中選擇版面或要求手機版。選擇依完整網域名稱儲存，於所有側窗共用。"
+  },
+  "settingsSitesEmpty": {
+    "message": "尚未儲存網站偏好。"
   }
 }

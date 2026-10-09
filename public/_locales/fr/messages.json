@@ -67,16 +67,16 @@
     "message": "Ouvrir la page du panneau latéral dans un nouvel onglet du navigateur"
   },
   "switchToDesktop": {
-    "message": "Passer en vue ordinateur"
+    "message": "Utiliser toute la largeur"
   },
   "switchToMobile": {
-    "message": "Passer en vue mobile"
+    "message": "Utiliser la disposition étroite"
   },
   "mobileModeTitle": {
-    "message": "La vue mobile est active. Passer en vue ordinateur"
+    "message": "Disposition étroite active. Utiliser toute la largeur"
   },
   "desktopModeTitle": {
-    "message": "La vue ordinateur est active. Passer en vue mobile"
+    "message": "Pleine largeur active. Utiliser la disposition étroite"
   },
   "retry": {
     "message": "Réessayer"
@@ -112,7 +112,7 @@
     "message": "Cette adresse n’est pas prise en charge."
   },
   "errorChromeVersion": {
-    "message": "Impossible de déterminer la version du navigateur. La vue mobile n’a pas été activée."
+    "message": "Impossible de lire la version du navigateur. La demande de site mobile n’a pas été activée."
   },
   "errorExtensionUnavailable": {
     "message": "L’extension ne répond pas. Réessayez."
@@ -166,7 +166,7 @@
     "message": "Modes d’affichage et dépannage"
   },
   "helpMobileViewport": {
-    "message": "Le mode mobile/ordinateur est partagé entre les fenêtres. Le changer recharge toutes les pages latérales en cours. Le mode mobile adapte la zone d’affichage et l’identité du navigateur tout en conservant la souris, le survol et la molette. Il ne simule pas entièrement un appareil."
+    "message": "La disposition étroite ajuste la largeur et l’échelle en conservant l’identité réelle du navigateur. Le choix est enregistré par site. « Demander le site mobile » est facultatif et recharge le site. Désactivez cette option si la vérification se répète. Si le site reste inaccessible, utilisez un onglet normal."
   },
   "helpEmbeddingLimits": {
     "message": "Si une page est lente, essayez de la recharger. Certains sites, écrans de connexion ou vidéos peuvent mal fonctionner dans le panneau. Utilisez « ⋯ » pour ouvrir la page actuelle dans un nouvel onglet."
@@ -193,16 +193,16 @@
     "message": "Préférences de navigation"
   },
   "settingsMode": {
-    "message": "Mode d’affichage"
+    "message": "Disposition par défaut"
   },
   "settingsModeDescription": {
-    "message": "Commun à toutes les fenêtres. Changer de mode recharge la page dans chaque panneau latéral ouvert."
+    "message": "Pour les sites sans choix enregistré. Changer la disposition conserve la page et vos saisies."
   },
   "settingsMobile": {
-    "message": "Mobile"
+    "message": "Disposition étroite"
   },
   "settingsDesktop": {
-    "message": "Ordinateur"
+    "message": "Pleine largeur"
   },
   "settingsLanguage": {
     "message": "Langue de l’interface"
@@ -295,7 +295,7 @@
     "message": "Votre page reste ici quand vous changez d’onglet."
   },
   "emptyModeHint": {
-    "message": "Le menu « ⋯ » en haut à droite permet de choisir la vue mobile ou ordinateur."
+    "message": "Après avoir ouvert une page, utilisez « ⋯ » pour choisir sa disposition ou demander le site mobile."
   },
   "emptyHelp": {
     "message": "Consulter le guide"
@@ -377,5 +377,26 @@
         "example": "Google"
       }
     }
+  },
+  "sitePreferencesHeading": {
+    "message": "Préférences des sites"
+  },
+  "sitePreferencesHint": {
+    "message": "Choix enregistré pour ce site."
+  },
+  "requestMobile": {
+    "message": "Demander le site mobile"
+  },
+  "requestMobileDescription": {
+    "message": "Recharge ce site avec une identité de navigateur mobile. Désactivez cette option si la vérification se répète."
+  },
+  "resetSite": {
+    "message": "Valeurs par défaut"
+  },
+  "settingsSitesDescription": {
+    "message": "Choisissez la disposition ou le site mobile dans le menu Plus du panneau. Les choix sont enregistrés pour ce nom d’hôte exact et partagés entre les panneaux."
+  },
+  "settingsSitesEmpty": {
+    "message": "Aucune préférence de site enregistrée."
   }
 }

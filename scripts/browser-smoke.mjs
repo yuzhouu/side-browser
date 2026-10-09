@@ -6,6 +6,7 @@ import { join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright';
 import { attachTarget, poll } from './browser/cdp.mjs';
+import { checkSitePreferences } from './browser/site-preferences.mjs';
 import { checkTabPages } from './browser/tab-pages.mjs';
 import { checkFavorites } from './browser/favorites.mjs';
 import { checkSearchEngine } from './browser/search-engine.mjs';
@@ -41,7 +42,19 @@ const server = http.createServer((request, response) => {
   response.setHeader('Content-Type', 'text/html; charset=utf-8');
   response.setHeader('Cache-Control', 'no-store');
   response.setHeader('X-Frame-Options', 'DENY');
-  if (request.url === '/redirect') {
+  if (request.url === '/identity-headers') {
+    response.setHeader('Content-Type', 'application/json');
+    response.setHeader('Access-Control-Allow-Origin', '*');
+    response.end(JSON.stringify(request.headers));
+  } else if (request.url === '/identity-worker.js') {
+    response.setHeader('Content-Type', 'text/javascript');
+    response.end('postMessage({ userAgent: navigator.userAgent, platform: navigator.platform })');
+  } else if (request.url === '/cross-site-redirect') {
+    response.writeHead(302, {
+      Location: `http://localhost:${server.address().port}/identity-redirected`
+    });
+    response.end();
+  } else if (request.url === '/redirect') {
     response.writeHead(302, { Location: '/landing' });
     response.end();
   } else if (request.url === '/slow-close') {
@@ -49,7 +62,15 @@ const server = http.createServer((request, response) => {
       response.end(fixture);
       slowResponseFinished = true;
     }, 1500);
-  } else response.end(fixture);
+  } else
+    response.end(
+      fixture
+        .toString()
+        .replace(
+          '<script>',
+          `<script>window.requestIdentity = ${JSON.stringify(request.headers).replaceAll('<', '\\u003c')}; window.initialIdentity = { userAgent: navigator.userAgent, mobile: navigator.userAgentData?.mobile };`
+        )
+    );
 });
 let context;
 let root;
@@ -657,27 +678,18 @@ try {
   const beforeMode = await inner.evaluate('window.token');
   await panel.click('#more');
   await panel.click('#mode');
-  await poll(async () => (await state()).mode === 'desktop', 'desktop preference');
-  assert.equal(
-    await panel.evaluate('document.querySelector("#mode-label").textContent'),
-    catalog.switchToMobile.message
-  );
-  await poll(
-    () =>
-      inner.evaluate(
-        `window.token !== ${JSON.stringify(beforeMode)} && !navigator.userAgent.includes('Android')`
-      ),
-    'desktop reload'
-  );
+  await poll(async () => (await state()).mode === 'desktop', 'full width preference');
+  assert.equal(await inner.evaluate('window.token'), beforeMode);
   await panel.click('#more');
   await panel.click('#mode');
-  await poll(() => inner.evaluate("navigator.userAgent.includes('Android')"), 'mobile reload');
-  assert.equal(
-    await panel.evaluate('document.querySelector("#mode-label").textContent'),
-    catalog.switchToDesktop.message
-  );
+  await poll(async () => (await state()).mode === 'mobile', 'narrow preference');
+  assert.equal(await inner.evaluate('window.token'), beforeMode);
+  assert(await inner.evaluate("!navigator.userAgent.includes('Android')"));
+  await panel.click('#more');
+  await panel.click('#reset-site');
+  await poll(async () => !('127.0.0.1' in (await state()).sitePreferences), 'layout reset');
   assert.deepEqual(await recents(), [`${base}/redirect`, `${base}/first`]);
-  pass('Mobile/desktop switching reloads deliberately without adding recent entries');
+  pass('Layout switching retains native identity, document and recent entries');
 
   await navigate(`${base}/second`);
   inner = await frameAt(`${base}/second`);
@@ -868,18 +880,12 @@ try {
   assert.deepEqual((await state(secondPanel)).history, settingsSecondBefore.history);
   await panel.click('#more');
   await panel.click('#mode');
-  await poll(
-    () =>
-      options
-        .locator('#mode')
-        .inputValue()
-        .then(value => value === 'mobile'),
-    'panel mode synchronized back to settings'
-  );
-  await poll(
-    () => inner.evaluate("navigator.userAgent.includes('Android')"),
-    'panel mobile reload'
-  );
+  await poll(async () => (await state()).mode === 'mobile', 'site narrow layout');
+  assert.equal(await options.locator('#mode').inputValue(), 'desktop');
+  assert(await inner.evaluate("!navigator.userAgent.includes('Android')"));
+  await panel.click('#more');
+  await panel.click('#reset-site');
+  await poll(async () => (await state()).mode === 'desktop', 'site restored to default');
   const settingsToken = await inner.evaluate('window.token');
   await inner.fill('#entry', 'Keep while clearing in settings');
   await options.locator('#clear-recent').click();
@@ -975,8 +981,12 @@ try {
   await panel.send('Page.reload');
   await assertClosed();
   await panel.click('#more');
-  await panel.click('#mode');
-  await poll(async () => (await state()).mode === 'mobile', 'empty page mode changed');
+  assert(
+    await panel.evaluate(
+      "document.querySelector('#mode').disabled && document.querySelector('#request-mobile').disabled"
+    )
+  );
+  await panel.press('Escape');
   await assertClosed();
   await panel.click('#recent');
   await panel.click('.recent-item:first-child .recent-open');
@@ -1078,11 +1088,44 @@ try {
     output,
     catalog
   });
+  await checkSitePreferences({
+    panel,
+    context,
+    extension,
+    state,
+    navigate,
+    loaded,
+    frameAt,
+    screenshot,
+    base,
+    openPanel,
+    output
+  });
+  pass(
+    'Native identity, per-site layout/mobile opt-in, nested frames, redirect, persistence and reset'
+  );
+
   await shutdown();
   await launch();
   panel = await openPanel();
   assert.equal((await state()).searchEngine, 'duckduckgo');
   pass('Browser restart preserves the selected search engine');
+  assert.deepEqual((await state()).sitePreferences.localhost, {
+    mode: 'mobile',
+    requestMobile: true
+  });
+  const identityRules = await panel.evaluate('chrome.declarativeNetRequest.getSessionRules()');
+  assert(identityRules.some(rule => rule.condition.urlFilter === '|http://localhost^'));
+  await navigate(`${base.replace('127.0.0.1', 'localhost')}/identity-after-restart`);
+  const restoredIdentityFrame = await frameAt(
+    `${base.replace('127.0.0.1', 'localhost')}/identity-after-restart`
+  );
+  assert(
+    await restoredIdentityFrame.evaluate(
+      'window.initialIdentity.mobile && navigator.userAgentData.mobile'
+    )
+  );
+  pass('Browser restart restores per-site preferences before the first request');
   assert.deepEqual(diagnostics.errors, []);
   const warnings = [...new Set(diagnostics.warnings)];
   assert(

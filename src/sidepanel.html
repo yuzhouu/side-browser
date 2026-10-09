@@ -137,12 +137,33 @@
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" /></svg
         ><span data-i18n="closePage"></span>
       </button>
-      <button id="mode" type="button">
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <rect x="3" y="4" width="18" height="13" rx="2" />
-          <path d="M8 21h8M12 17v4" /></svg
-        ><span id="mode-label"></span>
-      </button>
+      <div class="site-options" role="group" aria-labelledby="site-heading">
+        <div id="site-heading" data-i18n="sitePreferencesHeading"></div>
+        <p class="site-hint" data-i18n="sitePreferencesHint"></p>
+        <button id="mode" type="button" disabled>
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <rect x="3" y="4" width="18" height="13" rx="2" />
+            <path d="M8 21h8M12 17v4" /></svg
+          ><span id="mode-label"></span>
+        </button>
+        <button
+          id="request-mobile"
+          type="button"
+          aria-pressed="false"
+          data-i18n-title="requestMobileDescription"
+          disabled
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <rect x="6" y="2" width="12" height="20" rx="2" />
+            <path d="M10 18h4" />
+          </svg>
+          <span data-i18n="requestMobile"></span>
+        </button>
+        <button id="reset-site" type="button" disabled>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10a8 8 0 1 1 1 8M4 4v6h6" /></svg>
+          <span data-i18n="resetSite"></span>
+        </button>
+      </div>
       <button id="binding" type="button" aria-pressed="false" data-i18n-title="bindTabDescription">
         <svg viewBox="0 0 24 24" aria-hidden="true">
           <rect x="3" y="5" width="18" height="15" rx="2" />

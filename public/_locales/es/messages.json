@@ -67,16 +67,16 @@
     "message": "Abrir la página del panel lateral en una pestaña nueva del navegador"
   },
   "switchToDesktop": {
-    "message": "Usar vista de escritorio"
+    "message": "Usar todo el ancho"
   },
   "switchToMobile": {
-    "message": "Usar vista móvil"
+    "message": "Usar diseño estrecho"
   },
   "mobileModeTitle": {
-    "message": "La vista móvil está activa. Cambiar a la vista de escritorio"
+    "message": "Diseño estrecho activo. Usar todo el ancho"
   },
   "desktopModeTitle": {
-    "message": "La vista de escritorio está activa. Cambiar a la vista móvil"
+    "message": "Ancho completo activo. Usar diseño estrecho"
   },
   "retry": {
     "message": "Reintentar"
@@ -112,7 +112,7 @@
     "message": "Esta dirección no es compatible."
   },
   "errorChromeVersion": {
-    "message": "No se pudo obtener la versión del navegador. La vista móvil no se ha activado."
+    "message": "No se pudo leer la versión del navegador. No se ha activado la solicitud de sitio móvil."
   },
   "errorExtensionUnavailable": {
     "message": "La extensión no responde. Inténtalo de nuevo."
@@ -166,7 +166,7 @@
     "message": "Modos de visualización y solución de problemas"
   },
   "helpMobileViewport": {
-    "message": "El modo móvil/escritorio se comparte entre ventanas. Al cambiarlo se recargan todas las páginas laterales en ejecución. El modo móvil adapta el área de visualización y la identidad del navegador, conservando el ratón, el efecto al pasar el cursor y la rueda. No es una emulación completa de un dispositivo."
+    "message": "El diseño estrecho ajusta el ancho y la escala manteniendo la identidad real del navegador. La elección se guarda por sitio. «Solicitar sitio móvil» es opcional y recarga el sitio. Desactívalo si la verificación se repite. Si el sitio sigue sin abrirse, usa una pestaña normal."
   },
   "helpEmbeddingLimits": {
     "message": "Si una página tarda en cargar, prueba a recargarla. Algunos sitios, inicios de sesión o vídeos pueden no funcionar en el panel. Usa «⋯» para abrir la página actual en una pestaña nueva."
@@ -193,16 +193,16 @@
     "message": "Preferencias de navegación"
   },
   "settingsMode": {
-    "message": "Modo de visualización"
+    "message": "Diseño predeterminado"
   },
   "settingsModeDescription": {
-    "message": "Se comparte entre todas las ventanas. Al cambiar de modo se recarga la página de cada panel lateral abierto."
+    "message": "Se aplica a sitios sin una elección guardada. Cambiar el diseño conserva la página y lo que has escrito."
   },
   "settingsMobile": {
-    "message": "Móvil"
+    "message": "Diseño estrecho"
   },
   "settingsDesktop": {
-    "message": "Escritorio"
+    "message": "Ancho completo"
   },
   "settingsLanguage": {
     "message": "Idioma de la interfaz"
@@ -295,7 +295,7 @@
     "message": "La página sigue aquí cuando cambias de pestaña."
   },
   "emptyModeHint": {
-    "message": "Usa «⋯», arriba a la derecha, para cambiar entre la vista móvil y la de ordenador."
+    "message": "Tras abrir una página, usa «⋯» para elegir su diseño o solicitar el sitio móvil."
   },
   "emptyHelp": {
     "message": "Ver la guía de uso"
@@ -377,5 +377,26 @@
         "example": "Google"
       }
     }
+  },
+  "sitePreferencesHeading": {
+    "message": "Preferencias de sitios"
+  },
+  "sitePreferencesHint": {
+    "message": "Se guarda la elección para este sitio."
+  },
+  "requestMobile": {
+    "message": "Solicitar sitio móvil"
+  },
+  "requestMobileDescription": {
+    "message": "Recarga este sitio con una identidad de navegador móvil. Desactiva esta opción si la verificación se repite."
+  },
+  "resetSite": {
+    "message": "Usar valores predeterminados"
+  },
+  "settingsSitesDescription": {
+    "message": "Elige el diseño o el sitio móvil en el menú Más del panel. La elección se guarda para este nombre de host exacto y se comparte entre paneles."
+  },
+  "settingsSitesEmpty": {
+    "message": "No hay preferencias de sitios guardadas."
   }
 }

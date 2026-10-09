@@ -8,7 +8,9 @@ import type {
   PanelRequest,
   SettingsRequest,
   BackgroundMessage,
-  Favorite
+  Favorite,
+  SitePreferences,
+  BrowsingPreferences
 } from './types.js';
 import { parseInput, validMode, isWebUrl } from './config.js';
 import { frameDestination } from './embedding.js';
@@ -28,12 +30,20 @@ import {
   restoreRecentTitles,
   normalizeRecentTitle
 } from './recent-urls.js';
-import { PANEL_RULE_IDS, panelRules } from './network-rules.js';
+import { panelRules } from './network-rules.js';
 import { t } from './i18n.js';
 import { userError } from './errors.js';
 import { THEME_KEY, validTheme } from './theme-preference.js';
 import { SEARCH_ENGINE_KEY, validSearchEngine } from './search-engine.js';
 import { FAVORITES_KEY, restoreFavorites } from './favorites.js';
+
+import {
+  SITE_PREFERENCES_KEY,
+  mobileHosts,
+  restoreSitePreferences,
+  siteHostname,
+  sitePreference
+} from './site-preferences.js';
 
 function isSettingsRequest(message: PanelRequest | SettingsRequest): message is SettingsRequest {
   return message.type.startsWith('SETTINGS_');
@@ -46,6 +56,7 @@ const windows: Record<string, PanelState> = {};
 const tabs: Record<string, { windowId: number; state: PanelState }> = {};
 let last: PanelState;
 let mode: Mode;
+let sitePreferences: SitePreferences = {};
 let theme: Theme;
 let searchEngine: SearchEngine;
 let recentUrls: string[] = [];
@@ -58,13 +69,14 @@ function reportFailure(operation: string, error: unknown) {
   console.error(`[SideBrowser] ${operation}`, error);
 }
 
-async function rules(selectedMode = mode) {
+async function rules(preferences = sitePreferences) {
   const registered = await chrome.scripting.getRegisteredContentScripts({ ids: MOBILE_SCRIPTS });
   if (registered.length)
     await chrome.scripting.unregisterContentScripts({ ids: registered.map(s => s.id) });
-  if (selectedMode === 'mobile') {
+  const hosts = mobileHosts(preferences);
+  if (hosts.length) {
     const common = {
-      matches: ['http://*/*', 'https://*/*'],
+      matches: hosts.map(host => `*://${host}/*`),
       allFrames: true,
       runAt: 'document_start' as const
     };
@@ -79,8 +91,8 @@ async function rules(selectedMode = mode) {
     ]);
   }
   await chrome.declarativeNetRequest.updateSessionRules({
-    removeRuleIds: PANEL_RULE_IDS,
-    addRules: panelRules(chrome.runtime.id, selectedMode, navigator.userAgent)
+    removeRuleIds: (await chrome.declarativeNetRequest.getSessionRules()).map(rule => rule.id),
+    addRules: panelRules(chrome.runtime.id, preferences, navigator.userAgent)
   });
 }
 
@@ -89,6 +101,7 @@ const ready = (async () => {
     chrome.storage.local.get([
       LAST_KEY,
       MODE_KEY,
+      SITE_PREFERENCES_KEY,
       THEME_KEY,
       SEARCH_ENGINE_KEY,
       RECENT_KEY,
@@ -100,6 +113,7 @@ const ready = (async () => {
   ]);
   last = restorePanel(local[LAST_KEY] || local['pocket-global-overlay-v1']);
   mode = validMode(local[MODE_KEY] ?? last.mode);
+  sitePreferences = restoreSitePreferences(local[SITE_PREFERENCES_KEY]);
   theme = validTheme(local[THEME_KEY]);
   searchEngine = validSearchEngine(local[SEARCH_ENGINE_KEY]);
   recentUrls = restoreRecentUrls(local[RECENT_KEY]);
@@ -137,7 +151,8 @@ function getState(windowId: number, tabId: number | null = null): PanelSnapshot 
   return {
     ...structuredClone(state),
     tabId,
-    mode,
+    ...getBrowsingPreferences(),
+    ...sitePreference(state.url, mode, sitePreferences),
     searchEngine,
     recentUrls: [...recentUrls],
     recentTitles: { ...recentTitles },
@@ -290,20 +305,46 @@ async function navigate(
   return getState(windowId, tabId);
 }
 
+function getBrowsingPreferences(): BrowsingPreferences {
+  return { defaultMode: mode, sitePreferences: structuredClone(sitePreferences) };
+}
+
+function publishPreferences() {
+  for (const id of ports.keys()) publish(id, { type: 'preferences', ...getBrowsingPreferences() });
+}
+
 async function setMode(value: unknown) {
   const next = validMode(value);
   if (mode === next) return mode;
+  await chrome.storage.local.set({ [MODE_KEY]: next });
+  mode = next;
+  publishPreferences();
+  return mode;
+}
+
+async function setSitePreferences(next: SitePreferences) {
+  // Install both network and parser-time rules before reloading affected pages.
+  // A failed registration/storage write leaves the old preference retryable.
+  const identityChanged =
+    JSON.stringify(mobileHosts(next)) !== JSON.stringify(mobileHosts(sitePreferences));
   try {
-    await rules(next);
-    await chrome.storage.local.set({ [MODE_KEY]: next });
+    if (identityChanged) await rules(next);
+    await chrome.storage.local.set({ [SITE_PREFERENCES_KEY]: next });
   } catch (error) {
-    await rules(mode).catch(restoreError => reportFailure('Restore display mode', restoreError));
+    if (identityChanged)
+      await rules().catch(restoreError => reportFailure('Restore site preferences', restoreError));
     throw error;
   }
-  mode = next;
-  // UA is one extension-wide preference; every window keeps its own URL/history.
-  for (const id of ports.keys()) publish(id, { type: 'mode', mode });
-  return mode;
+  sitePreferences = next;
+  publishPreferences();
+  return getBrowsingPreferences();
+}
+
+async function resetSite(hostname: string) {
+  if (!Object.hasOwn(sitePreferences, hostname)) return getBrowsingPreferences();
+  const next = { ...sitePreferences };
+  delete next[hostname];
+  return setSitePreferences(next);
 }
 
 async function setTheme(value: unknown) {
@@ -321,7 +362,13 @@ async function setSearchEngine(value: unknown) {
 }
 
 function getSettings(): Settings {
-  return { mode, theme, searchEngine, recentCount: recentUrls.length };
+  return {
+    mode,
+    sitePreferences: structuredClone(sitePreferences),
+    theme,
+    searchEngine,
+    recentCount: recentUrls.length
+  };
 }
 
 chrome.runtime.onMessage.addListener((message: PanelRequest | SettingsRequest, sender, reply) => {
@@ -336,6 +383,9 @@ chrome.runtime.onMessage.addListener((message: PanelRequest | SettingsRequest, s
           return getSettings();
         case 'SETTINGS_MODE':
           await setMode(message.mode);
+          return getSettings();
+        case 'SETTINGS_RESET_SITE':
+          await resetSite(message.hostname);
           return getSettings();
         case 'SETTINGS_THEME':
           await setTheme(message.theme);
@@ -402,6 +452,17 @@ chrome.runtime.onMessage.addListener((message: PanelRequest | SettingsRequest, s
         )
           await saveRecent(recentUrls, { ...recentTitles, [message.url]: title });
         return { ...recentTitles };
+      }
+      case 'PANEL_SITE_PREFERENCE': {
+        const state = getState(message.windowId, tabId);
+        const hostname = siteHostname(state.url);
+        if (!hostname || state.url !== message.url) throw userError('errorCurrentPage');
+        if (message.preference === null) return resetSite(hostname);
+        const entry = restoreSitePreferences({ [hostname]: message.preference });
+        if (!Object.hasOwn(entry, hostname)) throw userError('errorUnknownOperation');
+        if (JSON.stringify(entry[hostname]) === JSON.stringify(sitePreferences[hostname]))
+          return getBrowsingPreferences();
+        return setSitePreferences({ ...sitePreferences, ...entry });
       }
       case 'PANEL_MODE':
         return setMode(message.mode);

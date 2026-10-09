@@ -1,6 +1,7 @@
 import { element } from './dom.js';
 import { validTheme } from './theme-preference.js';
-import type { PanelSnapshot, BackgroundMessage, Mode, Favorite } from './types.js';
+import type { PanelSnapshot, BackgroundMessage, BrowsingPreferences, Favorite } from './types.js';
+import { siteHostname } from './site-preferences.js';
 import { PanelPage } from './panel-page.js';
 import { parseInput, isWebUrl } from './config.js';
 import { frameDestination } from './embedding.js';
@@ -113,11 +114,21 @@ function render(page = active) {
   if (document.activeElement !== address) address.value = state.url;
   empty.hidden = Boolean(state.url);
   showNotice(page.notice);
-  const mode = element('#mode');
+  const mode = element<HTMLButtonElement>('#mode');
   const mobile = state.mode === 'mobile';
   element('#mode-label').textContent = mobile ? t('switchToDesktop') : t('switchToMobile');
   mode.title = mobile ? t('mobileModeTitle') : t('desktopModeTitle');
   mode.setAttribute('aria-label', mode.title);
+  const hostname = siteHostname(state.url);
+  element('#site-heading').textContent = hostname || t('sitePreferencesHeading');
+  mode.disabled = !hostname;
+  const requestMobile = element<HTMLButtonElement>('#request-mobile');
+  requestMobile.disabled = !hostname;
+  requestMobile.setAttribute('aria-pressed', String(state.requestMobile));
+  element<HTMLButtonElement>('#reset-site').disabled = !Object.hasOwn(
+    state.sitePreferences,
+    hostname
+  );
   const bound = state.tabId !== null;
   const binding = element<HTMLButtonElement>('#binding');
   binding.setAttribute('aria-pressed', String(bound));
@@ -179,10 +190,8 @@ function select(next: PanelSnapshot) {
   page.apply(next);
 }
 
-function setMode(mode: Mode) {
-  for (const page of pages.values()) {
-    if (page.state.mode !== mode) page.apply({ ...page.state, mode });
-  }
+function setPreferences(preferences: BrowsingPreferences) {
+  for (const page of pages.values()) page.apply({ ...page.state, ...preferences });
 }
 
 function receiveBackgroundMessage(message: BackgroundMessage) {
@@ -212,8 +221,8 @@ function receiveBackgroundMessage(message: BackgroundMessage) {
         autocomplete.sync();
       }
       break;
-    case 'mode':
-      setMode(message.mode);
+    case 'preferences':
+      setPreferences(message);
       break;
     case 'search-engine':
       for (const page of pages.values()) page.state.searchEngine = message.searchEngine;
@@ -273,6 +282,7 @@ window.addEventListener('message', event => {
       page.notice = '';
       // Hidden pages still report their own navigation; they cannot write another tab's state.
       page.state = await requestFor(page.state.tabId, 'PANEL_SAVE', { state: page.state });
+      page.viewport.apply();
       render(page);
     }
     if (
@@ -315,16 +325,25 @@ element<HTMLButtonElement>('#forward').onclick = () => {
   if (index < page.state.history.length)
     void serial(() => navigate(page.state.history[index], index, page));
 };
+function changeSite(preference: PanelSnapshot['sitePreferences'][string] | null) {
+  const page = active;
+  const url = page.state.url;
+  if (url)
+    void serial(async () => {
+      setPreferences(
+        await requestFor(page.state.tabId, 'PANEL_SITE_PREFERENCE', { url, preference })
+      );
+    });
+}
 element('#mode').onclick = () => {
-  if (active)
-    void serial(async () =>
-      setMode(
-        await request('PANEL_MODE', {
-          mode: active.state.mode === 'mobile' ? 'desktop' : 'mobile'
-        })
-      )
-    );
+  const mode = active.state.mode === 'mobile' ? 'desktop' : 'mobile';
+  changeSite({ mode, requestMobile: false });
 };
+element('#request-mobile').onclick = () => {
+  const requestMobile = !active.state.requestMobile;
+  changeSite({ mode: requestMobile ? 'mobile' : active.state.mode, requestMobile });
+};
+element('#reset-site').onclick = () => changeSite(null);
 element('#binding').onclick = () => {
   const page = active;
   const tabId = sourceTabId;

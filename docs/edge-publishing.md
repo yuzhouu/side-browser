@@ -7,7 +7,7 @@ Chrome 与 Edge 共用源码、`public/manifest.json`、`dist/` 和 `sidebrowser
 - 使用桌面版 Edge，底层 Chromium 至少为 145。保留 `minimum_chrome_version: "145"`：请求规则依赖 `topDomains` 限定本扩展的侧栏请求，不能为兼容旧版而去掉此限制。Edge 支持该 manifest 字段。
 - 使用原生 `chrome.sidePanel` 和同一个全局侧栏。标签绑定由侧栏内部页面实例管理，不使用逐标签 `sidePanel.setOptions`；切换标签、绑定与后台恢复仍需验证网页实例保留。
 - 快捷键管理在 Edge 打开 `edge://extensions/shortcuts`，Chrome 打开 `chrome://extensions/shortcuts`。扩展 API 命名空间、扩展协议、持久化键及消息保持兼容。
-- 手机模式统一呈现现有 Android Chrome 兼容身份，不模拟 Edge Android，也不承诺完整设备模拟。
+- 默认窄屏／窗口宽度保留宿主身份。主动开启「请求手机版」的网站使用 Android Chrome 兼容身份，不模拟 Edge Android，也不承诺完整设备模拟。
 - `npm test` 后按 [开发与回归](development.md) 分别运行 Chrome、Edge 原生侧栏测试。登录网站、第三方 Cookie 与任意网站嵌入行为不由本地固定页面回归保证。
 
 ## 上架准备

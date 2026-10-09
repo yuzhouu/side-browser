@@ -61,20 +61,6 @@
   addEventListener('popstate', () => report());
   addEventListener('hashchange', () => report());
   window.navigation?.addEventListener('currententrychange', () => report());
-  addEventListener('message', event => {
-    const data = event.data;
-    if (
-      event.source !== parent ||
-      event.origin !== origin ||
-      data?.type !== 'POCKET_VIEWPORT_METRICS' ||
-      data.documentId !== documentId ||
-      !data.mobile
-    )
-      return;
-    document.dispatchEvent(
-      new CustomEvent('pocket-mobile-metrics', { detail: JSON.stringify(data) })
-    );
-  });
   document.addEventListener(
     'click',
     event => {

@@ -6,10 +6,10 @@ import fs from 'node:fs';
 test('compatibility and mobile UA rules match only this extension non-tab tree, with framing limited to documents', () => {
   const rules = panelRules(
     'abcdefghijklmnopabcdefghijklmnop',
-    'mobile',
+    { 'example.com': { mode: 'mobile', requestMobile: true } },
     'Mozilla/5.0 Chrome/149.0.0.0 Safari/537.36'
   );
-  assert.equal(rules.length, 3);
+  assert.equal(rules.length, 4);
   for (const rule of rules) {
     assert.deepEqual(rule.condition.tabIds, [-1]);
     assert.deepEqual(rule.condition.topDomains, ['abcdefghijklmnopabcdefghijklmnop']);
@@ -23,7 +23,7 @@ test('compatibility and mobile UA rules match only this extension non-tab tree, 
   ]);
 });
 test('desktop mode removes UA overrides instead of affecting the source page', () => {
-  const rules = panelRules('abcdefghijklmnopabcdefghijklmnop', 'desktop', 'Chrome/149.0.0.0');
+  const rules = panelRules('abcdefghijklmnopabcdefghijklmnop', {}, 'Chrome/149.0.0.0');
   assert.equal(
     rules.some(r => r.action.requestHeaders),
     false
@@ -32,7 +32,7 @@ test('desktop mode removes UA overrides instead of affecting the source page', (
 test('mobile document requests cannot retain desktop high-entropy device hints', () => {
   const rules = panelRules(
     'abcdefghijklmnopabcdefghijklmnop',
-    'mobile',
+    { 'example.com': { mode: 'mobile', requestMobile: true } },
     'Mozilla/5.0 Chrome/149.0.0.0 Safari/537.36'
   );
   const headers = Object.fromEntries(

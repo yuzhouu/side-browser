@@ -12,8 +12,8 @@
 - 扩展在本机保存最近主动打开的最多 10 个网址及对应标题，供“最近打开”列表使用；读取浏览器提供的网站图标用于展示列表。
 - 用户通过侧窗菜单、网页右键或扩展图标右键主动收藏的网页网址和标题独立保存在本机，供空白页下方快捷打开；收藏列表同样使用浏览器提供的网站图标，收藏操作不读写浏览器原生书签。
 - 扩展在会话存储中保存各窗口的网址、前进／后退历史；用户主动绑定后，还保存对应标签 ID 与侧窗网址、历史的关系，解除绑定、关闭标签或重启浏览器后清除该绑定；在本地存储中保存最后的导航状态，供网页恢复使用。网址可能包含用户输入的查询参数。
-- 手机／电脑模式、外观和搜索引擎偏好保存在本机。扩展读取侧边网页的网址、标题和视口元数据，以同步导航、更新收藏和最近记录的标题和适配显示。它不提取主标签的正文、表单内容、密码或 AI 对话内容，也不会自动把主页面内容发送给 AI。
-- 对侧边栏内的请求，扩展调整嵌入兼容响应头；手机模式还会调整设备身份请求头。它不读取或记录响应体，不通过 Cookie API 读取 Cookie。
+- 默认布局、按完整域名保存的布局和请求手机版选择、外观及搜索引擎偏好保存在本机。网站偏好可在设置页逐项恢复默认。扩展读取侧边网页的网址、标题和视口元数据，以同步导航、更新收藏和最近记录的标题和适配显示。它不提取主标签的正文、表单内容、密码或 AI 对话内容，也不会自动把主页面内容发送给 AI。
+- 对侧边栏内的请求，扩展调整嵌入兼容响应头；仅对用户主动开启「请求手机版」的完整域名调整设备身份请求头。它不读取或记录响应体，不通过 Cookie API 读取 Cookie。
 
 以上扩展状态使用浏览器的本地／会话存储，不使用浏览器同步存储，不上传给开发者，不出售，也不用于广告、信用评估或与侧边浏览无关的用途。开发者不通过扩展远程查看这些记录。
 
@@ -51,9 +51,9 @@ URLs and titles of pages you explicitly favorite from the side panel, a page con
 
 When you explicitly open the current page, the extension reads its URL and title to navigate the sidebar. Open context-menu actions, entered URLs, and search terms are used for navigation you request. Favorite context-menu actions read the target page’s URL and available title to save it without automatically opening it. Up to 10 recently opened URLs and their titles are stored locally for quick reopening; site icons are obtained through the browser's favicon interface.
 
-Per-window URLs and back/forward history are kept in session storage. When you explicitly bind a side page to a tab, its tab ID is associated with its sidebar URL and history in session storage; unbinding, closing that tab, or restarting the browser clears that binding. The last navigation state is kept locally for restoration. URLs may contain query parameters you enter. Display, appearance, and search engine preferences are also stored locally. The extension reads the sidebar page's URL, title, and viewport metadata for navigation, favorite and recent titles, and layout. It does not extract main-tab body text, form contents, passwords, or AI conversations, and does not automatically send main-page contents to AI.
+Per-window URLs and back/forward history are kept in session storage. When you explicitly bind a side page to a tab, its tab ID is associated with its sidebar URL and history in session storage; unbinding, closing that tab, or restarting the browser clears that binding. The last navigation state is kept locally for restoration. URLs may contain query parameters you enter. Default layout, per-hostname layout and mobile-site choices, appearance, and search engine preferences are also stored locally. Website preferences can be reset individually in Settings. The extension reads the sidebar page's URL, title, and viewport metadata for navigation, favorite and recent titles, and layout. It does not extract main-tab body text, form contents, passwords, or AI conversations, and does not automatically send main-page contents to AI.
 
-For sidebar requests, the extension adjusts embedding-related response headers and, in mobile mode, device-identity request headers. It does not read or log response bodies or read cookies through the Cookies API.
+For sidebar requests, the extension adjusts embedding-related response headers and adjusts device-identity request headers only for exact hostnames where you explicitly enable Request mobile site. It does not read or log response bodies or read cookies through the Cookies API.
 
 Extension state uses browser local/session storage, not sync storage. It is not uploaded to the developer, sold, used for advertising or credit decisions, or used for purposes unrelated to sidebar browsing. The developer cannot remotely inspect these records through the extension.
 
@@ -91,9 +91,9 @@ SideBrowser は yuzhou が開発した拡張機能で、ユーザーが選んだ
 
 現在のページを開く操作をしたとき、拡張機能はその URL とタイトルを読み取り、サイドバーで開きます。右クリックメニューからの移動、入力した URL、検索語句は、ユーザーが指示した移動に使います。右クリックメニューからお気に入りに登録するときは、対象ページの URL と取得できるタイトルを読み取り、ページを自動で開くことなく保存します。自分で開いた直近 10 件までの URL とタイトルを端末内に保存し、すぐに開き直せるようにします。サイトのアイコンはブラウザのファビコン機能で取得します。
 
-ウィンドウごとの URL と戻る・進む履歴は、セッションストレージに保存します。サイドページをタブに紐付けた場合は、そのタブ ID とサイドバーの URL・履歴の対応関係も保存します。紐付けの解除、対象タブの終了、ブラウザの再起動で、その紐付けは削除されます。ページを復元するため、最後の移動状態をローカルに保存します。URL には入力したクエリパラメータが含まれる場合があります。表示モード、外観、検索エンジンの設定も端末内に保存します。拡張機能はサイドページの URL、タイトル、ビューポートのメタデータを読み取り、移動の同期、お気に入りや最近の履歴のタイトル更新、表示調整に使います。メインタブの本文、フォームの内容、パスワード、AI との会話内容は抽出せず、メインページの内容を AI に自動送信することもありません。
+ウィンドウごとの URL と戻る・進む履歴は、セッションストレージに保存します。サイドページをタブに紐付けた場合は、そのタブ ID とサイドバーの URL・履歴の対応関係も保存します。紐付けの解除、対象タブの終了、ブラウザの再起動で、その紐付けは削除されます。ページを復元するため、最後の移動状態をローカルに保存します。URL には入力したクエリパラメータが含まれる場合があります。既定のレイアウト、ホスト名ごとのレイアウトとモバイルサイトの選択、外観、検索エンジンの設定も端末内に保存します。サイト別設定は設定画面から個別に削除できます。拡張機能はサイドページの URL、タイトル、ビューポートのメタデータを読み取り、移動の同期、お気に入りや最近の履歴のタイトル更新、表示調整に使います。メインタブの本文、フォームの内容、パスワード、AI との会話内容は抽出せず、メインページの内容を AI に自動送信することもありません。
 
-サイドバー内のリクエストについて、埋め込みに関するレスポンスヘッダーを調整します。モバイル表示では、端末情報を示すリクエストヘッダーも調整します。レスポンス本文の読み取りや記録、Cookie API による Cookie の読み取りは行いません。
+サイドバー内のリクエストについて、埋め込みに関するレスポンスヘッダーを調整します。「モバイルサイトを要求」を明示的に有効にした完全なホスト名についてのみ、端末情報を示すリクエストヘッダーも調整します。レスポンス本文の読み取りや記録、Cookie API による Cookie の読み取りは行いません。
 
 拡張機能の状態はブラウザのローカルストレージとセッションストレージを使って保存し、同期ストレージは使いません。開発者へのアップロード、販売、広告や信用評価への利用、サイドバーでの閲覧と関係のない利用は行いません。開発者が拡張機能を通じてこれらの記録を遠隔から閲覧することはできません。
 

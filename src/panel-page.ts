@@ -2,6 +2,7 @@ import type { PanelSnapshot } from './types.js';
 import { PanelViewport } from './viewport.js';
 import { RecentTitleTracker } from './recent-urls.js';
 import { t } from './i18n.js';
+import { sitePreference } from './site-preferences.js';
 
 // Each page owns its browsing context. Switching pages never detaches an iframe.
 export class PanelPage {
@@ -56,6 +57,7 @@ export class PanelPage {
   }
 
   apply(next: PanelSnapshot, reload = false) {
+    next = { ...next, ...sitePreference(next.url, next.defaultMode, next.sitePreferences) };
     const previous = this.state;
     this.state = next;
     if (!next.url) {
@@ -64,10 +66,11 @@ export class PanelPage {
       reload ||
       !this.started ||
       previous.url !== next.url ||
-      previous.mode !== next.mode
+      previous.requestMobile !== next.requestMobile
     ) {
       this.load(next.url);
     }
+    this.viewport.apply();
     this.changed(this);
   }
 

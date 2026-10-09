@@ -255,3 +255,7 @@ select:disabled {
     max-width: 100%;
   }
 }
+
+#site-preferences h3 {
+  overflow-wrap: anywhere;
+}

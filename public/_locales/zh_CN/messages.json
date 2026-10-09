@@ -67,16 +67,16 @@
     "message": "在新标签页打开侧边栏当前网页"
   },
   "switchToDesktop": {
-    "message": "切换为 PC 模式"
+    "message": "使用窗口宽度"
   },
   "switchToMobile": {
-    "message": "切换为手机模式"
+    "message": "使用窄屏布局"
   },
   "mobileModeTitle": {
-    "message": "当前为手机模式，点击切换为 PC 模式"
+    "message": "当前为窄屏布局，切换为窗口宽度"
   },
   "desktopModeTitle": {
-    "message": "当前为 PC 模式，点击切换为手机模式"
+    "message": "当前为窗口宽度，切换为窄屏布局"
   },
   "retry": {
     "message": "重试"
@@ -112,7 +112,7 @@
     "message": "不支持的网址。"
   },
   "errorChromeVersion": {
-    "message": "无法读取浏览器版本，手机模式未启用。"
+    "message": "无法读取浏览器版本，未开启请求手机版。"
   },
   "errorExtensionUnavailable": {
     "message": "扩展没有响应，请重试。"
@@ -166,7 +166,7 @@
     "message": "显示模式与常见问题"
   },
   "helpMobileViewport": {
-    "message": "手机／电脑模式跨窗口共用，切换模式会刷新所有运行中的侧窗网页。手机模式适配网页视口和浏览器身份，保留鼠标、悬停和滚轮操作，不等同完整设备模拟。"
+    "message": "窄屏布局只调整网页宽度和缩放，保留真实浏览器身份。布局选择按网站保存。「请求手机版」为可选功能，切换时会重新加载该网站；如反复验证，请关闭它。仍无法打开时，请使用普通标签页。"
   },
   "helpEmbeddingLimits": {
     "message": "如果网页加载缓慢，可以刷新重试。部分网站的登录、视频或页面无法在侧边栏内正常使用，可通过「⋯」选择「在新标签页打开当前网页」。"
@@ -193,16 +193,16 @@
     "message": "浏览偏好"
   },
   "settingsMode": {
-    "message": "网页显示模式"
+    "message": "默认网页布局"
   },
   "settingsModeDescription": {
-    "message": "所有窗口共用此设置。切换模式会重新加载已打开的侧边栏网页。"
+    "message": "用于未单独设置的网站。切换布局保留当前网页和输入。"
   },
   "settingsMobile": {
-    "message": "手机模式"
+    "message": "窄屏布局"
   },
   "settingsDesktop": {
-    "message": "PC 模式"
+    "message": "窗口宽度"
   },
   "settingsLanguage": {
     "message": "界面语言"
@@ -295,7 +295,7 @@
     "message": "切换标签页，这里的网页也会保留。"
   },
   "emptyModeHint": {
-    "message": "在右上角「⋯」切换手机或 PC 显示。"
+    "message": "打开网页后，在「⋯」选择布局或请求手机版。"
   },
   "emptyHelp": {
     "message": "查看使用指南"
@@ -377,5 +377,26 @@
         "example": "Google"
       }
     }
+  },
+  "sitePreferencesHeading": {
+    "message": "网站偏好"
+  },
+  "sitePreferencesHint": {
+    "message": "自动记住此网站的选择。"
+  },
+  "requestMobile": {
+    "message": "请求手机版"
+  },
+  "requestMobileDescription": {
+    "message": "使用手机浏览器身份重新加载此网站。如果反复要求验证，请关闭此选项。"
+  },
+  "resetSite": {
+    "message": "恢复默认"
+  },
+  "settingsSitesDescription": {
+    "message": "在侧窗的更多菜单中选择布局或请求手机版。选择按完整域名保存，在所有侧窗中共用。"
+  },
+  "settingsSitesEmpty": {
+    "message": "尚未保存网站偏好。"
   }
 }

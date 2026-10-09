@@ -17,7 +17,7 @@ test('Edge keeps the same scoped network rules and consistent mobile identity as
   assert.deepEqual(identity, mobileIdentity(chromeUA));
   assert.equal(identity.userAgentMetadata.fullVersion, '149.0.0.0');
   const extensionId = 'abcdefghijklmnopabcdefghijklmnop';
-  for (const mode of ['desktop', 'mobile']) {
+  for (const mode of [{}, { 'example.com': { mode: 'mobile', requestMobile: true } }]) {
     assert.deepEqual(
       panelRules(extensionId, mode, edgeUA),
       panelRules(extensionId, mode, chromeUA)

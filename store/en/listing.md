@@ -36,7 +36,7 @@ EVERYDAY CONTROLS, CLOSE AT HAND
 • Open the current page with one click, the context menu, or Alt + Shift + P (Mac: Option + Shift + P).
 • Navigate back and forward, reload, enter URLs, and search from a compact toolbar.
 • Reopen your 10 most recently opened addresses. Remove individual entries or clear the list.
-• Switch between mobile and desktop views; choose light, dark, or system appearance.
+• Choose narrow or full-width layouts per website, with optional mobile-site requests; choose light, dark, or system appearance.
 • Continue the sidebar page in a regular tab, or close it to return to the welcome screen while keeping favorites, recents, and the tab binding.
 
 LOCAL PREFERENCES AND HISTORY
