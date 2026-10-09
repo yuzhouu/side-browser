@@ -1,13 +1,14 @@
 # 官网与 GitHub Pages
 
-目标地址：https://yuzhouu.github.io/side-browser/ 。中文首页和隐私政策位于 `/`、`/privacy/`；英文对应 `/en/`、`/en/privacy/`。官网独立输出到 `site-dist/`，不混入 Chrome 扩展 `dist/`。
+目标地址：https://yuzhouu.github.io/side-browser/ 。默认入口 `/`、`/privacy/` 提供英文静态内容，并按浏览器语言优先顺序自动选择中、英、日语，不匹配时使用英文。明确的语言路由为 `/en/`、`/zh/`、`/ja/`，隐私页分别在对应路径下的 `privacy/`；这些链接始终显示指定语言，原有英文链接仍有效。官网独立输出到 `site-dist/`，不混入 Chrome 扩展 `dist/`。
 
 ## 维护
 
-- `website/content.mjs`：两种语言的功能、标签绑定与安装介绍。
+- `website/content.mjs`：中、英、日三种语言的功能、标签绑定、安装介绍与无障碍文案。
 - `website/styles.css`：浅深色设计系统与 320px 起的响应式排版。
-- `website/app.js`：主题切换与场景预览。主题首次跟随系统，手动选择保存在网站本地存储；语言由可直接分享的 URL 决定。
-- `docs/privacy-policy.md`：唯一隐私正文来源，构建时输出两种语言，无需 JavaScript 即可阅读。
+- `website/app.js`：主题、语言菜单与场景预览。主题首次跟随系统；手动选择的语言与主题保存在网站本地存储。语言菜单保留当前页面、查询参数和锚点，禁用 JavaScript 时也可通过链接切换。
+- `website/language.js`：在默认入口首次渲染前选择语言。优先使用有效的手动偏好，否则按 `navigator.languages` 顺序匹配 `en`、`zh`、`ja`，兼容 `en-GB`、`zh-TW`、`ja-JP` 等区域语言；不匹配时回退英语。本地存储不可用时仍自动识别，禁用 JavaScript 时默认显示英语。
+- `docs/privacy-policy.md`：唯一隐私正文来源，构建时输出三种语言，无需 JavaScript 即可阅读。
 - `store/zh-CN/` 与 `store/en/`：按语言分组的商店文案和图片，不在官网发布；`store/assets/source/` 保存首页使用的真实截图原图。更新原图请遵循 `store/README.md` 的采集流程。
 - `scripts/site-build.mjs`：生成 HTML、SEO 元信息、站点地图、扩展下载包和首页场景截图。不会发布后台填写资料、截图采集日志或测试文件。
 
@@ -17,7 +18,7 @@
 
 `.github/workflows/pages.yml` 使用 GitHub 官方 checkout、setup-node、configure-pages、upload-pages-artifact、deploy-pages Actions。main 推送自动执行；PR 只构建验证，不部署。也可在 Actions 页手动运行。工作流只为部署 job 授予 `pages: write` 和 `id-token: write`。
 
-初次在仓库 Settings → Pages → Build and deployment 中把 Source 设为 GitHub Actions。此操作由仓库拥有者完成。部署成功后，商店“隐私政策”填 https://yuzhouu.github.io/side-browser/privacy/ 。网站提供 [Chrome 应用商店](https://chromewebstore.google.com/detail/jlankbdlgdjliaccjkhccphfjmmpgkho?utm_source=item-share-cb) 和 [Microsoft Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/%E4%BE%A7%E7%AA%97-%C2%B7-sidebrowser/ejdcoddocalfdcgkadfenfpjplkkjmbi) 安装入口，中英文首页均说明商店安装步骤；ZIP 下载和折叠的手动安装说明作为备用入口保留。
+初次在仓库 Settings → Pages → Build and deployment 中把 Source 设为 GitHub Actions。此操作由仓库拥有者完成。部署成功后，商店“隐私政策”填 https://yuzhouu.github.io/side-browser/privacy/ 。网站提供 [Chrome 应用商店](https://chromewebstore.google.com/detail/jlankbdlgdjliaccjkhccphfjmmpgkho?utm_source=item-share-cb) 和 [Microsoft Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/%E4%BE%A7%E7%AA%97-%C2%B7-sidebrowser/ejdcoddocalfdcgkadfenfpjplkkjmbi) 安装入口，三语言首页均说明商店安装步骤；ZIP 下载和折叠的手动安装说明作为备用入口保留。
 
 参考：[GitHub 自定义 Pages 工作流](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages)。
 
@@ -25,11 +26,11 @@
 
 官网定位为「输入任意网址，打开自己常用的网站」。ChatGPT、维基百科与 Google 搜索仅为截图示例，不是网站支持清单；网站自身的登录与嵌入规则仍可能影响使用。首页保留主页面与侧窗的真实截图预览，并提供三种场景切换。
 
-绑定说明先介绍默认共享，再说明可在「⋯」中选择「绑定到当前标签页」。展开「绑定后，其他标签会怎样？」可了解网页及历史移入绑定、共享页清空，以及解绑、关闭标签和浏览器重启的行为。中英文内容保持一致。
+绑定说明先介绍默认共享，再说明可在「⋯」中选择「绑定到当前标签页」。展开「绑定后，其他标签会怎样？」可了解网页及历史移入绑定、共享页清空，以及解绑、关闭标签和浏览器重启的行为。三语言内容保持一致。
 
 官网不再生成 `/media/`、`/en/media/`、宣传图或素材 ZIP，也不包含素材生成器。旧素材链接返回 404；商店中英文素材和制作流程独立保留在 `store/`。
 
-`npm run site:check` 检查 4 个双语页面、404 页、本地链接与扩展 ZIP。启动预览服务后，使用 `SITE_URL=http://127.0.0.1:4179/side-browser/ CHROME_PATH=<Chrome 可执行文件> npm run site:test:browser` 检查绑定说明展开、场景／语言切换、主题跨页保持、扩展下载和 1440／768／390／320px 排版。
+`npm run site:check` 检查 6 个语言页面、2 个自动语言入口、404 页、语言元信息、本地链接与扩展 ZIP。启动预览服务后，使用 `SITE_URL=http://127.0.0.1:4179/side-browser/ CHROME_PATH=<Chrome 可执行文件> npm run site:test:browser` 检查绑定说明展开、场景／语言切换、主题跨页保持、扩展下载和 1440／768／390／320px 排版，并覆盖浏览器语言优先级、区域语言、英语回退、手动偏好、显式语言路由、查询参数和锚点保持，以及禁用 JavaScript／本地存储时的行为。
 
 ## 本次验证（2026-09-17）
 

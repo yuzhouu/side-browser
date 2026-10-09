@@ -50,7 +50,7 @@ NGA 登录后的完整网页没有使用用户 Cookie 验证。附件中的 curl
 
 本项目已从原会话复制为独立 Codex 项目，并完成 SideBrowser 品牌名称统一；源码远程仓库为 [yuzhouu/side-browser](https://github.com/yuzhouu/side-browser)，SSH 地址为 `git@github.com:yuzhouu/side-browser.git`，默认分支为 `main`；已发布到 Chrome 应用商店和 Microsoft Edge Add-ons。当前源码还包含国际化与最近打开快捷入口，当前 ZIP 由 `npm run release` 或 `npm run package` 从 `dist/` 生成，`releases/` 每次打包清空后仅保留最新产物。后续开发从当前源码和本交接说明继续。
 
-官网（2026-09-17）：`website/` 保存中英文内容与主题样式，`scripts/site-build.mjs` 将首页／隐私页分别生成中英文静态路由到独立的 `site-dist/`，以 `/side-browser/` 为 Pages 子路径。首页包含真实场景预览、默认共享与按需绑定说明、商店安装入口、安装步骤和备用扩展 ZIP；宣传素材入口、展示区、生成器、素材页与素材包已移除，商店资料继续独立保留在 `store/`。隐私正文复用 `docs/privacy-policy.md`；网站无运行依赖、统计或远程字体。主题存于网站自己的本地存储，语言由 URL 决定。部署和验证记录见 `docs/website.md`。
+官网（2026-10-09 更新）：`website/` 保存中英日三语言内容与主题样式，`scripts/site-build.mjs` 将首页／隐私页生成到独立的 `site-dist/`，以 `/side-browser/` 为 Pages 子路径。默认入口提供英文静态内容，按浏览器语言自动选择三种语言；明确语言链接使用 `/en/`、`/zh/`、`/ja/` 前缀。首页包含真实场景预览、默认共享与按需绑定说明、商店安装入口、安装步骤和备用扩展 ZIP；宣传素材入口、展示区、生成器、素材页与素材包已移除，商店资料继续独立保留在 `store/`。隐私正文复用 `docs/privacy-policy.md`；网站无运行依赖、统计或远程字体。主题和手动语言选择存于网站自己的本地存储；默认入口优先使用手动选择，明确语言 URL 始终保持指定语言。部署和验证记录见 `docs/website.md`。
 
 
 ## 将侧窗绑定到指定标签页（2026-09-17）

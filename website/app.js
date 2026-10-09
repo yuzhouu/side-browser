@@ -24,6 +24,34 @@ systemTheme.addEventListener('change', event => {
 });
 
 const data = JSON.parse(document.querySelector('#page-data').textContent);
+const languageMenu = document.querySelector('.language-menu');
+const languageLinks = [...document.querySelectorAll('[data-locale]')];
+function updateLanguageLinks() {
+  languageLinks.forEach(link => {
+    const target = new URL(link.href);
+    target.search = location.search;
+    target.hash = location.hash;
+    link.href = target.href;
+  });
+}
+updateLanguageLinks();
+window.addEventListener('hashchange', updateLanguageLinks);
+languageLinks.forEach(link => {
+  link.addEventListener('click', () => {
+    try {
+      localStorage.setItem('sidebrowser-site-language', link.dataset.locale);
+    } catch {}
+  });
+});
+document.addEventListener('click', event => {
+  if (!languageMenu.contains(event.target)) languageMenu.open = false;
+});
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape' && languageMenu.open) {
+    languageMenu.open = false;
+    languageMenu.querySelector('summary').focus();
+  }
+});
 const sceneButtons = [...document.querySelectorAll('[data-scene]')];
 sceneButtons.forEach(button =>
   button.addEventListener('click', () => {

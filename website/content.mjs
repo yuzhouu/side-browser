@@ -7,6 +7,11 @@ export const edgeStoreUrl =
 export const content = {
   zh: {
     lang: 'zh-CN',
+    languageName: '中文',
+    languageLabel: '选择语言',
+    navigationLabel: '主导航',
+    policyContents: '政策目录',
+    pageTitle: '侧窗 · SideBrowser — 常用的网站，就在你手边',
     name: '侧窗 · SideBrowser',
     title: '常用的网站，<br><em>就在你手边。</em>',
     description:
@@ -84,13 +89,18 @@ export const content = {
     mainLabels: ['主页面 · 维基百科', '主页面 · 时间管理', '主页面 · 维基百科'],
     sideLabels: ['侧窗 · ChatGPT', '侧窗 · 维基百科', '侧窗 · Google 搜索'],
     policyTitle: '隐私政策',
-    updated: '更新于 2026 年 9 月 22 日 · 扩展版本 1.1.0',
+    updated: '更新于 2026 年 10 月 9 日 · 扩展版本 1.1.0',
     policyIntro: '清楚说明侧窗处理什么数据、如何保存，以及如何删除。',
     notFound: '这个页面不在侧窗里。',
     home: '返回首页'
   },
   en: {
     lang: 'en',
+    languageName: 'EN',
+    languageLabel: 'Choose language',
+    navigationLabel: 'Main navigation',
+    policyContents: 'Policy contents',
+    pageTitle: 'SideBrowser — Your websites, right beside you',
     name: 'SideBrowser',
     title: 'Your websites.<br><em>Right beside you.</em>',
     description:
@@ -193,10 +203,130 @@ export const content = {
     mainLabels: ['Main page · Wikipedia', 'Main page · Time management', 'Main page · Wikipedia'],
     sideLabels: ['Sidebar · ChatGPT', 'Sidebar · Wikipedia', 'Sidebar · Google'],
     policyTitle: 'Privacy policy',
-    updated: 'Updated September 22, 2026 · Extension version 1.1.0',
+    updated: 'Updated October 9, 2026 · Extension version 1.1.0',
     policyIntro: 'What SideBrowser handles, where it is stored, and how to delete it.',
     notFound: 'This page has stepped outside.',
     home: 'Back to home'
+  },
+  ja: {
+    lang: 'ja',
+    languageName: '日本語',
+    languageLabel: '言語を選択',
+    navigationLabel: 'メインナビゲーション',
+    policyContents: 'ポリシーの目次',
+    pageTitle: 'SideBrowser — いつものサイトを、すぐそばに',
+    name: 'SideBrowser',
+    title: 'いつものサイトを、<br><em>すぐそばに。</em>',
+    description:
+      '好きなサイトの URL を入力して、使い慣れたツールを作業のそばに。AI、検索、調べもの、ドキュメント。開くサイトは、あなたが選べます。',
+    tagline: 'もうひとつのページを、すぐそばに。',
+    nav: ['機能', 'プライバシー'],
+    install: 'Chrome に追加',
+    installEdge: 'Edge に追加',
+    download: 'ZIP をダウンロード',
+    manualInstall: 'ZIP から手動でインストール',
+    how: '使い方を見る',
+    compatible: 'Chrome 145 以降 · Edge は最新版をご利用ください · 無料',
+    scenes: ['AI に相談', 'その場で調べる', '作業しながら検索'],
+    examplesNote: '表示しているサイトは使用例です。いつも使っているサイトを開けます。',
+    sceneNotes: [
+      '作業中のページを見ながら、隣で ChatGPT を開けます。',
+      'Wikipedia を隣に置いて、読みながら情報を確認できます。',
+      'キーワードを入力して、サイドバーで Google 検索を使えます。'
+    ],
+    screenshotAlt: [
+      'メインページに Wikipedia、右側のサイドバーに ChatGPT を表示',
+      'メインページに時間管理の記事、サイドバーに Wikipedia の参考記事を表示',
+      'メインページに Wikipedia、右側のサイドバーに Google 検索を表示'
+    ],
+    steps: [
+      [
+        '好きなサイトを開く',
+        'URL を入力するか、今見ているページをワンクリックでサイドバーに開きます。'
+      ],
+      [
+        'いつもの使い方で',
+        '使い慣れたツールをそばに置いて、読む、質問する、調べる。自分のペースで作業できます。'
+      ],
+      [
+        'タブを切り替えても、そのまま',
+        '同じウィンドウでサイドバーを共有。必要なときは、特定のタブに紐付けることもできます。'
+      ]
+    ],
+    detailTitle: '切り替えを減らして、目の前のことに。',
+    details: [
+      [
+        'お気に入りにすぐアクセス',
+        'スタート画面のアイコンは幅に合わせて折り返します。マウスを重ねるとタイトルと URL を確認できます。'
+      ],
+      [
+        '手軽にお気に入りへ',
+        'サイドバーのメニュー、ページの右クリック、ツールバーの拡張機能アイコンから登録できます。'
+      ],
+      [
+        '最近開いたページ',
+        '自分で開いた直近 10 件にすぐ戻れます。1 件ずつ削除、または一括消去しても、お気に入りは残ります。'
+      ],
+      [
+        '見やすい表示に',
+        'モバイル表示と PC 表示を切り替え。外観はライト、ダーク、システム設定から選べます。'
+      ],
+      [
+        '今のページを閉じる',
+        'スタート画面に戻っても、お気に入り、最近の履歴、タブとの紐付け、ほかのサイドページは残ります。'
+      ],
+      [
+        'データは端末内に',
+        'お気に入り、最近の履歴、設定はウィンドウ間で共有され、再起動後も端末に保存されます。開発者には送信されません。'
+      ]
+    ],
+    bindingTitle: 'みんなで使うサイドバー。<br>ひとつのタブ専用にも。',
+    bindingIntro:
+      '読むタブには参考資料を、書くタブには AI のページを。戻ってきたら、続きから使えます。',
+    bindingModes: [
+      [
+        '通常は共有',
+        '同じウィンドウ内で、紐付けのないタブはひとつのサイドページを共有します。タブを切り替えても、そのページは開いたままです。'
+      ],
+      [
+        '必要なときだけ紐付け',
+        'サイドバーの「⋯」メニューで「現在のタブに固定」を選ぶと、そのタブ専用のページになります。タブを切り替えても、入力内容、スクロール位置、閲覧履歴が保たれます。'
+      ]
+    ],
+    bindingQuestion: '紐付けると、ほかのタブはどうなりますか？',
+    bindingNotes: [
+      '今のページと履歴が紐付け先のタブに移り、共有サイドバーは空になります。ほかの紐付けのないタブにはスタート画面が表示されるので、新しい共有ページを開いて使えます。',
+      '紐付けを解除すると専用ページが閉じ、現在の共有ページに戻ります。紐付けたタブを閉じるか、ブラウザを再起動した場合も紐付けは解除されます。'
+    ],
+    installTitle: 'もうひとつのページを、<br>あなたのそばに。',
+    installNote: 'Chrome ウェブストアと Microsoft Edge Add-ons で公開中。',
+    installSteps: [
+      'お使いのブラウザのストアを開き、SideBrowser を追加します。',
+      '拡張機能の追加を確認し、SideBrowser をツールバーに固定します。',
+      'SideBrowser のアイコンをクリックし、URL を入力するか、今見ているページを開きます。'
+    ],
+    manualInstallSteps: [
+      'ZIP をダウンロードして展開し、展開したフォルダを保存します。',
+      'Chrome では chrome://extensions、Edge では edge://extensions を開き、デベロッパーモードを有効にします。',
+      '展開済みの拡張機能を読み込むボタンをクリックし、展開したフォルダを選びます。',
+      'SideBrowser をツールバーに固定し、アイコンをクリックして使い始めます。'
+    ],
+    boundaries:
+      'AI は開いたサイトが提供するサービスです。SideBrowser がメインページの本文を自動で読み取ったり送信したりすることはありません。サイトのログイン、契約、埋め込み制限によって利用できない場合は、新しいタブで続けられます。',
+    source: 'ソースコード',
+    support: 'サポート',
+    privacy: 'プライバシーポリシー',
+    light: 'ライトモードに切り替え',
+    dark: 'ダークモードに切り替え',
+    skip: '本文へスキップ',
+    sceneLabel: '使用例を選択',
+    mainLabels: ['メインページ · Wikipedia', 'メインページ · 時間管理', 'メインページ · Wikipedia'],
+    sideLabels: ['サイドバー · ChatGPT', 'サイドバー · Wikipedia', 'サイドバー · Google'],
+    policyTitle: 'プライバシーポリシー',
+    updated: '更新日：2026 年 10 月 9 日 · 拡張機能バージョン 1.1.0',
+    policyIntro: 'SideBrowser が扱うデータ、保存場所、削除方法について説明します。',
+    notFound: 'このページは見つかりませんでした。',
+    home: 'ホームに戻る'
   }
 };
 export const scenes = ['ai-chatgpt', 'wiki', 'search'];

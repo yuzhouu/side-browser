@@ -1,6 +1,6 @@
-# 侧窗 · SideBrowser 隐私政策 / Privacy Policy
+# 侧窗 · SideBrowser 隐私政策 / Privacy Policy / プライバシーポリシー
 
-更新日期 / Updated: 2026-09-22 · 适用版本 / Version: 1.1.0
+更新日期 / Updated / 更新日: 2026-10-09 · 适用版本 / Version: 1.1.0
 
 ## 简体中文
 
@@ -35,7 +35,7 @@
 
 ### 官网
 
-官网托管于 GitHub Pages。访问官网时，GitHub 会接收常规网络请求信息；详情见 [GitHub 隐私声明](https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement)。官网不接入分析统计或广告追踪。网站仅在浏览器本地保存外观选择；语言由所访问的中英文页面决定。清除该网站的浏览器数据可移除外观偏好。
+官网托管于 GitHub Pages。访问官网时，GitHub 会接收常规网络请求信息；详情见 [GitHub 隐私声明](https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement)。官网不接入分析统计或广告追踪。网站在浏览器本地保存外观和手动选择的语言。默认入口根据浏览器语言选择中文、英文或日语，不匹配时使用英文；已保存的手动选择优先，带语言前缀的链接始终显示指定语言。语言判断在本机进行，不发送给开发者。清除该网站的浏览器数据可移除这些偏好。
 
 ### 有限用途与联系
 
@@ -75,8 +75,48 @@ You can remove individual recent entries or clear the list. This does not clear 
 
 ### Website
 
-The website is hosted on GitHub Pages. GitHub receives normal network request information when you visit; see the [GitHub Privacy Statement](https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement). The website has no analytics or advertising trackers. It stores only your appearance preference in browser local storage; language follows the English or Chinese page you visit. Clear this website’s browser data to remove the appearance preference.
+The website is hosted on GitHub Pages. GitHub receives normal network request information when you visit; see the [GitHub Privacy Statement](https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement). The website has no analytics or advertising trackers. It stores your appearance preference and manually selected language in browser local storage. The default entry pages select English, Chinese, or Japanese from your browser languages, falling back to English. A saved manual choice takes priority, while links with a language prefix always display that language. Language detection happens on your device and is not sent to the developer. Clear this website’s browser data to remove these preferences.
 
 ### Limited Use and contact
 
 SideBrowser's use of user data complies with the Chrome Web Store User Data Policy, including Limited Use requirements, and is restricted to the user-facing features described above. Changes are reflected in this policy and its update date. Contact yuzhou through [the project issue tracker](https://github.com/yuzhouu/side-browser/issues) for privacy questions.
+
+## 日本語
+
+SideBrowser は yuzhou が開発した拡張機能で、ユーザーが選んだウェブサイトを Chrome または Microsoft Edge の標準サイドパネルで開きます。独自のアカウント機能、閲覧履歴を収集するサーバー、テレメトリ、広告トラッカーはありません。
+
+### 取り扱うデータと利用目的
+
+サイドパネル、ページの右クリックメニュー、拡張機能アイコンの右クリックメニューから登録したお気に入りの URL とタイトルは、スタート画面からすぐに開けるよう、端末内に独立して保存されます。アイコンの表示にはブラウザのファビコン機能を使います。お気に入りの登録は、ブラウザ標準のブックマークを変更しません。
+
+現在のページを開く操作をしたとき、拡張機能はその URL とタイトルを読み取り、サイドバーで開きます。右クリックメニューからの移動、入力した URL、検索語句は、ユーザーが指示した移動に使います。右クリックメニューからお気に入りに登録するときは、対象ページの URL と取得できるタイトルを読み取り、ページを自動で開くことなく保存します。自分で開いた直近 10 件までの URL とタイトルを端末内に保存し、すぐに開き直せるようにします。サイトのアイコンはブラウザのファビコン機能で取得します。
+
+ウィンドウごとの URL と戻る・進む履歴は、セッションストレージに保存します。サイドページをタブに紐付けた場合は、そのタブ ID とサイドバーの URL・履歴の対応関係も保存します。紐付けの解除、対象タブの終了、ブラウザの再起動で、その紐付けは削除されます。ページを復元するため、最後の移動状態をローカルに保存します。URL には入力したクエリパラメータが含まれる場合があります。表示モード、外観、検索エンジンの設定も端末内に保存します。拡張機能はサイドページの URL、タイトル、ビューポートのメタデータを読み取り、移動の同期、お気に入りや最近の履歴のタイトル更新、表示調整に使います。メインタブの本文、フォームの内容、パスワード、AI との会話内容は抽出せず、メインページの内容を AI に自動送信することもありません。
+
+サイドバー内のリクエストについて、埋め込みに関するレスポンスヘッダーを調整します。モバイル表示では、端末情報を示すリクエストヘッダーも調整します。レスポンス本文の読み取りや記録、Cookie API による Cookie の読み取りは行いません。
+
+拡張機能の状態はブラウザのローカルストレージとセッションストレージを使って保存し、同期ストレージは使いません。開発者へのアップロード、販売、広告や信用評価への利用、サイドバーでの閲覧と関係のない利用は行いません。開発者が拡張機能を通じてこれらの記録を遠隔から閲覧することはできません。
+
+サイドバーのアドレスバーに入力すると、SideBrowser のお気に入りと最近の履歴に加え、該当するブラウザの閲覧履歴とブックマークを候補として表示します。history と bookmarks の権限は、この候補に必要な URL とタイトルの検索にのみ使います。入力内容と検索結果は端末内で処理し、候補を提供する外部サービスや開発者には送信せず、拡張機能のストレージにもコピーしません。候補を選ぶと通常どおりページを開き、SideBrowser の最近の履歴に追加します。SideBrowser の最近の履歴を消去しても、ブラウザの閲覧履歴やブックマークは削除されません。
+
+### アクセスするサイトと第三者
+
+開いたウェブサイトには、URL、IP アドレス、ヘッダー、ブラウザの規則に従って付加される認証情報など、通常のブラウザリクエストが送られます。各サイトで入力・送信した内容は、そのサイトが独自のプライバシーポリシーに従って取り扱います。AI は選択したサイトが提供します。SideBrowser に AI モデルや AI アカウントは内蔵されておらず、会話を自動送信することもありません。
+
+アドレスバーでキーワード検索を実行するか、検索候補を選ぶと、設定で選択した検索エンジンに検索語句を送信します。選択肢は Google（初期設定）、Bing、Baidu、DuckDuckGo です。検索 URL が拡張機能のローカル記録に保存される場合もあります。GitHub を開いたりフィードバックを送信したりすると、自分で提供した情報が GitHub に、フィードバックの場合は開発者にも届きます。公開のフィードバックにパスワード、私的な会話、トークンを含む URL を記載しないでください。SideBrowser が診断情報、閲覧履歴、ページの内容を自動で添付することはありません。
+
+ウェブサイトのデータはブラウザと各サイトが管理し、拡張機能のローカル記録とは別に扱います。HTTPS のサイトでは、そのサイトの暗号化された接続を使います。ユーザーが開いた HTTP のサイトには HTTP 自体の接続上の制約があり、拡張機能はプロキシや追加の暗号化を提供しません。
+
+### 保存期間と削除
+
+お気に入りはブラウザを再起動しても残ります。その他メニューやスタート画面のお気に入り一覧から、1 件ずつ削除できます。最近の履歴の消去、ページを閉じる操作、タブへの紐付けや解除では、お気に入りは削除されません。
+
+最近の履歴は 1 件ずつ削除するか、一括で消去できます。消去しても、現在のページ、戻る・進む履歴、復元状態、サイトの Cookie は削除されません。タブに紐付けると、ページと履歴がそのタブに移り、共有ページとその復元状態は消去されますが、最近の履歴は残ります。現在のページを閉じると、表示中のサイドページとその移動履歴が消去されます。お気に入り、最近の履歴、タブとの紐付け、ほかのサイドページは残ります。ローカルの設定と復元情報は、上書きまたは削除されるまで保存されます。セッションストレージはブラウザが管理します。拡張機能をアンインストールすると、拡張機能のストレージは削除されます。サイトの Cookie やその他のサイトデータは、ブラウザから別途削除する必要があります。開発者のサーバーに閲覧記録のコピーはありません。
+
+### 公式サイト
+
+公式サイトは GitHub Pages で公開しています。アクセス時には GitHub が通常のネットワークリクエスト情報を受け取ります。詳しくは [GitHub のプライバシーステートメント](https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement)をご覧ください。公式サイトにはアクセス解析や広告トラッカーはありません。外観と手動で選んだ言語をブラウザのローカルストレージに保存します。言語の指定がない入口では、ブラウザの優先言語から英語、中国語、日本語を選び、対応する言語がなければ英語を表示します。保存済みの手動選択が優先され、言語付きのリンクでは常に指定の言語を表示します。言語の判定は端末内で行い、開発者には送信しません。このサイトのブラウザデータを消去すると、これらの設定も削除されます。
+
+### Limited Use とお問い合わせ
+
+SideBrowser によるユーザーデータの利用は、Limited Use の要件を含む Chrome Web Store User Data Policy に従い、上記のユーザー向け機能に限定されます。機能の変更に応じてポリシーを更新し、ページ冒頭に更新日を記載します。プライバシーに関するお問い合わせは、[プロジェクトのフィードバックページ](https://github.com/yuzhouu/side-browser/issues)から yuzhou までご連絡ください。
