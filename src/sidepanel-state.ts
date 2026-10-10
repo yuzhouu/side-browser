@@ -4,7 +4,9 @@ import { userError } from './errors.js';
 
 export const LAST_KEY = 'pocket-sidepanel-last-v1';
 export const WINDOWS_KEY = 'pocket-sidepanel-windows-v1';
-export const MODE_KEY = 'pocket-sidepanel-mode-v1';
+// v1 was rewritten on every navigation, so it cannot tell a chosen narrow layout from
+// the former default. v2 holds only explicit choices; upgrades start at window width.
+export const MODE_KEY = 'pocket-sidepanel-mode-v2';
 export const BINDINGS_KEY = 'pocket-sidepanel-bindings-v1';
 const HISTORY_LIMIT = 100;
 

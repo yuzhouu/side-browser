@@ -31,6 +31,7 @@ import {
   normalizeRecentTitle
 } from './recent-urls.js';
 import { panelRules } from './network-rules.js';
+import { FRAME_COOKIES, frameCookieUrl, scriptHiddenCookies } from './frame-cookies.js';
 import { t } from './i18n.js';
 import { userError } from './errors.js';
 import { THEME_KEY, validTheme } from './theme-preference.js';
@@ -112,7 +113,7 @@ const ready = (async () => {
     chrome.storage.session.get([WINDOWS_KEY, BINDINGS_KEY])
   ]);
   last = restorePanel(local[LAST_KEY] || local['pocket-global-overlay-v1']);
-  mode = validMode(local[MODE_KEY] ?? last.mode);
+  mode = validMode(local[MODE_KEY]);
   sitePreferences = restoreSitePreferences(local[SITE_PREFERENCES_KEY]);
   theme = validTheme(local[THEME_KEY]);
   searchEngine = validSearchEngine(local[SEARCH_ENGINE_KEY]);
@@ -181,7 +182,7 @@ async function save(windowId: number, value: PanelState, tabId: number | null = 
     last = state;
     await Promise.all([
       chrome.storage.session.set({ [WINDOWS_KEY]: windows }),
-      chrome.storage.local.set({ [LAST_KEY]: last, [MODE_KEY]: mode })
+      chrome.storage.local.set({ [LAST_KEY]: last })
     ]);
   }
   return getState(windowId, tabId);
@@ -491,6 +492,24 @@ chrome.runtime.onMessage.addListener((message: PanelRequest | SettingsRequest, s
   );
   return true;
 });
+
+// Only this extension's content script in a non-tab frame, for its own HTTPS origin.
+chrome.runtime.onMessage.addListener(
+  (message: { type?: unknown; url?: unknown }, sender, reply) => {
+    if (message?.type !== FRAME_COOKIES) return false;
+    const url =
+      sender.id === chrome.runtime.id && !sender.tab && frameCookieUrl(message.url, sender.origin);
+    if (!url) {
+      reply({ ok: false, error: 'errorUnknownOperation' });
+      return false;
+    }
+    chrome.cookies.getAll({ url }).then(
+      cookies => reply({ ok: true, data: scriptHiddenCookies(cookies) }),
+      error => reply({ ok: false, error: error.message })
+    );
+    return true;
+  }
+);
 
 chrome.runtime.onConnect.addListener(port => {
   if (!port.name.startsWith('pocket-sidepanel:')) return;

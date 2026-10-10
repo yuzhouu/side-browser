@@ -46,8 +46,12 @@ test('restoring site choices rejects malformed records and keeps full width on n
 test('default and saved narrow layouts install no identity overrides', () => {
   for (const preferences of [{}, { 'example.com': { mode: 'mobile', requestMobile: false } }]) {
     const rules = panelRules('extension', preferences, 'Unknown browser');
-    assert.equal(rules.length, 2);
-    assert(rules.every(rule => !rule.action.requestHeaders));
+    assert.equal(rules.length, 3);
+    assert(
+      rules.every(
+        rule => !rule.action.requestHeaders?.some(header => header.header !== 'sec-fetch-dest')
+      )
+    );
   }
 });
 
@@ -59,7 +63,7 @@ test('mobile request rules are limited to explicit exact hostnames in the non-ta
       'native.example': { mode: 'mobile', requestMobile: false }
     },
     'Chrome/149.0.0.0'
-  ).filter(rule => rule.action.requestHeaders);
+  ).filter(rule => rule.action.requestHeaders?.some(header => header.header === 'user-agent'));
   assert.deepEqual(
     rules.map(rule => rule.condition),
     [

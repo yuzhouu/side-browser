@@ -65,7 +65,7 @@ Edge 在 macOS 默认使用 `/Applications/Microsoft Edge.app/Contents/MacOS/Mic
 - `releases/sidebrowser-<版本>.zip`：`npm run release` 或 `npm run package` 生成的当前安装包，仅包含 `dist/`。打包时清空整个 `releases/`（含旧包、商店资料包和归档），只保留新安装包；不要在此存放手工文件。整个目录不提交 Git，命令不上传 GitHub。`npm run release` 构建或测试失败时不会清理上次安装包。`npm run store:package` 会在清空并生成扩展包后，另外生成本次的商店资料包。
 - `tests/`、`scripts/`、`docs/`、`icons/`、`output/`、`node_modules/`：测试、工具、文档和设计资源，不进入产物。
 
-Vite 多页面入口处理侧边栏、设置、帮助和后台 ES module，页面引用与共用资源自动生成。`frame-navigation`、`mobile-identity-gate`、`mobile-identity-main` 分别构建为自包含 IIFE，供 Chrome 以普通脚本注入；手机参数模块直接打入 gate。文件名保持 manifest 和动态注册所需的稳定路径，不使用扩展框架或开发服务器。
+Vite 多页面入口处理侧边栏、设置、帮助和后台 ES module，页面引用与共用资源自动生成。`frame-navigation`、`frame-cookies-gate`、`frame-cookies-main`、`mobile-identity-gate`、`mobile-identity-main` 分别构建为自包含 IIFE，供 Chrome 以普通脚本注入；手机参数模块直接打入 gate。文件名保持 manifest 和动态注册所需的稳定路径，不使用扩展框架或开发服务器。
 
 `npm test` 会先构建，再通过 tsx 运行现有 Node 测试，直接覆盖 TS 模块；内容脚本测试执行实际产物。额外检查 manifest/HTML 引用、产物文件范围和经典脚本语法。`npm run test:browser` 同样先构建，再仅加载 `dist/`，因此浏览器回归验证的是实际交付产物。
 
@@ -86,6 +86,7 @@ Vite 多页面入口处理侧边栏、设置、帮助和后台 ES module，页�
 | `sidepanel-state.ts` / `recent-urls.ts` | 导航历史、最近列表和标题关联的独立数据规则 |
 | `background.ts` | 持久化、窗口状态、跨窗口广播、浏览器入口与兼容规则注册 |
 | `viewport.ts` / `frame-navigation.ts` / `mobile-*.js` / `network-rules.ts` | 网页内导航、手机视口、身份和请求兼容 |
+| `frame-cookies.ts` / `frame-cookies-gate.ts` / `frame-cookies-main.ts` | 侧窗直接嵌入的 HTTPS 网页读取自身非 HttpOnly SameSite Cookie（`cookies` 权限，后台校验来源） |
 
 最近菜单通过回调请求打开、删除或清空；它不直接写存储或管理导航历史。通信模块只传递消息，收到后台重连消息是否加载 iframe，仍由侧边栏入口判断。所有最近条目操作继续使用同一个串行队列，避免删除和导航交错写回旧状态。
 
@@ -107,7 +108,8 @@ Vite 多页面入口处理侧边栏、设置、帮助和后台 ES module，页�
 - 停止后台 Service Worker，等待新的 worker 自动启动，现有 iframe 不重建。
 - 内部链接、前进后退、刷新、重定向与标题归属。
 - 「更多」关闭当前网页后卸载 iframe 并返回欢迎页，清空当前导航、拒绝旧网页排队消息、保留最近记录和其他窗口；关闭加载中网页、从最近列表重开、刷新面板及浏览器重启后的空状态。
-- 窄屏／窗口宽度只重排并保留输入；请求手机版按网站开启／关闭时重载，不新增历史或最近条目。
+- 窄屏／窗口宽度只重排并保留输入；请求手机版按网站开启／关闭时重载，不新增历史或最近条目。设置页默认布局为窗口宽度。
+- 侧窗网页请求带 `sec-fetch-dest: document`；网站自身 service worker 代为获取的网页仍能显示；模拟 HTTPS 网页可读取自身 Lax/Strict/None Cookie，读不到 HttpOnly（`scripts/browser/frame-compat.mjs`）。
 - 动态标题、最近条目选择、键盘移动、单条删除后的焦点与菜单保持。
 - 地址联想：四类来源、同网址去重、键盘／鼠标选择与最近记录、中文输入法、过期查询与 Escape 隔离、点击网页／最近按钮收起，以及原生侧窗与 320px／480px 深浅色模拟布局（`scripts/browser/address-suggestions.mjs`）。
 - 原生侧边栏截图；480px 和 320px **模拟内容视口**的工具栏、最近菜单和更多菜单文案边界检查。320px 不代表 Chrome 原生侧边栏支持该宽度。

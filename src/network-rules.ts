@@ -20,6 +20,9 @@ export function panelRules(
       condition: documents,
       action: {
         type: 'modifyHeaders',
+        // Some sites (e.g. Facebook, WhatsApp Web) answer framed navigations with an
+        // error page based on fetch metadata alone; present them as documents.
+        requestHeaders: [{ header: 'sec-fetch-dest', operation: 'set', value: 'document' }],
         responseHeaders: [{ header: 'x-frame-options', operation: 'remove' }]
       }
     },
@@ -33,6 +36,20 @@ export function panelRules(
       action: {
         type: 'modifyHeaders',
         responseHeaders: [{ header: 'content-security-policy', operation: 'remove' }]
+      }
+    },
+    {
+      id: 3,
+      priority: 1,
+      // Panel frames share the site's unpartitioned storage, so the site's own service
+      // worker can answer their navigations (e.g. Telegram Web A). Its fetches carry the
+      // site's top domain rather than this extension's and are typed as xmlhttprequest,
+      // so this cannot be scoped to the panel. Only X-Frame-Options is removed: it has no
+      // effect on top-level pages, while their CSP must stay intact.
+      condition: { tabIds: [-1], resourceTypes: ['xmlhttprequest'] },
+      action: {
+        type: 'modifyHeaders',
+        responseHeaders: [{ header: 'x-frame-options', operation: 'remove' }]
       }
     }
   ];

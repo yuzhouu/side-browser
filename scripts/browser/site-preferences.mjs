@@ -37,6 +37,8 @@ export async function checkSitePreferences({
     );
   assert.deepEqual(await identity(), native);
   assert.equal(await inner.evaluate('window.requestIdentity["user-agent"]'), native.userAgent);
+  // Panel documents are not rejected by servers checking fetch metadata for framing.
+  assert.equal(await inner.evaluate('window.requestIdentity["sec-fetch-dest"]'), 'document');
   assert.equal(await inner.evaluate('window.initialIdentity.mobile'), false);
   assert(
     await inner.evaluate(

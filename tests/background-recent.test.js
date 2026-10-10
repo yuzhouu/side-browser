@@ -930,12 +930,24 @@ test('invalid stored search engines fall back to Google', async context => {
   assert.equal((await settingsRequest('SETTINGS_GET')).searchEngine, 'google');
 });
 
-test('legacy mobile migrates to native identity; per-site choices survive stale saves and default changes', async context => {
+test('upgrades start at window width and navigation never persists the default layout', async context => {
+  const { chrome, request } = await background(context, {
+    [MODE_KEY]: undefined,
+    'pocket-sidepanel-mode-v1': 'mobile',
+    [LAST_KEY]: { url: a, mode: 'mobile', history: [a], historyIndex: 0 }
+  });
+  assert.equal((await request('PANEL_READY')).mode, 'desktop');
+  await request('PANEL_NAVIGATE', { input: b });
+  assert.equal((await request('PANEL_READY')).mode, 'desktop');
+  assert.equal(chrome.storage.local.values[MODE_KEY], undefined);
+});
+
+test('a saved narrow default keeps native identity; per-site choices survive stale saves and default changes', async context => {
   const { chrome, request, settingsRequest, sender } = await background(context, {
     [MODE_KEY]: 'mobile'
   });
   assert.equal(chrome.scripting.registered.length, 0);
-  assert.equal(chrome.declarativeNetRequest.rules.length, 2);
+  assert.equal(chrome.declarativeNetRequest.rules.length, 3);
   const original = await request('PANEL_NAVIGATE', { input: a });
   assert.equal(original.requestMobile, false);
   await request('PANEL_NAVIGATE', { input: b }, 2);
@@ -957,7 +969,7 @@ test('legacy mobile migrates to native identity; per-site choices survive stale 
     )
   );
   assert.deepEqual(chrome.scripting.registered[0].matches, ['*://a.example/*']);
-  assert.equal(chrome.declarativeNetRequest.rules.length, 4);
+  assert.equal(chrome.declarativeNetRequest.rules.length, 5);
   await settingsRequest('SETTINGS_MODE', { mode: 'desktop' });
   await request('PANEL_SAVE', { state: original });
   assert.equal((await request('PANEL_READY')).mode, 'mobile');
@@ -973,7 +985,7 @@ test('legacy mobile migrates to native identity; per-site choices survive stale 
   assert.equal((await request('PANEL_READY')).mode, 'desktop');
   assert.equal((await request('PANEL_READY')).requestMobile, false);
   assert.equal(chrome.scripting.registered.length, 0);
-  assert.equal(chrome.declarativeNetRequest.rules.length, 2);
+  assert.equal(chrome.declarativeNetRequest.rules.length, 3);
 });
 
 test('site preferences restore before navigation and reject stale or unauthorized changes', async context => {
@@ -981,7 +993,7 @@ test('site preferences restore before navigation and reject stale or unauthorize
   const { request, settingsRequest, chrome } = await background(context, {
     [SITE_PREFERENCES_KEY]: { 'a.example': preference }
   });
-  assert.equal(chrome.declarativeNetRequest.rules.length, 4);
+  assert.equal(chrome.declarativeNetRequest.rules.length, 5);
   await request('PANEL_NAVIGATE', { input: a });
   await assert.rejects(request('PANEL_SITE_PREFERENCE', { url: b, preference }), {
     code: 'errorCurrentPage'
@@ -1032,7 +1044,7 @@ test('site rule and storage failures roll back rules and scripts and remain retr
       };
     await assert.rejects(request('PANEL_SITE_PREFERENCE', { url: a, preference }), /Unavailable/);
     assert.equal((await request('PANEL_READY')).requestMobile, false);
-    assert.equal(chrome.declarativeNetRequest.rules.length, 2);
+    assert.equal(chrome.declarativeNetRequest.rules.length, 3);
     assert.equal(chrome.scripting.registered.length, 0);
     chrome.declarativeNetRequest.updateSessionRules = originalUpdate;
     chrome.storage.local.set = originalWrite;

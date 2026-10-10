@@ -1,6 +1,6 @@
 # 侧窗 · SideBrowser
 
-这是 Chrome Manifest V3 侧边栏浏览器扩展，当前基线版本为 1.1.0。应用源码位于 `src/`，使用 TypeScript strict 和 Vite 构建；Chrome 只加载 `dist/`。
+这是 Chrome Manifest V3 侧边栏浏览器扩展，当前基线版本为 1.2.0。应用源码位于 `src/`，使用 TypeScript strict 和 Vite 构建；Chrome 只加载 `dist/`。
 
 ## 开发入口
 
@@ -14,7 +14,7 @@
 - `src/sidepanel.html/ts/css`：36px 单行导航和网页 iframe。
 - `panel-client.ts`、`recent-menu.ts`：后台通信与重连、最近列表 UI 和键盘焦点；导航和存储规则留在各自模块。
 - `background.ts`、`sidepanel-state.ts`：按窗口保活、导航历史、扩展共用模式偏好。
-- `viewport.ts`、`frame-navigation.ts`、`mobile-*.js`、`network-rules.ts`：手机身份、视口适配、请求规则。
+- `viewport.ts`、`frame-navigation.ts`、`mobile-*.js`、`network-rules.ts`：手机身份、视口适配、请求规则；`frame-cookies*.ts`：侧窗网页读取自身 SameSite Cookie。
 - 先阅读 `docs/project-context.md` 了解已确认的产品约束。
 
 `public/` 只放 manifest、语言包和运行图标，源码、测试、文档、设计素材和依赖不得进入产物。新增注入脚本时同步更新 `scripts/build.ts` 的独立 IIFE 入口；后台仍为 ES module。`src/types.ts` 维护消息、窗口状态和设置的共用类型。
@@ -24,7 +24,7 @@
 - 使用原生 sidePanel，默认同一浏览器窗口共用一个运行中的网页；不同窗口的 URL／历史独立。用户可在更多菜单将当前侧窗绑定到某个标签页；只有已绑定标签使用独立网页实例和历史，所有未绑定标签继续共享。绑定会移走当前共享网页并清空共享网址／历史，未绑定标签回到欢迎页。没有全局独立模式。
 - 切标签、后台 Service Worker 恢复不得重建网页。未绑定标签关闭来源页仍保留共享侧窗；关闭已绑定标签会释放对应网页。来源标签只提供一次 URL。
 - 没有常驻辅助标签页，不使用 debugger，不改回独立弹窗或页面浮层。
-- 默认窄屏布局只调整 iframe 宽度与缩放，保留真实浏览器身份和屏幕／输入 API。「请求手机版」按完整域名主动启用，只修改该域名的侧窗请求及页面身份；不声称完整 DevTools 设备模拟。布局和手机请求按网站记住，设置页控制未单独设置网站的默认布局。
+- 默认使用窗口宽度；窄屏布局只调整 iframe 宽度与缩放，保留真实浏览器身份和屏幕／输入 API。「请求手机版」按完整域名主动启用，只修改该域名的侧窗请求及页面身份；不声称完整 DevTools 设备模拟。布局和手机请求按网站记住，设置页控制未单独设置网站的默认布局。
 - 顶部顺序：打开当前网页、竖分隔线、后退、前进、关闭当前网页、短地址栏、更多。更多内是外部新标签打开、网站布局／请求手机版和恢复默认。
 - 用户可见品牌为「侧窗 · SideBrowser」，中文 slogan 为「侧窗小境，意赴遐荒」，英文 slogan 为 “Another page. Right beside you.”。内部 pocket/POCKET 标识属于持久化和通信协议，重命名时避免破坏已有状态。
 

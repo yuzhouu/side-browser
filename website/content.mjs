@@ -89,7 +89,7 @@ export const content = {
     mainLabels: ['主页面 · 维基百科', '主页面 · 时间管理', '主页面 · 维基百科'],
     sideLabels: ['侧窗 · ChatGPT', '侧窗 · 维基百科', '侧窗 · Google 搜索'],
     policyTitle: '隐私政策',
-    updated: '更新于 2026 年 10 月 9 日 · 扩展版本 1.1.0',
+    updated: '更新于 2026 年 10 月 9 日 · 扩展版本 1.2.0',
     policyIntro: '清楚说明侧窗处理什么数据、如何保存，以及如何删除。',
     notFound: '这个页面不在侧窗里。',
     home: '返回首页'
@@ -206,7 +206,7 @@ export const content = {
     mainLabels: ['Main page · Wikipedia', 'Main page · Time management', 'Main page · Wikipedia'],
     sideLabels: ['Sidebar · ChatGPT', 'Sidebar · Wikipedia', 'Sidebar · Google'],
     policyTitle: 'Privacy policy',
-    updated: 'Updated October 9, 2026 · Extension version 1.1.0',
+    updated: 'Updated October 9, 2026 · Extension version 1.2.0',
     policyIntro: 'What SideBrowser handles, where it is stored, and how to delete it.',
     notFound: 'This page has stepped outside.',
     home: 'Back to home'
@@ -326,7 +326,7 @@ export const content = {
     mainLabels: ['メインページ · Wikipedia', 'メインページ · 時間管理', 'メインページ · Wikipedia'],
     sideLabels: ['サイドバー · ChatGPT', 'サイドバー · Wikipedia', 'サイドバー · Google'],
     policyTitle: 'プライバシーポリシー',
-    updated: '更新日：2026 年 10 月 9 日 · 拡張機能バージョン 1.1.0',
+    updated: '更新日：2026 年 10 月 9 日 · 拡張機能バージョン 1.2.0',
     policyIntro: 'SideBrowser が扱うデータ、保存場所、削除方法について説明します。',
     notFound: 'このページは見つかりませんでした。',
     home: 'ホームに戻る'

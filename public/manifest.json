@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "__MSG_extensionName__",
   "default_locale": "en",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "__MSG_extensionDescription__",
   "minimum_chrome_version": "145",
   "permissions": [
@@ -11,6 +11,7 @@
     "history",
     "bookmarks",
     "favicon",
+    "cookies",
     "sidePanel",
     "contextMenus",
     "scripting",
@@ -55,6 +56,19 @@
       "js": ["frame-navigation.js"],
       "all_frames": true,
       "run_at": "document_start"
+    },
+    {
+      "matches": ["https://*/*"],
+      "js": ["frame-cookies-gate.js"],
+      "all_frames": true,
+      "run_at": "document_start"
+    },
+    {
+      "matches": ["https://*/*"],
+      "js": ["frame-cookies-main.js"],
+      "all_frames": true,
+      "run_at": "document_start",
+      "world": "MAIN"
     }
   ],
   "side_panel": {

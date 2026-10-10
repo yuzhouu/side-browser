@@ -28,7 +28,7 @@ Open the current webpage in one click, from the webpage or link context menu, or
 
 Closing a page returns to the welcome screen while keeping favorites, recent pages, preferences, and any tab binding. You can also open the sidebar page in a regular tab from the More menu.
 
-Choose **narrow layout or full width** for each website. Layout changes preserve the page and your input, and use your real browser identity by default. Enable **Request mobile site** only when needed; changing this option reloads that website. Choices are remembered by exact hostname across sidebars and can be reset in Settings. If verification repeats, turn off Request mobile site.
+Pages use **full width** by default; choose **narrow layout** for individual websites. Layout changes preserve the page and your input, and use your real browser identity by default. Enable **Request mobile site** only when needed; changing this option reloads that website. Choices are remembered by exact hostname across sidebars and can be reset in Settings. If verification repeats, turn off Request mobile site.
 
 Choose **light, dark, or system appearance** across windows without reloading pages. Website theme support depends on the site.
 
@@ -44,7 +44,7 @@ SideBrowser is free to install and requires no SideBrowser account. Websites you
 
 ## Your data stays under your control
 
-SideBrowser stores favorites, recent pages, preferences, and page restoration data on your device. Address suggestions query browser history and bookmarks locally without modifying them. The extension does not upload your records to the developer or use telemetry or a developer-operated proxy. Website and search requests go to the services you choose.
+SideBrowser stores favorites, recent pages, preferences, and page restoration data on your device. Address suggestions query browser history and bookmarks locally without modifying them. A page in the sidebar can read its own non-HttpOnly cookies, as it would in a normal tab, so signed-in sites keep working. The extension does not upload your records to the developer or use telemetry or a developer-operated proxy. Website and search requests go to the services you choose.
 
 See the [Privacy Policy](docs/privacy-policy.md) for details.
 

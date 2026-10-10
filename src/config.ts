@@ -2,10 +2,10 @@ import type { Mode, ParsedInput } from './types.js';
 import { PHONE, mobileIdentity } from './mobile-profile.js';
 export { PHONE, mobileIdentity };
 import { userError } from './errors.js';
-export const DEFAULTS = Object.freeze({ mode: 'mobile' });
+export const DEFAULTS = Object.freeze({ mode: 'desktop' });
 export const isWebUrl = (url: unknown): url is string =>
   typeof url === 'string' && /^https?:\/\//i.test(url);
-export const validMode = (mode: unknown): Mode => (mode === 'desktop' ? 'desktop' : 'mobile');
+export const validMode = (mode: unknown): Mode => (mode === 'mobile' ? 'mobile' : 'desktop');
 
 // URLs stay in the browser. The caller chooses the appropriate search route.
 export function parseInput(raw: unknown): ParsedInput {

@@ -10,7 +10,13 @@ async function compile() {
   await rm(outDir, { recursive: true, force: true });
   // Chrome injects these as classic scripts. Each is a self-contained IIFE,
   // without imports, shared chunks or a development-server dependency.
-  for (const name of ['frame-navigation', 'mobile-identity-gate', 'mobile-identity-main']) {
+  for (const name of [
+    'frame-navigation',
+    'frame-cookies-gate',
+    'frame-cookies-main',
+    'mobile-identity-gate',
+    'mobile-identity-main'
+  ]) {
     await build({
       configFile: false,
       publicDir: false,

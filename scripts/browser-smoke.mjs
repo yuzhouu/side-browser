@@ -10,6 +10,7 @@ import { checkSitePreferences } from './browser/site-preferences.mjs';
 import { checkTabPages } from './browser/tab-pages.mjs';
 import { checkFavorites } from './browser/favorites.mjs';
 import { checkSearchEngine } from './browser/search-engine.mjs';
+import { checkFrameCompatibility } from './browser/frame-compat.mjs';
 import { checkAddressSuggestions } from './browser/address-suggestions.mjs';
 
 const rootPath = fileURLToPath(new URL('../dist/', import.meta.url));
@@ -49,6 +50,13 @@ const server = http.createServer((request, response) => {
   } else if (request.url === '/identity-worker.js') {
     response.setHeader('Content-Type', 'text/javascript');
     response.end('postMessage({ userAgent: navigator.userAgent, platform: navigator.platform })');
+  } else if (request.url === '/sw-scope/sw.js') {
+    response.setHeader('Content-Type', 'text/javascript');
+    response.end(`self.addEventListener('install', () => self.skipWaiting());
+self.addEventListener('activate', event => event.waitUntil(clients.claim()));
+self.addEventListener('fetch', event => {
+  if (event.request.mode === 'navigate') event.respondWith(fetch(event.request));
+});`);
   } else if (request.url === '/cross-site-redirect') {
     response.writeHead(302, {
       Location: `http://localhost:${server.address().port}/identity-redirected`
@@ -180,11 +188,11 @@ async function launch() {
   );
   await poll(async () => {
     const rules = await worker.evaluate(() => chrome.declarativeNetRequest.getSessionRules());
+    // Rule 3 matches service-worker fetches, which cannot carry the panel's top domain.
     return (
-      rules.length >= 2 &&
-      rules.every(
-        rule => rule.condition.topDomains?.length === 1 && rule.condition.tabIds?.[0] === -1
-      )
+      rules.length >= 3 &&
+      rules.every(rule => rule.condition.tabIds?.[0] === -1) &&
+      rules.filter(rule => rule.id !== 3).every(rule => rule.condition.topDomains?.length === 1)
     );
   }, 'browser accepted scoped topDomains rules');
   // URL.origin for extension schemes is "null" in Node.
@@ -276,7 +284,7 @@ try {
     await options.locator('html').getAttribute('lang'),
     catalog.documentLanguage.message
   );
-  assert.equal(await options.locator('#mode').inputValue(), 'mobile');
+  assert.equal(await options.locator('#mode').inputValue(), 'desktop');
   assert.equal(await options.locator('#theme').inputValue(), 'system');
   assert(await options.locator('#clear-recent').isDisabled());
   for (const [key, value] of await options
@@ -343,7 +351,8 @@ try {
   await poll(() => options.locator('#theme').isEnabled(), 'saved appearance restored');
   assert.equal(await options.locator('#theme').inputValue(), 'dark');
   await chooseTheme('system');
-  await options.locator('#mode').selectOption('desktop');
+  // The remaining checks run with an explicitly saved narrow default.
+  await options.locator('#mode').selectOption('mobile');
   await poll(
     () =>
       options
@@ -358,19 +367,10 @@ try {
       options
         .locator('#mode')
         .inputValue()
-        .then(value => value === 'desktop'),
+        .then(value => value === 'mobile'),
     'saved setting restored'
   );
   await poll(() => options.locator('#mode').isEnabled(), 'settings restored');
-  await options.locator('#mode').selectOption('mobile');
-  await poll(
-    () =>
-      options
-        .locator('#settings-status')
-        .textContent()
-        .then(text => text === catalog.settingsSaved.message),
-    'mobile saved'
-  );
   const shortcutsOpened = context.waitForEvent('page');
   await options.locator('#manage-shortcut').click();
   const shortcuts = await shortcutsOpened;
@@ -1088,6 +1088,7 @@ try {
     output,
     catalog
   });
+  await checkFrameCompatibility({ panel, context, navigate, frameAt, base, fixture });
   await checkSitePreferences({
     panel,
     context,

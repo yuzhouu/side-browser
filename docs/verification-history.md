@@ -1,3 +1,28 @@
+# 侧窗网页请求元数据（2026-10-10）
+
+- 现象：Facebook、WhatsApp Web 对 `Sec-Fetch-Dest: iframe` 的导航返回 400 错误页，同一请求改为 `document` 返回 200。Instagram、Messenger、Threads、LinkedIn、Reddit、YouTube、GitHub 等两种取值结果相同。
+- 处理：规则 1 在去除 `X-Frame-Options` 的同时，将本扩展非标签文档树内 `sub_frame` 请求的 `Sec-Fetch-Dest` 设为 `document`；普通标签页和请求手机版规则不变。
+- 类型检查、84 项 Node 测试与格式检查通过；Chrome for Testing 153.0.8010.12、英文、独立配置完整浏览器回归通过，新增侧窗网页收到 `sec-fetch-dest: document` 的检查。
+- 在线手动确认（未登录、独立配置）：Facebook、WhatsApp Web 显示登录页；X、Telegram Web（/、/a/、/k/）、t.me 正常；reCAPTCHA、Cloudflare Turnstile、hCaptcha 演示页的嵌套组件仍能显示。
+- 重新打包（版本仍为 1.2.0，修复并入 1.2.0 更新记录）：`npm run release` 的构建与 84 项 Node 测试通过，`releases/` 仅保留 `sidebrowser-1.2.0.zip`（69,457 字节），取代下方 2026-10-09 的同版本包。ZIP 校验通过，29 个文件与 `dist/` 一致，根目录有 `manifest.json`。SHA-256：`f3acb7bc5743ad2f60434166048e8ec1cf35bd3926a8a839cc87df5b2a591ceb`。
+- 当时未解决：X 在侧窗中显示未登录。Chromium 会随侧窗网页的请求发送 SameSite=Lax/Strict Cookie，但这些 Cookie 不会出现在该网页的 `document.cookie` 中（Chrome for Testing 148、149、153 均如此）；X 从 `document.cookie` 读取 `ct0` 作为 `x-csrf-token`。localStorage／IndexedDB 未分区，与普通标签共享。上方 ZIP 已被后续重新打包取代。
+
+# X 登录、Telegram service worker 与默认窗口宽度（2026-10-10）
+
+- Telegram Web A：首次打开后注册 service worker（network-first，3 秒超时后用缓存），之后的 `/a/` 导航由它代为获取，响应带 `X-Frame-Options: deny`，侧窗显示「拒绝了我们的连接请求」；只在侧窗使用也会在第二次打开时出现。`/k/` 的 service worker 不拦截导航，不受影响。实验确认此类请求类型为 `xmlhttprequest`，`topDomains: [扩展 ID]` 不匹配，按网站 `initiatorDomains` 可以匹配。新增规则 3（`tabIds: [-1]`、`xmlhttprequest`，仅移除 `X-Frame-Options`）。X 当前的 `sw.js` 没有 `fetch` 处理，不属于这一问题。
+- X：新增 `cookies` 权限及 `frame-cookies-gate`／`frame-cookies-main` 内容脚本，侧窗直接嵌入的 HTTPS 网页可读取自身非 HttpOnly SameSite Cookie。
+- 默认布局：`DEFAULTS.mode` 与无效值回退改为 `desktop`；默认布局改存 `pocket-sidepanel-mode-v2`，导航保存不再写入，升级忽略 v1，统一从窗口宽度开始。
+- 类型检查、90 项 Node 测试（新增 Cookie 筛选、页面世界／隔离世界脚本、升级默认值）与格式检查通过。Chrome for Testing 153.0.8010.12、英文、独立配置完整浏览器回归 27 项 PASS，新增 service worker 导航与模拟 HTTPS 网页 Cookie 检查；设置页默认值改为窗口宽度。首轮在既有收藏检查中出现一次「更多」菜单未展开即点击的时序失败，与本次改动无关，重跑通过。
+- 用户在日常 Chrome 中确认：已登录的 X 在侧窗中显示账号，Telegram Web A 可正常打开。
+
+# 1.2.0 本地发布包（2026-10-09）
+
+- `package.json`、锁文件根包与源码／产物 manifest 同步为 1.2.0，中英文更新记录已写入 `CHANGELOG.md`；当前开发说明、隐私政策和官网版本文案同步。
+- `npm run release` 的类型检查、构建和 84 项 Node 测试通过，`npm run format:check`、`git diff --check` 通过。版本调整未改变应用行为，本轮未重复浏览器回归；下方中文／德语记录属于打包前的功能验证。
+- `releases/` 仅保留 `sidebrowser-1.2.0.zip`（69,443 字节）。ZIP 校验通过，29 个文件逐字节匹配 `dist/`，根目录有 `manifest.json`，不含源码、测试、文档或依赖。
+- SHA-256：`65b47d23463be4cfac7fef177b76bed5d00958ceded4a7ca54f475525775e446`。
+- 本地官网重新生成并复制 1.2.0 安装包，9 页和 172 个本地链接检查通过；未上传商店、未发布官网，未重新生成历史商店截图素材。
+
 # 网站布局与手机身份分离（2026-10-09）
 
 - 严格类型检查、Vite 构建及 84 项 Node 测试通过；包含旧手机偏好使用真实身份、精确域名恢复、旧导航快照不能覆盖偏好、来源校验、规则／存储失败回滚与重试。`npm run format:check`、`git diff --check` 通过。

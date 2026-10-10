@@ -4,11 +4,11 @@
 
 2026-09-22 补充：Chrome 与 Microsoft Edge 共用源码、`dist/` 与通用 ZIP；设置页按宿主浏览器打开快捷键管理，七种语言的界面使用通用浏览器称呼。Edge 安装及发布说明见 [Edge 发布](edge-publishing.md)，`QA_BROWSER=edge` 可运行同一套独立原生侧栏回归。仅主动开启「请求手机版」的网站使用 Android Chrome 兼容身份；最低 Chromium 145 的请求隔离规则保持不变。已在 [Microsoft Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/%E4%BE%A7%E7%AA%97-%C2%B7-sidebrowser/ejdcoddocalfdcgkadfenfpjplkkjmbi) 上架（2026-09-29 更新）。
 
-侧窗 · SideBrowser 当前版本为 1.1.0（2026-09-22；2026-09-16 的统一版本基线为 1.0.0），项目从原会话工作区的 `outputs/pocket-browser` 复制成独立项目。原始位置：`/Users/yuzhou/Documents/Codex/2026-09-14/new-chat`。早期安装包曾保存在 `releases/archive/sidebrowser-1.6.5.zip`，现已按仅保留最新包的规则清理；原会话的源码和安装包仍保留。英文品牌已统一为 `SideBrowser`，npm 包名为 `sidebrowser-extension`，中文品牌为「侧窗」，中文 slogan 为「侧窗小境，意赴遐荒」，英文 slogan 为 “Another page. Right beside you.”。旧名称 `sidebrowse-1.6.5.zip` 仅为历史记录，不再保存在本地发布目录。
+侧窗 · SideBrowser 当前版本为 1.2.0（2026-10-09；1.1.0 基线为 2026-09-22，1.0.0 基线为 2026-09-16），项目从原会话工作区的 `outputs/pocket-browser` 复制成独立项目。原始位置：`/Users/yuzhou/Documents/Codex/2026-09-14/new-chat`。早期安装包曾保存在 `releases/archive/sidebrowser-1.6.5.zip`，现已按仅保留最新包的规则清理；原会话的源码和安装包仍保留。英文品牌已统一为 `SideBrowser`，npm 包名为 `sidebrowser-extension`，中文品牌为「侧窗」，中文 slogan 为「侧窗小境，意赴遐荒」，英文 slogan 为 “Another page. Right beside you.”。旧名称 `sidebrowse-1.6.5.zip` 仅为历史记录，不再保存在本地发布目录。
 
 ## 使用与开发
 
-本地源码目录继续使用 `sidebrowse`，应用源文件已迁至 `src/` 并采用 TypeScript strict；`public/` 存放 manifest、语言包和运行图标。Vite 生成独立 `dist/`。`npm run release` 先重新构建并运行测试，成功后清空整个 `releases/`，只输出最新 `releases/sidebrowser-1.1.0.zip`；`npm run package` 同样清空后打包，但不额外运行测试。ZIP 根目录直接包含 manifest，不再额外嵌套目录。构建或测试失败时保留上次的包；旧安装包、商店资料包和历史归档不再保留，商店资料需要时运行 `npm run store:package` 重新生成。整个 `releases/` 已从 Git 跟踪中移除并忽略，仅为本地生成目录，打包命令不上传 GitHub。开发依赖、文档、测试与设计素材不会打包。
+本地源码目录继续使用 `sidebrowse`，应用源文件已迁至 `src/` 并采用 TypeScript strict；`public/` 存放 manifest、语言包和运行图标。Vite 生成独立 `dist/`。`npm run release` 先重新构建并运行测试，成功后清空整个 `releases/`，只输出最新 `releases/sidebrowser-1.2.0.zip`；`npm run package` 同样清空后打包，但不额外运行测试。ZIP 根目录直接包含 manifest，不再额外嵌套目录。构建或测试失败时保留上次的包；旧安装包、商店资料包和历史归档不再保留，商店资料需要时运行 `npm run store:package` 重新生成。整个 `releases/` 已从 Git 跟踪中移除并忽略，仅为本地生成目录，打包命令不上传 GitHub。开发依赖、文档、测试与设计素材不会打包。
 
 使用 Node 22.12+，先执行 `npm ci`、`npm run build`，再在 Chrome 145+ 扩展管理页加载 `dist/`。`npm run dev` 监听源码和静态资源重建产物，修改后在 Chrome 点击重新加载。`npm test` 和 `npm run test:browser` 都会先构建。既有独立安装文件夹可用新 ZIP 内容覆盖并保留加载路径；从源码根目录改为加载 `dist/` 会被 Chrome 视为另一个未打包扩展，原身份的数据不会自动转入。
 
@@ -94,10 +94,16 @@ README、七种语言的帮助页、中英文商店文案、权限／审核说�
 
 ## 窄屏布局与网站身份（2026-10-09）
 
-`mode: mobile/desktop` 及旧模式存储键只表示窄屏／窗口宽度。升级不会把旧手机模式转为主动请求手机版；默认没有 UA、Client Hints、navigator 或屏幕 API 覆写。`viewport.ts` 保留 meta viewport 解析和 iframe 尺寸／缩放，但不再向网页发布虚拟屏幕参数。布局变化保留页面实例、输入和历史。
+`mode: mobile/desktop` 只表示窄屏／窗口宽度。默认布局为窗口宽度（2026-10-10）：默认值改存 `pocket-sidepanel-mode-v2`，只在设置页或更多菜单主动更改时写入。旧的 `pocket-sidepanel-mode-v1` 曾在每次导航时写入，无法区分主动选择，因此升级后不再读取，默认统一从窗口宽度开始；网站偏好不受影响。升级不会把旧手机模式转为主动请求手机版；默认没有 UA、Client Hints、navigator 或屏幕 API 覆写。`viewport.ts` 保留 meta viewport 解析和 iframe 尺寸／缩放，但不再向网页发布虚拟屏幕参数。布局变化保留页面实例、输入和历史。
 
 `site-preferences.ts` 维护 `pocket-site-preferences-v1`：按 URL 规范化后的完整 hostname（区分子域，不区分协议和端口）保存 `{ mode, requestMobile }`。更多菜单的选择只覆盖当前网站；窗口宽度会关闭手机请求，切回窄屏不会自动重新开启。恢复默认移除该网站记录，采用设置页默认布局和真实身份。偏好跨窗口、标签绑定及重启保留；导航快照、最近清空、关闭网页都不能覆盖它。设置页可查看和逐项移除记录。
 
 手机请求规则仅覆盖主动启用 hostname 的 HTTP(S) 请求，仍限制在本扩展的非标签文档树；普通标签、未启用子域和第三方验证域保持原生身份。动态内容脚本只注册对应精确域名，并校验最外层祖先是本扩展；同域嵌套文档可以获取同一兼容身份。网络规则在导航前就位，跨域重定向按目标域名选择，无须自动重试。仅真实身份变化触发网页重载；布局变化不会。
+
+侧窗网页兼容（2026-10-10）：
+
+- 侧窗内网页（包括其嵌套框架）的导航请求以 `Sec-Fetch-Dest: document` 发送，因为 Facebook、WhatsApp Web 会仅凭 `iframe` 取值返回错误页；该规则与去除 `X-Frame-Options` 同属规则 1，作用范围相同。
+- 侧窗网页使用未分区的存储（localStorage／IndexedDB 与普通标签共享），网站自身的 service worker 因此可能代为响应侧窗导航（如 Telegram Web A 的 `/a/`）。这类请求由 service worker 发出，`topDomains` 是网站自己而非本扩展，资源类型为 `xmlhttprequest`，无法限定在侧窗。规则 3 对 `tabIds: [-1]` 的 `xmlhttprequest` 响应只移除 `X-Frame-Options`，不移除 CSP（同一响应也可能用于普通标签的顶层页面）。代价：普通标签中由网站自身 service worker 提供的同站嵌入框架也失去 `X-Frame-Options` 保护。同时使用 CSP `frame-ancestors` 和 service worker 导航的网站仍无法显示。
+- Chromium 会随侧窗网页的请求发送 SameSite=Lax/Strict Cookie，却不让该网页的 `document.cookie` 读取；X 从 `document.cookie` 读取 `ct0` 作为 `x-csrf-token`，因此显示未登录。`frame-cookies-gate.ts`（隔离世界）向后台请求，后台校验发送方是本扩展、非标签且为同一 HTTPS 源后，用 `cookies` 权限返回该网站自己的非 HttpOnly、非 `no_restriction`、未分区 Cookie；`frame-cookies-main.ts`（页面世界）把它们追加到 `document.cookie` 读取结果，读取时最多每秒刷新一次。仅作用于侧窗直接嵌入的 HTTPS 顶层文档，嵌套框架、普通标签和无痕窗口不处理；网页脚本写入的 Lax Cookie 仍无效。
 
 可选手机身份仍是兼容功能，不等于设备模拟，Worker、第三方资源和底层浏览器特征仍可能不同。Cloudflare 不保证修改 UA 或跨域整页验证的支持；请求手机版导致反复验证时应关闭，仍无法访问则使用普通标签。此实现不检测或自动解答验证，也不迁移 Cookie。

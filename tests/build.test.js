@@ -40,7 +40,13 @@ test('the extension artifact contains only runtime files with all entry paths re
 });
 
 test('all injected content scripts parse as classic scripts, without module dependencies', () => {
-  for (const name of ['frame-navigation', 'mobile-identity-gate', 'mobile-identity-main']) {
+  for (const name of [
+    'frame-navigation',
+    'frame-cookies-gate',
+    'frame-cookies-main',
+    'mobile-identity-gate',
+    'mobile-identity-main'
+  ]) {
     const source = readFileSync(new URL(`${name}.js`, dist), 'utf8');
     assert.doesNotThrow(() => new Script(source, { filename: `${name}.js` }));
     assert(!/\bimport\s*\(/.test(source), `${name}: dynamic import in an injected script`);
