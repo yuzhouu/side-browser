@@ -93,6 +93,12 @@
   "loadingSlow": {
     "message": "網頁載入時間較長，請重新載入，或從「⋯」在新分頁開啟。"
   },
+  "pageRefused": {
+    "message": "側窗無法顯示此網頁：網站可能禁止被嵌入，或暫時無法連線。"
+  },
+  "openInNewTab": {
+    "message": "在新分頁開啟"
+  },
   "errorInvalidCharacters": {
     "message": "網址包含無效字元。"
   },

@@ -55,3 +55,35 @@ test('document title mutations report metadata without creating location history
   listeners.pageshow();
   assert.equal(messages.at(-1).title, 'Updated title');
 });
+
+test('cross-document destinations are reported before leaving; same-document ones are not', () => {
+  const messages = [],
+    navigation = {};
+  const context = {
+    document: { title: '', head: {}, querySelectorAll: () => [], addEventListener() {} },
+    location: { href: 'https://example.com/', ancestorOrigins: ['chrome-extension://test'] },
+    chrome: { runtime: { id: 'test' } },
+    crypto: { getRandomValues: values => values.fill(1) },
+    parent: { postMessage: (value, origin) => messages.push({ ...value, origin }) },
+    top: {},
+    addEventListener() {},
+    navigation: { addEventListener: (type, listener) => (navigation[type] = listener) },
+    MutationObserver: class {
+      observe() {}
+    }
+  };
+  context.window = context;
+  runInNewContext(
+    readFileSync(new URL('../dist/frame-navigation.js', import.meta.url), 'utf8'),
+    context
+  );
+  const navigate = (url, sameDocument) =>
+    navigation.navigate({ destination: { url, sameDocument } });
+  navigate('https://example.com/#section', true);
+  navigate('blob:https://example.com/file', false);
+  navigate('https://refused.example/page', false);
+  const leaving = messages.filter(message => message.type === 'POCKET_LEAVING');
+  assert.equal(leaving.length, 1);
+  assert.equal(leaving[0].url, 'https://refused.example/page');
+  assert.equal(leaving[0].origin, 'chrome-extension://test');
+});

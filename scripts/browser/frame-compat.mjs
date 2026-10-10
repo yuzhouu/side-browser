@@ -9,7 +9,9 @@ export async function checkFrameCompatibility({
   navigate,
   frameAt,
   base,
-  fixture
+  fixture,
+  catalog,
+  diagnostics
 }) {
   await navigate(`${base}/sw-scope/register`);
   let frame = await frameAt(`${base}/sw-scope/register`);
@@ -22,6 +24,44 @@ export async function checkFrameCompatibility({
   await navigate(`${base}/sw-scope/served`);
   frame = await frameAt(`${base}/sw-scope/served`);
   assert(await frame.evaluate('Boolean(navigator.serviceWorker.controller)'));
+
+  // Refused pages cannot be repaired by rules; the panel offers them in a normal tab.
+  const refused = `${base}/sw-scope/refused`;
+  const openRefused = async expected => {
+    const text = await poll(
+      () =>
+        panel.evaluate(
+          "!document.querySelector('#notice').hidden && !document.querySelector('#notice-open').hidden && document.querySelector('#notice span').textContent"
+        ),
+      'refused page notice'
+    );
+    assert.equal(text, catalog.pageRefused.message);
+    const opened = context.waitForEvent('page');
+    await panel.click('#notice-open');
+    const tab = await opened;
+    await tab.waitForURL(expected);
+    await tab.close();
+  };
+  // A link inside the page: the destination never becomes the panel URL.
+  await frame.evaluate(
+    "(() => { const link = document.createElement('a'); link.href = '/sw-scope/refused?link'; link.textContent = 'refused'; document.body.append(link); link.click(); })()"
+  );
+  await openRefused(`${refused}?link`);
+  // A working page clears the notice (navigate() waits for it to hide).
+  await navigate(`${base}/sw-scope/after-link`);
+  await panel.fill('#address', refused);
+  await panel.press('Enter');
+  await openRefused(refused);
+  await navigate(`${base}/sw-scope/after-address`);
+  frame = await frameAt(`${base}/sw-scope/after-address`);
+  // Chromium logs the deliberate refusals; any other error still fails the run.
+  const refusalLog = `Refused to display '${base}/' in a frame because it set 'X-Frame-Options' to 'deny'.`;
+  assert(diagnostics.errors.includes(refusalLog));
+  diagnostics.errors.splice(
+    0,
+    diagnostics.errors.length,
+    ...diagnostics.errors.filter(error => error !== refusalLog)
+  );
 
   const site = 'https://frame-cookies.example/';
   const cookie = (name, sameSite, httpOnly = false) => ({
@@ -54,6 +94,6 @@ export async function checkFrameCompatibility({
     'strict=1'
   ]);
   console.log(
-    'PASS Service-worker navigations display; panel documents read their SameSite cookies, never HttpOnly'
+    'PASS Service-worker navigations display; refused pages offer a new tab; panel documents read their SameSite cookies, never HttpOnly'
   );
 }

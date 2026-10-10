@@ -486,6 +486,22 @@ test('recent addresses are shared and broadcast while window navigation stays in
   assert.deepEqual((await request('PANEL_READY')).recentUrls, [b, a]);
 });
 
+test('refused destinations open in a new tab without becoming the page or a recent entry', async context => {
+  const { request, chrome } = await background(context, { [LAST_KEY]: { url: a, history: [a] } });
+  const created = [];
+  chrome.tabs.create = async options => created.push(options);
+  const before = await request('PANEL_READY');
+  assert.equal(await request('PANEL_OPEN_TAB', { url: b }), true);
+  assert.deepEqual(created, [{ windowId: 1, url: b, active: true }]);
+  await assert.rejects(request('PANEL_OPEN_TAB', { url: 'javascript:alert(1)' }), {
+    code: 'errorUnsupportedUrl'
+  });
+  assert.equal(created.length, 1);
+  const after = await request('PANEL_READY');
+  assert.equal(after.url, before.url);
+  assert.deepEqual(after.recentUrls, before.recentUrls);
+});
+
 test('clearing stays persisted after stale saves, reloads, external opens and reopening the same URL', async context => {
   const { request, chrome } = await background(context, {
     [RECENT_KEY]: [a, b],

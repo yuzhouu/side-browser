@@ -41,7 +41,7 @@ export type ParsedInput =
   | { kind: 'url'; url: string }
   | { kind: 'search'; text: string };
 export interface FrameMessage {
-  type: 'POCKET_LOCATION' | 'POCKET_VIEWPORT' | 'POCKET_TITLE';
+  type: 'POCKET_LOCATION' | 'POCKET_VIEWPORT' | 'POCKET_TITLE' | 'POCKET_LEAVING';
   url: string;
   title?: string;
   documentId: string;
@@ -71,6 +71,7 @@ export interface PanelRequests {
   PANEL_BIND: [{ sourceTabId: number; bound: boolean }, PanelSnapshot];
   PANEL_CURRENT: [undefined, PanelSnapshot];
   PANEL_EXTERNAL: [undefined, boolean];
+  PANEL_OPEN_TAB: [{ url: string }, boolean];
 }
 export interface SettingsRequests {
   SETTINGS_GET: [undefined, Settings];

@@ -93,6 +93,12 @@
   "loadingSlow": {
     "message": "Cette page met du temps à se charger. Actualisez-la ou utilisez « ⋯ » pour l’ouvrir dans un nouvel onglet."
   },
+  "pageRefused": {
+    "message": "Cette page ne peut pas s’afficher dans la barre latérale. Le site interdit peut-être l’intégration ou est inaccessible."
+  },
+  "openInNewTab": {
+    "message": "Ouvrir dans un nouvel onglet"
+  },
   "errorInvalidCharacters": {
     "message": "L’adresse contient des caractères non valides."
   },

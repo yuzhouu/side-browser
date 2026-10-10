@@ -93,6 +93,12 @@
   "loadingSlow": {
     "message": "Esta página está tardando en cargar. Recárgala o usa «⋯» para abrirla en una pestaña nueva."
   },
+  "pageRefused": {
+    "message": "Esta página no se puede mostrar en la barra lateral. Es posible que el sitio impida insertarla o no esté disponible."
+  },
+  "openInNewTab": {
+    "message": "Abrir en una pestaña nueva"
+  },
   "errorInvalidCharacters": {
     "message": "La dirección contiene caracteres no válidos."
   },

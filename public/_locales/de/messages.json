@@ -93,6 +93,12 @@
   "loadingSlow": {
     "message": "Diese Seite braucht länger zum Laden. Lade sie neu oder öffne sie über „⋯“ in einem neuen Tab."
   },
+  "pageRefused": {
+    "message": "Diese Seite kann nicht in der Seitenleiste angezeigt werden. Die Website verbietet möglicherweise das Einbetten oder ist nicht erreichbar."
+  },
+  "openInNewTab": {
+    "message": "In neuem Tab öffnen"
+  },
   "errorInvalidCharacters": {
     "message": "Die Adresse enthält ungültige Zeichen."
   },

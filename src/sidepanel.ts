@@ -27,6 +27,7 @@ const notice = element('#notice');
 const empty = element('#empty');
 const emptyCurrent = element<HTMLButtonElement>('#empty-current');
 const retry = element('#retry');
+const noticeOpen = element('#notice-open');
 const moreMenu = element('#more-menu');
 const moreButton = element('#more');
 const windowId = (await chrome.windows.getCurrent()).id;
@@ -88,10 +89,11 @@ function setFavorites(favorites: Favorite[]) {
   if (active && !active.disposed) render();
 }
 
-function showNotice(text = '', canRetry = false) {
+function showNotice(text = '', canRetry = false, canOpen = false) {
   notice.hidden = !text;
   element('span', notice).textContent = text;
   retry.hidden = !canRetry;
+  noticeOpen.hidden = !canOpen;
 }
 
 function render(page = active) {
@@ -113,7 +115,7 @@ function render(page = active) {
   page.viewport.apply();
   if (document.activeElement !== address) address.value = state.url;
   empty.hidden = Boolean(state.url);
-  showNotice(page.notice);
+  showNotice(page.notice, false, page.refused);
   const mode = element<HTMLButtonElement>('#mode');
   const mobile = state.mode === 'mobile';
   element('#mode-label').textContent = mobile ? t('switchToDesktop') : t('switchToMobile');
@@ -249,17 +251,20 @@ window.addEventListener('message', event => {
   const page = [...pages.values()].find(
     page => page.started && event.source === page.web.contentWindow
   );
-  if (
-    !page ||
-    !['POCKET_LOCATION', 'POCKET_VIEWPORT', 'POCKET_TITLE'].includes(event.data?.type) ||
-    !isWebUrl(event.data.url)
-  )
+  if (!page || !isWebUrl(event.data?.url) || typeof event.data.documentId !== 'string') return;
+  // The destination may be another origin; it is only offered for opening in a new tab.
+  if (event.data.type === 'POCKET_LEAVING') {
+    page.leaving(event.data.url, event.data.documentId);
     return;
+  }
+  if (!['POCKET_LOCATION', 'POCKET_VIEWPORT', 'POCKET_TITLE'].includes(event.data.type)) return;
   try {
     if (new URL(event.data.url).origin !== event.origin) return;
   } catch {
     return;
   }
+  // Mark the document as reported now; the refusal check runs shortly after its load event.
+  if (event.data.type === 'POCKET_LOCATION') page.reported(event.data.documentId);
   void serial(async () => {
     if (
       page.disposed ||
@@ -453,6 +458,12 @@ document.addEventListener(
   true
 );
 window.addEventListener('blur', () => moreMenu.hidePopover());
+// Opens the refused destination: the in-frame target, or the page's own URL.
+noticeOpen.onclick = () => {
+  const page = active;
+  const url = page.target || page.state.url;
+  if (url) void serial(() => requestFor(page.state.tabId, 'PANEL_OPEN_TAB', { url }));
+};
 retry.onclick = () => {
   void serial(async () => {
     select(await request('PANEL_READY'));

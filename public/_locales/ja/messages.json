@@ -93,6 +93,12 @@
   "loadingSlow": {
     "message": "ページの読み込みに時間がかかっています。再読み込みするか、「⋯」から新しいタブで開いてください。"
   },
+  "pageRefused": {
+    "message": "このページはサイドバーに表示できません。サイトが埋め込みを禁止しているか、接続できない可能性があります。"
+  },
+  "openInNewTab": {
+    "message": "新しいタブで開く"
+  },
   "errorInvalidCharacters": {
     "message": "アドレスに無効な文字が含まれています。"
   },

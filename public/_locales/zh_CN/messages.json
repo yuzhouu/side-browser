@@ -93,6 +93,12 @@
   "loadingSlow": {
     "message": "网页加载时间较长，可刷新重试，或从「⋯」在新标签页打开。"
   },
+  "pageRefused": {
+    "message": "侧窗无法显示此网页：网站可能禁止被嵌入，或暂时无法访问。"
+  },
+  "openInNewTab": {
+    "message": "在新标签页打开"
+  },
   "errorInvalidCharacters": {
     "message": "网址中包含无效字符。"
   },

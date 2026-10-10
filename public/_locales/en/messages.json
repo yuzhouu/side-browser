@@ -93,6 +93,14 @@
   "loadingSlow": {
     "message": "This page is taking a while to load. Reload it, or use “⋯” to open it in a new tab."
   },
+  "pageRefused": {
+    "message": "This page can’t be shown in the sidebar. The site may block embedding or be unreachable.",
+    "description": "Notice when the sidebar page shows a browser error page (refused embedding, network error or blocked PDF)."
+  },
+  "openInNewTab": {
+    "message": "Open in new tab",
+    "description": "Notice button: open the page the sidebar could not display in a normal tab."
+  },
   "errorInvalidCharacters": {
     "message": "The address contains invalid characters."
   },

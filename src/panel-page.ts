@@ -16,6 +16,14 @@ export class PanelPage {
   disposed = false;
   notice = '';
   loadingTimer?: ReturnType<typeof setTimeout>;
+  // A document that finishes loading without reporting its location is a browser error
+  // page: refused embedding, a network error or a blocked plugin (PDF) document.
+  refused = false;
+  target = '';
+  documentId = '';
+  reports = 0;
+  checkedReports = 0;
+  refusalTimer?: ReturnType<typeof setTimeout>;
 
   constructor(
     readonly stage: HTMLElement,
@@ -27,12 +35,44 @@ export class PanelPage {
     this.web.addEventListener('load', () => {
       if (!this.started) return;
       clearTimeout(this.loadingTimer);
+      clearTimeout(this.refusalTimer);
+      // Reports cross processes and can trail the load event slightly.
+      this.refusalTimer = setTimeout(() => {
+        if (this.disposed || !this.started) return;
+        if (this.reports === this.checkedReports) {
+          this.refused = true;
+          this.notice = t('pageRefused');
+        }
+        this.checkedReports = this.reports;
+        this.changed(this);
+      }, 500);
       this.changed(this);
     });
   }
 
+  // A document in this frame reported its location.
+  reported(documentId: string) {
+    this.reports++;
+    this.documentId = documentId;
+    this.target = '';
+    if (this.refused) this.notice = '';
+    this.refused = false;
+  }
+
+  // The current document is navigating away: its successor must report before it loads,
+  // even if this document's own load event never fired. Stale documents are ignored.
+  leaving(url: string, documentId: string) {
+    if (documentId !== this.documentId) return;
+    this.target = url;
+    this.checkedReports = this.reports;
+  }
+
   load(url: string) {
     clearTimeout(this.loadingTimer);
+    clearTimeout(this.refusalTimer);
+    this.refused = false;
+    this.target = url;
+    this.checkedReports = this.reports;
     this.notice = '';
     this.title = '';
     this.titleUrl = '';
@@ -77,6 +117,7 @@ export class PanelPage {
   dispose() {
     this.disposed = true;
     clearTimeout(this.loadingTimer);
+    clearTimeout(this.refusalTimer);
     this.viewport.resize.disconnect();
     this.stage.remove();
   }

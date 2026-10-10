@@ -61,6 +61,13 @@
   addEventListener('popstate', () => report());
   addEventListener('hashchange', () => report());
   window.navigation?.addEventListener('currententrychange', () => report());
+  // A refused destination becomes a browser error page without this script, so tell the
+  // panel where a cross-document navigation is going before this document unloads.
+  window.navigation?.addEventListener('navigate', event => {
+    const url = event.destination.url;
+    if (!event.destination.sameDocument && /^https?:/i.test(url))
+      parent.postMessage({ type: 'POCKET_LEAVING', url, documentId }, origin);
+  });
   document.addEventListener(
     'click',
     event => {

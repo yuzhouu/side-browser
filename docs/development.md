@@ -109,7 +109,7 @@ Vite 多页面入口处理侧边栏、设置、帮助和后台 ES module，页�
 - 内部链接、前进后退、刷新、重定向与标题归属。
 - 「更多」关闭当前网页后卸载 iframe 并返回欢迎页，清空当前导航、拒绝旧网页排队消息、保留最近记录和其他窗口；关闭加载中网页、从最近列表重开、刷新面板及浏览器重启后的空状态。
 - 窄屏／窗口宽度只重排并保留输入；请求手机版按网站开启／关闭时重载，不新增历史或最近条目。设置页默认布局为窗口宽度。
-- 侧窗网页请求带 `sec-fetch-dest: document`；网站自身 service worker 代为获取的网页仍能显示；模拟 HTTPS 网页可读取自身 Lax/Strict/None Cookie，读不到 HttpOnly（`scripts/browser/frame-compat.mjs`）。
+- 侧窗网页请求带 `sec-fetch-dest: document`；网站自身 service worker 代为获取的网页仍能显示；网页内链接和地址栏打开被拒绝的页面时显示提示，「在新标签页打开」打开对应目标；模拟 HTTPS 网页可读取自身 Lax/Strict/None Cookie，读不到 HttpOnly（`scripts/browser/frame-compat.mjs`）。
 - 动态标题、最近条目选择、键盘移动、单条删除后的焦点与菜单保持。
 - 地址联想：四类来源、同网址去重、键盘／鼠标选择与最近记录、中文输入法、过期查询与 Escape 隔离、点击网页／最近按钮收起，以及原生侧窗与 320px／480px 深浅色模拟布局（`scripts/browser/address-suggestions.mjs`）。
 - 原生侧边栏截图；480px 和 320px **模拟内容视口**的工具栏、最近菜单和更多菜单文案边界检查。320px 不代表 Chrome 原生侧边栏支持该宽度。

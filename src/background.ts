@@ -483,6 +483,11 @@ chrome.runtime.onMessage.addListener((message: PanelRequest | SettingsRequest, s
           await chrome.tabs.create({ windowId: message.windowId, url, active: true });
         return true;
       }
+      // A destination the side panel could not display (it never became the page URL).
+      case 'PANEL_OPEN_TAB':
+        if (!isWebUrl(message.url)) throw userError('errorUnsupportedUrl');
+        await chrome.tabs.create({ windowId: message.windowId, url: message.url, active: true });
+        return true;
       default:
         throw userError('errorUnknownOperation');
     }

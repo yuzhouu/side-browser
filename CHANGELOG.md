@@ -11,6 +11,7 @@
 - 完善 Microsoft Edge 适配：快捷键管理跳转至宿主浏览器设置，隐藏的绑定网页保持布局以保留滚动状态。
 - 修复 Facebook、WhatsApp Web 在侧窗中显示错误页：侧窗内网页的请求以文档导航的取值（`Sec-Fetch-Dest: document`）发送，避免网站仅凭请求元数据拒绝嵌入；普通标签页不变。
 - 修复 Telegram Web 等网站再次打开时显示「拒绝了我们的连接请求」：网站自身 service worker 代为获取的网页仅移除 `X-Frame-Options`，不改动 CSP。
+- 侧窗无法显示网页时（网站禁止嵌入、无法连接或 PDF），顶部提示原因并提供「在新标签页打开」按钮；网页内点击的链接被拒绝时，按钮打开该链接的目标网址。
 - 修复 X 等网站在侧窗中显示未登录：新增 `cookies` 权限，只为侧窗中直接打开的 HTTPS 网页提供该网站自己的非 HttpOnly SameSite Cookie，与它在普通标签页中可读取的内容一致；HttpOnly Cookie 不会提供给网页，Cookie 不保存、不上传。
 - 更新七种语言的界面、帮助与隐私说明；官网新增日语和自动语言选择。
 
@@ -27,6 +28,7 @@
 - Improved Microsoft Edge compatibility with host-specific shortcut settings and retained layout for hidden bound pages to preserve scroll state.
 - Fixed Facebook and WhatsApp Web showing an error page in the sidebar. Sidebar page requests now carry document fetch metadata (`Sec-Fetch-Dest: document`), so sites no longer reject them based on that header alone. Ordinary browser tabs are unaffected.
 - Fixed Telegram Web and similar sites showing "refused to connect" when reopened. Pages fetched by a site's own service worker have only X-Frame-Options removed; CSP is not changed.
+- When the sidebar can't display a page (embedding refused, unreachable, or a PDF), a notice explains why and offers Open in new tab. For a refused link inside a page, the button opens the link's destination.
 - Fixed X and similar sites appearing signed out in the sidebar. The new `cookies` permission provides the HTTPS page opened directly in the sidebar with its own non-HttpOnly SameSite cookies, matching what it can read in a normal tab. HttpOnly cookies are never provided to the page, and cookies are not stored or uploaded.
 - Updated the interface, help, and privacy disclosures in seven languages. Added Japanese and automatic language selection to the website.
 

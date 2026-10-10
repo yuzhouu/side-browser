@@ -55,7 +55,12 @@ const server = http.createServer((request, response) => {
     response.end(`self.addEventListener('install', () => self.skipWaiting());
 self.addEventListener('activate', event => event.waitUntil(clients.claim()));
 self.addEventListener('fetch', event => {
-  if (event.request.mode === 'navigate') event.respondWith(fetch(event.request));
+  // A worker-built response is never seen by network rules, so it stays refused.
+  if (new URL(event.request.url).pathname === '/sw-scope/refused')
+    event.respondWith(new Response('<!doctype html><title>Refused</title>', {
+      headers: { 'Content-Type': 'text/html', 'X-Frame-Options': 'DENY' }
+    }));
+  else if (event.request.mode === 'navigate') event.respondWith(fetch(event.request));
 });`);
   } else if (request.url === '/cross-site-redirect') {
     response.writeHead(302, {
@@ -1088,7 +1093,16 @@ try {
     output,
     catalog
   });
-  await checkFrameCompatibility({ panel, context, navigate, frameAt, base, fixture });
+  await checkFrameCompatibility({
+    panel,
+    context,
+    navigate,
+    frameAt,
+    base,
+    fixture,
+    catalog,
+    diagnostics
+  });
   await checkSitePreferences({
     panel,
     context,
