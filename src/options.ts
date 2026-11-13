@@ -1,7 +1,8 @@
 import { element } from './dom.js';
 import { shortcutsUrl } from './browser.js';
 import { validMode } from './config.js';
-import { SEARCH_ENGINE_KEY, validSearchEngine } from './search-engine.js';
+import { CUSTOM_SEARCH_ENGINE_KEY, SEARCH_ENGINE_KEY } from './search-engine.js';
+import { SearchEngineSettings } from './search-engine-settings.js';
 import { validTheme } from './theme-preference.js';
 import type { Settings, SettingsRequests, RequestArgs, Response } from './types.js';
 import { localizeDocument, t, errorMessage } from './i18n.js';
@@ -16,7 +17,6 @@ import { FavoriteSettings } from './favorite-settings.js';
 localizeDocument();
 const mode = element<HTMLSelectElement>('#mode');
 const theme = element<HTMLSelectElement>('#theme');
-const searchEngine = element<HTMLSelectElement>('#search-engine');
 const clear = element<HTMLButtonElement>('#clear-recent');
 const confirmation = element('#clear-confirmation');
 const confirmClear = element<HTMLButtonElement>('#confirm-clear');
@@ -34,6 +34,18 @@ const favoriteSettings = new FavoriteSettings({
   onMove: (url, targetUrl, position) =>
     changeFavorites('SETTINGS_MOVE_FAVORITE', [{ url, targetUrl, position }])
 });
+const searchSettings = new SearchEngineSettings(
+  engine => change('SETTINGS_SEARCH_ENGINE', [{ searchEngine: engine }], 'settingsSaved'),
+  async customSearchEngine => {
+    const result = await change(
+      'SETTINGS_CUSTOM_SEARCH_ENGINE',
+      [{ customSearchEngine }],
+      'settingsSaved'
+    );
+    if (result && !result.ok) searchSettings.showError(result.error);
+    return result?.ok === true;
+  }
+);
 
 async function changeFavorites<K extends keyof SettingsRequests>(
   type: K,
@@ -62,14 +74,13 @@ function render() {
   favoriteSettings.render(settings?.favorites || [], busy || !settings);
   mode.disabled = busy || !settings;
   theme.disabled = busy || !settings;
-  searchEngine.disabled = busy || !settings;
+  searchSettings.render(settings, busy);
   clear.disabled = busy || !settings?.recentCount;
   confirmClear.disabled = cancelClear.disabled = busy;
   if (!settings) return;
   if (!busy) {
     mode.value = settings.mode;
     theme.value = settings.theme;
-    searchEngine.value = settings.searchEngine;
   }
   element('#recent-count').textContent = t('settingsRecentCount', String(settings.recentCount));
   if (!settings.recentCount) confirmation.hidden = true;
@@ -165,13 +176,6 @@ mode.addEventListener('change', () =>
 theme.addEventListener('change', () =>
   change('SETTINGS_THEME', [{ theme: validTheme(theme.value) }], 'settingsSaved')
 );
-searchEngine.addEventListener('change', () =>
-  change(
-    'SETTINGS_SEARCH_ENGINE',
-    [{ searchEngine: validSearchEngine(searchEngine.value) }],
-    'settingsSaved'
-  )
-);
 clear.addEventListener('click', () => {
   confirmation.hidden = false;
   cancelClear.focus();
@@ -213,6 +217,7 @@ chrome.storage.onChanged.addListener((changes, area) => {
       SITE_PREFERENCES_KEY in changes ||
       THEME_KEY in changes ||
       SEARCH_ENGINE_KEY in changes ||
+      CUSTOM_SEARCH_ENGINE_KEY in changes ||
       FAVORITES_KEY in changes ||
       RECENT_KEY in changes) &&
     !busy

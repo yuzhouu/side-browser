@@ -75,6 +75,25 @@ select,
   min-height: 38px;
   max-width: 100%;
 }
+select {
+  appearance: none;
+  padding-right: 36px;
+  background-image:
+    linear-gradient(45deg, transparent 50%, currentColor 50%),
+    linear-gradient(135deg, currentColor 50%, transparent 50%);
+  background-position:
+    right 17px center,
+    right 12px center;
+  background-size: 5px 5px;
+  background-repeat: no-repeat;
+}
+@media (forced-colors: active) {
+  select {
+    appearance: auto;
+    padding-right: 12px;
+    background-image: none;
+  }
+}
 .button-link {
   display: inline-block;
   text-decoration: none;
@@ -149,6 +168,46 @@ select:disabled {
 }
 .setting-row + .setting-row {
   border-top: 1px solid var(--row-border);
+}
+.custom-search {
+  padding: 0 0 20px;
+}
+.custom-search + .setting-row {
+  border-top: 1px solid var(--row-border);
+}
+.custom-search label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+.custom-search input {
+  width: 100%;
+  min-width: 0;
+  margin-bottom: 14px;
+  padding: 9px 12px;
+  font: inherit;
+  font-size: 14px;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--control-border);
+  border-radius: 8px;
+}
+.custom-search input[aria-invalid='true'] {
+  border-color: var(--danger);
+}
+.custom-search p {
+  margin: 0 0 12px;
+  font-size: 13px;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+.custom-search .button-row {
+  flex-wrap: wrap;
+}
+.custom-search .status {
+  margin: 8px 0 0;
+  min-height: 0;
 }
 .setting-copy {
   flex: 1;

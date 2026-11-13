@@ -1,6 +1,6 @@
 import { element } from './dom.js';
-import type { SearchEngine } from './types.js';
-import { SEARCH_ENGINES } from './search-engine.js';
+import type { CustomSearchEngine, SearchEngine } from './types.js';
+import { searchEngineDetails } from './search-engine.js';
 import { t } from './i18n.js';
 import { recentFaviconUrl } from './recent-urls.js';
 import {
@@ -23,17 +23,14 @@ export class AddressAutocomplete {
   private localKey = '';
 
   sync() {
-    if (
-      this.list.matches(':popover-open') &&
-      this.localKey !== JSON.stringify([localCandidates(this.getState()), this.getEngine()])
-    )
-      this.refresh();
+    if (this.list.matches(':popover-open') && this.localKey !== this.stateKey()) this.refresh();
   }
 
   constructor(
     private getState: () => SuggestionState | undefined,
     private onOpen: (url: string) => void,
-    private getEngine: () => SearchEngine
+    private getEngine: () => SearchEngine,
+    private getCustomEngine: () => CustomSearchEngine | null
   ) {
     this.input.addEventListener('focus', () => this.input.select());
     this.input.addEventListener('mousedown', event => {
@@ -119,7 +116,7 @@ export class AddressAutocomplete {
     const revision = this.revision;
     const query = this.input.value;
     const state = this.getState();
-    this.localKey = JSON.stringify([localCandidates(state), this.getEngine()]);
+    this.localKey = this.stateKey();
     this.render(rankSuggestions(query, localCandidates(state)));
     this.timer = setTimeout(async () => {
       const items = await querySuggestions(query, this.getState());
@@ -127,8 +124,16 @@ export class AddressAutocomplete {
     }, 120);
   }
 
+  private stateKey() {
+    return JSON.stringify([
+      localCandidates(this.getState()),
+      this.getEngine(),
+      this.getCustomEngine()
+    ]);
+  }
+
   private render(items: AddressSuggestion[]) {
-    items = withSearchSuggestion(this.input.value, this.getEngine(), items);
+    items = withSearchSuggestion(this.input.value, this.getEngine(), items, this.getCustomEngine());
     const selectedUrl = this.items[this.selected]?.url;
     this.items = items;
     this.selected = selectedUrl ? items.findIndex(item => item.url === selectedUrl) : -1;
@@ -148,7 +153,7 @@ export class AddressAutocomplete {
           const engine =
             item.search.engine === 'baidu'
               ? t('searchEngineBaidu')
-              : SEARCH_ENGINES[item.search.engine].name;
+              : searchEngineDetails(item.search.engine, this.getCustomEngine()).name;
           const label = t('searchWithEngine', engine);
           option.title = `${label}\n${item.search.text}`;
           icon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');

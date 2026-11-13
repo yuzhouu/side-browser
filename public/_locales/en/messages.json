@@ -383,6 +383,27 @@
   "searchEngineBaidu": {
     "message": "Baidu"
   },
+  "searchEngineCustom": {
+    "message": "Custom…"
+  },
+  "customSearchName": {
+    "message": "Search engine name"
+  },
+  "customSearchUrl": {
+    "message": "Search URL"
+  },
+  "customSearchHint": {
+    "message": "Use %s in the URL path or query for your search terms. Save to use this engine in every sidebar."
+  },
+  "customSearchSave": {
+    "message": "Save and use"
+  },
+  "errorCustomSearchName": {
+    "message": "Enter a search engine name of 1–80 characters."
+  },
+  "errorCustomSearchUrl": {
+    "message": "Enter a valid HTTP or HTTPS search URL with %s in its path or query."
+  },
   "searchWithEngine": {
     "message": "Search with $ENGINE$",
     "placeholders": {

@@ -381,6 +381,27 @@
   "searchEngineBaidu": {
     "message": "Baidu"
   },
+  "searchEngineCustom": {
+    "message": "カスタム…"
+  },
+  "customSearchName": {
+    "message": "検索エンジン名"
+  },
+  "customSearchUrl": {
+    "message": "検索 URL"
+  },
+  "customSearchHint": {
+    "message": "URL のパスやクエリに検索語句の代わりに %s を入れてください。保存すると、すべてのサイドバーで使用されます。"
+  },
+  "customSearchSave": {
+    "message": "保存して使用"
+  },
+  "errorCustomSearchName": {
+    "message": "検索エンジン名を 1〜80 文字で入力してください。"
+  },
+  "errorCustomSearchUrl": {
+    "message": "パスやクエリに %s を含む、有効な HTTP または HTTPS の検索 URL を入力してください。"
+  },
   "searchWithEngine": {
     "message": "$ENGINE$ で検索",
     "placeholders": {

@@ -1,4 +1,8 @@
-export type SearchEngine = 'google' | 'bing' | 'baidu' | 'duckduckgo';
+export type SearchEngine = 'google' | 'bing' | 'baidu' | 'duckduckgo' | 'yahoo-japan' | 'custom';
+export interface CustomSearchEngine {
+  name: string;
+  url: string;
+}
 export type Mode = 'mobile' | 'desktop';
 export type Theme = 'system' | 'light' | 'dark';
 export interface SitePreference {
@@ -26,6 +30,7 @@ export interface PanelSnapshot extends PanelState, BrowsingPreferences {
   tabId: number | null;
   sourceTabId?: number;
   searchEngine: SearchEngine;
+  customSearchEngine: CustomSearchEngine | null;
   recentUrls: string[];
   recentTitles: Record<string, string>;
   favorites: Favorite[];
@@ -37,6 +42,7 @@ export interface Settings {
   theme: Theme;
   recentCount: number;
   searchEngine: SearchEngine;
+  customSearchEngine: CustomSearchEngine | null;
 }
 export type ParsedInput =
   | { kind: 'home' }
@@ -55,7 +61,11 @@ export type BackgroundMessage =
   | { type: 'recent'; urls: string[]; titles: Record<string, string> }
   | { type: 'favorites'; favorites: Favorite[] }
   | ({ type: 'preferences' } & BrowsingPreferences)
-  | { type: 'search-engine'; searchEngine: SearchEngine };
+  | {
+      type: 'search-engine';
+      searchEngine: SearchEngine;
+      customSearchEngine: CustomSearchEngine | null;
+    };
 export interface PanelRequests {
   PANEL_READY: [undefined, PanelSnapshot];
   PANEL_SAVE: [{ state: PanelState }, PanelSnapshot];
@@ -86,6 +96,7 @@ export interface SettingsRequests {
   SETTINGS_RESET_SITE: [{ hostname: string }, Settings];
   SETTINGS_THEME: [{ theme: Theme }, Settings];
   SETTINGS_SEARCH_ENGINE: [{ searchEngine: SearchEngine }, Settings];
+  SETTINGS_CUSTOM_SEARCH_ENGINE: [{ customSearchEngine: CustomSearchEngine }, Settings];
   SETTINGS_CLEAR_RECENT: [undefined, Settings];
   SETTINGS_REMOVE_FAVORITE: [{ url: string }, Settings];
   SETTINGS_RENAME_FAVORITE: [{ url: string; title: string }, Settings];

@@ -33,8 +33,39 @@
             <option value="bing">Bing</option>
             <option value="baidu" data-i18n="searchEngineBaidu"></option>
             <option value="duckduckgo">DuckDuckGo</option>
+            <option value="yahoo-japan">Yahoo! JAPAN</option>
+            <option value="custom" data-i18n="searchEngineCustom"></option>
           </select>
         </div>
+        <form id="custom-search-engine" class="custom-search" hidden novalidate>
+          <label for="custom-search-name" data-i18n="customSearchName"></label>
+          <input
+            id="custom-search-name"
+            type="text"
+            maxlength="80"
+            required
+            autocomplete="off"
+            aria-describedby="custom-search-feedback"
+          />
+          <label for="custom-search-url" data-i18n="customSearchUrl"></label>
+          <input
+            id="custom-search-url"
+            type="text"
+            inputmode="url"
+            maxlength="4096"
+            required
+            autocomplete="off"
+            spellcheck="false"
+            placeholder="https://example.com/search?q=%s"
+            aria-describedby="custom-search-hint custom-search-feedback"
+          />
+          <p id="custom-search-hint" data-i18n="customSearchHint"></p>
+          <div class="button-row">
+            <button id="cancel-custom-search" type="button" data-i18n="settingsCancel"></button>
+            <button id="save-custom-search" type="submit" data-i18n="customSearchSave"></button>
+          </div>
+          <p id="custom-search-feedback" class="status" role="status" aria-live="polite"></p>
+        </form>
         <div class="setting-row">
           <div class="setting-copy">
             <label for="theme" data-i18n="settingsTheme"></label>

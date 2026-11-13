@@ -381,6 +381,27 @@
   "searchEngineBaidu": {
     "message": "百度"
   },
+  "searchEngineCustom": {
+    "message": "自訂…"
+  },
+  "customSearchName": {
+    "message": "搜尋引擎名稱"
+  },
+  "customSearchUrl": {
+    "message": "搜尋網址"
+  },
+  "customSearchHint": {
+    "message": "在網址路徑或查詢參數中用 %s 代替搜尋詞。儲存後用於所有側窗。"
+  },
+  "customSearchSave": {
+    "message": "儲存並使用"
+  },
+  "errorCustomSearchName": {
+    "message": "請輸入 1–80 個字元的搜尋引擎名稱。"
+  },
+  "errorCustomSearchUrl": {
+    "message": "請輸入有效的 HTTP 或 HTTPS 搜尋網址，並在路徑或查詢參數中包含 %s。"
+  },
   "searchWithEngine": {
     "message": "使用 $ENGINE$ 搜尋",
     "placeholders": {

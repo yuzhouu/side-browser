@@ -381,6 +381,27 @@
   "searchEngineBaidu": {
     "message": "Baidu"
   },
+  "searchEngineCustom": {
+    "message": "Personalizado…"
+  },
+  "customSearchName": {
+    "message": "Nombre del buscador"
+  },
+  "customSearchUrl": {
+    "message": "URL de búsqueda"
+  },
+  "customSearchHint": {
+    "message": "Use %s en la ruta o los parámetros de la URL para representar los términos de búsqueda. Al guardar, se usará este buscador en todos los paneles laterales."
+  },
+  "customSearchSave": {
+    "message": "Guardar y usar"
+  },
+  "errorCustomSearchName": {
+    "message": "Introduzca un nombre de buscador de entre 1 y 80 caracteres."
+  },
+  "errorCustomSearchUrl": {
+    "message": "Introduzca una URL de búsqueda HTTP o HTTPS válida con %s en la ruta o los parámetros."
+  },
   "searchWithEngine": {
     "message": "Buscar con $ENGINE$",
     "placeholders": {

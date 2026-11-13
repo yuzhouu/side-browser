@@ -65,7 +65,8 @@ export async function checkSearchEngine({
     google: 'https://www.google.com/search?q=',
     bing: 'https://www.bing.com/search?q=',
     baidu: 'https://www.baidu.com/s?wd=',
-    duckduckgo: 'https://duckduckgo.com/?q='
+    duckduckgo: 'https://duckduckgo.com/?q=',
+    'yahoo-japan': 'https://search.yahoo.co.jp/search?p='
   };
   const patterns = Object.values(engines).map(prefix => `${prefix}*`);
   await panel.mockResponse(patterns, fixture);
@@ -87,6 +88,36 @@ export async function checkSearchEngine({
     assert.equal((await state()).recentUrls[0], expected);
     assert.equal(await frame.evaluate('location.href'), expected);
   }
+  // A custom choice is only applied after its form has been saved.
+  const beforeCustom = await state();
+  const customToken = await frame.evaluate('window.token');
+  await options.locator('#search-engine').selectOption('custom');
+  await options.locator('#custom-search-name').fill('Custom search');
+  await options.locator('#custom-search-url').fill('https://example.com/search');
+  await options.locator('#save-custom-search').click();
+  assert.equal((await state()).searchEngine, 'yahoo-japan');
+  assert.equal(await options.locator('#custom-search-url').getAttribute('aria-invalid'), 'true');
+  const template = `${base}/custom-search?q=%s&lang=ja`;
+  await options.locator('#custom-search-url').fill(template);
+  await options.locator('#save-custom-search').click();
+  await poll(async () => (await state()).searchEngine === 'custom', 'custom search saved');
+  assert.equal(await frame.evaluate('window.token'), customToken);
+  assert.equal((await state()).url, beforeCustom.url);
+  assert.deepEqual((await state()).history, beforeCustom.history);
+  await options.reload();
+  await poll(() => options.locator('#search-engine').isEnabled(), 'custom search restored');
+  assert.equal(await options.locator('#search-engine').inputValue(), 'custom');
+  assert.equal(await options.locator('#custom-search-name').inputValue(), 'Custom search');
+  assert.equal(await options.locator('#custom-search-url').inputValue(), template);
+  await options.locator('#custom-search-name').fill('Unsaved name');
+  await options.locator('#cancel-custom-search').click();
+  assert.equal(await options.locator('#custom-search-name').inputValue(), 'Custom search');
+  await panel.fill('#address', '日本語 & custom');
+  await poll(async () => (await label())?.includes('Custom search'), 'custom engine action');
+  await panel.press('Enter');
+  frame = await loaded(`${base}/custom-search?q=${encodeURIComponent('日本語 & custom')}&lang=ja`);
+  await options.locator('#search-engine').selectOption('duckduckgo');
+  await poll(async () => (await state()).searchEngine === 'duckduckgo', 'builtin engine restored');
   // URL input still navigates normally, while the explicit action searches that URL as text.
   await frame.mockResponse(patterns, fixture);
   await panel.fill('#address', 'example.com/docs');
@@ -112,6 +143,6 @@ export async function checkSearchEngine({
   await screenshot('toolbar-home-welcome');
   await options.close();
   console.log(
-    'PASS Search engine settings, persistence, live updates without reload, all four search URLs in iframe (fixture responses), plain Enter/search action and toolbar home'
+    'PASS Search engine settings, persistence, live updates without reload, five built-in search URLs in iframe (fixture responses), custom search validation/save/cancel/restore, plain Enter/search action and toolbar home'
   );
 }

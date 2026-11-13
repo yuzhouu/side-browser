@@ -381,6 +381,27 @@
   "searchEngineBaidu": {
     "message": "百度"
   },
+  "searchEngineCustom": {
+    "message": "自定义…"
+  },
+  "customSearchName": {
+    "message": "搜索引擎名称"
+  },
+  "customSearchUrl": {
+    "message": "搜索网址"
+  },
+  "customSearchHint": {
+    "message": "在网址路径或查询参数中用 %s 代替搜索词。保存后用于所有侧窗。"
+  },
+  "customSearchSave": {
+    "message": "保存并使用"
+  },
+  "errorCustomSearchName": {
+    "message": "请输入 1–80 个字符的搜索引擎名称。"
+  },
+  "errorCustomSearchUrl": {
+    "message": "请输入有效的 HTTP 或 HTTPS 搜索网址，并在路径或查询参数中包含 %s。"
+  },
   "searchWithEngine": {
     "message": "用 $ENGINE$ 搜索",
     "placeholders": {

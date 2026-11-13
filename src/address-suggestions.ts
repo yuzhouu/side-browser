@@ -1,6 +1,6 @@
 import { searchUrl } from './search-engine.js';
 import { favoriteLabel } from './favorites.js';
-import type { SearchEngine, PanelSnapshot } from './types.js';
+import type { CustomSearchEngine, SearchEngine, PanelSnapshot } from './types.js';
 
 export type SuggestionSource =
   | 'suggestionRecent'
@@ -99,11 +99,12 @@ export async function querySuggestions(
 export function withSearchSuggestion(
   query: string,
   engine: SearchEngine,
-  items: AddressSuggestion[]
+  items: AddressSuggestion[],
+  custom: CustomSearchEngine | null = null
 ): AddressSuggestion[] {
   const text = query.trim();
   if (!text) return items;
-  const url = searchUrl(text, engine);
+  const url = searchUrl(text, engine, custom);
   return [
     { url, title: '', sources: [], search: { text, engine } },
     ...items.filter(item => item.url !== url).slice(0, 7)

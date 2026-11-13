@@ -1,6 +1,7 @@
 import type {
   Mode,
   SearchEngine,
+  CustomSearchEngine,
   Theme,
   PanelState,
   PanelSnapshot,
@@ -35,7 +36,13 @@ import { FRAME_COOKIES, frameCookieUrl, scriptHiddenCookies } from './frame-cook
 import { t } from './i18n.js';
 import { userError } from './errors.js';
 import { THEME_KEY, validTheme } from './theme-preference.js';
-import { SEARCH_ENGINE_KEY, validSearchEngine } from './search-engine.js';
+import {
+  SEARCH_ENGINE_KEY,
+  CUSTOM_SEARCH_ENGINE_KEY,
+  validSearchEngine,
+  parseCustomSearchEngine,
+  restoreCustomSearchEngine
+} from './search-engine.js';
 import { FAVORITES_KEY, restoreFavorites, moveFavorite, updateFavorite } from './favorites.js';
 
 import {
@@ -60,6 +67,7 @@ let mode: Mode;
 let sitePreferences: SitePreferences = {};
 let theme: Theme;
 let searchEngine: SearchEngine;
+let customSearchEngine: CustomSearchEngine | null;
 let recentUrls: string[] = [];
 let recentTitles: Record<string, string> = {};
 let favorites: Favorite[] = [];
@@ -105,6 +113,7 @@ const ready = (async () => {
       SITE_PREFERENCES_KEY,
       THEME_KEY,
       SEARCH_ENGINE_KEY,
+      CUSTOM_SEARCH_ENGINE_KEY,
       RECENT_KEY,
       RECENT_TITLES_KEY,
       FAVORITES_KEY,
@@ -116,7 +125,8 @@ const ready = (async () => {
   mode = validMode(local[MODE_KEY]);
   sitePreferences = restoreSitePreferences(local[SITE_PREFERENCES_KEY]);
   theme = validTheme(local[THEME_KEY]);
-  searchEngine = validSearchEngine(local[SEARCH_ENGINE_KEY]);
+  customSearchEngine = restoreCustomSearchEngine(local[CUSTOM_SEARCH_ENGINE_KEY]);
+  searchEngine = validSearchEngine(local[SEARCH_ENGINE_KEY], customSearchEngine);
   recentUrls = restoreRecentUrls(local[RECENT_KEY]);
   recentTitles = restoreRecentTitles(local[RECENT_TITLES_KEY], recentUrls);
   favorites = restoreFavorites(local[FAVORITES_KEY]);
@@ -155,6 +165,7 @@ function getState(windowId: number, tabId: number | null = null): PanelSnapshot 
     ...getBrowsingPreferences(),
     ...sitePreference(state.url, mode, sitePreferences),
     searchEngine,
+    customSearchEngine: structuredClone(customSearchEngine),
     recentUrls: [...recentUrls],
     recentTitles: { ...recentTitles },
     favorites: structuredClone(favorites)
@@ -304,7 +315,7 @@ async function navigate(
   broadcast = true
 ) {
   const state = getState(windowId, tabId);
-  const url = frameDestination(input, parseInput, searchEngine);
+  const url = frameDestination(input, parseInput, searchEngine, customSearchEngine);
   const title = normalizeRecentTitle(sourceTitle);
   await saveRecent(
     rememberRecentUrl(recentUrls, url),
@@ -369,10 +380,31 @@ async function setTheme(value: unknown) {
 }
 
 async function setSearchEngine(value: unknown) {
-  const next = validSearchEngine(value);
+  if (value === 'custom' && !customSearchEngine) throw userError('errorCustomSearchUrl');
+  const next = validSearchEngine(value, customSearchEngine);
   await chrome.storage.local.set({ [SEARCH_ENGINE_KEY]: next });
   searchEngine = next;
-  for (const id of ports.keys()) publish(id, { type: 'search-engine', searchEngine });
+  publishSearchEngine();
+}
+
+async function setCustomSearchEngine(value: unknown) {
+  const next = parseCustomSearchEngine(value);
+  await chrome.storage.local.set({
+    [CUSTOM_SEARCH_ENGINE_KEY]: next,
+    [SEARCH_ENGINE_KEY]: 'custom'
+  });
+  customSearchEngine = next;
+  searchEngine = 'custom';
+  publishSearchEngine();
+}
+
+function publishSearchEngine() {
+  for (const id of ports.keys())
+    publish(id, {
+      type: 'search-engine',
+      searchEngine,
+      customSearchEngine: structuredClone(customSearchEngine)
+    });
 }
 
 function getSettings(): Settings {
@@ -382,6 +414,7 @@ function getSettings(): Settings {
     sitePreferences: structuredClone(sitePreferences),
     theme,
     searchEngine,
+    customSearchEngine: structuredClone(customSearchEngine),
     recentCount: recentUrls.length
   };
 }
@@ -407,6 +440,9 @@ chrome.runtime.onMessage.addListener((message: PanelRequest | SettingsRequest, s
           return getSettings();
         case 'SETTINGS_SEARCH_ENGINE':
           await setSearchEngine(message.searchEngine);
+          return getSettings();
+        case 'SETTINGS_CUSTOM_SEARCH_ENGINE':
+          await setCustomSearchEngine(message.customSearchEngine);
           return getSettings();
         case 'SETTINGS_CLEAR_RECENT':
           await saveRecent([]);

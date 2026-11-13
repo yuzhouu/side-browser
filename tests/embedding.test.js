@@ -17,7 +17,8 @@ test('search destinations use the selected engine while URLs remain unchanged', 
     google: 'https://www.google.com/search?q=',
     bing: 'https://www.bing.com/search?q=',
     baidu: 'https://www.baidu.com/s?wd=',
-    duckduckgo: 'https://duckduckgo.com/?q='
+    duckduckgo: 'https://duckduckgo.com/?q=',
+    'yahoo-japan': 'https://search.yahoo.co.jp/search?p='
   })) {
     assert.equal(frameDestination(text, parseInput, engine), prefix + encodeURIComponent(text));
     assert.equal(

@@ -12,6 +12,7 @@ import {
 import { THEME_KEY } from '../src/theme-preference.ts';
 import { SITE_PREFERENCES_KEY } from '../src/site-preferences.ts';
 import { FAVORITES_KEY, restoreFavorites } from '../src/favorites.ts';
+import { CUSTOM_SEARCH_ENGINE_KEY, SEARCH_ENGINE_KEY } from '../src/search-engine.ts';
 
 const event = () => ({
   listeners: [],
@@ -532,6 +533,7 @@ test('settings change the shared mode and clear recents without replacing window
     sitePreferences: {},
     theme: 'system',
     searchEngine: 'google',
+    customSearchEngine: null,
     recentCount: 2
   });
   assert.deepEqual(await settingsRequest('SETTINGS_MODE', { mode: 'mobile' }), {
@@ -540,6 +542,7 @@ test('settings change the shared mode and clear recents without replacing window
     sitePreferences: {},
     theme: 'system',
     searchEngine: 'google',
+    customSearchEngine: null,
     recentCount: 2
   });
   assert.equal(chrome.storage.local.values[MODE_KEY], 'mobile');
@@ -552,6 +555,7 @@ test('settings change the shared mode and clear recents without replacing window
     sitePreferences: {},
     theme: 'system',
     searchEngine: 'google',
+    customSearchEngine: null,
     recentCount: 0
   });
   await request('PANEL_SAVE', { state: first });
@@ -1196,6 +1200,123 @@ test('search engine preference persists, broadcasts without navigation, and cont
 test('invalid stored search engines fall back to Google', async context => {
   const { settingsRequest } = await background(context, { 'pocket-search-engine-v1': 'unknown' });
   assert.equal((await settingsRequest('SETTINGS_GET')).searchEngine, 'google');
+});
+
+test('custom engine saves atomically, broadcasts to windows, survives stale saves and restores after restart', async context => {
+  const { chrome, request, settingsRequest, sender } = await background(context);
+  const before = await request('PANEL_NAVIGATE', { input: a });
+  const messages = [];
+  chrome.runtime.onConnect.emit({
+    name: 'pocket-sidepanel:2',
+    sender,
+    onDisconnect: event(),
+    postMessage: message => messages.push(structuredClone(message))
+  });
+  const custom = { name: 'My search', url: 'https://example.com/search?q=%s&lang=ja' };
+  const saved = await settingsRequest('SETTINGS_CUSTOM_SEARCH_ENGINE', {
+    customSearchEngine: custom
+  });
+  assert.equal(saved.searchEngine, 'custom');
+  assert.deepEqual(saved.customSearchEngine, custom);
+  const after = await request('PANEL_READY');
+  assert.equal(after.url, before.url);
+  assert.deepEqual(after.history, before.history);
+  assert.deepEqual(after.recentUrls, before.recentUrls);
+  assert.deepEqual((await request('PANEL_READY', {}, 2)).customSearchEngine, custom);
+  assert(
+    messages.some(
+      message =>
+        message.type === 'search-engine' &&
+        message.searchEngine === 'custom' &&
+        message.customSearchEngine.name === 'My search'
+    )
+  );
+  assert.equal(chrome.storage.local.values[SEARCH_ENGINE_KEY], 'custom');
+  assert.deepEqual(chrome.storage.local.values[CUSTOM_SEARCH_ENGINE_KEY], custom);
+  await request('PANEL_SAVE', { state: before });
+  assert.deepEqual((await settingsRequest('SETTINGS_GET')).customSearchEngine, custom);
+  assert.equal((await settingsRequest('SETTINGS_GET')).searchEngine, 'custom');
+  const query = '日本語 & cats #';
+  const expected = 'https://example.com/search?q=' + encodeURIComponent(query) + '&lang=ja';
+  assert.equal((await request('PANEL_NAVIGATE', { input: query })).url, expected);
+  await settingsRequest('SETTINGS_SEARCH_ENGINE', { searchEngine: 'yahoo-japan' });
+  assert.equal(
+    (await request('PANEL_NAVIGATE', { input: query })).url,
+    'https://search.yahoo.co.jp/search?p=' + encodeURIComponent(query)
+  );
+  assert.deepEqual((await settingsRequest('SETTINGS_GET')).customSearchEngine, custom);
+  await settingsRequest('SETTINGS_SEARCH_ENGINE', { searchEngine: 'custom' });
+  const restarted = await background(context, chrome.storage.local.values);
+  assert.deepEqual((await restarted.settingsRequest('SETTINGS_GET')).customSearchEngine, custom);
+  assert.equal((await restarted.request('PANEL_NAVIGATE', { input: query })).url, expected);
+});
+
+test('invalid or failed custom engine changes leave the selected engine and saved template intact', async context => {
+  const custom = { name: 'Saved', url: 'https://example.com/?q=%s' };
+  const { chrome, request, settingsRequest, sender } = await background(context, {
+    [SEARCH_ENGINE_KEY]: 'custom',
+    [CUSTOM_SEARCH_ENGINE_KEY]: custom
+  });
+  const before = await request('PANEL_READY');
+  const next = { name: 'New engine', url: 'https://new.example/?q=%s' };
+  await assert.rejects(
+    settingsRequest(
+      'SETTINGS_CUSTOM_SEARCH_ENGINE',
+      { customSearchEngine: next },
+      { id: 'test', url: 'https://example.com/' }
+    ),
+    { code: 'errorSettingsOnly' }
+  );
+  await assert.rejects(
+    settingsRequest('SETTINGS_CUSTOM_SEARCH_ENGINE', {
+      customSearchEngine: { name: 'Invalid', url: 'javascript:%s' }
+    }),
+    { code: 'errorCustomSearchUrl' }
+  );
+  const messages = [];
+  chrome.runtime.onConnect.emit({
+    name: 'pocket-sidepanel:1',
+    sender,
+    onDisconnect: event(),
+    postMessage: message => messages.push(structuredClone(message))
+  });
+  messages.length = 0;
+  const originalSet = chrome.storage.local.set;
+  chrome.storage.local.set = async () => {
+    throw new Error('Storage unavailable');
+  };
+  await assert.rejects(
+    settingsRequest('SETTINGS_CUSTOM_SEARCH_ENGINE', { customSearchEngine: next }),
+    /Storage unavailable/
+  );
+  assert.equal(messages.filter(message => message.type === 'search-engine').length, 0);
+  assert.deepEqual(await request('PANEL_READY'), before);
+  assert.deepEqual(chrome.storage.local.values[CUSTOM_SEARCH_ENGINE_KEY], custom);
+  chrome.storage.local.set = originalSet;
+  await settingsRequest('SETTINGS_CUSTOM_SEARCH_ENGINE', { customSearchEngine: next });
+  assert.equal(
+    (await request('PANEL_NAVIGATE', { input: 'words' })).url,
+    'https://new.example/?q=words'
+  );
+});
+
+test('corrupt custom configuration restores Google without blocking navigation or future settings', async context => {
+  const { request, settingsRequest } = await background(context, {
+    [SEARCH_ENGINE_KEY]: 'custom',
+    [CUSTOM_SEARCH_ENGINE_KEY]: { name: 'Broken', url: 'https://%s.example/' }
+  });
+  const restored = await settingsRequest('SETTINGS_GET');
+  assert.equal(restored.searchEngine, 'google');
+  assert.equal(restored.customSearchEngine, null);
+  assert.equal(
+    (await request('PANEL_NAVIGATE', { input: 'words' })).url,
+    'https://www.google.com/search?q=words'
+  );
+  await assert.rejects(settingsRequest('SETTINGS_SEARCH_ENGINE', { searchEngine: 'custom' }), {
+    code: 'errorCustomSearchUrl'
+  });
+  await settingsRequest('SETTINGS_SEARCH_ENGINE', { searchEngine: 'yahoo-japan' });
+  assert.equal((await settingsRequest('SETTINGS_GET')).searchEngine, 'yahoo-japan');
 });
 
 test('upgrades start at window width and navigation never persists the default layout', async context => {

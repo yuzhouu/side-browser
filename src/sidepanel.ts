@@ -90,7 +90,8 @@ element('#edit-home-favorites').addEventListener('click', () => {
 const autocomplete = new AddressAutocomplete(
   () => active?.state,
   openAddress,
-  () => active?.state.searchEngine || 'google'
+  () => active?.state.searchEngine || 'google',
+  () => active?.state.customSearchEngine || null
 );
 
 function openAddress(input: string) {
@@ -248,7 +249,10 @@ function receiveBackgroundMessage(message: BackgroundMessage) {
       setPreferences(message);
       break;
     case 'search-engine':
-      for (const page of pages.values()) page.state.searchEngine = message.searchEngine;
+      for (const page of pages.values()) {
+        page.state.searchEngine = message.searchEngine;
+        page.state.customSearchEngine = message.customSearchEngine;
+      }
       autocomplete.sync();
       break;
     case 'favorites':

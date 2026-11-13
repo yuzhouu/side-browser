@@ -17,7 +17,7 @@ SideBrowser brings your favorite websites into the native side panel of Chrome a
 
 ## Find and reopen pages quickly
 
-- **One address bar for URLs and search.** Enter a website address or search keywords with Google, Bing, Baidu, or DuckDuckGo. Choose your preferred engine in Settings; Google is the default.
+- **One address bar for URLs and search.** Enter a website address or search keywords with Google, Bing, Baidu, DuckDuckGo, or Yahoo! JAPAN. Choose an engine in Settings or configure a custom search URL with `%s` for your keywords; Google is the default.
 - **Suggestions as you type.** Find matches from SideBrowser favorites and recent pages, plus browser history and bookmarks. Suggestions show their source and support arrow keys, Enter, and Escape.
 - **Favorites within reach.** Save the current page with the address-bar star or More menu, or save a webpage from its right-click menu. Open favorites from the welcome screen or the clock menu’s Favorites tab while browsing. Choose Edit in the menu or on the welcome screen to open favorite settings in a new tab, where you can edit names and URLs, move up or down, or remove entries; custom names and order sync across windows and survive restarts. SideBrowser favorites are separate from browser bookmarks.
 - **Your 10 most recently opened addresses.** Reopen a page from the clock button beside the address bar, remove individual entries, or clear the list. Favorites and recent pages are shared across windows and kept after restarting the browser.
