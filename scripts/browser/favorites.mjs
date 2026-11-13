@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { poll } from './cdp.mjs';
 
 export async function checkFavorites({
+  context,
   panel,
   state,
   navigate,
@@ -87,8 +88,145 @@ export async function checkFavorites({
     async () => (await state()).favorites[0]?.title === longTitle,
     'internal navigation favorite metadata'
   );
+  // The clock menu exposes favorites without leaving or reloading the live page.
+  const browsingToken = await secondFrame.evaluate('window.token');
+  await panel.click('#recent');
+  await panel.click('#favorites-tab');
+  assert(
+    await panel.evaluate(
+      "!document.querySelector('#saved-panel').hidden && document.querySelector('#clear-recent').hidden"
+    )
+  );
+  const editorOpened = context.waitForEvent('page');
+  await panel.click('#edit-favorites');
+  const favoriteOptions = await editorOpened;
+  await favoriteOptions.waitForURL(/\/options\.html#favorites$/);
+  await poll(
+    () =>
+      favoriteOptions
+        .locator('.managed-item')
+        .count()
+        .then(count => count === 2),
+    'favorite settings loaded'
+  );
+  assert(await favoriteOptions.evaluate(() => document.activeElement.id === 'favorites-heading'));
+  assert.equal(
+    await panel.evaluate("document.querySelectorAll('.saved-editor, .saved-actions').length"),
+    0
+  );
+  await favoriteOptions.locator('.managed-item:last-child [data-action="edit"]').click();
+  assert(await favoriteOptions.locator('.managed-item:last-child > .managed-actions').isHidden());
+  assert(await favoriteOptions.locator('.managed-item:last-child > .managed-info').isHidden());
+  assert.equal(await favoriteOptions.locator('.managed-edit-actions button').count(), 2);
+  await favoriteOptions.locator('.managed-editor [name="title"]').fill('Discard this name');
+  await favoriteOptions.locator('.managed-editor [name="url"]').fill(`${base}/discard-url`);
+  await favoriteOptions.locator('.managed-editor [name="title"]').press('Escape');
+  assert.equal(await favoriteOptions.locator('.managed-editor').count(), 0);
+  assert.equal((await state()).favorites[1].customTitle, undefined);
+  assert.equal((await state()).favorites[1].url, first);
+  assert(await favoriteOptions.locator('.managed-item:last-child > .managed-actions').isVisible());
+  await favoriteOptions.locator('.managed-item:last-child [data-action="edit"]').click();
+  await favoriteOptions.locator('.managed-editor [name="title"]').fill('Daily reference');
+  await favoriteOptions.locator('.managed-editor [name="title"]').press('Enter');
+  await poll(
+    async () => (await state()).favorites[1].customTitle === 'Daily reference',
+    'favorite renamed from settings'
+  );
+  await poll(
+    () =>
+      favoriteOptions
+        .locator('.managed-editor')
+        .count()
+        .then(count => count === 0),
+    'rename saved'
+  );
+  const updatedUrl = `${base}/favorite-updated-url`;
+  await favoriteOptions.locator('.managed-item:last-child [data-action="edit"]').click();
+  await favoriteOptions.locator('.managed-editor [name="url"]').fill(second);
+  await favoriteOptions.locator('.managed-editor [type="submit"]').click();
+  await poll(
+    () => favoriteOptions.locator('#managed-feedback').isVisible(),
+    'duplicate address rejected'
+  );
+  assert.equal((await state()).favorites[1].url, first);
+  assert.equal(await favoriteOptions.locator('.managed-editor').count(), 1);
+  await favoriteOptions.locator('.managed-editor [name="url"]').fill(updatedUrl);
+  await favoriteOptions.locator('.managed-editor [name="url"]').press('Enter');
+  await poll(
+    async () => (await state()).favorites[1].url === updatedUrl,
+    'favorite address updated'
+  );
+  await poll(
+    () =>
+      favoriteOptions
+        .locator('.managed-editor')
+        .count()
+        .then(count => count === 0),
+    'URL edit saved'
+  );
+  assert.deepEqual(await entries(panel), [second, updatedUrl]);
+  assert.equal((await state()).url, second);
+  await favoriteOptions.locator('.managed-item:last-child [data-action="edit"]').click();
+  await favoriteOptions.locator('.managed-editor [name="url"]').fill(first);
+  await favoriteOptions.locator('.managed-editor [type="submit"]').click();
+  await poll(async () => (await state()).favorites[1].url === first, 'favorite address restored');
+  await poll(
+    () =>
+      favoriteOptions
+        .locator('.managed-editor')
+        .count()
+        .then(count => count === 0),
+    'restored edit finished'
+  );
+  await favoriteOptions.locator('.managed-item:last-child [data-action="up"]').click();
+  await poll(async () => (await state()).favorites[0].url === first, 'favorite moved up');
+  assert.deepEqual(await entries(panel), [first, second]);
+  await poll(
+    () =>
+      favoriteOptions
+        .locator('.managed-item:first-child [data-action="down"]')
+        .getAttribute('aria-disabled')
+        .then(value => value === 'false'),
+    'favorite controls ready'
+  );
+  await favoriteOptions.locator('.managed-item:first-child [data-action="down"]').click();
+  await poll(async () => (await state()).favorites[0].url === second, 'favorite moved down');
+  assert.equal(await secondFrame.evaluate('window.token'), browsingToken);
+  for (const width of [960, 320]) {
+    await favoriteOptions.setViewportSize({ width, height: 720 });
+    assert(
+      await favoriteOptions.evaluate(() => document.documentElement.scrollWidth === innerWidth)
+    );
+  }
+  await favoriteOptions.close();
+  await panel.click('#recent');
+  await panel.click('.saved-item:last-child .saved-open');
+  await loaded(first);
+  assert(await panel.evaluate("!document.querySelector('#recent-menu').matches(':popover-open')"));
+  assert.equal(
+    (await state()).favorites.find(item => item.url === first).customTitle,
+    'Daily reference'
+  );
+  // Restore the Recent tab for existing recent-menu regression scenarios.
+  await panel.click('#recent');
+  await panel.click('#recent-tab');
+  await panel.press('Escape');
   await close();
   assert.deepEqual(await entries(panel), [second, first]);
+  const homeEditorOpened = context.waitForEvent('page');
+  await panel.click('#edit-home-favorites');
+  const homeOptions = await homeEditorOpened;
+  await homeOptions.waitForURL(/\/options\.html#favorites$/);
+  await poll(
+    () =>
+      homeOptions
+        .locator('.managed-item')
+        .count()
+        .then(count => count === 2),
+    'home edit opens favorite settings'
+  );
+  assert.equal((await state()).url, '');
+  await homeOptions.close();
   assert.equal(
     await panel.evaluate("document.querySelector('#favorites-heading').textContent"),
     catalog.favorites.message

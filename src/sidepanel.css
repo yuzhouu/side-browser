@@ -139,12 +139,32 @@ input::placeholder {
   padding: 2px 7px 5px;
   border-bottom: 1px solid var(--divider);
 }
-#clear-recent {
+#clear-recent,
+#edit-favorites {
   width: auto;
   padding: 0 5px;
   font-size: 11px;
 }
-#recent-list {
+.library-panel {
+  min-height: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+.library-tabs {
+  display: flex;
+  gap: 2px;
+  min-width: 0;
+}
+.library-tabs button {
+  width: auto;
+  padding: 0 8px;
+}
+.library-tabs [aria-selected='true'] {
+  background: var(--selected);
+  color: var(--panel-text);
+}
+#recent-list,
+#saved-list {
   list-style: none;
   margin: 3px 0 0;
   padding: 0;
@@ -161,11 +181,12 @@ input::placeholder {
   border-radius: 4px;
   padding-right: 4px;
 }
-.recent-item:has(.recent-open[aria-current='page']) {
+.recent-item:has([aria-current='page']) {
   background: var(--selected);
   color: var(--panel-text);
 }
-#recent-list .recent-open {
+#recent-menu .recent-open,
+#recent-menu .saved-open {
   flex: 1;
   flex-shrink: 1;
   justify-content: flex-start;
@@ -218,7 +239,7 @@ input::placeholder {
   font-size: 10px;
   color: var(--subtle);
 }
-#recent-empty {
+.library-empty {
   margin: 0;
   padding: 22px 12px;
   color: var(--subtle);
@@ -469,8 +490,19 @@ main {
   border-top: 1px solid var(--divider);
   text-align: left;
 }
+.favorites-heading-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+#edit-home-favorites {
+  width: auto;
+  padding: 0 6px;
+}
 #favorites-heading {
-  margin: 0 0 10px;
+  margin: 0;
   color: var(--empty-title);
   font-size: 12px;
   font-weight: 600;

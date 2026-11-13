@@ -10,6 +10,8 @@ import { RECENT_KEY } from './recent-urls.js';
 import { userError } from './errors.js';
 import { THEME_KEY } from './theme-preference.js';
 import { SITE_PREFERENCES_KEY } from './site-preferences.js';
+import { FAVORITES_KEY } from './favorites.js';
+import { FavoriteSettings } from './favorite-settings.js';
 
 localizeDocument();
 const mode = element<HTMLSelectElement>('#mode');
@@ -24,6 +26,24 @@ const retry = element('#retry-settings');
 let settings: Settings | undefined;
 let busy = false;
 let refreshId = 0;
+let favoritesTargeted = false;
+const favoriteSettings = new FavoriteSettings({
+  onRemove: url => changeFavorites('SETTINGS_REMOVE_FAVORITE', [{ url }]),
+  onUpdate: (url, newUrl, title) =>
+    changeFavorites('SETTINGS_UPDATE_FAVORITE', [{ url, newUrl, title }]),
+  onMove: (url, targetUrl, position) =>
+    changeFavorites('SETTINGS_MOVE_FAVORITE', [{ url, targetUrl, position }])
+});
+
+async function changeFavorites<K extends keyof SettingsRequests>(
+  type: K,
+  args: RequestArgs<SettingsRequests[K][0]>
+) {
+  const result = await change(type, args, 'settingsSaved');
+  if (!result) return;
+  if (!result.ok) throw result.error;
+  return settings?.favorites;
+}
 
 async function request<K extends keyof SettingsRequests>(
   type: K,
@@ -39,6 +59,7 @@ async function request<K extends keyof SettingsRequests>(
 }
 
 function render() {
+  favoriteSettings.render(settings?.favorites || [], busy || !settings);
   mode.disabled = busy || !settings;
   theme.disabled = busy || !settings;
   searchEngine.disabled = busy || !settings;
@@ -100,6 +121,11 @@ async function refresh() {
     settings = next;
     retry.hidden = true;
     render();
+    if (!favoritesTargeted && location.hash === '#favorites') {
+      favoritesTargeted = true;
+      element('#favorites').scrollIntoView({ block: 'start' });
+      element('#favorites-heading').focus({ preventScroll: true });
+    }
   } catch (error) {
     if (id !== refreshId) return;
     showStatus(errorMessage(error), true);
@@ -122,8 +148,10 @@ async function change<K extends keyof SettingsRequests>(
     settings = await request(type, ...args);
     confirmation.hidden = true;
     showStatus(t(message));
+    return { ok: true, settings } as const;
   } catch (error) {
     showStatus(errorMessage(error), true);
+    return { ok: false, error } as const;
   } finally {
     busy = false;
     render();
@@ -185,6 +213,7 @@ chrome.storage.onChanged.addListener((changes, area) => {
       SITE_PREFERENCES_KEY in changes ||
       THEME_KEY in changes ||
       SEARCH_ENGINE_KEY in changes ||
+      FAVORITES_KEY in changes ||
       RECENT_KEY in changes) &&
     !busy
   )

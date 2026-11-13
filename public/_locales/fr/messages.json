@@ -349,7 +349,7 @@
     "message": "Choisissez « ⋯ » → « Ajouter la page actuelle aux favoris » pour enregistrer la page latérale. Vous pouvez aussi faire un clic droit sur une page web ou sur l’icône SideBrowser de la barre d’outils, puis choisir « Ajouter aux favoris SideBrowser ». Cette action enregistre la page sans l’ouvrir ni changer la page latérale."
   },
   "helpFavoriteShortcuts": {
-    "message": "Les favoris apparaissent sous l’écran d’accueil vide sous forme d’icônes, avec retour à la ligne automatique. Survolez une icône ou sélectionnez-la au clavier pour voir son titre et son URL complète ; cliquez pour l’ouvrir dans le panneau actuel. Retirez un favori avec son bouton de suppression ou « ⋯ » → « Retirer des favoris ». Ils sont partagés entre les fenêtres, conservés après redémarrage et distincts des favoris du navigateur."
+    "message": "Utilisez l’étoile de la barre d’adresse pour ajouter ou retirer la page actuelle des favoris, ou passez par « ⋯ » ou le menu contextuel de la page. Les favoris apparaissent sur l’écran d’accueil. Pendant la navigation, cliquez sur l’horloge puis sur « Favoris » pour ouvrir une page enregistrée dans le panneau actuel. « Modifier » dans le menu Favoris ou sur l’accueil ouvre les paramètres des favoris dans un nouvel onglet, pour modifier leurs noms et URL, les monter, descendre ou supprimer. Les noms et l’ordre sont synchronisés entre l’accueil et les fenêtres et conservés après redémarrage. Les titres des pages ne remplacent pas les noms personnalisés. Ces favoris sont distincts de ceux du navigateur."
   },
   "helpAppearance": {
     "message": "Choisissez le thème clair, sombre ou système dans les paramètres ou « ⋯ ». Ce choix s’applique à toutes les fenêtres sans recharger les pages. Les sites peuvent utiliser leur propre thème. L’interface suit la langue du navigateur et prend en charge le français, l’anglais, le chinois simplifié et traditionnel, le japonais, l’allemand et l’espagnol."
@@ -410,5 +410,56 @@
   },
   "settingsSitesEmpty": {
     "message": "Aucune préférence de site enregistrée."
+  },
+  "recentAndFavorites": {
+    "message": "Récents / Favoris"
+  },
+  "recentTab": {
+    "message": "Récents"
+  },
+  "editFavorites": {
+    "message": "Modifier"
+  },
+  "favoritesEmpty": {
+    "message": "Aucun favori. Cliquez sur l’étoile dans la barre d’adresse pour enregistrer la page actuelle."
+  },
+  "favoriteName": {
+    "message": "Nom du favori"
+  },
+  "moveFavoriteUp": {
+    "message": "Monter"
+  },
+  "moveFavoriteDown": {
+    "message": "Descendre"
+  },
+  "errorFavoriteName": {
+    "message": "Saisissez un nom pour ce favori."
+  },
+  "editFavoritesSettings": {
+    "message": "Ouvrir les paramètres des favoris dans un nouvel onglet"
+  },
+  "settingsFavoritesDescription": {
+    "message": "Modifiez les noms et les URL, réorganisez ou supprimez les favoris. Les modifications apparaissent dans le menu du panneau et sur l’accueil."
+  },
+  "editFavorite": {
+    "message": "Modifier le favori"
+  },
+  "saveFavorite": {
+    "message": "Enregistrer le favori"
+  },
+  "cancelFavorite": {
+    "message": "Annuler la modification"
+  },
+  "favoriteUrl": {
+    "message": "URL du favori"
+  },
+  "errorFavoriteUrl": {
+    "message": "Saisissez une URL HTTP(S) valide."
+  },
+  "errorFavoriteDuplicate": {
+    "message": "Cette URL figure déjà dans vos favoris. Utilisez une autre URL."
+  },
+  "errorFavoriteMissing": {
+    "message": "Ce favori a été supprimé ou modifié. Sélectionnez-le à nouveau."
   }
 }

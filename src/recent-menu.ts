@@ -2,6 +2,7 @@ import { element } from './dom.js';
 import type { PanelSnapshot } from './types.js';
 import { t } from './i18n.js';
 import { recentFaviconUrl } from './recent-urls.js';
+import type { FavoriteMenu } from './favorite-menu.js';
 
 // Owns menu DOM and focus. Navigation and persisted data stay with the caller.
 export class RecentMenu {
@@ -17,12 +18,14 @@ export class RecentMenu {
     run,
     onOpen,
     onRemove,
-    onClear
+    onClear,
+    favorites
   }: {
     run: <T>(task: () => T | PromiseLike<T>) => Promise<T>;
     onOpen: (url: string) => Promise<void>;
     onRemove: (url: string) => Promise<PanelSnapshot>;
     onClear: () => Promise<PanelSnapshot>;
+    favorites: FavoriteMenu;
   }) {
     this.menu = element('#recent-menu');
     this.list = element('#recent-list');
@@ -32,6 +35,38 @@ export class RecentMenu {
     this.template = element<HTMLTemplateElement>('#recent-item-template');
     this.extensionRoot = chrome.runtime.getURL('/');
     this.renderedUrls = '';
+    this.favorites = favorites;
+
+    const tabs = [
+      element<HTMLButtonElement>('#recent-tab'),
+      element<HTMLButtonElement>('#favorites-tab')
+    ];
+    const selectTab = (index: number) => {
+      for (const [i, tab] of tabs.entries()) {
+        tab.setAttribute('aria-selected', String(i === index));
+        tab.tabIndex = i === index ? 0 : -1;
+      }
+      element('#recent-panel').hidden = index !== 0;
+      element('#saved-panel').hidden = index !== 1;
+      this.clear.hidden = index !== 0;
+      element('#edit-favorites').hidden = index !== 1;
+    };
+    for (const [index, tab] of tabs.entries()) {
+      tab.addEventListener('click', () => selectTab(index));
+      tab.addEventListener('keydown', event => {
+        if (['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) {
+          event.preventDefault();
+          const next = event.key === 'Home' ? 0 : event.key === 'End' ? 1 : 1 - index;
+          selectTab(next);
+          tabs[next].focus();
+        } else if (event.key === 'ArrowDown') {
+          event.preventDefault();
+          element(index ? '#saved-list' : '#recent-list')
+            .querySelector<HTMLButtonElement>('button')
+            ?.focus();
+        }
+      });
+    }
 
     document.addEventListener(
       'pointerdown',
@@ -72,6 +107,8 @@ export class RecentMenu {
     });
     this.list.addEventListener('keydown', event => this.moveFocus(event));
   }
+
+  private favorites: FavoriteMenu;
 
   hide() {
     this.menu.hidePopover();
@@ -118,6 +155,7 @@ export class RecentMenu {
   }
 
   render(state: PanelSnapshot | undefined) {
+    this.favorites.render(state?.favorites || [], state?.url || '');
     const urls = state?.recentUrls || [];
     const key = JSON.stringify(urls);
     if (this.renderedUrls !== key) {

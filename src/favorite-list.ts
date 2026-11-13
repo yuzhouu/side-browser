@@ -2,6 +2,7 @@ import { element } from './dom.js';
 import type { Favorite } from './types.js';
 import { t } from './i18n.js';
 import { recentFaviconUrl } from './recent-urls.js';
+import { favoriteLabel } from './favorites.js';
 
 export class FavoriteList {
   private section = element('#favorites');
@@ -114,8 +115,7 @@ export class FavoriteList {
       }
     }
     for (const [index, item] of [...this.list.children].entries()) {
-      const { url, title } = favorites[index];
-      const label = title || new URL(url).host;
+      const label = favoriteLabel(favorites[index]);
       const open = element('.favorite-open', item);
       open.setAttribute('aria-label', label);
       element('.favorite-remove', item).setAttribute(

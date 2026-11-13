@@ -36,7 +36,7 @@ import { t } from './i18n.js';
 import { userError } from './errors.js';
 import { THEME_KEY, validTheme } from './theme-preference.js';
 import { SEARCH_ENGINE_KEY, validSearchEngine } from './search-engine.js';
-import { FAVORITES_KEY, restoreFavorites } from './favorites.js';
+import { FAVORITES_KEY, restoreFavorites, moveFavorite, updateFavorite } from './favorites.js';
 
 import {
   SITE_PREFERENCES_KEY,
@@ -283,6 +283,19 @@ async function addFavorite(input: unknown, sourceTitle?: string) {
   return saveFavorites([entry, ...favorites]);
 }
 
+function renameFavorite(url: string, title: string) {
+  const customTitle = normalizeRecentTitle(title);
+  if (!customTitle) throw userError('errorFavoriteName');
+  if (!favorites.some(item => item.url === url && item.customTitle !== customTitle))
+    return structuredClone(favorites);
+  return saveFavorites(favorites.map(item => (item.url === url ? { ...item, customTitle } : item)));
+}
+
+function reorderFavorite(url: string, targetUrl: string, position: 'before' | 'after') {
+  const next = moveFavorite(favorites, url, targetUrl, position);
+  return next === favorites ? structuredClone(favorites) : saveFavorites(next);
+}
+
 async function navigate(
   windowId: number,
   input: unknown,
@@ -364,6 +377,7 @@ async function setSearchEngine(value: unknown) {
 
 function getSettings(): Settings {
   return {
+    favorites: structuredClone(favorites),
     mode,
     sitePreferences: structuredClone(sitePreferences),
     theme,
@@ -377,7 +391,7 @@ chrome.runtime.onMessage.addListener((message: PanelRequest | SettingsRequest, s
   if (!settingsRequest && !message.type?.startsWith('PANEL_')) return false;
   update(async () => {
     if (isSettingsRequest(message)) {
-      if (sender.id !== chrome.runtime.id || sender.url !== OPTIONS)
+      if (sender.id !== chrome.runtime.id || sender.url?.split('#')[0] !== OPTIONS)
         throw userError('errorSettingsOnly');
       switch (message.type) {
         case 'SETTINGS_GET':
@@ -396,6 +410,20 @@ chrome.runtime.onMessage.addListener((message: PanelRequest | SettingsRequest, s
           return getSettings();
         case 'SETTINGS_CLEAR_RECENT':
           await saveRecent([]);
+          return getSettings();
+        case 'SETTINGS_REMOVE_FAVORITE':
+          await saveFavorites(favorites.filter(item => item.url !== message.url));
+          return getSettings();
+        case 'SETTINGS_RENAME_FAVORITE':
+          await renameFavorite(message.url, message.title);
+          return getSettings();
+        case 'SETTINGS_UPDATE_FAVORITE': {
+          const next = updateFavorite(favorites, message.url, message.newUrl, message.title);
+          if (next !== favorites) await saveFavorites(next);
+          return getSettings();
+        }
+        case 'SETTINGS_MOVE_FAVORITE':
+          await reorderFavorite(message.url, message.targetUrl, message.position);
           return getSettings();
         default:
           throw userError('errorUnknownOperation');
@@ -431,6 +459,10 @@ chrome.runtime.onMessage.addListener((message: PanelRequest | SettingsRequest, s
       }
       case 'PANEL_REMOVE_FAVORITE':
         return saveFavorites(favorites.filter(item => item.url !== message.url));
+      case 'PANEL_RENAME_FAVORITE':
+        return renameFavorite(message.url, message.title);
+      case 'PANEL_MOVE_FAVORITE':
+        return reorderFavorite(message.url, message.targetUrl, message.position);
       case 'PANEL_FAVORITE_TITLE': {
         const title = normalizeRecentTitle(message.title);
         if (

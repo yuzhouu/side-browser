@@ -1,8 +1,25 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { rankSuggestions, querySuggestions } from '../src/address-suggestions.ts';
+import { rankSuggestions, querySuggestions, localCandidates } from '../src/address-suggestions.ts';
 
 const recent = (url, title = '') => ({ url, title, source: 'suggestionRecent' });
+test('custom favorite names are searchable and survive merging with recent titles', () => {
+  const url = 'https://example.com/';
+  const candidates = localCandidates({
+    recentUrls: [url],
+    recentTitles: { [url]: 'Original page' },
+    favorites: [{ url, title: 'Original page', customTitle: 'Daily reading' }]
+  });
+  for (const query of ['', 'daily', 'example']) {
+    assert.deepEqual(rankSuggestions(query, candidates), [
+      {
+        url,
+        title: 'Daily reading',
+        sources: ['suggestionRecent', 'suggestionFavorite']
+      }
+    ]);
+  }
+});
 test('suggestions canonicalize duplicate URLs, combine sources, preserve paths and reject privileged URLs', () => {
   const items = rankSuggestions('', [
     recent('https://example.com'),

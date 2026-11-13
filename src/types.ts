@@ -13,6 +13,7 @@ export interface BrowsingPreferences {
 export interface Favorite {
   url: string;
   title: string;
+  customTitle?: string;
 }
 export interface PanelState {
   url: string;
@@ -30,6 +31,7 @@ export interface PanelSnapshot extends PanelState, BrowsingPreferences {
   favorites: Favorite[];
 }
 export interface Settings {
+  favorites: Favorite[];
   mode: Mode;
   sitePreferences: SitePreferences;
   theme: Theme;
@@ -64,6 +66,11 @@ export interface PanelRequests {
   PANEL_RECENT_TITLE: [{ url: string; pageUrl: string; title: string }, Record<string, string>];
   PANEL_ADD_FAVORITE: [{ url: string; title: string }, Favorite[]];
   PANEL_REMOVE_FAVORITE: [{ url: string }, Favorite[]];
+  PANEL_RENAME_FAVORITE: [{ url: string; title: string }, Favorite[]];
+  PANEL_MOVE_FAVORITE: [
+    { url: string; targetUrl: string; position: 'before' | 'after' },
+    Favorite[]
+  ];
   PANEL_FAVORITE_TITLE: [{ url: string; title: string }, Favorite[]];
   PANEL_MODE: [{ mode: Mode }, Mode];
   PANEL_SITE_PREFERENCE: [{ url: string; preference: SitePreference | null }, BrowsingPreferences];
@@ -80,6 +87,13 @@ export interface SettingsRequests {
   SETTINGS_THEME: [{ theme: Theme }, Settings];
   SETTINGS_SEARCH_ENGINE: [{ searchEngine: SearchEngine }, Settings];
   SETTINGS_CLEAR_RECENT: [undefined, Settings];
+  SETTINGS_REMOVE_FAVORITE: [{ url: string }, Settings];
+  SETTINGS_RENAME_FAVORITE: [{ url: string; title: string }, Settings];
+  SETTINGS_UPDATE_FAVORITE: [{ url: string; newUrl: string; title: string }, Settings];
+  SETTINGS_MOVE_FAVORITE: [
+    { url: string; targetUrl: string; position: 'before' | 'after' },
+    Settings
+  ];
 }
 export type RequestArgs<T> = T extends undefined ? [] : [data: T];
 export type Response<T> = { ok: true; data: T } | { ok: false; error: string; errorCode?: string };

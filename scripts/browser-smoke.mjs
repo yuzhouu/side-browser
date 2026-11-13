@@ -1045,6 +1045,7 @@ try {
   assert.deepEqual((await state()).history, []);
   pass('Browser restart clears bindings and does not restore a page transferred out of sharing');
   const savedFavorites = await checkFavorites({
+    context,
     panel,
     state,
     navigate,

@@ -349,7 +349,7 @@
     "message": "Elige «⋯» → «Añadir la página actual a favoritos» para guardar la página lateral. También puedes hacer clic derecho en una página web o en el icono de SideBrowser de la barra de herramientas y elegir «Añadir a favoritos de SideBrowser». Esta acción solo guarda la página; no la abre ni cambia la página lateral."
   },
   "helpFavoriteShortcuts": {
-    "message": "Los favoritos aparecen como iconos debajo de la pantalla de bienvenida vacía y pasan a otra fila cuando falta espacio. Al pasar el cursor o dar foco con el teclado se muestran el título y la URL completa. Haz clic para abrirlos en el panel actual. Elimínalos con su botón de borrar o «⋯» → «Quitar de favoritos». Se comparten entre ventanas, se conservan al reiniciar y son independientes de los marcadores del navegador."
+    "message": "Usa la estrella de la barra de direcciones para guardar o quitar la página actual, o utiliza «⋯» o el menú contextual de la página. Los favoritos aparecen en la pantalla de bienvenida. Mientras navegas, pulsa el reloj y selecciona «Favoritos» para abrir una página guardada en el panel actual. «Editar» en el menú Favoritos o en la pantalla de inicio abre los ajustes de favoritos en una pestaña nueva para editar los nombres y las URL, subir, bajar o eliminar favoritos. Los nombres y el orden se sincronizan entre la pantalla de bienvenida y las ventanas y se conservan al reiniciar. Los títulos de las páginas no sustituyen los nombres personalizados. Estos favoritos son independientes de los marcadores del navegador."
   },
   "helpAppearance": {
     "message": "Elige el tema claro, oscuro o del sistema en Ajustes o «⋯». Se aplica a todas las ventanas sin recargar las páginas. Los sitios pueden usar su propio tema. La interfaz sigue el idioma del navegador y admite español, inglés, chino simplificado y tradicional, japonés, alemán y francés."
@@ -410,5 +410,56 @@
   },
   "settingsSitesEmpty": {
     "message": "No hay preferencias de sitios guardadas."
+  },
+  "recentAndFavorites": {
+    "message": "Recientes / Favoritos"
+  },
+  "recentTab": {
+    "message": "Recientes"
+  },
+  "editFavorites": {
+    "message": "Editar"
+  },
+  "favoritesEmpty": {
+    "message": "Aún no hay favoritos. Usa la estrella de la barra de direcciones para guardar la página actual."
+  },
+  "favoriteName": {
+    "message": "Nombre del favorito"
+  },
+  "moveFavoriteUp": {
+    "message": "Subir"
+  },
+  "moveFavoriteDown": {
+    "message": "Bajar"
+  },
+  "errorFavoriteName": {
+    "message": "Escribe un nombre para este favorito."
+  },
+  "editFavoritesSettings": {
+    "message": "Abrir los ajustes de favoritos en una pestaña nueva"
+  },
+  "settingsFavoritesDescription": {
+    "message": "Edita los nombres y las URL, cambia el orden o elimina favoritos. Los cambios aparecen en el menú lateral y en la pantalla de inicio."
+  },
+  "editFavorite": {
+    "message": "Editar favorito"
+  },
+  "saveFavorite": {
+    "message": "Guardar favorito"
+  },
+  "cancelFavorite": {
+    "message": "Cancelar edición"
+  },
+  "favoriteUrl": {
+    "message": "URL del favorito"
+  },
+  "errorFavoriteUrl": {
+    "message": "Introduce una URL HTTP(S) válida."
+  },
+  "errorFavoriteDuplicate": {
+    "message": "Esta URL ya está en tus favoritos. Usa otra URL."
+  },
+  "errorFavoriteMissing": {
+    "message": "Este favorito se ha eliminado o modificado. Selecciónalo de nuevo."
   }
 }

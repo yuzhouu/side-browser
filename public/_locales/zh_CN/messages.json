@@ -349,7 +349,7 @@
     "message": "选择「⋯」→「收藏当前网页」保存侧窗中正在浏览的网页。也可右键网页或浏览器工具栏上的侧窗图标，选择「收藏到侧窗」；右键收藏只保存网页，不会打开或切换当前侧窗。"
   },
   "helpFavoriteShortcuts": {
-    "message": "收藏显示在空白欢迎页下方，以网站图标横向排列，放不下自动换行。悬停或用键盘聚焦图标可查看标题和完整网址，点击即可在当前侧窗打开。用图标旁的删除按钮，或「⋯」→「取消收藏」可移除收藏。收藏跨窗口共用、重启后保留，与浏览器原生书签分开保存。"
+    "message": "点击地址栏的星标可收藏或取消收藏当前网页，也可以通过“⋯”或网页右键菜单操作。收藏会显示在欢迎页；浏览时点击时钟并切换到“收藏”，即可在当前侧窗打开常用网页。收藏菜单和首页的“编辑”会在新标签页打开收藏设置，可修改名称和网址、上移、下移或删除。名称和顺序在欢迎页及不同窗口间同步，重启后保留；自定义名称不会被网页标题覆盖。侧窗收藏与浏览器书签独立。"
   },
   "helpAppearance": {
     "message": "在设置页或「⋯」中选择浅色、深色或跟随系统。外观跨窗口共用，切换时不重载网页；部分网站使用自己的主题设置。界面自动跟随浏览器语言，支持简体中文、繁体中文、英文、日语、德语、法语和西班牙语。"
@@ -410,5 +410,56 @@
   },
   "settingsSitesEmpty": {
     "message": "尚未保存网站偏好。"
+  },
+  "recentAndFavorites": {
+    "message": "最近 / 收藏"
+  },
+  "recentTab": {
+    "message": "最近"
+  },
+  "editFavorites": {
+    "message": "编辑"
+  },
+  "favoritesEmpty": {
+    "message": "还没有收藏。点击地址栏的星标即可收藏当前网页。"
+  },
+  "favoriteName": {
+    "message": "收藏名称"
+  },
+  "moveFavoriteUp": {
+    "message": "上移"
+  },
+  "moveFavoriteDown": {
+    "message": "下移"
+  },
+  "errorFavoriteName": {
+    "message": "请输入收藏名称。"
+  },
+  "editFavoritesSettings": {
+    "message": "在新标签页打开收藏设置"
+  },
+  "settingsFavoritesDescription": {
+    "message": "修改收藏名称和网址、调整顺序或移除收藏。修改会同步到侧窗菜单和首页。"
+  },
+  "editFavorite": {
+    "message": "编辑收藏"
+  },
+  "saveFavorite": {
+    "message": "保存收藏"
+  },
+  "cancelFavorite": {
+    "message": "取消编辑"
+  },
+  "favoriteUrl": {
+    "message": "收藏网址"
+  },
+  "errorFavoriteUrl": {
+    "message": "请输入有效的 HTTP(S) 网址。"
+  },
+  "errorFavoriteDuplicate": {
+    "message": "该网址已经在收藏中，请使用其他网址。"
+  },
+  "errorFavoriteMissing": {
+    "message": "这条收藏已被删除或修改，请重新选择收藏。"
   }
 }

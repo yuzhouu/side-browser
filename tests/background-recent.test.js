@@ -264,6 +264,255 @@ test('favorite writes are atomic, retryable, idempotent and serialize concurrent
   assert.deepEqual(await request('PANEL_REMOVE_FAVORITE', { url: a }), [expected[0]]);
 });
 
+test('favorite names and order persist and broadcast without changing navigation or recent records', async context => {
+  const { chrome, request, sender, settingsRequest } = await background(context, {
+    [FAVORITES_KEY]: [
+      { url: a, title: 'Page A' },
+      { url: b, title: 'Page B' }
+    ]
+  });
+  const messages = [];
+  chrome.runtime.onConnect.emit({
+    name: 'pocket-sidepanel:2',
+    sender,
+    onDisconnect: event(),
+    postMessage: message => messages.push(structuredClone(message))
+  });
+  await request('PANEL_NAVIGATE', { input: a });
+  const before = await request('PANEL_READY');
+  await request('PANEL_RENAME_FAVORITE', { url: b, title: ' My\n reference ' });
+  await request('PANEL_MOVE_FAVORITE', { url: b, targetUrl: a, position: 'before' });
+  await request('PANEL_NAVIGATE', { input: b }, 2);
+  await request('PANEL_FAVORITE_TITLE', { url: b, title: 'Changed page title' }, 2);
+  // A late navigation snapshot cannot replace either saved names or manual order.
+  await request('PANEL_SAVE', { state: before });
+  const expected = [
+    { url: b, title: 'Changed page title', customTitle: 'My reference' },
+    { url: a, title: 'Page A' }
+  ];
+  const after = await request('PANEL_READY');
+  assert.equal(after.url, before.url);
+  assert.deepEqual(after.history, before.history);
+  assert.deepEqual(after.recentUrls, [b, a]);
+  assert.deepEqual(after.favorites, expected);
+  assert.deepEqual((await request('PANEL_READY', {}, 2)).favorites, expected);
+  assert.deepEqual(restoreFavorites(chrome.storage.local.values[FAVORITES_KEY]), expected);
+  assert.deepEqual(
+    messages.filter(message => message.type === 'favorites').at(-1).favorites,
+    expected
+  );
+  for (const type of ['PANEL_RENAME_FAVORITE', 'PANEL_MOVE_FAVORITE']) {
+    await assert.rejects(
+      settingsRequest(type, {
+        windowId: 1,
+        url: a,
+        title: 'Untrusted',
+        targetUrl: b,
+        position: 'before'
+      }),
+      { code: 'errorPanelOnly' }
+    );
+  }
+});
+
+test('favorite edits are atomic and no-op moves or stale edits do not write or resurrect entries', async context => {
+  const initial = [
+    { url: a, title: 'Page A' },
+    { url: b, title: 'Page B' }
+  ];
+  const { chrome, request } = await background(context, { [FAVORITES_KEY]: initial });
+  const original = chrome.storage.local.set;
+  let writes = 0;
+  chrome.storage.local.set = async () => {
+    writes++;
+    throw new Error('Storage unavailable');
+  };
+  await request('PANEL_MOVE_FAVORITE', { url: a, targetUrl: b, position: 'before' });
+  await request('PANEL_MOVE_FAVORITE', { url: a, targetUrl: internal, position: 'after' });
+  await request('PANEL_MOVE_FAVORITE', { url: a, targetUrl: b, position: 'invalid' });
+  await request('PANEL_RENAME_FAVORITE', { url: internal, title: 'Deleted' });
+  assert.equal(writes, 0);
+  await assert.rejects(request('PANEL_RENAME_FAVORITE', { url: a, title: '  ' }), {
+    code: 'errorFavoriteName'
+  });
+  await assert.rejects(
+    request('PANEL_RENAME_FAVORITE', { url: a, title: 'Mine' }),
+    /Storage unavailable/
+  );
+  await assert.rejects(
+    request('PANEL_MOVE_FAVORITE', { url: a, targetUrl: b, position: 'after' }),
+    /Storage unavailable/
+  );
+  assert.deepEqual((await request('PANEL_READY')).favorites, initial);
+  chrome.storage.local.set = original;
+  await request('PANEL_RENAME_FAVORITE', { url: a, title: 'Mine' });
+  await request('PANEL_MOVE_FAVORITE', { url: a, targetUrl: b, position: 'after' });
+  await request('PANEL_REMOVE_FAVORITE', { url: a });
+  await request('PANEL_RENAME_FAVORITE', { url: a, title: 'Late name' });
+  await request('PANEL_MOVE_FAVORITE', { url: a, targetUrl: b, position: 'before' });
+  assert.deepEqual((await request('PANEL_READY')).favorites, [initial[1]]);
+});
+
+test('concurrent favorite moves preserve newer additions, names and removals from other windows', async context => {
+  const { request } = await background(context, {
+    [FAVORITES_KEY]: [
+      { url: a, title: 'Page A' },
+      { url: b, title: 'Page B' }
+    ]
+  });
+  await request('PANEL_NAVIGATE', { input: internal }, 2);
+  await Promise.all([
+    request('PANEL_ADD_FAVORITE', { url: internal, title: 'New page' }, 2),
+    request('PANEL_RENAME_FAVORITE', { url: a, title: 'My A' }, 2),
+    request('PANEL_MOVE_FAVORITE', { url: a, targetUrl: b, position: 'after' })
+  ]);
+  assert.deepEqual((await request('PANEL_READY')).favorites, [
+    { url: internal, title: 'New page' },
+    { url: b, title: 'Page B' },
+    { url: a, title: 'Page A', customTitle: 'My A' }
+  ]);
+  await Promise.all([
+    request('PANEL_REMOVE_FAVORITE', { url: b }, 2),
+    request('PANEL_MOVE_FAVORITE', { url: a, targetUrl: b, position: 'before' })
+  ]);
+  assert.deepEqual(
+    (await request('PANEL_READY')).favorites.map(item => item.url),
+    [internal, a]
+  );
+});
+
+test('favorite settings accept the anchored options page, sync edits and preserve browsing', async context => {
+  const initial = [
+    { url: a, title: 'Page A' },
+    { url: b, title: 'Page B' }
+  ];
+  const { chrome, request, settingsRequest, sender } = await background(context, {
+    [FAVORITES_KEY]: initial
+  });
+  const from = {
+    id: 'test',
+    url: 'chrome-extension://test/options.html#favorites',
+    tab: { id: 42 }
+  };
+  const edit = (type, data = {}) => settingsRequest(type, data, from);
+  await request('PANEL_NAVIGATE', { input: a });
+  const before = await request('PANEL_READY');
+  const messages = [];
+  chrome.runtime.onConnect.emit({
+    name: 'pocket-sidepanel:1',
+    sender,
+    onDisconnect: event(),
+    postMessage: message => messages.push(structuredClone(message))
+  });
+  assert.deepEqual((await edit('SETTINGS_GET')).favorites, initial);
+  await edit('SETTINGS_RENAME_FAVORITE', { url: b, title: 'Reference' });
+  const moved = await edit('SETTINGS_MOVE_FAVORITE', { url: b, targetUrl: a, position: 'before' });
+  assert.deepEqual(moved.favorites, [{ ...initial[1], customTitle: 'Reference' }, initial[0]]);
+  assert.deepEqual((await request('PANEL_READY')).favorites, moved.favorites);
+  assert.deepEqual(chrome.storage.local.values[FAVORITES_KEY], moved.favorites);
+  assert.deepEqual(
+    messages.filter(message => message.type === 'favorites').at(-1).favorites,
+    moved.favorites
+  );
+  const original = chrome.storage.local.set;
+  chrome.storage.local.set = async () => {
+    throw new Error('Storage unavailable');
+  };
+  await assert.rejects(edit('SETTINGS_REMOVE_FAVORITE', { url: a }), /Storage unavailable/);
+  assert.deepEqual((await edit('SETTINGS_GET')).favorites, moved.favorites);
+  chrome.storage.local.set = original;
+  const removed = await edit('SETTINGS_REMOVE_FAVORITE', { url: a });
+  assert.deepEqual(removed.favorites, [moved.favorites[0]]);
+  assert.deepEqual(
+    (await edit('SETTINGS_RENAME_FAVORITE', { url: a, title: 'Late' })).favorites,
+    removed.favorites
+  );
+  const after = await request('PANEL_READY');
+  assert.equal(after.url, before.url);
+  assert.deepEqual(after.history, before.history);
+  assert.deepEqual(after.recentUrls, before.recentUrls);
+  for (const invalid of [
+    sender,
+    { ...from, id: 'other' },
+    { ...from, url: 'https://example.com/options.html#favorites' },
+    { ...from, url: 'chrome-extension://test/options.html.evil#favorites' },
+    { ...from, url: 'chrome-extension://test/help.html#favorites' }
+  ]) {
+    for (const type of [
+      'SETTINGS_RENAME_FAVORITE',
+      'SETTINGS_UPDATE_FAVORITE',
+      'SETTINGS_MOVE_FAVORITE',
+      'SETTINGS_REMOVE_FAVORITE'
+    ]) {
+      await assert.rejects(
+        settingsRequest(
+          type,
+          { url: b, title: 'Rejected', targetUrl: a, position: 'after' },
+          invalid
+        ),
+        { code: 'errorSettingsOnly' }
+      );
+    }
+  }
+});
+
+test('name and URL edits commit atomically, reject conflicts and leave live navigation intact', async context => {
+  const initial = [
+    { url: a, title: 'Page A' },
+    { url: b, title: 'Page B' }
+  ];
+  const { chrome, request, settingsRequest, sender } = await background(context, {
+    [FAVORITES_KEY]: initial
+  });
+  await request('PANEL_NAVIGATE', { input: a });
+  const before = await request('PANEL_READY');
+  const messages = [];
+  chrome.runtime.onConnect.emit({
+    name: 'pocket-sidepanel:1',
+    sender,
+    onDisconnect: event(),
+    postMessage: message => messages.push(structuredClone(message))
+  });
+  const edit = (newUrl, title = 'Updated name') =>
+    settingsRequest('SETTINGS_UPDATE_FAVORITE', { url: a, newUrl, title });
+  await assert.rejects(edit('https://B.EXAMPLE'), { code: 'errorFavoriteDuplicate' });
+  await assert.rejects(edit('javascript:alert(1)'), { code: 'errorFavoriteUrl' });
+  await assert.rejects(edit(internal, '  '), { code: 'errorFavoriteName' });
+  const original = chrome.storage.local.set;
+  chrome.storage.local.set = async () => {
+    throw new Error('Storage unavailable');
+  };
+  await assert.rejects(edit(internal), /Storage unavailable/);
+  assert.deepEqual((await request('PANEL_READY')).favorites, initial);
+  assert.deepEqual(chrome.storage.local.values[FAVORITES_KEY], initial);
+  assert.equal(messages.filter(message => message.type === 'favorites').length, 0);
+  chrome.storage.local.set = original;
+  await Promise.all([
+    settingsRequest('SETTINGS_RENAME_FAVORITE', { url: b, title: 'Other window' }),
+    edit(internal)
+  ]);
+  // A queued title report and an old navigation snapshot cannot restore the old address.
+  await request('PANEL_FAVORITE_TITLE', { url: a, title: 'Old title update' });
+  await request('PANEL_SAVE', { state: before });
+  const expected = [
+    { url: internal, title: '', customTitle: 'Updated name' },
+    { url: b, title: 'Page B', customTitle: 'Other window' }
+  ];
+  const after = await request('PANEL_READY');
+  assert.deepEqual(after.favorites, expected);
+  assert.deepEqual(restoreFavorites(chrome.storage.local.values[FAVORITES_KEY]), expected);
+  assert.deepEqual((await request('PANEL_READY', {}, 2)).favorites, expected);
+  assert.deepEqual(
+    messages.filter(message => message.type === 'favorites').at(-1).favorites,
+    expected
+  );
+  assert.equal(after.url, before.url);
+  assert.deepEqual(after.history, before.history);
+  assert.deepEqual(after.recentUrls, before.recentUrls);
+  await assert.rejects(edit(a), { code: 'errorFavoriteMissing' });
+  assert.deepEqual((await request('PANEL_READY')).favorites, expected);
+});
+
 test('settings change the shared mode and clear recents without replacing window navigation', async context => {
   const { chrome, request, sender, settingsRequest } = await background(context);
   await request('PANEL_NAVIGATE', { input: a });
@@ -278,6 +527,7 @@ test('settings change the shared mode and clear recents without replacing window
     postMessage: message => messages.push(structuredClone(message))
   });
   assert.deepEqual(await settingsRequest('SETTINGS_GET'), {
+    favorites: [],
     mode: 'desktop',
     sitePreferences: {},
     theme: 'system',
@@ -285,6 +535,7 @@ test('settings change the shared mode and clear recents without replacing window
     recentCount: 2
   });
   assert.deepEqual(await settingsRequest('SETTINGS_MODE', { mode: 'mobile' }), {
+    favorites: [],
     mode: 'mobile',
     sitePreferences: {},
     theme: 'system',
@@ -296,6 +547,7 @@ test('settings change the shared mode and clear recents without replacing window
     messages.some(message => message.type === 'preferences' && message.defaultMode === 'mobile')
   );
   assert.deepEqual(await settingsRequest('SETTINGS_CLEAR_RECENT'), {
+    favorites: [],
     mode: 'mobile',
     sitePreferences: {},
     theme: 'system',

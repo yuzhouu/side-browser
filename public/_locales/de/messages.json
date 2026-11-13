@@ -349,7 +349,7 @@
     "message": "Wähle „⋯“ → „Aktuelle Seite zu Favoriten hinzufügen“, um die aktuelle Seitenleisten-Seite zu speichern. Du kannst auch eine Webseite oder das SideBrowser-Symbol in der Symbolleiste rechtsklicken und „Zu SideBrowser-Favoriten hinzufügen“ wählen. Dabei wird die Seite nur gespeichert, nicht geöffnet oder gewechselt."
   },
   "helpFavoriteShortcuts": {
-    "message": "Favoriten erscheinen als Website-Symbole unter dem leeren Willkommensbildschirm und brechen bei Platzmangel in weitere Zeilen um. Mit Mauszeiger oder Tastaturfokus siehst du Titel und vollständige URL. Ein Klick öffnet die Seite in der aktuellen Seitenleiste. Entferne Favoriten über die Löschtaste am Symbol oder „⋯“ → „Aus Favoriten entfernen“. Sie gelten für alle Fenster, bleiben nach Neustarts erhalten und sind getrennt von Browser-Lesezeichen."
+    "message": "Mit dem Stern in der Adressleiste speichern oder entfernen Sie die aktuelle Seite. Dies ist auch über „⋯“ oder das Kontextmenü der Webseite möglich. Favoriten erscheinen auf der Startseite. Beim Surfen öffnen Sie über die Uhr und „Favoriten“ eine gespeicherte Seite in der aktuellen Seitenleiste. „Bearbeiten“ im Favoritenmenü oder auf der Startseite öffnet die Favoriteneinstellungen in einem neuen Tab. Dort können Sie Namen und URLs bearbeiten, Favoriten nach oben oder unten verschieben und entfernen. Namen und Reihenfolge werden zwischen Startseite und Fenstern synchronisiert und bleiben nach Neustarts erhalten. Seitentitel überschreiben eigene Namen nicht. SideBrowser-Favoriten sind von Browser-Lesezeichen getrennt."
   },
   "helpAppearance": {
     "message": "Wähle Hell, Dunkel oder System in den Einstellungen oder unter „⋯“. Das Erscheinungsbild gilt für alle Fenster und lädt Seiten nicht neu. Websites können eigene Designs verwenden. Die Sprache folgt dem Browser; unterstützt werden Deutsch, Englisch, vereinfachtes und traditionelles Chinesisch, Japanisch, Französisch und Spanisch."
@@ -410,5 +410,56 @@
   },
   "settingsSitesEmpty": {
     "message": "Keine Website-Einstellungen gespeichert."
+  },
+  "recentAndFavorites": {
+    "message": "Zuletzt / Favoriten"
+  },
+  "recentTab": {
+    "message": "Zuletzt"
+  },
+  "editFavorites": {
+    "message": "Bearbeiten"
+  },
+  "favoritesEmpty": {
+    "message": "Noch keine Favoriten. Mit dem Stern in der Adressleiste speichern Sie die aktuelle Seite."
+  },
+  "favoriteName": {
+    "message": "Name des Favoriten"
+  },
+  "moveFavoriteUp": {
+    "message": "Nach oben"
+  },
+  "moveFavoriteDown": {
+    "message": "Nach unten"
+  },
+  "errorFavoriteName": {
+    "message": "Geben Sie einen Namen für diesen Favoriten ein."
+  },
+  "editFavoritesSettings": {
+    "message": "Favoriteneinstellungen in einem neuen Tab öffnen"
+  },
+  "settingsFavoritesDescription": {
+    "message": "Namen und URLs von Favoriten bearbeiten, sortieren oder entfernen. Änderungen erscheinen im Seitenleistenmenü und auf der Startseite."
+  },
+  "editFavorite": {
+    "message": "Favorit bearbeiten"
+  },
+  "saveFavorite": {
+    "message": "Favorit speichern"
+  },
+  "cancelFavorite": {
+    "message": "Bearbeitung abbrechen"
+  },
+  "favoriteUrl": {
+    "message": "URL des Favoriten"
+  },
+  "errorFavoriteUrl": {
+    "message": "Geben Sie eine gültige HTTP(S)-URL ein."
+  },
+  "errorFavoriteDuplicate": {
+    "message": "Diese URL ist bereits in Ihren Favoriten. Verwenden Sie eine andere URL."
+  },
+  "errorFavoriteMissing": {
+    "message": "Dieser Favorit wurde entfernt oder geändert. Wählen Sie ihn erneut aus."
   }
 }

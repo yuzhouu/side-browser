@@ -73,8 +73,8 @@
           id="recent"
           type="button"
           popovertarget="recent-menu"
-          data-i18n-aria-label="recentOpened"
-          data-i18n-title="recentOpened"
+          data-i18n-aria-label="recentAndFavorites"
+          data-i18n-title="recentAndFavorites"
         >
           <svg viewBox="0 0 24 24" aria-hidden="true">
             <circle cx="12" cy="12" r="8" />
@@ -102,13 +102,50 @@
       role="listbox"
       data-i18n-aria-label="addressSuggestions"
     ></div>
-    <div id="recent-menu" popover role="group" aria-labelledby="recent-heading">
+    <div id="recent-menu" popover role="group" data-i18n-aria-label="recentAndFavorites">
       <div class="recent-heading">
-        <span id="recent-heading" data-i18n="recentOpened"></span
-        ><button id="clear-recent" type="button" data-i18n="clearRecent" disabled></button>
+        <div class="library-tabs" role="tablist" data-i18n-aria-label="recentAndFavorites">
+          <button
+            id="recent-tab"
+            type="button"
+            role="tab"
+            aria-selected="true"
+            aria-controls="recent-panel"
+            data-i18n="recentTab"
+          ></button>
+          <button
+            id="favorites-tab"
+            type="button"
+            role="tab"
+            aria-selected="false"
+            aria-controls="saved-panel"
+            tabindex="-1"
+            data-i18n="favorites"
+          ></button>
+        </div>
+        <button id="clear-recent" type="button" data-i18n="clearRecent" disabled></button>
+        <button
+          id="edit-favorites"
+          type="button"
+          data-i18n="editFavorites"
+          data-i18n-title="editFavoritesSettings"
+          hidden
+        ></button>
       </div>
-      <ul id="recent-list"></ul>
-      <p id="recent-empty" data-i18n="recentEmpty"></p>
+      <div id="recent-panel" class="library-panel" role="tabpanel" aria-labelledby="recent-tab">
+        <ul id="recent-list"></ul>
+        <p id="recent-empty" class="library-empty" data-i18n="recentEmpty"></p>
+      </div>
+      <div
+        id="saved-panel"
+        class="library-panel"
+        role="tabpanel"
+        aria-labelledby="favorites-tab"
+        hidden
+      >
+        <ul id="saved-list"></ul>
+        <p id="saved-empty" class="library-empty" data-i18n="favoritesEmpty"></p>
+      </div>
     </div>
     <template id="recent-item-template">
       <li class="recent-item">
@@ -255,7 +292,15 @@
             </button>
           </div>
           <section id="favorites" aria-labelledby="favorites-heading" hidden>
-            <h2 id="favorites-heading" data-i18n="favorites"></h2>
+            <div class="favorites-heading-row">
+              <h2 id="favorites-heading" data-i18n="favorites"></h2>
+              <button
+                id="edit-home-favorites"
+                type="button"
+                data-i18n="editFavorites"
+                data-i18n-title="editFavoritesSettings"
+              ></button>
+            </div>
             <ul id="favorite-list"></ul>
           </section>
           <ul class="empty-tips">

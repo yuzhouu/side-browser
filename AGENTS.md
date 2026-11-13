@@ -12,7 +12,8 @@
 - `npm run format:check` / `npm run format`：检查／统一源码格式；开发工具使用 `npm ci` 安装。
 - `npm run test:browser`：构建并加载 `dist/`，运行独立 Chrome 原生侧边栏回归；环境准备及范围见 `docs/development.md`。
 - `src/sidepanel.html/ts/css`：36px 单行导航和网页 iframe。
-- `panel-client.ts`、`recent-menu.ts`：后台通信与重连、最近列表 UI 和键盘焦点；导航和存储规则留在各自模块。
+- `panel-client.ts`、`recent-menu.ts`、`favorite-menu.ts`：后台通信与重连、「最近 / 收藏」菜单和键盘焦点；导航和存储规则留在各自模块。
+- `favorite-settings.ts`：设置页收藏管理；侧栏菜单和首页的编辑入口在新标签页打开 `options.html#favorites`。
 - `background.ts`、`sidepanel-state.ts`：按窗口保活、导航历史、扩展共用模式偏好。
 - `viewport.ts`、`frame-navigation.ts`、`mobile-*.js`、`network-rules.ts`：手机身份、视口适配、请求规则；`frame-cookies*.ts`：侧窗网页读取自身 SameSite Cookie。
 - 先阅读 `docs/project-context.md` 了解已确认的产品约束。

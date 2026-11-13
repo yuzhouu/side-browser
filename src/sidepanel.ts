@@ -10,6 +10,7 @@ import { localizeDocument, t, errorMessage } from './i18n.js';
 import { createPanelClient } from './panel-client.js';
 import { RecentMenu } from './recent-menu.js';
 import { FavoriteList } from './favorite-list.js';
+import { FavoriteMenu } from './favorite-menu.js';
 import { AddressAutocomplete } from './address-autocomplete.js';
 
 localizeDocument();
@@ -46,7 +47,13 @@ const { request, requestFor, start } = createPanelClient(
   },
   () => active?.state.tabId
 );
+const favoriteMenu = new FavoriteMenu({
+  run: serial,
+  onOpen: input => navigate(input),
+  onEdit: openFavoriteSettings
+});
 const recentMenu = new RecentMenu({
+  favorites: favoriteMenu,
   run: serial,
   onOpen: input => navigate(input),
   onRemove: async url => {
@@ -63,11 +70,21 @@ const recentMenu = new RecentMenu({
 const favoriteList = new FavoriteList({
   run: serial,
   onOpen: input => navigate(input),
-  onRemove: async url => {
-    const favorites = await request('PANEL_REMOVE_FAVORITE', { url });
-    setFavorites(favorites);
-    return favorites;
-  }
+  onRemove: removeFavorite
+});
+
+async function removeFavorite(url: string) {
+  const favorites = await request('PANEL_REMOVE_FAVORITE', { url });
+  setFavorites(favorites);
+  return favorites;
+}
+
+async function openFavoriteSettings() {
+  await chrome.tabs.create({ windowId, url: chrome.runtime.getURL('options.html#favorites') });
+}
+
+element('#edit-home-favorites').addEventListener('click', () => {
+  void serial(openFavoriteSettings);
 });
 
 const autocomplete = new AddressAutocomplete(

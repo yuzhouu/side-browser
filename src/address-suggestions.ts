@@ -1,4 +1,5 @@
 import { searchUrl } from './search-engine.js';
+import { favoriteLabel } from './favorites.js';
 import type { SearchEngine, PanelSnapshot } from './types.js';
 
 export type SuggestionSource =
@@ -55,13 +56,18 @@ export function rankSuggestions(query: string, candidates: Candidate[]): Address
 }
 
 export function localCandidates(state?: SuggestionState): Candidate[] {
+  const names = new Map(state?.favorites.map(item => [item.url, item.customTitle]));
   return [
     ...(state?.recentUrls || []).map(url => ({
       url,
-      title: state?.recentTitles[url],
+      title: names.get(url) || state?.recentTitles[url],
       source: 'suggestionRecent' as const
     })),
-    ...(state?.favorites || []).map(item => ({ ...item, source: 'suggestionFavorite' as const }))
+    ...(state?.favorites || []).map(item => ({
+      url: item.url,
+      title: favoriteLabel(item),
+      source: 'suggestionFavorite' as const
+    }))
   ];
 }
 

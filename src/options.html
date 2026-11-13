@@ -72,6 +72,13 @@
           <button id="manage-shortcut" type="button" data-i18n="settingsManageShortcut"></button>
         </div>
       </section>
+      <section id="favorites" class="card" aria-labelledby="favorites-heading">
+        <h2 id="favorites-heading" tabindex="-1" data-i18n="favorites"></h2>
+        <p data-i18n="settingsFavoritesDescription"></p>
+        <p id="managed-empty" data-i18n="favoritesEmpty" hidden></p>
+        <ul id="managed-list"></ul>
+        <p id="managed-feedback" class="status error" role="status" hidden></p>
+      </section>
       <section class="card" aria-labelledby="data-heading">
         <h2 id="data-heading" data-i18n="settingsData"></h2>
         <div class="setting-row">
@@ -104,6 +111,60 @@
       <p id="settings-status" class="status" role="status" aria-live="polite"></p>
       <button id="retry-settings" type="button" data-i18n="retry" hidden></button>
     </main>
+    <template id="managed-actions-template">
+      <div class="managed-actions">
+        <button type="button" data-action="up">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 10 6-6 6 6M12 4v16" /></svg>
+        </button>
+        <button type="button" data-action="down">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 14 6 6 6-6M12 4v16" /></svg>
+        </button>
+        <button type="button" data-action="edit">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="m14 5 5 5M4 20l5-1L20 8a2 2 0 0 0-5-5L4 14Z" />
+          </svg>
+        </button>
+        <button type="button" data-action="remove">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7 7 10 10M17 7 7 17" /></svg>
+        </button>
+      </div>
+    </template>
+    <template id="managed-editor-template">
+      <form class="managed-editor">
+        <div class="managed-fields">
+          <input
+            name="title"
+            type="text"
+            maxlength="512"
+            required
+            autocomplete="off"
+            data-i18n-aria-label="favoriteName"
+          />
+          <input
+            name="url"
+            type="text"
+            inputmode="url"
+            required
+            autocomplete="off"
+            spellcheck="false"
+            data-i18n-aria-label="favoriteUrl"
+          />
+        </div>
+        <div class="managed-edit-actions">
+          <button type="submit" data-i18n-title="saveFavorite" data-i18n-aria-label="saveFavorite">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6" /></svg>
+          </button>
+          <button
+            type="button"
+            data-action="cancel"
+            data-i18n-title="cancelFavorite"
+            data-i18n-aria-label="cancelFavorite"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7 7 10 10M17 7 7 17" /></svg>
+          </button>
+        </div>
+      </form>
+    </template>
     <script type="module" src="options.ts"></script>
   </body>
 </html>
