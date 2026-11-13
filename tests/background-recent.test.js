@@ -101,6 +101,7 @@ async function background(context, localValues = {}, sessionValues = {}, configu
       ],
       get: async id => ({ id, windowId: id >= 20 ? 2 : 1, url: a }),
       create: async () => {},
+      update: async () => {},
       onActivated: event(),
       onRemoved: event(),
       onDetached: event(),
@@ -757,6 +758,88 @@ test('refused destinations open in a new tab without becoming the page or a rece
   const after = await request('PANEL_READY');
   assert.equal(after.url, before.url);
   assert.deepEqual(after.recentUrls, before.recentUrls);
+});
+
+test('opening in the current main tab targets the active tab in the panel window and preserves side pages', async context => {
+  const { request, chrome } = await background(context);
+  await request('PANEL_NAVIGATE', { input: a });
+  await request('PANEL_NAVIGATE', { input: b }, 2);
+  const first = await request('PANEL_READY');
+  const second = await request('PANEL_READY', {}, 2);
+  const stored = structuredClone([chrome.storage.local.values, chrome.storage.session.values]);
+  const queries = [];
+  chrome.tabs.query = async options => {
+    queries.push(options);
+    return [{ id: options.windowId === 2 ? 21 : 11, windowId: options.windowId }];
+  };
+  const updates = [];
+  chrome.tabs.update = async (id, options) => updates.push({ id, ...options });
+  chrome.tabs.create = () => assert.fail('Opening in the current tab must not create a tab');
+  assert.equal(await request('PANEL_OPEN_CURRENT_TAB', { tabId: null, url: internal }), true);
+  assert.equal(await request('PANEL_OPEN_CURRENT_TAB', { tabId: null }, 2), true);
+  assert.deepEqual(updates, [
+    { id: 11, url: a },
+    { id: 21, url: b }
+  ]);
+  assert.deepEqual(queries, [
+    { active: true, windowId: 1 },
+    { active: true, windowId: 2 }
+  ]);
+  assert.deepEqual(pageState(await request('PANEL_READY')), pageState(first));
+  assert.deepEqual(pageState(await request('PANEL_READY', {}, 2)), pageState(second));
+  assert.deepEqual([chrome.storage.local.values, chrome.storage.session.values], stored);
+});
+
+test('opening bound and shared side pages in the main tab preserves bindings and navigation', async context => {
+  const { request, chrome } = await background(context);
+  await request('PANEL_NAVIGATE', { input: a });
+  await request('PANEL_BIND', { sourceTabId: 10, bound: true });
+  await request('PANEL_NAVIGATE', { input: b, tabId: null });
+  const stored = structuredClone([chrome.storage.local.values, chrome.storage.session.values]);
+  const updates = [];
+  chrome.tabs.update = async (id, options) => updates.push({ id, ...options });
+  chrome.tabs.create = () => assert.fail('Opening a bound page must keep the current tab');
+  await request('PANEL_OPEN_CURRENT_TAB', { tabId: 10 });
+  chrome.tabs.query = async ({ windowId }) => [{ id: 11, windowId }];
+  await request('PANEL_OPEN_CURRENT_TAB', { tabId: null });
+  assert.deepEqual(updates, [
+    { id: 10, url: a },
+    { id: 11, url: b }
+  ]);
+  assert.deepEqual([chrome.storage.local.values, chrome.storage.session.values], stored);
+});
+
+test('opening in the current tab rejects missing targets and untrusted callers and can retry tab failures', async context => {
+  const { request, chrome, settingsRequest } = await background(context);
+  const updates = [];
+  chrome.tabs.update = async (id, options) => updates.push({ id, ...options });
+  await assert.rejects(request('PANEL_OPEN_CURRENT_TAB', { tabId: null }), {
+    code: 'errorCurrentPage'
+  });
+  await request('PANEL_NAVIGATE', { input: a });
+  const before = await request('PANEL_READY');
+  const stored = structuredClone([chrome.storage.local.values, chrome.storage.session.values]);
+  await assert.rejects(settingsRequest('PANEL_OPEN_CURRENT_TAB', { windowId: 1, tabId: null }), {
+    code: 'errorPanelOnly'
+  });
+  const query = chrome.tabs.query;
+  for (const targets of [[], [{ windowId: 1 }], [{ id: 20, windowId: 2 }]]) {
+    chrome.tabs.query = async () => targets;
+    await assert.rejects(request('PANEL_OPEN_CURRENT_TAB', { tabId: null }), {
+      code: 'errorCurrentPage'
+    });
+  }
+  assert.deepEqual(updates, []);
+  chrome.tabs.query = query;
+  chrome.tabs.update = async () => {
+    throw new Error('Tab closed');
+  };
+  await assert.rejects(request('PANEL_OPEN_CURRENT_TAB', { tabId: null }), /Tab closed/);
+  chrome.tabs.update = async (id, options) => updates.push({ id, ...options });
+  await request('PANEL_OPEN_CURRENT_TAB', { tabId: null });
+  assert.deepEqual(updates, [{ id: 10, url: a }]);
+  assert.deepEqual(await request('PANEL_READY'), before);
+  assert.deepEqual([chrome.storage.local.values, chrome.storage.session.values], stored);
 });
 
 test('clearing stays persisted after stale saves, reloads, external opens and reopening the same URL', async context => {

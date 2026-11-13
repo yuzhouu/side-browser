@@ -73,6 +73,12 @@
   "openExternalTitle": {
     "message": "Open the sidebar page in a new browser tab"
   },
+  "openCurrentTab": {
+    "message": "Open in current tab"
+  },
+  "openCurrentTabTitle": {
+    "message": "Open the sidebar URL in the current browser tab, replacing its page"
+  },
   "switchToDesktop": {
     "message": "Use full width"
   },

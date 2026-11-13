@@ -73,6 +73,12 @@
   "openExternalTitle": {
     "message": "在新标签页打开侧边栏当前网页"
   },
+  "openCurrentTab": {
+    "message": "在当前标签页打开"
+  },
+  "openCurrentTabTitle": {
+    "message": "在当前主标签页打开侧窗网址，替换当前页面"
+  },
   "switchToDesktop": {
     "message": "使用窗口宽度"
   },

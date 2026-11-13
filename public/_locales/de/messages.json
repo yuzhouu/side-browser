@@ -73,6 +73,12 @@
   "openExternalTitle": {
     "message": "Seite aus der Seitenleiste in einem neuen Browser-Tab öffnen"
   },
+  "openCurrentTab": {
+    "message": "Im aktuellen Tab öffnen"
+  },
+  "openCurrentTabTitle": {
+    "message": "Seitenleisten-URL im aktuellen Browser-Tab öffnen und dessen Seite ersetzen"
+  },
   "switchToDesktop": {
     "message": "Volle Breite verwenden"
   },

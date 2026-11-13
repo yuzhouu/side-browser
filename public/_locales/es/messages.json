@@ -73,6 +73,12 @@
   "openExternalTitle": {
     "message": "Abrir la página del panel lateral en una pestaña nueva del navegador"
   },
+  "openCurrentTab": {
+    "message": "Abrir en la pestaña actual"
+  },
+  "openCurrentTabTitle": {
+    "message": "Abrir la URL del panel lateral en la pestaña actual y sustituir su página"
+  },
   "switchToDesktop": {
     "message": "Usar todo el ancho"
   },

@@ -965,7 +965,7 @@ try {
     assert(
       await panel.evaluate(`document.querySelector('#address').value === '' &&
       document.querySelector('#notice').hidden &&
-      ['back', 'forward', 'home', 'external', 'close-page'].every(id =>
+      ['back', 'forward', 'home', 'external', 'open-current-tab', 'close-page'].every(id =>
         document.getElementById(id).disabled)`)
     );
     assert.deepEqual((await state()).history, []);

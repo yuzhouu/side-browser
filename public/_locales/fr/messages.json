@@ -73,6 +73,12 @@
   "openExternalTitle": {
     "message": "Ouvrir la page du panneau latéral dans un nouvel onglet du navigateur"
   },
+  "openCurrentTab": {
+    "message": "Ouvrir dans l’onglet actuel"
+  },
+  "openCurrentTabTitle": {
+    "message": "Ouvrir l’URL du panneau latéral dans l’onglet actuel et remplacer sa page"
+  },
   "switchToDesktop": {
     "message": "Utiliser toute la largeur"
   },

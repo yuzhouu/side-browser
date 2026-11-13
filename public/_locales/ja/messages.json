@@ -73,6 +73,12 @@
   "openExternalTitle": {
     "message": "サイドバーのページを新しいブラウザタブで開く"
   },
+  "openCurrentTab": {
+    "message": "現在のタブで開く"
+  },
+  "openCurrentTabTitle": {
+    "message": "サイドバーのURLを現在のブラウザタブで開き、そのページを置き換えます"
+  },
   "switchToDesktop": {
     "message": "ウィンドウ幅を使用"
   },

@@ -161,6 +161,8 @@ function render(page = active) {
   element<HTMLButtonElement>('#forward').disabled = state.historyIndex >= state.history.length - 1;
   element<HTMLButtonElement>('#home').disabled = !state.url;
   element<HTMLButtonElement>('#external').disabled = !state.url;
+  element<HTMLButtonElement>('#open-current-tab').disabled =
+    !state.url || sourceTabId === undefined;
   element<HTMLButtonElement>('#close-page').disabled = !state.url;
   emptyCurrent.disabled = false;
 }
@@ -430,6 +432,10 @@ element('#empty-address').onclick = () => {
 element<HTMLButtonElement>('#external').onclick = () => {
   const tabId = active.state.tabId;
   void serial(() => requestFor(tabId, 'PANEL_EXTERNAL'));
+};
+element<HTMLButtonElement>('#open-current-tab').onclick = () => {
+  const tabId = active.state.tabId;
+  void serial(() => requestFor(tabId, 'PANEL_OPEN_CURRENT_TAB'));
 };
 function closeCurrentPage() {
   const page = active;

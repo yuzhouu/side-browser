@@ -88,6 +88,7 @@ export interface PanelRequests {
   PANEL_BIND: [{ sourceTabId: number; bound: boolean }, PanelSnapshot];
   PANEL_CURRENT: [undefined, PanelSnapshot];
   PANEL_EXTERNAL: [undefined, boolean];
+  PANEL_OPEN_CURRENT_TAB: [undefined, boolean];
   PANEL_OPEN_TAB: [{ url: string }, boolean];
 }
 export interface SettingsRequests {

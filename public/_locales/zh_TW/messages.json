@@ -73,6 +73,12 @@
   "openExternalTitle": {
     "message": "在新的瀏覽器分頁開啟側邊欄中的網頁"
   },
+  "openCurrentTab": {
+    "message": "在目前分頁開啟"
+  },
+  "openCurrentTabTitle": {
+    "message": "在目前主分頁開啟側窗網址，取代目前網頁"
+  },
   "switchToDesktop": {
     "message": "使用視窗寬度"
   },

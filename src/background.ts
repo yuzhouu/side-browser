@@ -552,6 +552,16 @@ chrome.runtime.onMessage.addListener((message: PanelRequest | SettingsRequest, s
           await chrome.tabs.create({ windowId: message.windowId, url, active: true });
         return true;
       }
+      case 'PANEL_OPEN_CURRENT_TAB': {
+        const url = getState(message.windowId, tabId).url;
+        if (!isWebUrl(url)) throw userError('errorCurrentPage');
+        // Resolve the active main tab now; the original source tab may no longer be active.
+        const [target] = await chrome.tabs.query({ active: true, windowId: message.windowId });
+        if (target?.id === undefined || target.windowId !== message.windowId)
+          throw userError('errorCurrentPage');
+        await chrome.tabs.update(target.id, { url });
+        return true;
+      }
       // A destination the side panel could not display (it never became the page URL).
       case 'PANEL_OPEN_TAB':
         if (!isWebUrl(message.url)) throw userError('errorUnsupportedUrl');
