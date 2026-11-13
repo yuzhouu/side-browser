@@ -3,6 +3,7 @@
 ## 1.3.0 — 2026-11-13
 
 - 顶栏新增首页按钮，返回欢迎页并清空当前网页历史；地址栏右侧新增收藏星标，可直接收藏或取消收藏当前完整网址。
+- 更多菜单移除收藏入口，前三项调整为关闭当前网页、在新标签页打开、绑定到当前标签页。
 - 时钟菜单新增「最近 / 收藏」双标签。菜单和欢迎页的编辑入口在新标签页打开收藏设置，支持编辑名称与网址、调整顺序和删除；自定义名称不会被网页标题覆盖，收藏跨窗口同步并在重启后保留。
 - 搜索引擎新增 Yahoo! JAPAN 和自定义配置。自定义引擎使用名称及带 `%s` 的 HTTP(S) 搜索网址，保存后跨窗口生效，支持取消草稿和切回内置引擎。
 - 网页选中文字后可通过右键菜单使用当前搜索引擎在侧窗查询，保留原网页，并沿用来源标签的共享或绑定侧窗。
@@ -13,6 +14,7 @@
 ### English
 
 - Added a Home button that returns to the welcome screen and clears the current page's navigation history, plus an address-bar star to save or remove the current URL.
+- Removed the favorite action from More and placed Close current page, Open in new tab, and Bind to current tab first, in that order.
 - Added Recent and Favorites tabs to the clock menu. Edit opens favorite settings in a new tab to change names and URLs, reorder entries, or remove them. Custom names remain separate from page titles; favorites sync across windows and survive restarts.
 - Added Yahoo! JAPAN and a custom search engine with a name and an HTTP(S) URL template using `%s`. Saved settings apply across windows, with draft cancellation and retained custom settings when switching to a built-in engine.
 - Added a context-menu action to search selected webpage text in the sidebar with the selected engine, preserving the original page and its shared or bound sidebar routing.

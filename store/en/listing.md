@@ -30,7 +30,7 @@ BIND A PAGE TO ONE TAB WHEN YOU NEED TO
 Use the More menu to bind the current sidebar page to a tab while keeping that page running. Other unbound tabs return to the welcome screen, where you can open a new shared page. Bound tabs have their own page and history. Unbinding closes that independent page and returns to the shared sidebar; closing a bound tab also releases its page.
 
 SAVE YOUR FAVORITES, OPEN THEM QUICKLY
-Choose Add current page to favorites in the sidebar’s More menu, or right-click a webpage or the SideBrowser toolbar icon and choose Add to SideBrowser favorites. Favorites appear below the empty welcome screen as a row of website icons, wrapping onto a new row when needed. Hover to see the title and full URL; click to open in the current sidebar. Remove favorites individually. Clearing recent pages leaves favorites intact.
+Use the star in the sidebar address bar to save the current page, or right-click a webpage or the SideBrowser toolbar icon and choose Add to SideBrowser favorites. Favorites appear below the empty welcome screen as a row of website icons, wrapping onto a new row when needed. Hover to see the title and full URL; click to open in the current sidebar. Remove favorites individually. Clearing recent pages leaves favorites intact.
 
 EVERYDAY CONTROLS, CLOSE AT HAND
 • Open the current page with one click, the context menu, or Alt + Shift + P (Mac: Option + Shift + P).

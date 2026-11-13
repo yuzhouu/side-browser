@@ -44,7 +44,7 @@ export const content = {
     detailTitle: '少一点来回，多一点专注。',
     details: [
       ['收藏快捷打开', '欢迎页图标横排、自动换行，悬停查看标题与完整网址。'],
-      ['随手收藏', '从侧窗更多菜单，或右键网页、工具栏扩展图标收藏。'],
+      ['随手收藏', '点击地址栏星标，或右键网页、工具栏扩展图标收藏。'],
       ['最近打开', '保留 10 个最近主动打开的网址，可单条删除或清空；收藏独立保留。'],
       ['自由切换', '按网站选择窄屏或窗口宽度，需要时请求手机版。外观可选浅色、深色或跟随系统。'],
       ['关闭当前网页', '回到欢迎页，保留收藏、最近记录、绑定和其他侧窗网页。'],
@@ -144,7 +144,7 @@ export const content = {
       ],
       [
         'Save a favorite',
-        'Use More in the sidebar, or right-click a webpage or the extension toolbar icon.'
+        'Use the address-bar star, or right-click a webpage or the extension toolbar icon.'
       ],
       [
         'Find your way back',
@@ -264,7 +264,7 @@ export const content = {
       ],
       [
         '手軽にお気に入りへ',
-        'サイドバーのメニュー、ページの右クリック、ツールバーの拡張機能アイコンから登録できます。'
+        'アドレスバーの星、ページの右クリック、ツールバーの拡張機能アイコンから登録できます。'
       ],
       [
         '最近開いたページ',

@@ -30,7 +30,7 @@
 
 ### 保存与删除
 
-收藏会在浏览器重启后保留，可在更多菜单或空白页收藏列表中逐条取消。清空最近记录、关闭网页及绑定／解除绑定不会删除收藏。
+收藏会在浏览器重启后保留，可通过地址栏星标、收藏设置或空白页收藏列表逐条取消。清空最近记录、关闭网页及绑定／解除绑定不会删除收藏。
 
 最近列表支持单条删除或全部清空；清理最近列表不会删除当前网页、导航历史、网页恢复状态或网站 Cookie。将网页绑定到标签页时，该网页和历史移入绑定，共享网页及其恢复状态清空；最近列表保留。“关闭当前网页”清空当前显示的侧窗网页和导航历史，但保留收藏、最近列表、标签绑定和其他侧窗页面。偏好与恢复信息在本地保留，直到被后续操作覆盖或删除；会话存储由浏览器管理。卸载扩展会移除扩展存储，网站 Cookie 和其他网站数据需在浏览器中单独清理。侧窗没有开发者服务器上的浏览记录副本。
 
@@ -72,7 +72,7 @@ Website storage is managed separately by the browser and the websites. HTTPS sit
 
 ### Retention and deletion
 
-Favorites persist across browser restarts. You can remove them individually from the More menu or the favorites list on the blank page. Clearing recents, closing a page, binding, and unbinding do not remove favorites.
+Favorites persist across browser restarts. You can remove them individually using the address-bar star, favorite settings, or the favorites list on the blank page. Clearing recents, closing a page, binding, and unbinding do not remove favorites.
 
 You can remove individual recent entries or clear the list. This does not clear the current page, navigation history, restoration state, or website cookies. Binding transfers the page and its history to that tab and clears the shared page and its restoration state, while retaining recents. Closing the current page clears the displayed sidebar page and its history while retaining favorites, recents, tab bindings, and other side pages. Local preferences and restoration state remain until overwritten or removed; the browser manages session storage. Uninstalling removes extension storage. Website cookies and other website data must be cleared separately in the browser. There is no developer-hosted copy of browsing records.
 
@@ -114,7 +114,7 @@ cookies 権限は、サイドバーで直接開いた HTTPS ページにのみ�
 
 ### 保存期間と削除
 
-お気に入りはブラウザを再起動しても残ります。その他メニューやスタート画面のお気に入り一覧から、1 件ずつ削除できます。最近の履歴の消去、ページを閉じる操作、タブへの紐付けや解除では、お気に入りは削除されません。
+お気に入りはブラウザを再起動しても残ります。アドレスバーの星、お気に入り設定、スタート画面のお気に入り一覧から、1 件ずつ削除できます。最近の履歴の消去、ページを閉じる操作、タブへの紐付けや解除では、お気に入りは削除されません。
 
 最近の履歴は 1 件ずつ削除するか、一括で消去できます。消去しても、現在のページ、戻る・進む履歴、復元状態、サイトの Cookie は削除されません。タブに紐付けると、ページと履歴がそのタブに移り、共有ページとその復元状態は消去されますが、最近の履歴は残ります。現在のページを閉じると、表示中のサイドページとその移動履歴が消去されます。お気に入り、最近の履歴、タブとの紐付け、ほかのサイドページは残ります。ローカルの設定と復元情報は、上書きまたは削除されるまで保存されます。セッションストレージはブラウザが管理します。拡張機能をアンインストールすると、拡張機能のストレージは削除されます。サイトの Cookie やその他のサイトデータは、ブラウザから別途削除する必要があります。開発者のサーバーに閲覧記録のコピーはありません。
 

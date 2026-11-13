@@ -122,14 +122,11 @@ function render(page = active) {
   favoriteList.render(state.favorites);
   const saved = state.favorites.some(item => item.url === state.url);
   const favoriteTitle = t(saved ? 'removeFavorite' : 'addFavorite');
-  for (const selector of ['#favorite', '#favorite-current']) {
-    const favorite = element<HTMLButtonElement>(selector);
-    favorite.disabled = !state.url;
-    favorite.setAttribute('aria-pressed', String(saved));
-    favorite.setAttribute('aria-label', favoriteTitle);
-    favorite.title = favoriteTitle;
-  }
-  element('#favorite-label').textContent = favoriteTitle;
+  const favorite = element<HTMLButtonElement>('#favorite-current');
+  favorite.disabled = !state.url;
+  favorite.setAttribute('aria-pressed', String(saved));
+  favorite.setAttribute('aria-label', favoriteTitle);
+  favorite.title = favoriteTitle;
   document.body.classList.toggle('mobile', state.mode === 'mobile');
   document.body.dataset.scope = state.tabId === null ? 'shared' : 'bound';
   document.body.dataset.tabId = String(state.tabId ?? 'shared');
@@ -459,7 +456,6 @@ function toggleFavorite() {
     setFavorites(favorites);
   });
 }
-element('#favorite').onclick = toggleFavorite;
 element('#favorite-current').onclick = toggleFavorite;
 element('#help').onclick = () => {
   void serial(() => chrome.tabs.create({ windowId, url: chrome.runtime.getURL('help.html') }));

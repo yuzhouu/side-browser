@@ -27,8 +27,7 @@ export async function checkAddressSuggestions({
   await navigate(recent);
   // Use the user-visible action so the normal favorite navigation contract is tested.
   if (!(await state()).favorites.some(item => item.url === recent)) {
-    await panel.click('#more');
-    await panel.click('#favorite');
+    await panel.click('#favorite-current');
   }
   const bookmarkIds = await panel.evaluate(`Promise.all([
     chrome.bookmarks.create({title: 'QA suggestion bookmark', url: ${JSON.stringify(bookmark)}}),

@@ -57,13 +57,11 @@ export async function checkFavorites({
       "document.querySelector('#favorite-current').getAttribute('aria-pressed') === 'true'"
     )
   );
-  await panel.click('#more');
   assert.equal(
-    await panel.evaluate("document.querySelector('#favorite-label').textContent"),
+    await panel.evaluate("document.querySelector('#favorite-current').getAttribute('aria-label')"),
     catalog.removeFavorite.message
   );
-  await screenshot('favorite-saved-menu');
-  await panel.press('Escape');
+  await screenshot('favorite-saved-toolbar');
   await request('PANEL_CLEAR_RECENT');
   await frame.evaluate("document.title = '常用资料 · Updated reference'");
   await poll(
