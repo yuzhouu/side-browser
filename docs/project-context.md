@@ -4,11 +4,11 @@
 
 2026-09-22 补充：Chrome 与 Microsoft Edge 共用源码、`dist/` 与通用 ZIP；设置页按宿主浏览器打开快捷键管理，七种语言的界面使用通用浏览器称呼。Edge 安装及发布说明见 [Edge 发布](edge-publishing.md)，`QA_BROWSER=edge` 可运行同一套独立原生侧栏回归。仅主动开启「请求手机版」的网站使用 Android Chrome 兼容身份；最低 Chromium 145 的请求隔离规则保持不变。已在 [Microsoft Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/%E4%BE%A7%E7%AA%97-%C2%B7-sidebrowser/ejdcoddocalfdcgkadfenfpjplkkjmbi) 上架（2026-09-29 更新）。
 
-侧窗 · SideBrowser 当前版本为 1.2.0（2026-10-09；1.1.0 基线为 2026-09-22，1.0.0 基线为 2026-09-16），项目从原会话工作区的 `outputs/pocket-browser` 复制成独立项目。原始位置：`/Users/yuzhou/Documents/Codex/2026-09-14/new-chat`。早期安装包曾保存在 `releases/archive/sidebrowser-1.6.5.zip`，现已按仅保留最新包的规则清理；原会话的源码和安装包仍保留。英文品牌已统一为 `SideBrowser`，npm 包名为 `sidebrowser-extension`，中文品牌为「侧窗」，中文 slogan 为「侧窗小境，意赴遐荒」，英文 slogan 为 “Another page. Right beside you.”。旧名称 `sidebrowse-1.6.5.zip` 仅为历史记录，不再保存在本地发布目录。
+侧窗 · SideBrowser 当前版本为 1.3.0（2026-11-13；1.2.0 基线为 2026-10-09，1.1.0 基线为 2026-09-22，1.0.0 基线为 2026-09-16），项目从原会话工作区的 `outputs/pocket-browser` 复制成独立项目。原始位置：`/Users/yuzhou/Documents/Codex/2026-09-14/new-chat`。早期安装包曾保存在 `releases/archive/sidebrowser-1.6.5.zip`，现已按仅保留最新包的规则清理；原会话的源码和安装包仍保留。英文品牌已统一为 `SideBrowser`，npm 包名为 `sidebrowser-extension`，中文品牌为「侧窗」，中文 slogan 为「侧窗小境，意赴遐荒」，英文 slogan 为 “Another page. Right beside you.”。旧名称 `sidebrowse-1.6.5.zip` 仅为历史记录，不再保存在本地发布目录。
 
 ## 使用与开发
 
-本地源码目录继续使用 `sidebrowse`，应用源文件已迁至 `src/` 并采用 TypeScript strict；`public/` 存放 manifest、语言包和运行图标。Vite 生成独立 `dist/`。`npm run release` 先重新构建并运行测试，成功后清空整个 `releases/`，只输出最新 `releases/sidebrowser-1.2.0.zip`；`npm run package` 同样清空后打包，但不额外运行测试。ZIP 根目录直接包含 manifest，不再额外嵌套目录。构建或测试失败时保留上次的包；旧安装包、商店资料包和历史归档不再保留，商店资料需要时运行 `npm run store:package` 重新生成。整个 `releases/` 已从 Git 跟踪中移除并忽略，仅为本地生成目录，打包命令不上传 GitHub。开发依赖、文档、测试与设计素材不会打包。
+本地源码目录继续使用 `sidebrowse`，应用源文件已迁至 `src/` 并采用 TypeScript strict；`public/` 存放 manifest、语言包和运行图标。Vite 生成独立 `dist/`。`npm run release` 先重新构建并运行测试，成功后清空整个 `releases/`，只输出最新 `releases/sidebrowser-1.3.0.zip`；`npm run package` 同样清空后打包，但不额外运行测试。ZIP 根目录直接包含 manifest，不再额外嵌套目录。构建或测试失败时保留上次的包；旧安装包、商店资料包和历史归档不再保留，商店资料需要时运行 `npm run store:package` 重新生成。整个 `releases/` 已从 Git 跟踪中移除并忽略，仅为本地生成目录，打包命令不上传 GitHub。开发依赖、文档、测试与设计素材不会打包。
 
 使用 Node 22.12+，先执行 `npm ci`、`npm run build`，再在 Chrome 145+ 扩展管理页加载 `dist/`。`npm run dev` 监听源码和静态资源重建产物，修改后在 Chrome 点击重新加载。`npm test` 和 `npm run test:browser` 都会先构建。既有独立安装文件夹可用新 ZIP 内容覆盖并保留加载路径；从源码根目录改为加载 `dist/` 会被 Chrome 视为另一个未打包扩展，原身份的数据不会自动转入。
 
@@ -156,3 +156,9 @@ HTTP(S) 网页选中文字后，右键新增「在侧窗搜索“所选文字”
 地址栏左侧显示加载图标，不占额外一行，不遮挡网页；按用户反馈已移除顶栏下沿的细进度动画，仅保留地址栏加载反馈。加载状态按共享／绑定网页实例独立保存，切换标签显示对应网页的状态；完成、失败、回到首页或销毁页面时停止，支持深浅色、减少动态效果偏好及七种语言的无障碍标签。
 
 `PanelPage` 从显式打开及页面内跨文档导航开始计时，iframe load、缓存恢复和取消／被网站接管的导航结束时停止。地址上报不再过早清除加载状态和慢加载计时，超过 12 秒仍未完成时显示现有提示。下载、同文档跳转及旧文档的结束通知不会错误改变新导航的加载状态。类型检查、构建、124 项 Node 测试及格式检查通过，`dist/` 已更新；按用户要求未运行浏览器验证，实际显示和点击仍未验收。未新增权限，未打包、提交或发布。
+
+## 1.3.0 本地打包（2026-11-13）
+
+上述顶栏入口、收藏管理、自定义搜索、选中文字搜索和网页加载反馈已按功能拆分为五个提交；各阶段分别通过类型检查、构建及 97／107／116／120／124 项 Node 测试。版本号统一更新为 1.3.0，并同步中英文更新记录、隐私政策版本和官网隐私页日期。
+
+`npm run release` 完成最终构建、124 项 Node 测试及本地打包，`releases/` 仅保留 `sidebrowser-1.3.0.zip`（83,117 字节）。已核对 ZIP 的 31 个文件与 `dist/` 逐字节一致、manifest 位于根目录，且不含源码、测试或依赖。格式检查与 diff 空白检查通过；官网静态构建及 `site:check` 通过，覆盖 9 页、172 个本地链接／锚点／资源和三种语言的隐私政策。未运行浏览器验证，未推送或上传商店。

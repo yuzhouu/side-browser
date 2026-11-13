@@ -1,6 +1,6 @@
 # 侧窗 · SideBrowser
 
-这是 Chrome Manifest V3 侧边栏浏览器扩展，当前基线版本为 1.2.0。应用源码位于 `src/`，使用 TypeScript strict 和 Vite 构建；Chrome 只加载 `dist/`。
+这是 Chrome Manifest V3 侧边栏浏览器扩展，当前基线版本为 1.3.0。应用源码位于 `src/`，使用 TypeScript strict 和 Vite 构建；Chrome 只加载 `dist/`。
 
 ## 开发入口
 

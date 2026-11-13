@@ -1,6 +1,6 @@
 # 侧窗 · SideBrowser 隐私政策 / Privacy Policy / プライバシーポリシー
 
-更新日期 / Updated / 更新日: 2026-10-10 · 适用版本 / Version: 1.2.0
+更新日期 / Updated / 更新日: 2026-11-13 · 适用版本 / Version: 1.3.0
 
 ## 简体中文
 
