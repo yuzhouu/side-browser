@@ -22,6 +22,10 @@
   "contextOpen": {
     "message": "在側窗中開啟"
   },
+  "contextSearch": {
+    "message": "在側窗搜尋「%s」",
+    "description": "Selection context menu. Chrome replaces %s with the selected text."
+  },
   "navigation": {
     "message": "網頁導覽"
   },
@@ -163,7 +167,7 @@
     "message": "點擊側窗擴充功能圖示開啟側邊欄。輸入網址或 搜尋詞，再按 Enter；點擊「開啟目前網頁」可將目前分頁的網址開啟到側邊欄。"
   },
   "helpStartShortcut": {
-    "message": "在網頁、連結或瀏覽器工具列上的側窗圖示按右鍵，即可在側窗開啟。預設快捷鍵 Alt + Shift + P（Mac：⌥ + ⇧ + P）開啟目前網頁，可在設定頁查看和修改。拖曳側邊欄邊緣可調整寬度。"
+    "message": "在網頁、連結或瀏覽器工具列上的側窗圖示按右鍵，即可在側窗開啟。預設快捷鍵 Alt + Shift + P（Mac：⌥ + ⇧ + P）開啟目前網頁，可在設定頁查看和修改。拖曳側邊欄邊緣可調整寬度。選取網頁文字後按右鍵，即可使用已選搜尋引擎在側窗搜尋，原網頁保持不變。"
   },
   "helpStateHeading": {
     "message": "切換分頁與還原網頁"

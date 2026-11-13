@@ -12,7 +12,7 @@
 - 扩展在本机保存最近主动打开的最多 10 个网址及对应标题，供“最近打开”列表使用；读取浏览器提供的网站图标用于展示列表。
 - 用户通过侧窗菜单、网页右键或扩展图标右键主动收藏的网页网址和标题独立保存在本机，供空白页下方快捷打开；收藏列表同样使用浏览器提供的网站图标，收藏操作不读写浏览器原生书签。
 - 扩展在会话存储中保存各窗口的网址、前进／后退历史；用户主动绑定后，还保存对应标签 ID 与侧窗网址、历史的关系，解除绑定、关闭标签或重启浏览器后清除该绑定；在本地存储中保存最后的导航状态，供网页恢复使用。网址可能包含用户输入的查询参数。
-- 默认布局、按完整域名保存的布局和请求手机版选择、外观及搜索引擎偏好（包括自定义搜索引擎的名称和网址模板）保存在本机。网站偏好可在设置页逐项恢复默认。扩展读取侧边网页的网址、标题和视口元数据，以同步导航、更新收藏和最近记录的标题和适配显示。它不会提取主标签的正文、表单内容、密码或 AI 对话内容，也不会自动把主页面内容发送给 AI。
+- 默认布局、按完整域名保存的布局和请求手机版选择、外观及搜索引擎偏好（包括自定义搜索引擎的名称和网址模板）保存在本机。网站偏好可在设置页逐项恢复默认。扩展读取侧边网页的网址、标题和视口元数据，以同步导航、更新收藏和最近记录的标题和适配显示。扩展仅在用户点击选中文字的搜索菜单时，使用浏览器提供的该段文字发起搜索。它不会自动提取主标签的正文、表单内容、密码或 AI 对话内容，也不会自动把主页面内容发送给 AI。
 - 对侧边栏内的请求，扩展调整嵌入兼容响应头。网站自身 service worker 代为获取的网页，浏览器无法区分是否来自侧边栏，扩展仅移除其 `X-Frame-Options` 响应头。仅对用户主动开启「请求手机版」的完整域名调整设备身份请求头。它不读取或记录响应体。
 - `cookies` 权限仅用于侧边栏中直接打开的 HTTPS 网页：浏览器会随该网页的请求发送其 SameSite=Lax/Strict Cookie，却不让网页脚本读取。扩展在本机读取该网站自己的非 HttpOnly Cookie，只提供给该网页，与它在普通标签页中可读取的内容一致。HttpOnly Cookie、其他网站的 Cookie 和嵌套框架不在此范围内；扩展不保存、不修改、不上传 Cookie，无痕窗口不使用此功能。
 
@@ -24,7 +24,7 @@
 
 用户打开的网站直接接收浏览器发出的请求，包括网址、IP 地址、浏览器请求头及由浏览器按其规则附带的登录信息。用户在这些网站输入或提交的内容由相应网站处理，适用该网站自己的隐私政策。AI 服务由第三方网站提供，侧窗不提供内置模型或 AI 账号，也不会替用户自动提交对话。
 
-提交地址栏中的关键词搜索或点击搜索候选时，会向设置中所选的搜索引擎（Google、Bing、百度、DuckDuckGo、Yahoo! JAPAN 或你配置的自定义引擎，默认 Google）发送关键词；该搜索网址也可能进入扩展的本地记录。通过帮助页打开 GitHub 或主动提交反馈时，GitHub 及收到反馈的开发者会获得用户主动提供的内容；请勿在公开反馈中包含密码、私人对话或带令牌的网址。侧窗不会自动附加诊断、浏览记录或页面内容。
+提交地址栏中的关键词搜索、点击搜索候选或使用选中文字的右键搜索时，会向设置中所选的搜索引擎（Google、Bing、百度、DuckDuckGo、Yahoo! JAPAN 或你配置的自定义引擎，默认 Google）发送关键词；该搜索网址也可能进入扩展的本地记录。通过帮助页打开 GitHub 或主动提交反馈时，GitHub 及收到反馈的开发者会获得用户主动提供的内容；请勿在公开反馈中包含密码、私人对话或带令牌的网址。侧窗不会自动附加诊断、浏览记录或页面内容。
 
 网站数据由浏览器与网站管理，与扩展本地记录分开。HTTPS 网页使用网站提供的加密连接；用户主动打开的 HTTP 网页仍受其自身连接安全性限制，扩展不提供代理或额外加密。
 
@@ -52,7 +52,7 @@ URLs and titles of pages you explicitly favorite from the side panel, a page con
 
 When you explicitly open the current page, the extension reads its URL and title to navigate the sidebar. Open context-menu actions, entered URLs, and search terms are used for navigation you request. Favorite context-menu actions read the target page’s URL and available title to save it without automatically opening it. Up to 10 recently opened URLs and their titles are stored locally for quick reopening; site icons are obtained through the browser's favicon interface.
 
-Per-window URLs and back/forward history are kept in session storage. When you explicitly bind a side page to a tab, its tab ID is associated with its sidebar URL and history in session storage; unbinding, closing that tab, or restarting the browser clears that binding. The last navigation state is kept locally for restoration. URLs may contain query parameters you enter. Default layout, per-hostname layout and mobile-site choices, appearance, and search engine preferences, including the custom engine name and URL template, are also stored locally. Website preferences can be reset individually in Settings. The extension reads the sidebar page's URL, title, and viewport metadata for navigation, favorite and recent titles, and layout. It does not extract main-tab body text, form contents, passwords, or AI conversations, and does not automatically send main-page contents to AI.
+Per-window URLs and back/forward history are kept in session storage. When you explicitly bind a side page to a tab, its tab ID is associated with its sidebar URL and history in session storage; unbinding, closing that tab, or restarting the browser clears that binding. The last navigation state is kept locally for restoration. URLs may contain query parameters you enter. Default layout, per-hostname layout and mobile-site choices, appearance, and search engine preferences, including the custom engine name and URL template, are also stored locally. Website preferences can be reset individually in Settings. The extension reads the sidebar page's URL, title, and viewport metadata for navigation, favorite and recent titles, and layout. The extension uses selected text supplied by the browser only when you choose the selection search menu item. It does not automatically extract main-tab body text, form contents, passwords, or AI conversations, and does not automatically send main-page contents to AI.
 
 For sidebar requests, the extension adjusts embedding-related response headers. For pages fetched by a website's own service worker, which the browser cannot attribute to the sidebar, only the X-Frame-Options header is removed. Device-identity request headers are adjusted only for exact hostnames where you explicitly enable Request mobile site. The extension does not read or log response bodies.
 
@@ -66,7 +66,7 @@ While you type in the sidebar address bar, suggestions combine local SideBrowser
 
 Websites you open receive normal browser requests, including URLs, IP addresses, headers, and authentication information that the browser permits. Content you submit on those sites is handled by those sites under their own privacy policies. AI is provided by the selected website; SideBrowser includes no AI model or AI account and does not automatically submit conversations.
 
-Submitting an address-bar keyword search or choosing the search action sends the query to the selected search engine: Google (the default), Bing, Baidu, DuckDuckGo, Yahoo! JAPAN, or the custom engine you configure. The search URL may also be stored in the extension's local records. Opening GitHub or submitting feedback exposes the information you choose to share to GitHub and, for feedback, the developer. Do not include passwords, private conversations, or token-bearing URLs in public issues. SideBrowser does not automatically attach diagnostics, browsing history, or page content.
+Submitting an address-bar keyword search, choosing the search action, or searching selected text from the context menu sends the query to the selected search engine: Google (the default), Bing, Baidu, DuckDuckGo, Yahoo! JAPAN, or the custom engine you configure. The search URL may also be stored in the extension's local records. Opening GitHub or submitting feedback exposes the information you choose to share to GitHub and, for feedback, the developer. Do not include passwords, private conversations, or token-bearing URLs in public issues. SideBrowser does not automatically attach diagnostics, browsing history, or page content.
 
 Website storage is managed separately by the browser and the websites. HTTPS sites use their own encrypted connections. User-selected HTTP sites retain the limitations of HTTP; the extension does not provide a proxy or additional encryption.
 
@@ -94,7 +94,7 @@ SideBrowser は yuzhou が開発した拡張機能で、ユーザーが選んだ
 
 現在のページを開く操作をしたとき、拡張機能はその URL とタイトルを読み取り、サイドバーで開きます。右クリックメニューからの移動、入力した URL、検索語句は、ユーザーが指示した移動に使います。右クリックメニューからお気に入りに登録するときは、対象ページの URL と取得できるタイトルを読み取り、ページを自動で開くことなく保存します。自分で開いた直近 10 件までの URL とタイトルを端末内に保存し、すぐに開き直せるようにします。サイトのアイコンはブラウザのファビコン機能で取得します。
 
-ウィンドウごとの URL と戻る・進む履歴は、セッションストレージに保存します。サイドページをタブに紐付けた場合は、そのタブ ID とサイドバーの URL・履歴の対応関係も保存します。紐付けの解除、対象タブの終了、ブラウザの再起動で、その紐付けは削除されます。ページを復元するため、最後の移動状態をローカルに保存します。URL には入力したクエリパラメータが含まれる場合があります。既定のレイアウト、ホスト名ごとのレイアウトとモバイルサイトの選択、外観、検索エンジンの設定も端末内に保存します。サイト別設定は設定画面から個別に削除できます。拡張機能はサイドページの URL、タイトル、ビューポートのメタデータを読み取り、移動の同期、お気に入りや最近の履歴のタイトル更新、表示調整に使います。メインタブの本文、フォームの内容、パスワード、AI との会話内容は抽出せず、メインページの内容を AI に自動送信することもありません。
+ウィンドウごとの URL と戻る・進む履歴は、セッションストレージに保存します。サイドページをタブに紐付けた場合は、そのタブ ID とサイドバーの URL・履歴の対応関係も保存します。紐付けの解除、対象タブの終了、ブラウザの再起動で、その紐付けは削除されます。ページを復元するため、最後の移動状態をローカルに保存します。URL には入力したクエリパラメータが含まれる場合があります。既定のレイアウト、ホスト名ごとのレイアウトとモバイルサイトの選択、外観、検索エンジンの設定も端末内に保存します。サイト別設定は設定画面から個別に削除できます。拡張機能はサイドページの URL、タイトル、ビューポートのメタデータを読み取り、移動の同期、お気に入りや最近の履歴のタイトル更新、表示調整に使います。選択した文字の検索メニューを選んだときに限り、ブラウザから提供されたその文字を検索に使用します。メインタブの本文、フォームの内容、パスワード、AI との会話内容は自動で抽出せず、メインページの内容を AI に自動送信することもありません。
 
 サイドバー内のリクエストについて、埋め込みに関するレスポンスヘッダーを調整します。サイト自身の Service Worker が取得したページは、ブラウザーがサイドバーからのリクエストと区別できないため、X-Frame-Options ヘッダーのみを削除します。「モバイルサイトを要求」を明示的に有効にした完全なホスト名についてのみ、端末情報を示すリクエストヘッダーも調整します。レスポンス本文の読み取りや記録は行いません。
 
@@ -108,7 +108,7 @@ cookies 権限は、サイドバーで直接開いた HTTPS ページにのみ�
 
 開いたウェブサイトには、URL、IP アドレス、ヘッダー、ブラウザの規則に従って付加される認証情報など、通常のブラウザリクエストが送られます。各サイトで入力・送信した内容は、そのサイトが独自のプライバシーポリシーに従って取り扱います。AI は選択したサイトが提供します。SideBrowser に AI モデルや AI アカウントは内蔵されておらず、会話を自動送信することもありません。
 
-アドレスバーでキーワード検索を実行するか、検索候補を選ぶと、設定で選択した検索エンジンに検索語句を送信します。選択肢は Google（初期設定）、Bing、Baidu、DuckDuckGo、Yahoo! JAPAN、および自分で設定したカスタム検索エンジンです。カスタム検索エンジンの名前と URL テンプレートは端末内に保存されます。検索 URL が拡張機能のローカル記録に保存される場合もあります。GitHub を開いたりフィードバックを送信したりすると、自分で提供した情報が GitHub に、フィードバックの場合は開発者にも届きます。公開のフィードバックにパスワード、私的な会話、トークンを含む URL を記載しないでください。SideBrowser が診断情報、閲覧履歴、ページの内容を自動で添付することはありません。
+アドレスバーでキーワード検索を実行するか、検索候補を選ぶか、選択した文字を右クリックメニューから検索すると、設定で選択した検索エンジンに検索語句を送信します。選択肢は Google（初期設定）、Bing、Baidu、DuckDuckGo、Yahoo! JAPAN、および自分で設定したカスタム検索エンジンです。カスタム検索エンジンの名前と URL テンプレートは端末内に保存されます。検索 URL が拡張機能のローカル記録に保存される場合もあります。GitHub を開いたりフィードバックを送信したりすると、自分で提供した情報が GitHub に、フィードバックの場合は開発者にも届きます。公開のフィードバックにパスワード、私的な会話、トークンを含む URL を記載しないでください。SideBrowser が診断情報、閲覧履歴、ページの内容を自動で添付することはありません。
 
 ウェブサイトのデータはブラウザと各サイトが管理し、拡張機能のローカル記録とは別に扱います。HTTPS のサイトでは、そのサイトの暗号化された接続を使います。ユーザーが開いた HTTP のサイトには HTTP 自体の接続上の制約があり、拡張機能はプロキシや追加の暗号化を提供しません。
 

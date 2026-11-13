@@ -22,6 +22,10 @@
   "contextOpen": {
     "message": "Open in SideBrowser"
   },
+  "contextSearch": {
+    "message": "Search “%s” in SideBrowser",
+    "description": "Selection context menu. Chrome replaces %s with the selected text."
+  },
   "navigation": {
     "message": "Page navigation"
   },
@@ -165,7 +169,7 @@
     "message": "Click the SideBrowser extension icon to open the sidebar. Enter an address or search term and press Enter. Use “Open current page” to open the active tab’s address in the sidebar."
   },
   "helpStartShortcut": {
-    "message": "Right-click a webpage, link, or the extension toolbar icon to open it in SideBrowser. The default open-current-page shortcut is Alt + Shift + P (Mac: ⌥ + ⇧ + P); view or change it in Settings. Drag the sidebar edge to resize it."
+    "message": "Right-click a webpage, link, or the extension toolbar icon to open it in SideBrowser. The default open-current-page shortcut is Alt + Shift + P (Mac: ⌥ + ⇧ + P); view or change it in Settings. Drag the sidebar edge to resize it. Select text on a webpage and right-click to search for it in SideBrowser with your selected search engine, keeping the original page in view."
   },
   "helpStateHeading": {
     "message": "Switching tabs and restoring pages"

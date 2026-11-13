@@ -22,6 +22,10 @@
   "contextOpen": {
     "message": "Ouvrir dans SideBrowser"
   },
+  "contextSearch": {
+    "message": "Rechercher « %s » dans SideBrowser",
+    "description": "Selection context menu. Chrome replaces %s with the selected text."
+  },
   "navigation": {
     "message": "Navigation dans les pages"
   },
@@ -163,7 +167,7 @@
     "message": "Cliquez sur l’icône de SideBrowser pour ouvrir le panneau latéral. Saisissez une adresse ou des termes de recherche, puis appuyez sur Entrée. « Ouvrir la page actuelle » ouvre l’adresse de l’onglet actif dans le panneau latéral."
   },
   "helpStartShortcut": {
-    "message": "Un clic droit sur une page, un lien ou l’icône de l’extension permet une ouverture dans SideBrowser. Le raccourci par défaut pour la page actuelle est Alt + Maj + P (Mac : ⌥ + ⇧ + P) ; consultez-le ou modifiez-le dans les paramètres. Faites glisser le bord du panneau pour régler sa largeur."
+    "message": "Un clic droit sur une page, un lien ou l’icône de l’extension permet une ouverture dans SideBrowser. Le raccourci par défaut pour la page actuelle est Alt + Maj + P (Mac : ⌥ + ⇧ + P) ; consultez-le ou modifiez-le dans les paramètres. Faites glisser le bord du panneau pour régler sa largeur. Sélectionnez du texte sur une page, puis faites un clic droit pour le rechercher dans SideBrowser avec le moteur choisi, tout en gardant la page d’origine sous les yeux."
   },
   "helpStateHeading": {
     "message": "Changer d’onglet et retrouver une page"

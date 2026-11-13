@@ -22,6 +22,10 @@
   "contextOpen": {
     "message": "SideBrowser で開く"
   },
+  "contextSearch": {
+    "message": "SideBrowser で「%s」を検索",
+    "description": "Selection context menu. Chrome replaces %s with the selected text."
+  },
   "navigation": {
     "message": "ページのナビゲーション"
   },
@@ -163,7 +167,7 @@
     "message": "SideBrowser の拡張機能アイコンをクリックしてサイドバーを開きます。アドレスや の検索語を入力して Enter を押します。「現在のページを開く」で現在のタブのアドレスをサイドバーに開けます。"
   },
   "helpStartShortcut": {
-    "message": "ウェブページ、リンク、ツールバーの拡張機能アイコンを右クリックして SideBrowser で開けます。現在のページを開く初期ショートカットは Alt + Shift + P（Mac：⌥ + ⇧ + P）です。設定で確認・変更できます。サイドバーの端をドラッグして幅を調整できます。"
+    "message": "ウェブページ、リンク、ツールバーの拡張機能アイコンを右クリックして SideBrowser で開けます。現在のページを開く初期ショートカットは Alt + Shift + P（Mac：⌥ + ⇧ + P）です。設定で確認・変更できます。サイドバーの端をドラッグして幅を調整できます。ウェブページの文字を選択して右クリックすると、設定した検索エンジンで SideBrowser 内を検索でき、元のページもそのまま表示されます。"
   },
   "helpStateHeading": {
     "message": "タブの切り替えとページの復元"

@@ -22,6 +22,10 @@
   "contextOpen": {
     "message": "Abrir en SideBrowser"
   },
+  "contextSearch": {
+    "message": "Buscar «%s» en SideBrowser",
+    "description": "Selection context menu. Chrome replaces %s with the selected text."
+  },
   "navigation": {
     "message": "Navegación de páginas"
   },
@@ -163,7 +167,7 @@
     "message": "Haz clic en el icono de SideBrowser para abrir el panel lateral. Escribe una dirección o términos de búsqueda de y pulsa Intro. Usa «Abrir página actual» para abrir la dirección de la pestaña activa en el panel lateral."
   },
   "helpStartShortcut": {
-    "message": "Haz clic derecho en una página, un enlace o el icono de la extensión para abrir en SideBrowser. El atajo predeterminado para la página actual es Alt + Mayús + P (Mac: ⌥ + ⇧ + P); puedes verlo y cambiarlo en Ajustes. Arrastra el borde del panel para ajustar su anchura."
+    "message": "Haz clic derecho en una página, un enlace o el icono de la extensión para abrir en SideBrowser. El atajo predeterminado para la página actual es Alt + Mayús + P (Mac: ⌥ + ⇧ + P); puedes verlo y cambiarlo en Ajustes. Arrastra el borde del panel para ajustar su anchura. Selecciona texto en una página y haz clic derecho para buscarlo en SideBrowser con el motor elegido, sin perder de vista la página original."
   },
   "helpStateHeading": {
     "message": "Cambiar de pestaña y restaurar páginas"

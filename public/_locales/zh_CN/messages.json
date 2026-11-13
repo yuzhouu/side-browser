@@ -22,6 +22,10 @@
   "contextOpen": {
     "message": "在侧窗中打开"
   },
+  "contextSearch": {
+    "message": "在侧窗搜索“%s”",
+    "description": "Selection context menu. Chrome replaces %s with the selected text."
+  },
   "navigation": {
     "message": "网页导航"
   },
@@ -163,7 +167,7 @@
     "message": "点击侧窗扩展图标打开侧边栏。输入网址或 搜索词，然后按回车；点击「打开当前网页」可把当前标签页的网址打开到侧边栏。"
   },
   "helpStartShortcut": {
-    "message": "右键网页、链接或浏览器工具栏上的侧窗图标可在侧窗中打开。默认快捷键 Alt + Shift + P（Mac：⌥ + ⇧ + P）打开当前网页，可在设置页查看和修改。拖动侧边栏边缘可调整宽度。"
+    "message": "右键网页、链接或浏览器工具栏上的侧窗图标可在侧窗中打开。默认快捷键 Alt + Shift + P（Mac：⌥ + ⇧ + P）打开当前网页，可在设置页查看和修改。拖动侧边栏边缘可调整宽度。选中网页文字后右键，可用已选搜索引擎在侧窗搜索，原网页保持不变。"
   },
   "helpStateHeading": {
     "message": "切换标签与恢复网页"

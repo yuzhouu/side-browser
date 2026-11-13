@@ -41,7 +41,8 @@ import {
   CUSTOM_SEARCH_ENGINE_KEY,
   validSearchEngine,
   parseCustomSearchEngine,
-  restoreCustomSearchEngine
+  restoreCustomSearchEngine,
+  searchUrl
 } from './search-engine.js';
 import { FAVORITES_KEY, restoreFavorites, moveFavorite, updateFavorite } from './favorites.js';
 
@@ -644,6 +645,7 @@ chrome.runtime.onStartup.addListener(() => {
   void update(async () => {
     await chrome.contextMenus.update('open-pocket', { title: t('contextOpen') });
     await chrome.contextMenus.update('favorite-pocket', { title: t('contextFavorite') });
+    await chrome.contextMenus.update('search-pocket', { title: t('contextSearch') });
   }).catch(error => reportFailure('Update context menu language', error));
 });
 
@@ -664,7 +666,8 @@ chrome.runtime.onInstalled.addListener(() => {
     await chrome.contextMenus.removeAll();
     for (const entry of [
       { id: 'open-pocket', title: t('contextOpen'), contexts: ['page', 'link', 'action'] },
-      { id: 'favorite-pocket', title: t('contextFavorite'), contexts: ['page', 'frame', 'action'] }
+      { id: 'favorite-pocket', title: t('contextFavorite'), contexts: ['page', 'frame', 'action'] },
+      { id: 'search-pocket', title: t('contextSearch'), contexts: ['selection'] }
     ] satisfies chrome.contextMenus.CreateProperties[])
       await new Promise<void>((resolve, reject) => {
         chrome.contextMenus.create(
@@ -682,13 +685,19 @@ chrome.runtime.onInstalled.addListener(() => {
   }).catch(error => reportFailure('Install context menu and migrate legacy state', error));
 });
 
-function openFromGesture(windowId: number, input: unknown, title?: string, sourceTabId?: number) {
+function openFromGesture(
+  windowId: number,
+  input: string | undefined | (() => string),
+  title?: string,
+  sourceTabId?: number
+) {
   // Call open before any await so Chrome retains the user's gesture.
   const opened = chrome.sidePanel.open({ windowId });
   void update(async () =>
     navigate(
       windowId,
-      input,
+      // Resolve searches after initialization and any queued preference changes.
+      typeof input === 'function' ? input() : input,
       title,
       sourceTabId === undefined
         ? await activeTarget(windowId)
@@ -701,6 +710,17 @@ function openFromGesture(windowId: number, input: unknown, title?: string, sourc
 }
 
 chrome.contextMenus.onClicked.addListener((info, tab) => {
+  if (info.menuItemId === 'search-pocket') {
+    const text = info.selectionText?.trim();
+    if (text && tab?.windowId)
+      openFromGesture(
+        tab.windowId,
+        () => searchUrl(text, searchEngine, customSearchEngine),
+        undefined,
+        tab.id
+      );
+    return;
+  }
   if (info.menuItemId === 'favorite-pocket') {
     // A frame menu targets that frame; the action menu targets the main tab.
     // Saving never opens a panel or changes its running page/history.

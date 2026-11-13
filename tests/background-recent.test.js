@@ -43,7 +43,7 @@ const a = 'https://a.example/',
   b = 'https://b.example/',
   internal = 'https://a.example/internal';
 let generation = 0;
-async function background(context, localValues = {}, sessionValues = {}) {
+async function background(context, localValues = {}, sessionValues = {}, configure = () => {}) {
   const previous = Object.getOwnPropertyDescriptor(globalThis, 'chrome');
   const previousNavigator = Object.getOwnPropertyDescriptor(globalThis, 'navigator');
   Object.defineProperty(globalThis, 'navigator', {
@@ -115,6 +115,7 @@ async function background(context, localValues = {}, sessionValues = {}) {
     i18n: { getMessage: key => key },
     commands: { onCommand: event() }
   });
+  configure(chrome);
   await import(`../src/background.ts?recent-test=${++generation}`);
   const request = (type, data = {}, windowId = 1) =>
     new Promise((resolve, reject) => {
@@ -928,6 +929,13 @@ test('missing legacy content script is expected during installation and still pe
     contexts: ['page', 'frame', 'action'],
     documentUrlPatterns: ['http://*/*', 'https://*/*']
   });
+  assert.deepEqual(menus[2], {
+    id: 'search-pocket',
+    title: 'contextSearch',
+    contexts: ['selection'],
+    documentUrlPatterns: ['http://*/*', 'https://*/*']
+  });
+  assert.equal(menus.length, 3);
   assert.deepEqual(logs, []);
 });
 
@@ -962,7 +970,7 @@ test('page, frame and action menus save the selected page without opening or nav
   assert.equal(opened, 0);
 });
 
-test('browser startup refreshes both context menu labels', async context => {
+test('browser startup refreshes all context menu labels', async context => {
   const { chrome, request } = await background(context);
   const updates = [];
   chrome.contextMenus.update = async (id, properties) => {
@@ -972,8 +980,146 @@ test('browser startup refreshes both context menu labels', async context => {
   await request('PANEL_READY');
   assert.deepEqual(updates, [
     { id: 'open-pocket', title: 'contextOpen' },
-    { id: 'favorite-pocket', title: 'contextFavorite' }
+    { id: 'favorite-pocket', title: 'contextFavorite' },
+    { id: 'search-pocket', title: 'contextSearch' }
   ]);
+});
+
+test('selection searches encode text with each selected engine and open synchronously without changing the source tab', async context => {
+  const { chrome, request, settingsRequest } = await background(context);
+  const opened = [];
+  chrome.sidePanel.open = async options => opened.push(options);
+  context.mock.method(chrome.tabs, 'create', () => assert.fail('Search must stay in the sidebar'));
+  const source = { id: 10, windowId: 1, url: a, title: 'Original article' };
+  const engines = {
+    google: 'https://www.google.com/search?q=',
+    bing: 'https://www.bing.com/search?q=',
+    baidu: 'https://www.baidu.com/s?wd=',
+    duckduckgo: 'https://duckduckgo.com/?q=',
+    'yahoo-japan': 'https://search.yahoo.co.jp/search?p='
+  };
+  for (const [engine, prefix] of Object.entries(engines)) {
+    // The click must use the saved preference even while that write is still queued.
+    const saving = settingsRequest('SETTINGS_SEARCH_ENGINE', { searchEngine: engine });
+    for (const query of [
+      'https://example.com/docs?q=one&lang=ja',
+      'example.com/docs',
+      'TypeError: 日本語 & 搜索\n at main.js:1\t#? + %s'
+    ]) {
+      const count = opened.length;
+      chrome.contextMenus.onClicked.emit(
+        { menuItemId: 'search-pocket', selectionText: `  ${query}\n`, linkUrl: b },
+        source
+      );
+      assert.equal(opened.length, count + 1, 'open must happen before the click returns');
+      assert.deepEqual(opened.at(-1), { windowId: 1 });
+      const result = await request('PANEL_READY');
+      const expected = prefix + encodeURIComponent(query);
+      assert.equal(result.url, expected);
+      assert.equal(result.recentUrls[0], expected);
+      assert.equal(result.history.at(-1), expected);
+      assert.equal(result.recentTitles[expected], undefined, 'do not borrow the article title');
+    }
+    await saving;
+  }
+  assert.deepEqual(source, { id: 10, windowId: 1, url: a, title: 'Original article' });
+});
+
+test('selection search opens during a cold worker start and waits for the saved custom engine', async context => {
+  const opened = [];
+  const query = '日本語 & error: 42';
+  const { request } = await background(
+    context,
+    {
+      [SEARCH_ENGINE_KEY]: 'custom',
+      [CUSTOM_SEARCH_ENGINE_KEY]: {
+        name: 'Saved search',
+        url: 'https://example.com/search?q=%s&again=%s'
+      }
+    },
+    {},
+    chrome => {
+      let release;
+      const loading = new Promise(resolve => (release = resolve));
+      const get = chrome.storage.local.get.bind(chrome.storage.local);
+      chrome.storage.local.get = async keys => {
+        await loading;
+        return get(keys);
+      };
+      chrome.sidePanel.open = async options => opened.push(options);
+      const clicks = chrome.contextMenus.onClicked;
+      const addListener = clicks.addListener.bind(clicks);
+      clicks.addListener = listener => {
+        addListener(listener);
+        clicks.emit(
+          { menuItemId: 'search-pocket', selectionText: query },
+          { id: 10, windowId: 1, url: a }
+        );
+        assert.deepEqual(opened, [{ windowId: 1 }]);
+        release();
+      };
+    }
+  );
+  const encoded = encodeURIComponent(query);
+  assert.equal(
+    (await request('PANEL_READY')).url,
+    `https://example.com/search?q=${encoded}&again=${encoded}`
+  );
+});
+
+test('selection searches route to the source binding or shared page and preserve other pages and windows', async context => {
+  const { chrome, request, sender } = await background(context);
+  const messages = [];
+  chrome.runtime.onConnect.emit({
+    name: 'pocket-sidepanel:1',
+    sender,
+    onDisconnect: event(),
+    postMessage: message => messages.push(structuredClone(message))
+  });
+  await request('PANEL_NAVIGATE', { input: a });
+  await request('PANEL_BIND', { sourceTabId: 10, bound: true });
+  await request('PANEL_NAVIGATE', { input: b, tabId: null });
+  await request('PANEL_NAVIGATE', { input: internal }, 2);
+  // Switching the active tab after the click must not redirect the search.
+  chrome.tabs.query = async () => [{ id: 11, windowId: 1 }];
+  chrome.contextMenus.onClicked.emit(
+    { menuItemId: 'search-pocket', selectionText: 'bound', frameUrl: internal },
+    { id: 10, windowId: 1, url: a }
+  );
+  assert.equal((await request('PANEL_READY')).url, b);
+  const boundUrl = 'https://www.google.com/search?q=bound';
+  assert.equal(chrome.storage.session.values[BINDINGS_KEY][10].state.url, boundUrl);
+  assert(
+    messages.some(m => m.type === 'navigate' && m.state.tabId === 10 && m.state.url === boundUrl)
+  );
+  chrome.tabs.query = async () => [{ id: 10, windowId: 1 }];
+  chrome.contextMenus.onClicked.emit(
+    { menuItemId: 'search-pocket', selectionText: 'shared' },
+    { id: 11, windowId: 1, url: b }
+  );
+  assert.equal((await request('PANEL_READY')).url, boundUrl);
+  assert.equal(
+    chrome.storage.session.values[WINDOWS_KEY][1].url,
+    'https://www.google.com/search?q=shared'
+  );
+  assert.equal(chrome.storage.session.values[WINDOWS_KEY][2].url, internal);
+});
+
+test('empty selections and clicks without a source window do not open or navigate', async context => {
+  const { chrome, request } = await background(context, { [LAST_KEY]: { url: a } });
+  const before = await request('PANEL_READY');
+  chrome.sidePanel.open = () => assert.fail('Invalid selection must not open the sidebar');
+  for (const selectionText of [undefined, '', ' \n\t '])
+    chrome.contextMenus.onClicked.emit(
+      { menuItemId: 'search-pocket', selectionText },
+      { id: 10, windowId: 1, url: a }
+    );
+  for (const tab of [undefined, { id: 10, url: a }])
+    chrome.contextMenus.onClicked.emit(
+      { menuItemId: 'search-pocket', selectionText: 'words' },
+      tab
+    );
+  assert.deepEqual(await request('PANEL_READY'), before);
 });
 
 test('only explicitly bound tabs are independent; all other tabs share one window page', async context => {

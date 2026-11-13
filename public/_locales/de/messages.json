@@ -22,6 +22,10 @@
   "contextOpen": {
     "message": "In SideBrowser öffnen"
   },
+  "contextSearch": {
+    "message": "In SideBrowser nach „%s“ suchen",
+    "description": "Selection context menu. Chrome replaces %s with the selected text."
+  },
   "navigation": {
     "message": "Seitennavigation"
   },
@@ -163,7 +167,7 @@
     "message": "Klicke auf das SideBrowser-Symbol, um die Seitenleiste zu öffnen. Gib eine Adresse oder einen-Suchbegriff ein und drücke Enter. Mit „Aktuelle Seite öffnen“ öffnest du die Adresse des aktiven Tabs in der Seitenleiste."
   },
   "helpStartShortcut": {
-    "message": "Öffne Webseiten, Links oder die aktuelle Seite über das Rechtsklickmenü des Erweiterungssymbols in SideBrowser. Standardkürzel für die aktuelle Seite: Alt + Umschalt + P (Mac: ⌥ + ⇧ + P). Du kannst es in den Einstellungen ansehen und ändern. Ziehe am Rand der Seitenleiste, um ihre Breite anzupassen."
+    "message": "Öffne Webseiten, Links oder die aktuelle Seite über das Rechtsklickmenü des Erweiterungssymbols in SideBrowser. Standardkürzel für die aktuelle Seite: Alt + Umschalt + P (Mac: ⌥ + ⇧ + P). Du kannst es in den Einstellungen ansehen und ändern. Ziehe am Rand der Seitenleiste, um ihre Breite anzupassen. Markiere Text auf einer Webseite und suche per Rechtsklick mit deiner gewählten Suchmaschine in SideBrowser. Die ursprüngliche Seite bleibt dabei sichtbar."
   },
   "helpStateHeading": {
     "message": "Tabs wechseln und Seiten wiederherstellen"
