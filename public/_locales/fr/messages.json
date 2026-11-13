@@ -97,6 +97,9 @@
   "emptyDescription": {
     "message": "Consultez et comparez sans passer sans cesse d’un onglet à l’autre."
   },
+  "pageLoading": {
+    "message": "Chargement de la page…"
+  },
   "loadingSlow": {
     "message": "Cette page met du temps à se charger. Actualisez-la ou utilisez « ⋯ » pour l’ouvrir dans un nouvel onglet."
   },

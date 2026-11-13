@@ -97,6 +97,9 @@
   "emptyDescription": {
     "message": "Consulta y compara sin tener que ir de una pestaña a otra."
   },
+  "pageLoading": {
+    "message": "Cargando página…"
+  },
   "loadingSlow": {
     "message": "Esta página está tardando en cargar. Recárgala o usa «⋯» para abrirla en una pestaña nueva."
   },

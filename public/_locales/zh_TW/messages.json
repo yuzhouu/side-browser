@@ -97,6 +97,9 @@
   "emptyDescription": {
     "message": "側窗小境，意赴遐荒"
   },
+  "pageLoading": {
+    "message": "正在載入網頁…"
+  },
   "loadingSlow": {
     "message": "網頁載入時間較長，請重新載入，或從「⋯」在新分頁開啟。"
   },

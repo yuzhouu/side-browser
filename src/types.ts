@@ -49,7 +49,7 @@ export type ParsedInput =
   | { kind: 'url'; url: string }
   | { kind: 'search'; text: string };
 export interface FrameMessage {
-  type: 'POCKET_LOCATION' | 'POCKET_VIEWPORT' | 'POCKET_TITLE' | 'POCKET_LEAVING';
+  type: 'POCKET_LOCATION' | 'POCKET_VIEWPORT' | 'POCKET_TITLE' | 'POCKET_LEAVING' | 'POCKET_LOADED';
   url: string;
   title?: string;
   documentId: string;

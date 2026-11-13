@@ -57,16 +57,42 @@
     });
     start.observe(document, { childList: true, subtree: true });
   }
-  addEventListener('pageshow', () => report());
+  addEventListener('pageshow', () => {
+    report();
+    // Restoring a cached document does not necessarily fire the iframe load event.
+    report('POCKET_LOADED');
+  });
   addEventListener('popstate', () => report());
   addEventListener('hashchange', () => report());
   window.navigation?.addEventListener('currententrychange', () => report());
   // A refused destination becomes a browser error page without this script, so tell the
   // panel where a cross-document navigation is going before this document unloads.
+  let navigating: NavigateEvent | null = null;
   window.navigation?.addEventListener('navigate', event => {
     const url = event.destination.url;
-    if (!event.destination.sameDocument && /^https?:/i.test(url))
-      parent.postMessage({ type: 'POCKET_LEAVING', url, documentId }, origin);
+    if (
+      event.destination.sameDocument ||
+      event.downloadRequest !== null ||
+      event.defaultPrevented ||
+      !/^https?:/i.test(url)
+    )
+      return;
+    navigating = event;
+    parent.postMessage({ type: 'POCKET_LEAVING', url, documentId }, origin);
+    event.signal.addEventListener(
+      'abort',
+      () => {
+        if (navigating !== event) return;
+        navigating = null;
+        if (document.readyState === 'complete') report('POCKET_LOADED');
+      },
+      { once: true }
+    );
+  });
+  window.navigation?.addEventListener('navigatesuccess', () => {
+    // A site may intercept a cross-document navigation and finish in this document.
+    if (navigating && document.readyState === 'complete') report('POCKET_LOADED');
+    navigating = null;
   });
   document.addEventListener(
     'click',

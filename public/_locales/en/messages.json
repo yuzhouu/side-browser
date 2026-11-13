@@ -97,6 +97,9 @@
   "emptyDescription": {
     "message": "Another page. Right beside you."
   },
+  "pageLoading": {
+    "message": "Loading page…"
+  },
   "loadingSlow": {
     "message": "This page is taking a while to load. Reload it, or use “⋯” to open it in a new tab."
   },

@@ -12,10 +12,11 @@ export class PanelPage {
   title = '';
   titleUrl = '';
   started = false;
+  loading = false;
   pendingNavigation = false;
   disposed = false;
   notice = '';
-  loadingTimer?: ReturnType<typeof setTimeout>;
+  private loadingTimer?: ReturnType<typeof setTimeout>;
   // A document that finishes loading without reporting its location is a browser error
   // page: refused embedding, a network error or a blocked plugin (PDF) document.
   refused = false;
@@ -33,8 +34,8 @@ export class PanelPage {
     this.web = stage.querySelector('iframe')!;
     this.viewport = new PanelViewport(this.web, stage, () => this.state.mode);
     this.web.addEventListener('load', () => {
-      if (!this.started) return;
-      clearTimeout(this.loadingTimer);
+      if (this.disposed || !this.started) return;
+      this.setLoading(false);
       clearTimeout(this.refusalTimer);
       // Reports cross processes and can trail the load event slightly.
       this.refusalTimer = setTimeout(() => {
@@ -59,16 +60,41 @@ export class PanelPage {
     this.refused = false;
   }
 
+  loaded(documentId: string) {
+    if (this.disposed || !this.started || documentId !== this.documentId) return;
+    clearTimeout(this.refusalTimer);
+    this.target = '';
+    this.setLoading(false);
+    this.changed(this);
+  }
+
   // The current document is navigating away: its successor must report before it loads,
   // even if this document's own load event never fired. Stale documents are ignored.
   leaving(url: string, documentId: string) {
-    if (documentId !== this.documentId) return;
+    if (this.disposed || !this.started || documentId !== this.documentId) return;
     this.target = url;
     this.checkedReports = this.reports;
+    clearTimeout(this.refusalTimer);
+    this.refused = false;
+    this.notice = '';
+    this.setLoading(true);
+    this.changed(this);
+  }
+
+  private setLoading(loading: boolean) {
+    clearTimeout(this.loadingTimer);
+    this.loading = loading;
+    this.stage.setAttribute('aria-busy', String(loading));
+    if (this.notice === t('loadingSlow')) this.notice = '';
+    if (loading)
+      this.loadingTimer = setTimeout(() => {
+        if (this.disposed || !this.loading) return;
+        this.notice = t('loadingSlow');
+        this.changed(this);
+      }, 12000);
   }
 
   load(url: string) {
-    clearTimeout(this.loadingTimer);
     clearTimeout(this.refusalTimer);
     this.refused = false;
     this.target = url;
@@ -76,8 +102,11 @@ export class PanelPage {
     this.notice = '';
     this.title = '';
     this.titleUrl = '';
+    // The old document may still report a canceled navigation while src is replaced.
+    this.documentId = '';
     this.pendingNavigation = Boolean(url);
     this.started = Boolean(url);
+    this.setLoading(this.started);
     this.viewport.navigate();
     if (!url) {
       // Explicit close destroys this context, including any queued old reports.
@@ -86,10 +115,6 @@ export class PanelPage {
       this.stage.append(this.web);
       this.tracker = new RecentTitleTracker();
     } else {
-      this.loadingTimer = setTimeout(() => {
-        this.notice = t('loadingSlow');
-        this.changed(this);
-      }, 12000);
       this.tracker.navigate(url);
       this.web.src = url;
     }
@@ -116,7 +141,7 @@ export class PanelPage {
 
   dispose() {
     this.disposed = true;
-    clearTimeout(this.loadingTimer);
+    this.setLoading(false);
     clearTimeout(this.refusalTimer);
     this.viewport.resize.disconnect();
     this.stage.remove();

@@ -27,6 +27,27 @@ header {
   border-bottom: 1px solid var(--divider);
   flex-shrink: 0;
 }
+#address-loading {
+  align-self: center;
+  flex-shrink: 0;
+  width: 12px;
+  height: 12px;
+  margin-left: 7px;
+  border: 2px solid var(--accent);
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: address-loading 0.8s linear infinite;
+}
+@keyframes address-loading {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  #address-loading {
+    animation: none;
+  }
+}
 .toolbar-separator {
   flex-shrink: 0;
   width: 1px;

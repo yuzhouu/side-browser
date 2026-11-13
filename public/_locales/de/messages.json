@@ -97,6 +97,9 @@
   "emptyDescription": {
     "message": "Nachschlagen und vergleichen, ohne ständig zwischen Tabs zu wechseln."
   },
+  "pageLoading": {
+    "message": "Seite wird geladen…"
+  },
   "loadingSlow": {
     "message": "Diese Seite braucht länger zum Laden. Lade sie neu oder öffne sie über „⋯“ in einem neuen Tab."
   },

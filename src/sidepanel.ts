@@ -136,6 +136,7 @@ function render(page = active) {
   document.body.dataset.sourceTabId = String(sourceTabId ?? '');
   page.viewport.apply();
   if (document.activeElement !== address) address.value = state.url;
+  element('#address-loading').hidden = !page.loading;
   empty.hidden = Boolean(state.url);
   showNotice(page.notice, false, page.refused);
   const mode = element<HTMLButtonElement>('#mode');
@@ -282,10 +283,19 @@ window.addEventListener('message', event => {
     page.leaving(event.data.url, event.data.documentId);
     return;
   }
-  if (!['POCKET_LOCATION', 'POCKET_VIEWPORT', 'POCKET_TITLE'].includes(event.data.type)) return;
+  if (
+    !['POCKET_LOCATION', 'POCKET_VIEWPORT', 'POCKET_TITLE', 'POCKET_LOADED'].includes(
+      event.data.type
+    )
+  )
+    return;
   try {
     if (new URL(event.data.url).origin !== event.origin) return;
   } catch {
+    return;
+  }
+  if (event.data.type === 'POCKET_LOADED') {
+    page.loaded(event.data.documentId);
     return;
   }
   // Mark the document as reported now; the refusal check runs shortly after its load event.
@@ -308,8 +318,7 @@ window.addEventListener('message', event => {
     if (event.data.type === 'POCKET_LOCATION') {
       commitPanelNavigation(page.state, event.data.url, page.pendingNavigation);
       page.pendingNavigation = false;
-      clearTimeout(page.loadingTimer);
-      page.notice = '';
+      // A document_start report is not a completed load; PanelPage tracks that separately.
       // Hidden pages still report their own navigation; they cannot write another tab's state.
       page.state = await requestFor(page.state.tabId, 'PANEL_SAVE', { state: page.state });
       page.viewport.apply();
