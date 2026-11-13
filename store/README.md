@@ -2,6 +2,20 @@
 
 分类定位：**效率工具**。主线：输入任意网址，在侧边打开用户自己常用的网站，让主页面的工作继续。**ChatGPT、维基百科与 Google 搜索仅为使用示例**，不限定用户的网站选择；网站登录与嵌入限制仍可能影响可用性。AI 截图仅使用用户指定的 ChatGPT。
 
+## 日语版（2026-11-13）
+
+日语成品在 [ja/](ja/README.md)：5 张 1280×800 功能介绍图、440×280 小宣传图、1400×560 横幅及 128×128 图标，并附 [日语商店文案](ja/listing.md)。使用 1.3.0 的真实日语界面和日语公开网页，采集记录位于 `assets/source/ja/capture.json`。此轮仅新增日语成品，中英文原图及原采集时间保留；不要将它们视为本次重拍。
+
+打开 `index.html#ja` 预览；`design.html?lang=ja` 为可编辑源稿。日语上传包为 `../releases/sidebrowser-store-ja-1.3.0.zip`。以下命令只处理日语，不覆盖现有中英文图片；打包命令复用现有扩展 ZIP，也不会清空 `releases/`。
+
+```sh
+STORE_LOCALE=ja npm run store:capture
+STORE_LOCALE=ja npm run store:render
+STORE_LOCALE=ja node scripts/store-package.mjs
+```
+
+下方中英文素材和旧包名为既有版本的记录。各图片版本及生成时间以 `manifest.json` 的逐项记录为准。
+
 ## 直接使用
 
 打开 `index.html` 分别预览简体中文与 English 两套成品。每套包含 5 张 1280×800 功能说明图、440×280 小宣传图、1400×560 横幅；128×128 商店图标共用。中文资料在 `zh-CN/`，英文资料在 `en/`，各自包含 `listing.md`、8 张 PNG 和 `README.md`，两套均使用对应语言的真实界面截图与说明文字。上传成品 PNG，不要上传 `assets/source/` 中的原始截图。

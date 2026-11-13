@@ -1,21 +1,24 @@
 {
-  "version": "1.0.0",
-  "renderedAt": "2026-09-17T04:54:07.588Z",
+  "version": "1.3.0",
+  "renderedAt": "2026-11-13T08:27:29.648Z",
   "defaultLocale": "zh-CN",
   "locales": [
     "zh-CN",
-    "en"
+    "en",
+    "ja"
   ],
   "design": "design.html",
   "captures": {
     "zh-CN": "assets/source/capture.json",
-    "en": "assets/source/en/capture.json"
+    "en": "assets/source/en/capture.json",
+    "ja": "assets/source/ja/capture.json"
   },
   "screenshotMethod": "Unmodified screenshots from native Chrome side panel in each locale. Exact HTML/CSS text, framing and crops added outside the product UI. AI overview, research page and marquee combine screenshots of the main tab and sidebar. Detail pages intentionally focus on specific sidebar controls.",
   "aiSite": "https://chatgpt.com/",
   "sourceBrowsers": {
     "zh-CN": "149.0.7827.55",
-    "en": "149.0.7827.55"
+    "en": "149.0.7827.55",
+    "ja": "151.0.7922.34"
   },
   "exports": [
     {
@@ -24,7 +27,9 @@
       "width": 1280,
       "height": 800,
       "bytes": 232315,
-      "sha256": "8cd25e5e2ac2c57cef3914c1db1bc6b3d5b08002d32a471218c5ab2f1798992e"
+      "sha256": "8cd25e5e2ac2c57cef3914c1db1bc6b3d5b08002d32a471218c5ab2f1798992e",
+      "renderedAt": "2026-09-17T04:54:07.588Z",
+      "extensionVersion": "1.0.0"
     },
     {
       "file": "zh-CN/02-research-in-context.png",
@@ -32,7 +37,9 @@
       "width": 1280,
       "height": 800,
       "bytes": 258007,
-      "sha256": "f71e28c8ea0e6bb3ee7988c4251d04867638ab7a0b9685f99c16175678f4e5c4"
+      "sha256": "f71e28c8ea0e6bb3ee7988c4251d04867638ab7a0b9685f99c16175678f4e5c4",
+      "renderedAt": "2026-09-17T04:54:07.588Z",
+      "extensionVersion": "1.0.0"
     },
     {
       "file": "zh-CN/03-open-in-one-step.png",
@@ -40,7 +47,9 @@
       "width": 1280,
       "height": 800,
       "bytes": 131716,
-      "sha256": "41df85cb2a91572050f839c2c49b4c92a268cc057b1b59216f3db235fc39cd0d"
+      "sha256": "41df85cb2a91572050f839c2c49b4c92a268cc057b1b59216f3db235fc39cd0d",
+      "renderedAt": "2026-09-17T04:54:07.588Z",
+      "extensionVersion": "1.0.0"
     },
     {
       "file": "zh-CN/04-recent-pages.png",
@@ -48,7 +57,9 @@
       "width": 1280,
       "height": 800,
       "bytes": 161536,
-      "sha256": "e461b512fc5713dcef417dd4a0ba6191235a2e9a329f5a1484023700b3d7bee0"
+      "sha256": "e461b512fc5713dcef417dd4a0ba6191235a2e9a329f5a1484023700b3d7bee0",
+      "renderedAt": "2026-09-17T04:54:07.588Z",
+      "extensionVersion": "1.0.0"
     },
     {
       "file": "zh-CN/05-make-it-yours.png",
@@ -56,7 +67,9 @@
       "width": 1280,
       "height": 800,
       "bytes": 246263,
-      "sha256": "57880f6705ba6abd38c770b09520cdc96dc7f7f7ffdb50b4446fb15049309b1f"
+      "sha256": "57880f6705ba6abd38c770b09520cdc96dc7f7f7ffdb50b4446fb15049309b1f",
+      "renderedAt": "2026-09-17T04:54:07.588Z",
+      "extensionVersion": "1.0.0"
     },
     {
       "file": "zh-CN/promo-small-440x280.png",
@@ -64,7 +77,9 @@
       "width": 440,
       "height": 280,
       "bytes": 17893,
-      "sha256": "a3d51823aa5b5ef54497861798677b29e1f973c3ea30f071245507382fe36b8d"
+      "sha256": "a3d51823aa5b5ef54497861798677b29e1f973c3ea30f071245507382fe36b8d",
+      "renderedAt": "2026-09-17T04:54:07.588Z",
+      "extensionVersion": "1.0.0"
     },
     {
       "file": "zh-CN/promo-marquee-1400x560.png",
@@ -72,7 +87,9 @@
       "width": 1400,
       "height": 560,
       "bytes": 188483,
-      "sha256": "e8c1a45a4621341766a7a8fb7da0ff56436de9295fe2357328b78c2a246b18f2"
+      "sha256": "e8c1a45a4621341766a7a8fb7da0ff56436de9295fe2357328b78c2a246b18f2",
+      "renderedAt": "2026-09-17T04:54:07.588Z",
+      "extensionVersion": "1.0.0"
     },
     {
       "file": "zh-CN/store-icon-128.png",
@@ -80,7 +97,9 @@
       "width": 128,
       "height": 128,
       "bytes": 2167,
-      "sha256": "3de57d91defad350fb685e5d9d78ce07542b0979877bfd7cfa099bec56422698"
+      "sha256": "3de57d91defad350fb685e5d9d78ce07542b0979877bfd7cfa099bec56422698",
+      "renderedAt": "2026-09-17T04:54:07.588Z",
+      "extensionVersion": "1.0.0"
     },
     {
       "file": "en/01-ai-beside-you.png",
@@ -88,7 +107,9 @@
       "width": 1280,
       "height": 800,
       "bytes": 252937,
-      "sha256": "267af7d71959e48c41267b18534bf3cd7521b4cf6b94ccee91774d7f9ac8285c"
+      "sha256": "267af7d71959e48c41267b18534bf3cd7521b4cf6b94ccee91774d7f9ac8285c",
+      "renderedAt": "2026-09-17T04:54:07.588Z",
+      "extensionVersion": "1.0.0"
     },
     {
       "file": "en/02-research-in-context.png",
@@ -96,7 +117,9 @@
       "width": 1280,
       "height": 800,
       "bytes": 340337,
-      "sha256": "f1a940db523426e594628792bfe756e5074968d6fecd35cb68514a1eb7975fba"
+      "sha256": "f1a940db523426e594628792bfe756e5074968d6fecd35cb68514a1eb7975fba",
+      "renderedAt": "2026-09-17T04:54:07.588Z",
+      "extensionVersion": "1.0.0"
     },
     {
       "file": "en/03-open-in-one-step.png",
@@ -104,7 +127,9 @@
       "width": 1280,
       "height": 800,
       "bytes": 125441,
-      "sha256": "edd65128380b19ff329ab2fed1e6019cdd6e443ce6e579ae1a388be0530670df"
+      "sha256": "edd65128380b19ff329ab2fed1e6019cdd6e443ce6e579ae1a388be0530670df",
+      "renderedAt": "2026-09-17T04:54:07.588Z",
+      "extensionVersion": "1.0.0"
     },
     {
       "file": "en/04-recent-pages.png",
@@ -112,7 +137,9 @@
       "width": 1280,
       "height": 800,
       "bytes": 152197,
-      "sha256": "35ba42927cf643a35be1da5d3493084a2ce8a864ea0358529241cdad67490f6b"
+      "sha256": "35ba42927cf643a35be1da5d3493084a2ce8a864ea0358529241cdad67490f6b",
+      "renderedAt": "2026-09-17T04:54:07.588Z",
+      "extensionVersion": "1.0.0"
     },
     {
       "file": "en/05-make-it-yours.png",
@@ -120,7 +147,9 @@
       "width": 1280,
       "height": 800,
       "bytes": 219825,
-      "sha256": "f990dfdbd87e15d8728beab19cb03a70ff6de2f0321c5c4fc60fec65c68aade0"
+      "sha256": "f990dfdbd87e15d8728beab19cb03a70ff6de2f0321c5c4fc60fec65c68aade0",
+      "renderedAt": "2026-09-17T04:54:07.588Z",
+      "extensionVersion": "1.0.0"
     },
     {
       "file": "en/promo-small-440x280.png",
@@ -128,7 +157,9 @@
       "width": 440,
       "height": 280,
       "bytes": 17382,
-      "sha256": "eb784630c1f44aa400dd9c678ccb071b68b18c5c52b84f610898698d22919e41"
+      "sha256": "eb784630c1f44aa400dd9c678ccb071b68b18c5c52b84f610898698d22919e41",
+      "renderedAt": "2026-09-17T04:54:07.588Z",
+      "extensionVersion": "1.0.0"
     },
     {
       "file": "en/promo-marquee-1400x560.png",
@@ -136,11 +167,95 @@
       "width": 1400,
       "height": 560,
       "bytes": 221555,
-      "sha256": "af2635405988c96cd917fc86b70bb82b34c5d6d28c1fe87cf5831ad46adfd0a1"
+      "sha256": "af2635405988c96cd917fc86b70bb82b34c5d6d28c1fe87cf5831ad46adfd0a1",
+      "renderedAt": "2026-09-17T04:54:07.588Z",
+      "extensionVersion": "1.0.0"
     },
     {
       "file": "en/store-icon-128.png",
       "locale": "en",
+      "width": 128,
+      "height": 128,
+      "bytes": 2167,
+      "sha256": "3de57d91defad350fb685e5d9d78ce07542b0979877bfd7cfa099bec56422698",
+      "renderedAt": "2026-09-17T04:54:07.588Z",
+      "extensionVersion": "1.0.0"
+    },
+    {
+      "file": "ja/01-ai-beside-you.png",
+      "locale": "ja",
+      "renderedAt": "2026-11-13T08:27:29.061Z",
+      "extensionVersion": "1.3.0",
+      "width": 1280,
+      "height": 800,
+      "bytes": 270017,
+      "sha256": "7b003460beab4b4eb04ef48017ce8d9033cacd9877999f4d1f4b1ef8eb8f19e6"
+    },
+    {
+      "file": "ja/02-research-in-context.png",
+      "locale": "ja",
+      "renderedAt": "2026-11-13T08:27:29.161Z",
+      "extensionVersion": "1.3.0",
+      "width": 1280,
+      "height": 800,
+      "bytes": 320019,
+      "sha256": "5ea3bbbe173c2701bb97a3573e587c8f7d65ab269b962f0ea83463a807f7a250"
+    },
+    {
+      "file": "ja/03-open-in-one-step.png",
+      "locale": "ja",
+      "renderedAt": "2026-11-13T08:27:29.249Z",
+      "extensionVersion": "1.3.0",
+      "width": 1280,
+      "height": 800,
+      "bytes": 146389,
+      "sha256": "256d36cf214d1077fba76147fc40448b15b63c5e02081f690cf123b7550444a3"
+    },
+    {
+      "file": "ja/04-recent-pages.png",
+      "locale": "ja",
+      "renderedAt": "2026-11-13T08:27:29.336Z",
+      "extensionVersion": "1.3.0",
+      "width": 1280,
+      "height": 800,
+      "bytes": 169871,
+      "sha256": "f79239cad6102884d56e691c4edffee147e0d84b962132d63c0a16e583b23333"
+    },
+    {
+      "file": "ja/05-make-it-yours.png",
+      "locale": "ja",
+      "renderedAt": "2026-11-13T08:27:29.426Z",
+      "extensionVersion": "1.3.0",
+      "width": 1280,
+      "height": 800,
+      "bytes": 262001,
+      "sha256": "4b2442cc7bd7dc19fe23779dda3c04f008153897ab860075bbbb1a146a8ab4c0"
+    },
+    {
+      "file": "ja/promo-small-440x280.png",
+      "locale": "ja",
+      "renderedAt": "2026-11-13T08:27:29.481Z",
+      "extensionVersion": "1.3.0",
+      "width": 440,
+      "height": 280,
+      "bytes": 18375,
+      "sha256": "0f8803cdcf96de14ded46df862a8a40cd61acbe15f9b253cfe795ecd23ad3e50"
+    },
+    {
+      "file": "ja/promo-marquee-1400x560.png",
+      "locale": "ja",
+      "renderedAt": "2026-11-13T08:27:29.578Z",
+      "extensionVersion": "1.3.0",
+      "width": 1400,
+      "height": 560,
+      "bytes": 219862,
+      "sha256": "44b432bb3dc517870183b0d1a924c3d45f02e438ce6e9038435cf4f1ed1d5c7f"
+    },
+    {
+      "file": "ja/store-icon-128.png",
+      "locale": "ja",
+      "renderedAt": "2026-11-13T08:27:29.647Z",
+      "extensionVersion": "1.3.0",
       "width": 128,
       "height": 128,
       "bytes": 2167,

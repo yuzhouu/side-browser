@@ -8,8 +8,13 @@ const extension = JSON.parse(await readFile('public/manifest.json'));
 const manifest = JSON.parse(await readFile('store/manifest.json'));
 assert.equal(manifest.version, extension.version, 'Recapture/render assets for this release');
 assert.equal(manifest.aiSite, 'https://chatgpt.com/');
-assert.deepEqual(manifest.locales, ['zh-CN', 'en']);
-assert.equal(manifest.exports.length, 16);
+assert.deepEqual(manifest.locales, ['zh-CN', 'en', 'ja']);
+assert.equal(manifest.exports.length, 24);
+const selectedLocales = process.env.STORE_LOCALE ? [process.env.STORE_LOCALE] : manifest.locales;
+assert(
+  selectedLocales.every(locale => manifest.locales.includes(locale)),
+  'Unsupported STORE_LOCALE'
+);
 for (const locale of manifest.locales) {
   const images = manifest.exports.filter(item => item.locale === locale);
   assert.equal(images.length, 8, `${locale}: five screenshots, two promotional images and icon`);
@@ -20,6 +25,7 @@ for (const locale of manifest.locales) {
   assert(images.every(item => item.file.startsWith(`${locale}/`)));
   const source = JSON.parse(await readFile(`store/${manifest.captures[locale]}`));
   if (locale === 'en') assert(/^en(?:-|$)/.test(source.browserLocale));
+  if (locale === 'ja') assert(/^ja(?:-|$)/.test(source.browserLocale));
 }
 for (const item of manifest.exports) {
   const bytes = await readFile(`store/${item.file}`);
@@ -56,15 +62,17 @@ files[extensionPath] = extensionZip;
 files['README.txt'] = new TextEncoder().encode(
   'SideBrowser store preparation pack\nOpen store/index.html to review images. Upload only releases/sidebrowser-' +
     extension.version +
-    '.zip as the extension package. Chinese materials are in store/zh-CN/; English materials are in store/en/. Both sets use localized copy and real UI captures. Each language folder contains listing.md, images and its own guide. Read store/en/README.md or store/README.md, and follow store/submission.md for privacy and permission fields. Privacy policy: https://yuzhouu.github.io/side-browser/privacy/ (confirm Pages deployment before submitting). This preparation pack itself is NOT an installable extension.\n'
+    '.zip as the extension package. Chinese materials are in store/zh-CN/; English materials are in store/en/; Japanese materials are in store/ja/. All sets use localized copy and real UI captures. Each language folder contains listing.md, images and its own guide. Read store/README.md, and follow store/submission.md for privacy and permission fields. Source timestamps and extension versions vary by locale; see manifest.json and capture receipts. This preparation pack itself is NOT an installable extension.\n'
 );
 await mkdir('releases', { recursive: true });
-for (const locale of manifest.locales) {
+for (const locale of selectedLocales) {
   const localized = {};
   const images = manifest.exports.filter(item => item.locale === locale);
   for (const image of images)
     localized[basename(image.file)] = await readFile(`store/${image.file}`);
   localized['listing.md'] = await readFile(`store/${locale}/listing.md`);
+  localized['README.md'] = await readFile(`store/${locale}/README.md`);
+  localized['source-capture.json'] = await readFile(`store/${manifest.captures[locale]}`);
   localized['privacy-policy.md'] = await readFile('docs/privacy-policy.md');
   localized['manifest.json'] = new TextEncoder().encode(
     JSON.stringify(
@@ -78,11 +86,13 @@ for (const locale of manifest.locales) {
     ) + '\n'
   );
   localized['README.txt'] = new TextEncoder().encode(
-    locale === 'en'
-      ? 'SideBrowser — English store assets\nUse listing.md for English listing fields and description. Upload 01–05 as screenshots, promo-small as the small promotional image, and optionally promo-marquee as the wide promotional image. Use store-icon-128.png as the shared store icon. Images use real English UI screenshots. Upload the separate sidebrowser-' +
+    locale === 'ja'
+      ? 'SideBrowser — 日本語ストア素材\n01〜05 は機能紹介画像、promo-small は小型プロモーション画像、promo-marquee は横長のプロモーション画像です。store-icon-128.png は共通アイコンです。listing.md に紹介文、README.md に素材の説明を記載しています。拡張機能本体の ZIP は別途アップロードしてください。この素材 ZIP はインストール用ではありません。\n'
+      : locale === 'en'
+        ? 'SideBrowser — English store assets\nUse listing.md for English listing fields and description. Upload 01–05 as screenshots, promo-small as the small promotional image, and optionally promo-marquee as the wide promotional image. Use store-icon-128.png as the shared store icon. Images use real English UI screenshots. Upload the separate sidebrowser-' +
           extension.version +
           '.zip as the extension itself; this assets ZIP is not installable.\n'
-      : '侧窗 · SideBrowser — 简体中文商店资料\n从 listing.md 复制中文名称、简短介绍和详细介绍。01–05 为说明截图，promo-small 为小宣传图，promo-marquee 为可选横幅，store-icon-128.png 为共用商店图标。图片采用真实中文界面截图。扩展本体请单独上传 sidebrowser-' +
+        : '侧窗 · SideBrowser — 简体中文商店资料\n从 listing.md 复制中文名称、简短介绍和详细介绍。01–05 为说明截图，promo-small 为小宣传图，promo-marquee 为可选横幅，store-icon-128.png 为共用商店图标。图片采用真实中文界面截图。扩展本体请单独上传 sidebrowser-' +
           extension.version +
           '.zip；此资料 ZIP 不可安装。\n'
   );
@@ -97,8 +107,9 @@ for (const locale of manifest.locales) {
     );
   console.log(localizedPath);
 }
-const target = `releases/sidebrowser-store-${extension.version}.zip`;
-await writeFile(target, zipSync(files, { level: 9 }));
-console.log(
-  `Verified both locales: 10 screenshots, 4 promo images, shared icon, descriptions, localized ZIPs and extension ZIP.\n${target}`
-);
+if (!process.env.STORE_LOCALE) {
+  const target = `releases/sidebrowser-store-${extension.version}.zip`;
+  await writeFile(target, zipSync(files, { level: 9 }));
+  console.log(target);
+}
+console.log(`Verified ${manifest.locales.length} locales; packaged ${selectedLocales.join(', ')}.`);

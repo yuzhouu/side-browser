@@ -1,0 +1,157 @@
+{
+  "locale": "ja",
+  "researchScene": "Two Japanese Wikipedia pages; research artwork uses main-research.png and wiki.png.",
+  "capturedAt": "2026-11-13T08:26:25.047Z",
+  "captures": [
+    {
+      "name": "welcome",
+      "capturedAt": "2026-11-13T08:26:27.645Z",
+      "sha256": "05ef3a7dd4f0dfbec040025ff50672bec112240746bd6c9f5fbc6107b45adbb8",
+      "width": 360,
+      "height": 645,
+      "dpr": 2,
+      "viewport": "native Chrome side panel; no viewport emulation",
+      "url": ""
+    },
+    {
+      "name": "ai-chatgpt",
+      "capturedAt": "2026-11-13T08:23:22.351Z",
+      "sha256": "fbeabf437a07276452ce7af3c65e38244609d5cd2860b4e5f3247ec2a0d1a9a0",
+      "width": 360,
+      "height": 645,
+      "dpr": 2,
+      "viewport": "native Chrome side panel; no viewport emulation",
+      "url": "https://chatgpt.com/",
+      "resolvedUrl": "https://chatgpt.com/",
+      "title": "ChatGPT: Chat, Work, Create & Code with AI"
+    },
+    {
+      "name": "wiki",
+      "capturedAt": "2026-11-13T08:27:08.716Z",
+      "sha256": "7703e570032b85492d18198a512dbf56223874d649fe8a4303a7e1414ea7babd",
+      "width": 360,
+      "height": 645,
+      "dpr": 2,
+      "viewport": "native Chrome side panel; no viewport emulation",
+      "url": "https://ja.wikipedia.org/wiki/%E3%83%9D%E3%83%A2%E3%83%89%E3%83%BC%E3%83%AD%E3%83%BB%E3%83%86%E3%82%AF%E3%83%8B%E3%83%83%E3%82%AF",
+      "title": "ポモドーロ・テクニック - Wikipedia"
+    },
+    {
+      "name": "favorites",
+      "capturedAt": "2026-11-13T08:27:02.421Z",
+      "sha256": "cee22dc9de339d0ffa9aeb1734c7cb9f60c9b238d982205ef377ad0a9cc41e2f",
+      "width": 360,
+      "height": 645,
+      "dpr": 2,
+      "viewport": "native Chrome side panel; no viewport emulation",
+      "url": "",
+      "setup": "Eight demo favorites of public websites saved through the extension message API; no webpage content or UI replaced."
+    },
+    {
+      "name": "favorites-hover",
+      "capturedAt": "2026-11-13T08:27:02.501Z",
+      "sha256": "07481538fd6d508a47b7a8f717178cb6176d2202ec00367c7286a0c828a41f78",
+      "width": 360,
+      "height": 645,
+      "dpr": 2,
+      "viewport": "native Chrome side panel; no viewport emulation",
+      "url": "",
+      "setup": "Real hover over the Wikipedia favorite; title and complete saved URL."
+    },
+    {
+      "name": "recent",
+      "capturedAt": "2026-11-13T08:27:08.781Z",
+      "sha256": "05c2820452515a59d67d73db3a9ee89beab58dad384b02de78193a650c890854",
+      "width": 360,
+      "height": 645,
+      "dpr": 2,
+      "viewport": "native Chrome side panel; no viewport emulation",
+      "url": "https://ja.wikipedia.org/wiki/%E3%83%9D%E3%83%A2%E3%83%89%E3%83%BC%E3%83%AD%E3%83%BB%E3%83%86%E3%82%AF%E3%83%8B%E3%83%83%E3%82%AF"
+    },
+    {
+      "name": "more-light",
+      "capturedAt": "2026-11-13T08:27:08.867Z",
+      "sha256": "84f218cf125c78b620c8092a1b0675b16eb855936ccb62624aadc7997ccbe047",
+      "width": 360,
+      "height": 645,
+      "dpr": 2,
+      "viewport": "native Chrome side panel; no viewport emulation",
+      "url": "https://ja.wikipedia.org/wiki/%E3%83%9D%E3%83%A2%E3%83%89%E3%83%BC%E3%83%AD%E3%83%BB%E3%83%86%E3%82%AF%E3%83%8B%E3%83%83%E3%82%AF"
+    },
+    {
+      "name": "more-dark",
+      "capturedAt": "2026-11-13T08:27:09.030Z",
+      "sha256": "3d9e40fae65f0d69c57497ca59e711091191c0c1dd6044ffe70fbcf02629854a",
+      "width": 360,
+      "height": 645,
+      "dpr": 2,
+      "viewport": "native Chrome side panel; no viewport emulation",
+      "url": "https://ja.wikipedia.org/wiki/%E3%83%9D%E3%83%A2%E3%83%89%E3%83%BC%E3%83%AD%E3%83%BB%E3%83%86%E3%82%AF%E3%83%8B%E3%83%83%E3%82%AF"
+    }
+  ],
+  "diagnostics": {
+    "errors": [
+      "Framing 'https://ja.wikipedia.org/' violates the following report-only Content Security Policy directive: \"frame-ancestors 'self' *.wikimedia.org *.wikipedia.org *.wikinews.org *.wiktionary.org *.wikibooks.org *.wikiversity.org *.wikisource.org wikisource.org *.wikiquote.org *.wikidata.org *.wikifunctions.org *.wikivoyage.org *.mediawiki.org mediawiki.org wikimedia.org *.wmflabs.org *.wmcloud.org *.toolforge.org wss://*.toolforge.org localhost https://localhost:* http://localhost:* wss://localhost:* ws://localhost:*\". The violation has been logged, but no further action has been taken.\n"
+    ],
+    "warnings": [
+      "An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing."
+    ]
+  },
+  "browser": "151.0.7922.34",
+  "extensionVersion": "1.3.0",
+  "browserLocale": "ja-JP",
+  "documentLanguage": "ja",
+  "mainPage": {
+    "capturedAt": "2026-11-13T08:23:11.953Z",
+    "sha256": "d54cfca54092ae7a948366090d2bc7909ad813fdc439e3983c03ee9b5c9fe5f8",
+    "url": "https://ja.wikipedia.org/wiki/%E3%83%9D%E3%83%A2%E3%83%89%E3%83%BC%E3%83%AD%E3%83%BB%E3%83%86%E3%82%AF%E3%83%8B%E3%83%83%E3%82%AF",
+    "title": "ポモドーロ・テクニック - Wikipedia",
+    "viewport": {
+      "width": 1054,
+      "height": 685
+    }
+  },
+  "demoSiteVisits": [
+    {
+      "url": "https://chatgpt.com/",
+      "documentLoaded": true,
+      "resolvedPage": "https://chatgpt.com/"
+    },
+    {
+      "url": "https://ja.wikipedia.org/",
+      "documentLoaded": true,
+      "resolvedPage": "https://ja.wikipedia.org/wiki/%E3%83%A1%E3%82%A4%E3%83%B3%E3%83%9A%E3%83%BC%E3%82%B8"
+    },
+    {
+      "url": "https://www.google.com/",
+      "documentLoaded": true,
+      "resolvedPage": "https://www.google.com.hk/"
+    },
+    {
+      "url": "https://github.com/",
+      "documentLoaded": true,
+      "resolvedPage": "https://github.com/"
+    },
+    {
+      "url": "https://developer.mozilla.org/",
+      "documentLoaded": true,
+      "resolvedPage": "https://developer.mozilla.org/ja/"
+    },
+    {
+      "url": "https://developer.chrome.com/",
+      "documentLoaded": true,
+      "resolvedPage": "https://developer.chrome.com/"
+    },
+    {
+      "url": "https://www.figma.com/",
+      "documentLoaded": false,
+      "error": "page.goto: Timeout 30000ms exceeded."
+    },
+    {
+      "url": "https://www.notion.so/",
+      "documentLoaded": true,
+      "resolvedPage": "https://www.notion.com/"
+    }
+  ],
+  "demoSiteVisitsNote": "Temporary public-page visits only prime Chrome favicon cache. A loaded document is not proof of website compatibility; challenge pages may load. Unavailable icons retain Chrome defaults. No demo visit was used as a website-content screenshot."
+}

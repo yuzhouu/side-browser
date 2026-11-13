@@ -1,5 +1,13 @@
 # 项目交接
 
+## 日语商店素材（2026-11-13）
+
+`store/ja/` 新增 5 张 1280×800 功能图、440×280 小宣传图、1400×560 横幅、128×128 图标及日语商店介绍。沿用现有版式，文案与扩展界面均为日语；ChatGPT 和 Wikipedia 场景在独立的日语 Chrome for Testing 151 配置中实拍，使用 1.3.0 产物，原生侧栏实测 360×645 CSS 像素、DPR 2。截图来源、各自时间与哈希在 `store/assets/source/ja/`；示例收藏仅为公开网站，不含个人账号或日常浏览数据。
+
+采集、排版、打包脚本支持 `STORE_LOCALE=ja`；只导出日语时保留中英文成品及各自旧版本／生成时间。`store/index.html#ja` 提供预览，`store/design.html?lang=ja` 为排版源稿。执行 `STORE_LOCALE=ja node scripts/store-package.mjs` 可复用已有扩展 ZIP，输出 `releases/sidebrowser-store-ja-1.3.0.zip`，不清空安装包。
+
+已检查全部日语成品的实际排版与 PNG 尺寸、颜色格式、哈希和 ZIP 内容。浏览器用于此次明确要求的截图采集与图片导出，没有执行扩展功能回归；没有提交、上传或发布商店。
+
 ## 当前基线
 
 2026-09-22 补充：Chrome 与 Microsoft Edge 共用源码、`dist/` 与通用 ZIP；设置页按宿主浏览器打开快捷键管理，七种语言的界面使用通用浏览器称呼。Edge 安装及发布说明见 [Edge 发布](edge-publishing.md)，`QA_BROWSER=edge` 可运行同一套独立原生侧栏回归。仅主动开启「请求手机版」的网站使用 Android Chrome 兼容身份；最低 Chromium 145 的请求隔离规则保持不变。已在 [Microsoft Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/%E4%BE%A7%E7%AA%97-%C2%B7-sidebrowser/ejdcoddocalfdcgkadfenfpjplkkjmbi) 上架（2026-09-29 更新）。

@@ -5,10 +5,21 @@ import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
 const output = resolve('store');
-const locales = ['zh-CN', 'en'];
-for (const locale of locales) await mkdir(resolve(output, locale), { recursive: true });
+const locales = ['zh-CN', 'en', 'ja'];
+const selectedLocales = process.env.STORE_LOCALE ? [process.env.STORE_LOCALE] : locales;
+if (selectedLocales.some(locale => !locales.includes(locale)))
+  throw new Error('STORE_LOCALE must be zh-CN, en or ja');
+const previous = JSON.parse(await readFile(resolve(output, 'manifest.json')));
+const manifest = JSON.parse(await readFile('public/manifest.json'));
+for (const locale of selectedLocales) await mkdir(resolve(output, locale), { recursive: true });
 const browser = await chromium.launch({ executablePath: process.env.CHROME_PATH, headless: true });
-const exports = [];
+const exports = previous.exports
+  .filter(item => !selectedLocales.includes(item.locale))
+  .map(item => ({
+    ...item,
+    renderedAt: item.renderedAt || previous.renderedAt,
+    extensionVersion: item.extensionVersion || previous.version
+  }));
 try {
   const page = await browser.newPage({
     viewport: { width: 1440, height: 1000 },
@@ -16,7 +27,7 @@ try {
   });
   const errors = [];
   page.on('pageerror', error => errors.push(error.message));
-  for (const locale of locales) {
+  for (const locale of selectedLocales) {
     const url = pathToFileURL(resolve('store/design.html'));
     url.searchParams.set('lang', locale);
     await page.goto(url.href);
@@ -45,6 +56,8 @@ try {
       const item = {
         file,
         locale,
+        renderedAt: new Date().toISOString(),
+        extensionVersion: manifest.version,
         width: box.width,
         height: box.height,
         bytes: bytes.length,
@@ -54,11 +67,17 @@ try {
       console.log(`${item.file}: ${item.width} × ${item.height}, ${bytes.length} bytes`);
     }
   }
-  const source = JSON.parse(await readFile(resolve(output, 'assets/source/capture.json')));
-  const englishSource = JSON.parse(
-    await readFile(resolve(output, 'assets/source/en/capture.json'))
+  const captures = Object.fromEntries(
+    locales.map(locale => [
+      locale,
+      `assets/source/${locale === 'zh-CN' ? '' : `${locale}/`}capture.json`
+    ])
   );
-  const manifest = JSON.parse(await readFile('public/manifest.json'));
+  const sourceBrowsers = {};
+  for (const locale of locales) {
+    const source = JSON.parse(await readFile(resolve(output, captures[locale])));
+    sourceBrowsers[locale] = source.browser;
+  }
   await writeFile(
     resolve(output, 'manifest.json'),
     JSON.stringify(
@@ -68,11 +87,11 @@ try {
         defaultLocale: 'zh-CN',
         locales,
         design: 'design.html',
-        captures: { 'zh-CN': 'assets/source/capture.json', en: 'assets/source/en/capture.json' },
+        captures,
         screenshotMethod:
           'Unmodified screenshots from native Chrome side panel in each locale. Exact HTML/CSS text, framing and crops added outside the product UI. AI overview, research page and marquee combine screenshots of the main tab and sidebar. Detail pages intentionally focus on specific sidebar controls.',
         aiSite: 'https://chatgpt.com/',
-        sourceBrowsers: { 'zh-CN': source.browser, en: englishSource.browser },
+        sourceBrowsers,
         exports
       },
       null,
@@ -86,15 +105,35 @@ try {
           `<figure class="${item.width < 1000 ? 'small' : ''}"><a href="${item.file}"><img src="${item.file}" alt="${item.file}" width="${item.width}" height="${item.height}" loading="lazy"></a><figcaption><a download href="${item.file}">${item.file}</a> · ${item.width} × ${item.height}</figcaption></figure>`
       )
       .join('');
+  const labels = {
+    'zh-CN': [
+      '简体中文',
+      '中文文案与真实中文界面截图。5 张说明图、2 张宣传图和商店图标。',
+      '商店介绍文案',
+      '排版源稿'
+    ],
+    en: [
+      'English',
+      'English copy and real English UI screenshots. Five screenshots, two promotional images and the store icon.',
+      'Store listing copy',
+      'Editable layout'
+    ],
+    ja: [
+      '日本語',
+      '日本語の説明と実際の画面。機能紹介画像 5 枚、プロモーション画像 2 枚、ストアアイコン。',
+      'ストア紹介文',
+      '編集用レイアウト'
+    ]
+  };
   const sections = locales
     .map(
       locale =>
-        `<section id="${locale}" lang="${locale}"><h2>${locale === 'en' ? 'English' : '简体中文'}</h2><p>${locale === 'en' ? 'English copy and real English UI screenshots. Five screenshots, two promotional images and the store icon.' : '中文文案与真实中文界面截图。5 张说明图、2 张宣传图和商店图标。'} <a href="${locale}/listing.md">${locale === 'en' ? 'Store listing copy' : '商店介绍文案'}</a> · <a href="design.html?lang=${locale}">${locale === 'en' ? 'Editable layout' : '排版源稿'}</a></p><div class="grid">${gallery(exports.filter(item => item.locale === locale))}</div></section>`
+        `<section id="${locale}" lang="${locale}"><h2>${labels[locale][0]}</h2><p>${labels[locale][1]} <a href="${locale}/listing.md">${labels[locale][2]}</a> · <a href="design.html?lang=${locale}">${labels[locale][3]}</a></p><div class="grid">${gallery(exports.filter(item => item.locale === locale))}</div></section>`
     )
     .join('');
   await writeFile(
     resolve('store/index.html'),
-    `<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>SideBrowser · 中英文商店资料 / Store assets</title><style>*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#f5f5f0;color:#18354d;font:16px/1.6 -apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif}main{max-width:1320px;padding:48px 28px;margin:auto}header{margin-bottom:36px}h1{font-size:36px;margin:0 0 12px}h2{font-size:28px;margin:0 0 10px}p{margin:10px 0}a{color:#176cae}nav{display:flex;gap:16px;flex-wrap:wrap;margin-top:24px}nav a{padding:8px 18px;border:1px solid #bed0dd;border-radius:8px;text-decoration:none;background:white}section{margin:48px 0;scroll-margin-top:24px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:30px;margin-top:24px}figure{margin:0;min-width:0}img{display:block;max-width:100%;height:auto;border:1px solid #d9e1e6}figcaption{padding:12px 0;color:#5c7182;overflow-wrap:anywhere}.small img{width:auto}.manifest{padding:20px 0}@media(max-width:760px){.grid{grid-template-columns:1fr}main{padding:25px 16px}h1{font-size:28px}}</style><main><header><h1>侧窗 · SideBrowser</h1><p>中英文商店资料 / Bilingual store assets · ${manifest.version}</p><p>两套本地化文案、截图与宣传图。网站仅为使用示例，可换成你常用的网站。<br>Localized copy, screenshots and promotional images. The websites shown are examples; choose your own.</p><p><a href="../docs/privacy-policy.md">隐私政策 / Privacy</a> · <a href="submission.md">提交说明</a> · <a href="en/README.md">English guide</a> · <a href="../releases/sidebrowser-${manifest.version}.zip">扩展安装 ZIP / Extension ZIP</a></p><nav aria-label="选择资料语言 / Choose a language"><a href="#zh-CN">简体中文</a><a href="#en">English</a></nav></header>${sections}<p class="manifest"><a href="manifest.json">尺寸与 SHA-256 / Dimensions and checksums</a> · <a href="assets/source/capture.json">中文实拍来源</a> · <a href="assets/source/en/capture.json">English screenshot sources</a></p><p>已在 <a href="https://chromewebstore.google.com/detail/jlankbdlgdjliaccjkhccphfjmmpgkho?utm_source=item-share-cb">Chrome 应用商店 / Chrome Web Store</a> 和 <a href="https://microsoftedge.microsoft.com/addons/detail/%E4%BE%A7%E7%AA%97-%C2%B7-sidebrowser/ejdcoddocalfdcgkadfenfpjplkkjmbi">Microsoft Edge Add-ons</a> 上架。 / Now available in both stores.</p></main></html>`
+    `<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>SideBrowser · 中英日商店资料 / Store assets</title><style>*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#f5f5f0;color:#18354d;font:16px/1.6 -apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif}main{max-width:1320px;padding:48px 28px;margin:auto}header{margin-bottom:36px}h1{font-size:36px;margin:0 0 12px}h2{font-size:28px;margin:0 0 10px}p{margin:10px 0}a{color:#176cae}nav{display:flex;gap:16px;flex-wrap:wrap;margin-top:24px}nav a{padding:8px 18px;border:1px solid #bed0dd;border-radius:8px;text-decoration:none;background:white}section{margin:48px 0;scroll-margin-top:24px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:30px;margin-top:24px}figure{margin:0;min-width:0}img{display:block;max-width:100%;height:auto;border:1px solid #d9e1e6}figcaption{padding:12px 0;color:#5c7182;overflow-wrap:anywhere}.small img{width:auto}.manifest{padding:20px 0}@media(max-width:760px){.grid{grid-template-columns:1fr}main{padding:25px 16px}h1{font-size:28px}}</style><main><header><h1>侧窗 · SideBrowser</h1><p>中英日商店资料 / Localized store assets · ${manifest.version}</p><p>三套本地化文案、截图与宣传图。网站仅为使用示例，可换成你常用的网站。<br>Localized copy, screenshots and promotional images. The websites shown are examples; choose your own.</p><p><a href="../docs/privacy-policy.md">隐私政策 / Privacy</a> · <a href="submission.md">提交说明</a> · <a href="en/README.md">English guide</a> · <a href="../releases/sidebrowser-${manifest.version}.zip">扩展安装 ZIP / Extension ZIP</a></p><nav aria-label="选择资料语言 / Choose a language"><a href="#zh-CN">简体中文</a><a href="#en">English</a><a href="#ja">日本語</a></nav></header>${sections}<p class="manifest"><a href="manifest.json">尺寸与 SHA-256 / Dimensions and checksums</a> · <a href="assets/source/capture.json">中文实拍来源</a> · <a href="assets/source/en/capture.json">English screenshot sources</a> · <a href="assets/source/ja/capture.json">日本語の撮影記録</a></p><p>已在 <a href="https://chromewebstore.google.com/detail/jlankbdlgdjliaccjkhccphfjmmpgkho?utm_source=item-share-cb">Chrome 应用商店 / Chrome Web Store</a> 和 <a href="https://microsoftedge.microsoft.com/addons/detail/%E4%BE%A7%E7%AA%97-%C2%B7-sidebrowser/ejdcoddocalfdcgkadfenfpjplkkjmbi">Microsoft Edge Add-ons</a> 上架。 / Now available in both stores.</p></main></html>`
   );
 } finally {
   await browser.close();

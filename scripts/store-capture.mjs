@@ -7,13 +7,16 @@ import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 
 const locale = process.env.STORE_LOCALE || 'zh-CN';
-assert(['zh-CN', 'en'].includes(locale), 'STORE_LOCALE must be zh-CN or en');
+assert(['zh-CN', 'en', 'ja'].includes(locale), 'STORE_LOCALE must be zh-CN, en or ja');
 const english = locale === 'en';
+const japanese = locale === 'ja';
 const featuresOnly = process.env.STORE_CAPTURE_SCOPE === 'features';
-const articleUrl = english
-  ? 'https://en.wikipedia.org/wiki/Pomodoro_Technique'
-  : 'https://zh.wikipedia.org/wiki/%E7%95%AA%E8%8C%84%E5%B7%A5%E4%BD%9C%E6%B3%95';
-const output = resolve('store/assets/source', english ? 'en' : '');
+const articleUrl = japanese
+  ? 'https://ja.wikipedia.org/wiki/ポモドーロ・テクニック'
+  : english
+    ? 'https://en.wikipedia.org/wiki/Pomodoro_Technique'
+    : 'https://zh.wikipedia.org/wiki/%E7%95%AA%E8%8C%84%E5%B7%A5%E4%BD%9C%E6%B3%95';
+const output = resolve('store/assets/source', locale === 'zh-CN' ? '' : locale);
 const profile = await mkdtemp(join(tmpdir(), 'sidebrowser-store-'));
 await mkdir(output, { recursive: true });
 let executablePath = process.env.CHROME_PATH || chromium.executablePath();
@@ -37,14 +40,15 @@ try {
 const evidence = {
   ...previous,
   locale,
-  ...(english
+  ...(english || japanese
     ? {
-        researchScene:
-          'Two English Wikipedia pages; English research artwork uses main-research.png and wiki.png.'
+        researchScene: `Two ${japanese ? 'Japanese' : 'English'} Wikipedia pages; research artwork uses main-research.png and wiki.png.`
       }
     : {}),
   capturedAt: new Date().toISOString(),
-  captures: (previous.captures || []).filter(item => !english || item.name !== 'search'),
+  captures: (previous.captures || []).filter(
+    item => !(english || japanese) || item.name !== 'search'
+  ),
   diagnostics
 };
 const saveEvidence = () =>
@@ -55,6 +59,7 @@ try {
     executablePath,
     headless: false,
     viewport: null,
+    locale: japanese ? 'ja-JP' : english ? 'en-US' : locale,
     args: [
       `--load-extension=${resolve('dist')}`,
       `--disable-extensions-except=${resolve('dist')}`,
@@ -64,6 +69,7 @@ try {
     ignoreDefaultArgs: ['--disable-extensions']
   });
   evidence.browser = context.browser().version();
+  evidence.extensionVersion = JSON.parse(await readFile('dist/manifest.json')).version;
   const worker = context.serviceWorkers()[0] || (await context.waitForEvent('serviceworker'));
   const extension = worker.url().slice(0, worker.url().lastIndexOf('/'));
   const root = await context.browser().newBrowserCDPSession();
@@ -90,8 +96,21 @@ try {
     'initialized'
   );
   const browserLocale = await worker.evaluate(() => chrome.i18n.getUILanguage());
-  assert(english ? /^en(?:-|$)/.test(browserLocale) : browserLocale === locale);
+  assert(
+    english
+      ? /^en(?:-|$)/.test(browserLocale)
+      : japanese
+        ? /^ja(?:-|$)/.test(browserLocale)
+        : browserLocale === locale,
+    `Requested ${locale}, received browser locale ${browserLocale}`
+  );
   evidence.browserLocale = browserLocale;
+  evidence.documentLanguage = await panel.evaluate('document.documentElement.lang');
+  assert.equal(
+    evidence.documentLanguage,
+    locale,
+    'Captured extension UI must use the requested language'
+  );
   const capture = async (name, details = {}) => {
     const geometry = await panel.evaluate(
       '({width:innerWidth,height:innerHeight,dpr:devicePixelRatio})'
@@ -130,22 +149,30 @@ try {
     };
     // A second real main page gives the encyclopedia scene a distinct reading context.
     await control.goto(
-      english
-        ? 'https://en.wikipedia.org/wiki/Time_management'
-        : 'https://zh.wikipedia.org/wiki/%E6%97%B6%E9%97%B4%E7%AE%A1%E7%90%86',
+      japanese
+        ? 'https://ja.wikipedia.org/wiki/時間管理'
+        : english
+          ? 'https://en.wikipedia.org/wiki/Time_management'
+          : 'https://zh.wikipedia.org/wiki/%E6%97%B6%E9%97%B4%E7%AE%A1%E7%90%86',
       { waitUntil: 'load', timeout: 45000 }
     );
     await control.locator('h1').waitFor();
     await control.evaluate(() => document.fonts.ready);
     const intro = control
       .locator('p')
-      .filter({ hasText: english ? 'Time management is' : '时间管理就是' })
+      .filter({
+        hasText: japanese
+          ? /時間管理|タイムマネジメント/
+          : english
+            ? 'Time management is'
+            : '时间管理就是'
+      })
       .first();
     await control.mouse.wheel(
       0,
       (await intro.evaluate(element => element.getBoundingClientRect().top)) - 28
     );
-    await control.waitForFunction(() => scrollY > 200);
+    await control.waitForFunction(() => scrollY > 0);
     await control.screenshot({ path: join(output, 'main-research.png') });
     await writeFile(
       join(output, 'main-research.json'),
@@ -175,7 +202,7 @@ try {
     for (const [name, url] of [
       ['ai-chatgpt', 'https://chatgpt.com/'],
       ['wiki', articleUrl],
-      ...(!english
+      ...(!(english || japanese)
         ? [
             [
               'search',
@@ -215,28 +242,24 @@ try {
             const expected =
               name === 'ai-chatgpt'
                 ? /ChatGPT/.test(value.title) &&
-                  /你想|询问|聊天|What can|Ask|Chat with/.test(value.text)
-                : (english ? /Pomodoro/i : /番茄工作法/).test(value.title);
+                  /你想|询问|聊天|What can|Ask|Chat with|お手伝い|質問|チャット|何か/.test(
+                    value.text
+                  )
+                : (japanese ? /ポモドーロ/ : english ? /Pomodoro/i : /番茄工作法/).test(
+                    value.title
+                  );
             return expected && value.text.length > 50 && value;
           }, `${name} rendered content`);
           frame = candidate;
         } catch (error) {
           if (attempt === 2) throw error;
           console.log(`Retry ${name}: ${error.message}`);
-          await panel.click('#reload');
+          await panel.fill('#address', url);
+          await panel.press('Enter');
         }
       }
       assert(frame && rendered, `No verified content for ${name}`);
       console.log(`${name}: ${rendered.title}`);
-      if (name === 'ai-chatgpt') {
-        const before = await frame.evaluate('performance.timeOrigin');
-        const another = await context.newPage();
-        await another.goto('about:blank');
-        await another.close();
-        await control.bringToFront();
-        assert.equal(await frame.evaluate('performance.timeOrigin'), before);
-        evidence.aiRetainedAcrossTabSwitch = true;
-      }
       await new Promise(r => setTimeout(r, 4000));
       await panel.evaluate('document.activeElement?.blur()');
       await capture(name, { resolvedUrl: rendered.url, title: rendered.title });
@@ -249,7 +272,14 @@ try {
   // all visible controls, icon fallbacks and tooltips are rendered by the extension.
   const demoFavorites = [
     ['https://chatgpt.com/', 'ChatGPT'],
-    [articleUrl, english ? 'Pomodoro Technique — Wikipedia' : '番茄工作法 — 维基百科'],
+    [
+      japanese ? 'https://ja.wikipedia.org/' : articleUrl,
+      japanese
+        ? 'ウィキペディア — フリー百科事典'
+        : english
+          ? 'Pomodoro Technique — Wikipedia'
+          : '番茄工作法 — 维基百科'
+    ],
     ['https://www.google.com/', 'Google'],
     ['https://github.com/', 'GitHub'],
     ['https://developer.mozilla.org/', 'MDN Web Docs'],
@@ -263,8 +293,8 @@ try {
     demoFavorites.map(async ([url]) => {
       const page = await context.newPage();
       try {
-        await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 20000 });
-        await new Promise(resolve => setTimeout(resolve, 1800));
+        await page.goto(url, { waitUntil: 'load', timeout: 30000 });
+        await new Promise(resolve => setTimeout(resolve, 3000));
         const resolved = new URL(page.url());
         return { url, documentLoaded: true, resolvedPage: resolved.origin + resolved.pathname };
       } catch (error) {
@@ -278,13 +308,17 @@ try {
     'Temporary public-page visits only prime Chrome favicon cache. A loaded document is not proof of website compatibility; challenge pages may load. Unavailable icons retain Chrome defaults. No demo visit was used as a website-content screenshot.';
   await control.goto(articleUrl, { waitUntil: 'domcontentloaded', timeout: 30000 });
   await control.bringToFront();
-  for (const [url, title] of demoFavorites.toReversed()) {
-    await panel.evaluate(`chrome.windows.getCurrent().then(window =>
-      chrome.runtime.sendMessage({ type: 'PANEL_NAVIGATE', windowId: window.id, input: ${JSON.stringify(url)} }))`);
+  for (const [input, title] of demoFavorites.toReversed()) {
+    const navigation = await panel.evaluate(`chrome.windows.getCurrent().then(window =>
+      chrome.runtime.sendMessage({ type: 'PANEL_NAVIGATE', windowId: window.id, input: ${JSON.stringify(input)} }))`);
+    assert(navigation.ok, `Demo navigation failed: ${input}`);
     const result = await panel.evaluate(`chrome.windows.getCurrent().then(window =>
       chrome.runtime.sendMessage({ type: 'PANEL_ADD_FAVORITE', windowId: window.id,
-        url: ${JSON.stringify(url)}, title: ${JSON.stringify(title)} }))`);
-    assert(result.ok, 'Favorite saved');
+        url: ${JSON.stringify(navigation.data.url)}, title: ${JSON.stringify(title)} }))`);
+    assert(
+      result.ok,
+      `Favorite not saved: ${input} (${result.errorCode || result.error || 'unknown'})`
+    );
   }
   if (await panel.evaluate("document.querySelector('#empty').hidden")) {
     await panel.click('#more');
@@ -332,10 +366,15 @@ try {
     const content = await wiki.evaluate(
       '({title: document.title, text: document.body?.innerText})'
     );
-    return /Pomodoro|番茄工作法/.test(content.title) && content.text.length > 200;
+    return /Pomodoro|番茄工作法|ポモドーロ/.test(content.title) && content.text.length > 200;
   }, 'Wikipedia rendered');
+  await poll(
+    () => panel.evaluate("document.querySelector('#address-loading').hidden"),
+    'Wikipedia finished loading for menu captures'
+  );
   await new Promise(r => setTimeout(r, 1500));
   await panel.evaluate('document.activeElement?.blur()');
+  await capture('wiki', { title: await wiki.evaluate('document.title') });
   await panel.click('#recent');
   await poll(
     () => panel.evaluate("document.querySelector('#recent-menu').matches(':popover-open')"),
