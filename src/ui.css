@@ -107,7 +107,8 @@ button:hover:not(:disabled),
   background: var(--control-hover);
 }
 button:disabled,
-select:disabled {
+select:disabled,
+input[type='checkbox']:disabled {
   opacity: 0.5;
   cursor: default;
 }
@@ -168,6 +169,16 @@ select:disabled {
 }
 .setting-row + .setting-row {
   border-top: 1px solid var(--row-border);
+}
+.setting-toggle input[type='checkbox'] {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  accent-color: var(--accent);
+}
+.setting-toggle input[type='checkbox']:not(:disabled) {
+  cursor: pointer;
 }
 .custom-search {
   padding: 0 0 20px;
@@ -301,7 +312,7 @@ select:disabled {
   .card {
     padding: 20px;
   }
-  .setting-row,
+  .setting-row:not(.setting-toggle),
   .feedback-card {
     align-items: flex-start;
     flex-direction: column;

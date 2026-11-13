@@ -497,5 +497,11 @@
   },
   "errorFavoriteMissing": {
     "message": "This favorite was removed or changed. Select it again."
+  },
+  "settingsReturnHomeAfterOpen": {
+    "message": "Return home after opening in a tab"
+  },
+  "settingsReturnHomeAfterOpenDescription": {
+    "message": "On by default. After opening in the current or a new tab, return the sidebar home and clear its current page history. Turn off to keep the sidebar page."
   }
 }

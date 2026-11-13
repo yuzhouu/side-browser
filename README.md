@@ -27,7 +27,7 @@ SideBrowser brings your favorite websites into the native side panel of Chrome a
 
 Open the current webpage in one click, from the webpage or link context menu, or with **Alt + Shift + P** (**⌥ + ⇧ + P** on Mac). Use the compact toolbar to go back, go forward, enter an address, or close the current sidebar page.
 
-Closing a page returns to the welcome screen while keeping favorites, recent pages, preferences, and any tab binding. From More, open the sidebar page in a new browser tab, or choose **Open in current tab** to replace the current main page while keeping the sidebar open.
+Closing a page returns to the welcome screen while keeping favorites, recent pages, preferences, and any tab binding. From More, open the sidebar page in a new browser tab, or choose **Open in current tab** to replace the current main page. After either action succeeds, the sidebar returns home by default and clears that page's navigation history. Turn off **Return home after opening in a tab** in Settings to keep the sidebar page.
 
 Pages use **full width** by default; choose **narrow layout** for individual websites. Layout changes preserve the page and your input, and use your real browser identity by default. Enable **Request mobile site** only when needed; changing this option reloads that website. Choices are remembered by exact hostname across sidebars and can be reset in Settings. If verification repeats, turn off Request mobile site.
 

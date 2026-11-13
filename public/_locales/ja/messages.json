@@ -495,5 +495,11 @@
   },
   "errorFavoriteMissing": {
     "message": "このお気に入りは削除または変更されました。もう一度選択してください。"
+  },
+  "settingsReturnHomeAfterOpen": {
+    "message": "タブで開いた後にホームに戻る"
+  },
+  "settingsReturnHomeAfterOpenDescription": {
+    "message": "既定で有効です。現在のタブまたは新しいタブで開くと、サイドバーはホームに戻り、現在のページの履歴を消去します。無効にするとサイドバーのページを保持します。"
   }
 }

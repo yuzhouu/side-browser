@@ -495,5 +495,11 @@
   },
   "errorFavoriteMissing": {
     "message": "這筆收藏已被刪除或修改，請重新選擇收藏。"
+  },
+  "settingsReturnHomeAfterOpen": {
+    "message": "在分頁開啟後返回首頁"
+  },
+  "settingsReturnHomeAfterOpenDescription": {
+    "message": "預設開啟。在目前或新分頁成功開啟後，側窗返回首頁並清除目前網頁歷史；關閉此項可保留側窗網頁。"
   }
 }

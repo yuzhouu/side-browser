@@ -495,5 +495,11 @@
   },
   "errorFavoriteMissing": {
     "message": "Este favorito se ha eliminado o modificado. Selecciónalo de nuevo."
+  },
+  "settingsReturnHomeAfterOpen": {
+    "message": "Volver al inicio tras abrir en una pestaña"
+  },
+  "settingsReturnHomeAfterOpenDescription": {
+    "message": "Activado por defecto. Tras abrir en la pestaña actual o una nueva, el panel vuelve al inicio y borra el historial de su página actual. Desactívalo para conservar la página lateral."
   }
 }

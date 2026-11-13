@@ -495,5 +495,11 @@
   },
   "errorFavoriteMissing": {
     "message": "Ce favori a été supprimé ou modifié. Sélectionnez-le à nouveau."
+  },
+  "settingsReturnHomeAfterOpen": {
+    "message": "Revenir à l’accueil après ouverture dans un onglet"
+  },
+  "settingsReturnHomeAfterOpenDescription": {
+    "message": "Activé par défaut. Après ouverture dans l’onglet actuel ou un nouvel onglet, le panneau revient à l’accueil et efface l’historique de sa page actuelle. Désactivez pour conserver la page latérale."
   }
 }

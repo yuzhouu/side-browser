@@ -291,6 +291,23 @@ try {
   );
   assert.equal(await options.locator('#mode').inputValue(), 'desktop');
   assert.equal(await options.locator('#theme').inputValue(), 'system');
+  assert(await options.locator('#return-home-after-open').isChecked());
+  await options.locator('#return-home-after-open').uncheck();
+  await poll(
+    () => options.locator('#return-home-after-open').isEnabled(),
+    'return-home setting saved'
+  );
+  await options.reload();
+  await poll(
+    () => options.locator('#return-home-after-open').isEnabled(),
+    'return-home setting restored'
+  );
+  assert.equal(await options.locator('#return-home-after-open').isChecked(), false);
+  await options.locator('#return-home-after-open').check();
+  await poll(
+    () => options.locator('#return-home-after-open').isEnabled(),
+    'return-home default restored'
+  );
   assert(await options.locator('#clear-recent').isDisabled());
   for (const [key, value] of await options
     .locator('[data-i18n]')

@@ -37,6 +37,7 @@ export interface PanelSnapshot extends PanelState, BrowsingPreferences {
 }
 export interface Settings {
   favorites: Favorite[];
+  returnHomeAfterOpen: boolean;
   mode: Mode;
   sitePreferences: SitePreferences;
   theme: Theme;
@@ -87,12 +88,13 @@ export interface PanelRequests {
   PANEL_THEME: [{ theme: Theme }, Theme];
   PANEL_BIND: [{ sourceTabId: number; bound: boolean }, PanelSnapshot];
   PANEL_CURRENT: [undefined, PanelSnapshot];
-  PANEL_EXTERNAL: [undefined, boolean];
-  PANEL_OPEN_CURRENT_TAB: [undefined, boolean];
-  PANEL_OPEN_TAB: [{ url: string }, boolean];
+  PANEL_EXTERNAL: [undefined, PanelSnapshot];
+  PANEL_OPEN_CURRENT_TAB: [undefined, PanelSnapshot];
+  PANEL_OPEN_TAB: [{ url: string }, PanelSnapshot];
 }
 export interface SettingsRequests {
   SETTINGS_GET: [undefined, Settings];
+  SETTINGS_RETURN_HOME_AFTER_OPEN: [{ returnHomeAfterOpen: boolean }, Settings];
   SETTINGS_MODE: [{ mode: Mode }, Settings];
   SETTINGS_RESET_SITE: [{ hostname: string }, Settings];
   SETTINGS_THEME: [{ theme: Theme }, Settings];

@@ -495,5 +495,11 @@
   },
   "errorFavoriteMissing": {
     "message": "Dieser Favorit wurde entfernt oder geändert. Wählen Sie ihn erneut aus."
+  },
+  "settingsReturnHomeAfterOpen": {
+    "message": "Nach dem Öffnen in einem Tab zur Startseite"
+  },
+  "settingsReturnHomeAfterOpenDescription": {
+    "message": "Standardmäßig aktiviert. Nach dem Öffnen im aktuellen oder einem neuen Tab kehrt die Seitenleiste zur Startseite zurück und löscht ihren aktuellen Seitenverlauf. Deaktivieren, um die Seite beizubehalten."
   }
 }

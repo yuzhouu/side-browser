@@ -13,10 +13,12 @@ import { THEME_KEY } from './theme-preference.js';
 import { SITE_PREFERENCES_KEY } from './site-preferences.js';
 import { FAVORITES_KEY } from './favorites.js';
 import { FavoriteSettings } from './favorite-settings.js';
+import { RETURN_HOME_AFTER_OPEN_KEY } from './open-tab-preference.js';
 
 localizeDocument();
 const mode = element<HTMLSelectElement>('#mode');
 const theme = element<HTMLSelectElement>('#theme');
+const returnHomeAfterOpen = element<HTMLInputElement>('#return-home-after-open');
 const clear = element<HTMLButtonElement>('#clear-recent');
 const confirmation = element('#clear-confirmation');
 const confirmClear = element<HTMLButtonElement>('#confirm-clear');
@@ -74,6 +76,7 @@ function render() {
   favoriteSettings.render(settings?.favorites || [], busy || !settings);
   mode.disabled = busy || !settings;
   theme.disabled = busy || !settings;
+  returnHomeAfterOpen.disabled = busy || !settings;
   searchSettings.render(settings, busy);
   clear.disabled = busy || !settings?.recentCount;
   confirmClear.disabled = cancelClear.disabled = busy;
@@ -81,6 +84,7 @@ function render() {
   if (!busy) {
     mode.value = settings.mode;
     theme.value = settings.theme;
+    returnHomeAfterOpen.checked = settings.returnHomeAfterOpen;
   }
   element('#recent-count').textContent = t('settingsRecentCount', String(settings.recentCount));
   if (!settings.recentCount) confirmation.hidden = true;
@@ -176,6 +180,13 @@ mode.addEventListener('change', () =>
 theme.addEventListener('change', () =>
   change('SETTINGS_THEME', [{ theme: validTheme(theme.value) }], 'settingsSaved')
 );
+returnHomeAfterOpen.addEventListener('change', () =>
+  change(
+    'SETTINGS_RETURN_HOME_AFTER_OPEN',
+    [{ returnHomeAfterOpen: returnHomeAfterOpen.checked }],
+    'settingsSaved'
+  )
+);
 clear.addEventListener('click', () => {
   confirmation.hidden = false;
   cancelClear.focus();
@@ -218,6 +229,7 @@ chrome.storage.onChanged.addListener((changes, area) => {
       THEME_KEY in changes ||
       SEARCH_ENGINE_KEY in changes ||
       CUSTOM_SEARCH_ENGINE_KEY in changes ||
+      RETURN_HOME_AFTER_OPEN_KEY in changes ||
       FAVORITES_KEY in changes ||
       RECENT_KEY in changes) &&
     !busy

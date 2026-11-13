@@ -13,6 +13,7 @@ import { THEME_KEY } from '../src/theme-preference.ts';
 import { SITE_PREFERENCES_KEY } from '../src/site-preferences.ts';
 import { FAVORITES_KEY, restoreFavorites } from '../src/favorites.ts';
 import { CUSTOM_SEARCH_ENGINE_KEY, SEARCH_ENGINE_KEY } from '../src/search-engine.ts';
+import { RETURN_HOME_AFTER_OPEN_KEY } from '../src/open-tab-preference.ts';
 
 const event = () => ({
   listeners: [],
@@ -531,6 +532,7 @@ test('settings change the shared mode and clear recents without replacing window
   });
   assert.deepEqual(await settingsRequest('SETTINGS_GET'), {
     favorites: [],
+    returnHomeAfterOpen: true,
     mode: 'desktop',
     sitePreferences: {},
     theme: 'system',
@@ -540,6 +542,7 @@ test('settings change the shared mode and clear recents without replacing window
   });
   assert.deepEqual(await settingsRequest('SETTINGS_MODE', { mode: 'mobile' }), {
     favorites: [],
+    returnHomeAfterOpen: true,
     mode: 'mobile',
     sitePreferences: {},
     theme: 'system',
@@ -553,6 +556,7 @@ test('settings change the shared mode and clear recents without replacing window
   );
   assert.deepEqual(await settingsRequest('SETTINGS_CLEAR_RECENT'), {
     favorites: [],
+    returnHomeAfterOpen: true,
     mode: 'mobile',
     sitePreferences: {},
     theme: 'system',
@@ -745,11 +749,14 @@ test('recent addresses are shared and broadcast while window navigation stays in
 });
 
 test('refused destinations open in a new tab without becoming the page or a recent entry', async context => {
-  const { request, chrome } = await background(context, { [LAST_KEY]: { url: a, history: [a] } });
+  const { request, chrome } = await background(context, {
+    [LAST_KEY]: { url: a, history: [a] },
+    [RETURN_HOME_AFTER_OPEN_KEY]: false
+  });
   const created = [];
   chrome.tabs.create = async options => created.push(options);
   const before = await request('PANEL_READY');
-  assert.equal(await request('PANEL_OPEN_TAB', { url: b }), true);
+  assert.equal((await request('PANEL_OPEN_TAB', { url: b })).url, a);
   assert.deepEqual(created, [{ windowId: 1, url: b, active: true }]);
   await assert.rejects(request('PANEL_OPEN_TAB', { url: 'javascript:alert(1)' }), {
     code: 'errorUnsupportedUrl'
@@ -761,7 +768,7 @@ test('refused destinations open in a new tab without becoming the page or a rece
 });
 
 test('opening in the current main tab targets the active tab in the panel window and preserves side pages', async context => {
-  const { request, chrome } = await background(context);
+  const { request, chrome } = await background(context, { [RETURN_HOME_AFTER_OPEN_KEY]: false });
   await request('PANEL_NAVIGATE', { input: a });
   await request('PANEL_NAVIGATE', { input: b }, 2);
   const first = await request('PANEL_READY');
@@ -775,8 +782,8 @@ test('opening in the current main tab targets the active tab in the panel window
   const updates = [];
   chrome.tabs.update = async (id, options) => updates.push({ id, ...options });
   chrome.tabs.create = () => assert.fail('Opening in the current tab must not create a tab');
-  assert.equal(await request('PANEL_OPEN_CURRENT_TAB', { tabId: null, url: internal }), true);
-  assert.equal(await request('PANEL_OPEN_CURRENT_TAB', { tabId: null }, 2), true);
+  assert.equal((await request('PANEL_OPEN_CURRENT_TAB', { tabId: null, url: internal })).url, a);
+  assert.equal((await request('PANEL_OPEN_CURRENT_TAB', { tabId: null }, 2)).url, b);
   assert.deepEqual(updates, [
     { id: 11, url: a },
     { id: 21, url: b }
@@ -791,7 +798,7 @@ test('opening in the current main tab targets the active tab in the panel window
 });
 
 test('opening bound and shared side pages in the main tab preserves bindings and navigation', async context => {
-  const { request, chrome } = await background(context);
+  const { request, chrome } = await background(context, { [RETURN_HOME_AFTER_OPEN_KEY]: false });
   await request('PANEL_NAVIGATE', { input: a });
   await request('PANEL_BIND', { sourceTabId: 10, bound: true });
   await request('PANEL_NAVIGATE', { input: b, tabId: null });
@@ -835,15 +842,147 @@ test('opening in the current tab rejects missing targets and untrusted callers a
     throw new Error('Tab closed');
   };
   await assert.rejects(request('PANEL_OPEN_CURRENT_TAB', { tabId: null }), /Tab closed/);
-  chrome.tabs.update = async (id, options) => updates.push({ id, ...options });
-  await request('PANEL_OPEN_CURRENT_TAB', { tabId: null });
-  assert.deepEqual(updates, [{ id: 10, url: a }]);
   assert.deepEqual(await request('PANEL_READY'), before);
   assert.deepEqual([chrome.storage.local.values, chrome.storage.session.values], stored);
+  chrome.tabs.update = async (id, options) => updates.push({ id, ...options });
+  const opened = await request('PANEL_OPEN_CURRENT_TAB', { tabId: null });
+  assert.deepEqual(updates, [{ id: 10, url: a }]);
+  assert.equal(opened.url, '');
+  assert.deepEqual(opened.history, []);
+  assert.deepEqual(opened.recentUrls, before.recentUrls);
+});
+
+test('all browser-tab opening actions return the shared page home only after success by default', async context => {
+  for (const type of ['PANEL_EXTERNAL', 'PANEL_OPEN_CURRENT_TAB', 'PANEL_OPEN_TAB']) {
+    const { request, chrome, settingsRequest } = await background(context, {
+      [FAVORITES_KEY]: [{ url: a, title: 'Saved' }]
+    });
+    assert.equal((await settingsRequest('SETTINGS_GET')).returnHomeAfterOpen, true);
+    await request('PANEL_NAVIGATE', { input: a });
+    await request('PANEL_NAVIGATE', { input: b }, 2);
+    const before = await request('PANEL_READY');
+    const other = await request('PANEL_READY', {}, 2);
+    const stored = structuredClone([chrome.storage.local.values, chrome.storage.session.values]);
+    const method = type === 'PANEL_OPEN_CURRENT_TAB' ? 'update' : 'create';
+    chrome.tabs[method] = async () => {
+      throw new Error('Cannot open tab');
+    };
+    await assert.rejects(request(type, { tabId: null, url: internal }), /Cannot open tab/);
+    assert.deepEqual(await request('PANEL_READY'), before);
+    assert.deepEqual([chrome.storage.local.values, chrome.storage.session.values], stored);
+    let openedUrl;
+    chrome.tabs[method] = async (...args) => {
+      assert.equal(chrome.storage.session.values[WINDOWS_KEY][1].url, a);
+      openedUrl = args.at(-1).url;
+    };
+    const opened = await request(type, { tabId: null, url: internal });
+    assert.equal(openedUrl, type === 'PANEL_OPEN_TAB' ? internal : a);
+    assert.equal(opened.url, '');
+    assert.deepEqual(opened.history, []);
+    assert.equal(opened.historyIndex, -1);
+    assert.deepEqual(opened.recentUrls, before.recentUrls);
+    assert.deepEqual(opened.favorites, before.favorites);
+    assert.equal(chrome.storage.session.values[WINDOWS_KEY][1].url, '');
+    assert.equal(chrome.storage.local.values[LAST_KEY].url, '');
+    assert.equal(chrome.storage.local.values[RETURN_HOME_AFTER_OPEN_KEY], undefined);
+    assert.deepEqual(await request('PANEL_READY', {}, 2), other);
+    const restarted = await background(
+      context,
+      chrome.storage.local.values,
+      chrome.storage.session.values
+    );
+    assert.equal((await restarted.request('PANEL_READY')).url, '');
+  }
+});
+
+test('returning a bound page home after opening it preserves its binding and other side pages', async context => {
+  const { request, chrome } = await background(context);
+  await request('PANEL_NAVIGATE', { input: a });
+  await request('PANEL_BIND', { sourceTabId: 10, bound: true });
+  await request('PANEL_NAVIGATE', { input: b, tabId: null });
+  await request('PANEL_NAVIGATE', { input: internal }, 2);
+  for (const type of ['PANEL_EXTERNAL', 'PANEL_OPEN_CURRENT_TAB', 'PANEL_OPEN_TAB']) {
+    await request('PANEL_NAVIGATE', { input: a, tabId: 10 });
+    const before = await request('PANEL_READY');
+    const shared = structuredClone(chrome.storage.session.values[WINDOWS_KEY]);
+    const opened = await request(type, { tabId: 10, url: a });
+    assert.equal(opened.tabId, 10);
+    assert.equal(opened.url, '');
+    assert.deepEqual(opened.history, []);
+    assert.deepEqual(opened.recentUrls, before.recentUrls);
+    assert.equal(chrome.storage.session.values[BINDINGS_KEY][10].state.url, '');
+    assert.deepEqual(chrome.storage.session.values[WINDOWS_KEY], shared);
+  }
+});
+
+test('the return-home setting is shared, persisted and does not change any live page when toggled', async context => {
+  const { request, chrome, settingsRequest } = await background(context);
+  await request('PANEL_NAVIGATE', { input: a });
+  await request('PANEL_NAVIGATE', { input: b }, 2);
+  const before = [await request('PANEL_READY'), await request('PANEL_READY', {}, 2)];
+  const originalSession = structuredClone(chrome.storage.session.values);
+  const change = enabled =>
+    settingsRequest('SETTINGS_RETURN_HOME_AFTER_OPEN', { returnHomeAfterOpen: enabled });
+  assert.equal((await change(false)).returnHomeAfterOpen, false);
+  assert.equal(chrome.storage.local.values[RETURN_HOME_AFTER_OPEN_KEY], false);
+  // Navigation snapshots, even ones containing a stale preference, cannot overwrite it.
+  await request('PANEL_SAVE', { state: { ...before[0], returnHomeAfterOpen: true } });
+  for (const type of ['PANEL_EXTERNAL', 'PANEL_OPEN_CURRENT_TAB', 'PANEL_OPEN_TAB']) {
+    for (const windowId of [1, 2]) {
+      const result = await request(type, { tabId: null, url: internal }, windowId);
+      assert.deepEqual(result, pageState(before[windowId - 1]));
+    }
+  }
+  assert.deepEqual(chrome.storage.session.values, originalSession);
+  assert.equal((await change(true)).returnHomeAfterOpen, true);
+  assert.deepEqual(await request('PANEL_READY'), before[0]);
+  assert.deepEqual(await request('PANEL_READY', {}, 2), before[1]);
+  await change(false);
+  const restarted = await background(
+    context,
+    chrome.storage.local.values,
+    chrome.storage.session.values
+  );
+  assert.equal((await restarted.settingsRequest('SETTINGS_GET')).returnHomeAfterOpen, false);
+  assert.equal((await restarted.request('PANEL_EXTERNAL', { tabId: null })).url, a);
+});
+
+test('return-home preference rejects unauthorized or invalid writes and retains its value after failed saves', async context => {
+  const { request, chrome, settingsRequest, sender } = await background(context);
+  const change = enabled =>
+    settingsRequest('SETTINGS_RETURN_HOME_AFTER_OPEN', { returnHomeAfterOpen: enabled });
+  await assert.rejects(
+    settingsRequest('SETTINGS_RETURN_HOME_AFTER_OPEN', { returnHomeAfterOpen: false }, sender),
+    { code: 'errorSettingsOnly' }
+  );
+  await assert.rejects(change('false'), { code: 'errorUnknownOperation' });
+  const original = chrome.storage.local.set;
+  chrome.storage.local.set = async () => {
+    throw new Error('Storage unavailable');
+  };
+  await assert.rejects(change(false), /Storage unavailable/);
+  assert.equal((await settingsRequest('SETTINGS_GET')).returnHomeAfterOpen, true);
+  assert.equal(chrome.storage.local.values[RETURN_HOME_AFTER_OPEN_KEY], undefined);
+  chrome.storage.local.set = original;
+  await change(false);
+  await request('PANEL_NAVIGATE', { input: a });
+  // A queued preference change must be in force before an opening action runs.
+  const saving = change(true);
+  const opening = request('PANEL_EXTERNAL', { tabId: null });
+  await saving;
+  assert.equal((await opening).url, '');
+});
+
+test('missing or invalid stored return-home preferences use the enabled default', async context => {
+  for (const value of [undefined, null, 0, 'false']) {
+    const { settingsRequest } = await background(context, { [RETURN_HOME_AFTER_OPEN_KEY]: value });
+    assert.equal((await settingsRequest('SETTINGS_GET')).returnHomeAfterOpen, true);
+  }
 });
 
 test('clearing stays persisted after stale saves, reloads, external opens and reopening the same URL', async context => {
   const { request, chrome } = await background(context, {
+    [RETURN_HOME_AFTER_OPEN_KEY]: false,
     [RECENT_KEY]: [a, b],
     [LAST_KEY]: { url: a, history: [a] }
   });

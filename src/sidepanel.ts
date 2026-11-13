@@ -430,13 +430,25 @@ element('#empty-address').onclick = () => {
   address.select();
 };
 element<HTMLButtonElement>('#external').onclick = () => {
-  const tabId = active.state.tabId;
-  void serial(() => requestFor(tabId, 'PANEL_EXTERNAL'));
+  const page = active;
+  void serial(async () =>
+    applyOpenedPage(page, await requestFor(page.state.tabId, 'PANEL_EXTERNAL'))
+  );
 };
 element<HTMLButtonElement>('#open-current-tab').onclick = () => {
-  const tabId = active.state.tabId;
-  void serial(() => requestFor(tabId, 'PANEL_OPEN_CURRENT_TAB'));
+  const page = active;
+  void serial(async () =>
+    applyOpenedPage(page, await requestFor(page.state.tabId, 'PANEL_OPEN_CURRENT_TAB'))
+  );
 };
+function applyOpenedPage(page: PanelPage, state: PanelSnapshot) {
+  page.apply(state);
+  if (!state.url && page === active) {
+    recentMenu.hide();
+    autocomplete.hide();
+    address.focus();
+  }
+}
 function closeCurrentPage() {
   const page = active;
   void serial(async () => {
@@ -500,7 +512,10 @@ window.addEventListener('blur', () => moreMenu.hidePopover());
 noticeOpen.onclick = () => {
   const page = active;
   const url = page.target || page.state.url;
-  if (url) void serial(() => requestFor(page.state.tabId, 'PANEL_OPEN_TAB', { url }));
+  if (url)
+    void serial(async () =>
+      applyOpenedPage(page, await requestFor(page.state.tabId, 'PANEL_OPEN_TAB', { url }))
+    );
 };
 retry.onclick = () => {
   void serial(async () => {

@@ -45,6 +45,7 @@ import {
   searchUrl
 } from './search-engine.js';
 import { FAVORITES_KEY, restoreFavorites, moveFavorite, updateFavorite } from './favorites.js';
+import { RETURN_HOME_AFTER_OPEN_KEY, validReturnHomeAfterOpen } from './open-tab-preference.js';
 
 import {
   SITE_PREFERENCES_KEY,
@@ -69,6 +70,7 @@ let sitePreferences: SitePreferences = {};
 let theme: Theme;
 let searchEngine: SearchEngine;
 let customSearchEngine: CustomSearchEngine | null;
+let returnHomeAfterOpen: boolean;
 let recentUrls: string[] = [];
 let recentTitles: Record<string, string> = {};
 let favorites: Favorite[] = [];
@@ -115,6 +117,7 @@ const ready = (async () => {
       THEME_KEY,
       SEARCH_ENGINE_KEY,
       CUSTOM_SEARCH_ENGINE_KEY,
+      RETURN_HOME_AFTER_OPEN_KEY,
       RECENT_KEY,
       RECENT_TITLES_KEY,
       FAVORITES_KEY,
@@ -128,6 +131,7 @@ const ready = (async () => {
   theme = validTheme(local[THEME_KEY]);
   customSearchEngine = restoreCustomSearchEngine(local[CUSTOM_SEARCH_ENGINE_KEY]);
   searchEngine = validSearchEngine(local[SEARCH_ENGINE_KEY], customSearchEngine);
+  returnHomeAfterOpen = validReturnHomeAfterOpen(local[RETURN_HOME_AFTER_OPEN_KEY]);
   recentUrls = restoreRecentUrls(local[RECENT_KEY]);
   recentTitles = restoreRecentTitles(local[RECENT_TITLES_KEY], recentUrls);
   favorites = restoreFavorites(local[FAVORITES_KEY]);
@@ -411,6 +415,7 @@ function publishSearchEngine() {
 function getSettings(): Settings {
   return {
     favorites: structuredClone(favorites),
+    returnHomeAfterOpen,
     mode,
     sitePreferences: structuredClone(sitePreferences),
     theme,
@@ -418,6 +423,12 @@ function getSettings(): Settings {
     customSearchEngine: structuredClone(customSearchEngine),
     recentCount: recentUrls.length
   };
+}
+
+function finishOpeningInTab(windowId: number, tabId: number | null) {
+  return returnHomeAfterOpen
+    ? save(windowId, restorePanel({ mode }), tabId)
+    : getState(windowId, tabId);
 }
 
 chrome.runtime.onMessage.addListener((message: PanelRequest | SettingsRequest, sender, reply) => {
@@ -429,6 +440,14 @@ chrome.runtime.onMessage.addListener((message: PanelRequest | SettingsRequest, s
         throw userError('errorSettingsOnly');
       switch (message.type) {
         case 'SETTINGS_GET':
+          return getSettings();
+        case 'SETTINGS_RETURN_HOME_AFTER_OPEN':
+          if (typeof message.returnHomeAfterOpen !== 'boolean')
+            throw userError('errorUnknownOperation');
+          await chrome.storage.local.set({
+            [RETURN_HOME_AFTER_OPEN_KEY]: message.returnHomeAfterOpen
+          });
+          returnHomeAfterOpen = message.returnHomeAfterOpen;
           return getSettings();
         case 'SETTINGS_MODE':
           await setMode(message.mode);
@@ -548,9 +567,9 @@ chrome.runtime.onMessage.addListener((message: PanelRequest | SettingsRequest, s
       }
       case 'PANEL_EXTERNAL': {
         const url = getState(message.windowId, tabId).url;
-        if (isWebUrl(url))
-          await chrome.tabs.create({ windowId: message.windowId, url, active: true });
-        return true;
+        if (!isWebUrl(url)) return getState(message.windowId, tabId);
+        await chrome.tabs.create({ windowId: message.windowId, url, active: true });
+        return finishOpeningInTab(message.windowId, tabId);
       }
       case 'PANEL_OPEN_CURRENT_TAB': {
         const url = getState(message.windowId, tabId).url;
@@ -560,13 +579,13 @@ chrome.runtime.onMessage.addListener((message: PanelRequest | SettingsRequest, s
         if (target?.id === undefined || target.windowId !== message.windowId)
           throw userError('errorCurrentPage');
         await chrome.tabs.update(target.id, { url });
-        return true;
+        return finishOpeningInTab(message.windowId, tabId);
       }
       // A destination the side panel could not display (it never became the page URL).
       case 'PANEL_OPEN_TAB':
         if (!isWebUrl(message.url)) throw userError('errorUnsupportedUrl');
         await chrome.tabs.create({ windowId: message.windowId, url: message.url, active: true });
-        return true;
+        return finishOpeningInTab(message.windowId, tabId);
       default:
         throw userError('errorUnknownOperation');
     }

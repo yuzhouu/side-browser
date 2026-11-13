@@ -495,5 +495,11 @@
   },
   "errorFavoriteMissing": {
     "message": "这条收藏已被删除或修改，请重新选择收藏。"
+  },
+  "settingsReturnHomeAfterOpen": {
+    "message": "在标签页打开后返回首页"
+  },
+  "settingsReturnHomeAfterOpenDescription": {
+    "message": "默认开启。在当前或新标签页成功打开后，侧窗返回首页并清空当前网页历史；关闭此项可保留侧窗网页。"
   }
 }

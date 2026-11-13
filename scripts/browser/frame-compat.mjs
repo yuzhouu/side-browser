@@ -40,6 +40,13 @@ export async function checkFrameCompatibility({
     await panel.click('#notice-open');
     const tab = await opened;
     await tab.waitForURL(expected);
+    await poll(
+      () =>
+        panel.evaluate(
+          "!document.querySelector('#empty').hidden && !document.querySelector('#web').hasAttribute('src')"
+        ),
+      'refused page returns home after opening in a tab'
+    );
     await tab.close();
   };
   // A link inside the page: the destination never becomes the panel URL.
