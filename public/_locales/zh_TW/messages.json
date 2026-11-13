@@ -120,6 +120,9 @@
   "errorChromeVersion": {
     "message": "無法讀取瀏覽器版本，未啟用要求手機版。"
   },
+  "errorBackgroundUnavailable": {
+    "message": "無法連接擴充功能背景服務。請在瀏覽器擴充功能管理頁關閉再開啟側窗，然後重新開啟側邊欄。"
+  },
   "errorExtensionUnavailable": {
     "message": "擴充功能沒有回應，請再試一次。"
   },

@@ -120,6 +120,9 @@
   "errorChromeVersion": {
     "message": "ブラウザーのバージョンを取得できないため、モバイルサイトの要求を有効にできませんでした。"
   },
+  "errorBackgroundUnavailable": {
+    "message": "拡張機能のバックグラウンドに接続できません。ブラウザの拡張機能管理ページで SideBrowser をオフにしてからオンにし、サイドパネルを開き直してください。"
+  },
   "errorExtensionUnavailable": {
     "message": "拡張機能が応答しませんでした。もう一度お試しください。"
   },

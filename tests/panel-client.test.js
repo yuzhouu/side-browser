@@ -11,6 +11,157 @@ function runtime(context, value) {
   });
 }
 
+const noReceiver = 'Could not establish connection. Receiving end does not exist.';
+
+function fakePort() {
+  const listeners = {};
+  return {
+    onMessage: { addListener: listener => (listeners.message = listener) },
+    onDisconnect: { addListener: listener => (listeners.disconnect = listener) },
+    listeners
+  };
+}
+
+test('opening the panel connects before requesting state and recovers from a missing receiver', async context => {
+  const port = fakePort();
+  const received = [];
+  const sent = [];
+  const delays = [];
+  let connections = 0;
+  const state = { url: 'https://example.com/' };
+  runtime(context, {
+    connect() {
+      connections++;
+      return port;
+    },
+    async sendMessage(message) {
+      assert.equal(connections, 1);
+      sent.push(message);
+      if (sent.length === 1) throw new Error(noReceiver);
+      return { ok: true, data: state };
+    }
+  });
+  context.mock.method(globalThis, 'setTimeout', (callback, delay) => {
+    delays.push(delay);
+    callback();
+  });
+  const client = createPanelClient(7, message => received.push(message));
+  assert.deepEqual(await client.start(), state);
+  assert.deepEqual(sent, [
+    { type: 'PANEL_READY', windowId: 7 },
+    { type: 'PANEL_READY', windowId: 7 }
+  ]);
+  assert.deepEqual(delays, [250]);
+  // Manually retrying initialization reuses the existing port.
+  assert.deepEqual(await client.start(), state);
+  port.listeners.message({ type: 'connected', state });
+  assert.deepEqual(received, [{ type: 'connected', state }]);
+});
+
+test('persistent startup failure is bounded and leaves reconnection active for later recovery', async context => {
+  const ports = [];
+  const received = [];
+  const delays = [];
+  let requests = 0;
+  let lastErrorRead = 0;
+  runtime(context, {
+    connect() {
+      const port = fakePort();
+      ports.push(port);
+      return port;
+    },
+    async sendMessage() {
+      requests++;
+      throw new Error(noReceiver);
+    },
+    get lastError() {
+      lastErrorRead++;
+      return { message: noReceiver };
+    }
+  });
+  context.mock.method(globalThis, 'setTimeout', (callback, delay) => {
+    delays.push(delay);
+    callback();
+  });
+  const client = createPanelClient(7, message => received.push(message));
+  await assert.rejects(client.start(), { code: 'errorBackgroundUnavailable' });
+  assert.equal(requests, 3);
+  assert.deepEqual(delays, [250, 500]);
+  assert.equal(ports.length, 1);
+  ports[0].listeners.disconnect();
+  assert.equal(lastErrorRead, 1);
+  assert.equal(ports.length, 2);
+  const message = { type: 'connected', state: { url: 'https://example.com/' } };
+  ports[1].listeners.message(message);
+  assert.deepEqual(received, [message]);
+});
+
+test('a transport retry preserves the original target and navigation snapshot', async context => {
+  const sent = [];
+  let selected = 10;
+  const state = { url: 'https://example.com/', history: ['https://example.com/'] };
+  runtime(context, {
+    async sendMessage(message) {
+      sent.push(structuredClone(message));
+      if (sent.length === 1) throw new Error(noReceiver);
+      return { ok: true, data: message.state };
+    }
+  });
+  context.mock.method(globalThis, 'setTimeout', callback => {
+    selected = 11;
+    state.url = 'https://example.com/next';
+    state.history.push(state.url);
+    callback();
+  });
+  const client = createPanelClient(
+    7,
+    () => {},
+    () => selected
+  );
+  await client.request('PANEL_SAVE', { state });
+  assert.equal(sent.length, 2);
+  assert.deepEqual(sent[1], sent[0]);
+  assert.equal(sent[1].tabId, 10);
+  assert.deepEqual(sent[1].state, {
+    url: 'https://example.com/',
+    history: ['https://example.com/']
+  });
+});
+
+test('requests with an unknown delivery outcome or an application error are never replayed', async context => {
+  context.mock.method(globalThis, 'setTimeout', () => assert.fail('Unexpected retry'));
+  for (const failure of [
+    new Error('The message port closed before a response was received.'),
+    new Error('Extension context invalidated.'),
+    new Error('Unexpected browser error')
+  ]) {
+    let requests = 0;
+    runtime(context, {
+      async sendMessage() {
+        requests++;
+        throw failure;
+      }
+    });
+    const client = createPanelClient(7, () => {});
+    await assert.rejects(
+      client.request('PANEL_OPEN_TAB', { url: 'https://example.com/' }),
+      error => error === failure
+    );
+    assert.equal(requests, 1);
+  }
+  let requests = 0;
+  runtime(context, {
+    async sendMessage() {
+      requests++;
+      // Even the same text in an application response means the request was received.
+      return { ok: false, error: noReceiver, errorCode: 'errorCurrentPage' };
+    }
+  });
+  const client = createPanelClient(7, () => {});
+  await assert.rejects(client.request('PANEL_CURRENT'), { code: 'errorCurrentPage' });
+  assert.equal(requests, 1);
+});
+
 test('panel requests keep window routing and serialized error codes', async context => {
   let response = { ok: true, data: { url: 'https://example.com/' } };
   const sent = [];
@@ -78,6 +229,34 @@ test('worker disconnect reconnects one port and keeps delivering state to the ex
   assert.equal(ports.length, 2);
   ports[1].listeners.message({ type: 'recent', urls: [] });
   assert.deepEqual(received, [{ type: 'connected' }, { type: 'recent', urls: [] }]);
+});
+
+test('repeated missing ports back off and a successful connection resets the delay', context => {
+  const ports = [];
+  const timers = [];
+  runtime(context, {
+    connect() {
+      const port = fakePort();
+      ports.push(port);
+      return port;
+    }
+  });
+  context.mock.method(globalThis, 'setTimeout', (callback, delay) =>
+    timers.push({ callback, delay })
+  );
+  const client = createPanelClient(7, () => {});
+  client.connect();
+  for (let i = 0; i < 7; i++) {
+    ports.at(-1).listeners.disconnect();
+    timers.at(-1).callback();
+  }
+  assert.deepEqual(
+    timers.map(timer => timer.delay),
+    [250, 500, 1000, 2000, 4000, 5000, 5000]
+  );
+  ports.at(-1).listeners.message({ type: 'connected' });
+  ports.at(-1).listeners.disconnect();
+  assert.equal(timers.at(-1).delay, 250);
 });
 
 test('page requests capture their tab target and hidden pages use their own explicit target', async context => {

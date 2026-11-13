@@ -120,6 +120,9 @@
   "errorChromeVersion": {
     "message": "无法读取浏览器版本，未开启请求手机版。"
   },
+  "errorBackgroundUnavailable": {
+    "message": "无法连接扩展后台。请在浏览器扩展管理页关闭再开启侧窗，然后重新打开侧栏。"
+  },
   "errorExtensionUnavailable": {
     "message": "扩展没有响应，请重试。"
   },

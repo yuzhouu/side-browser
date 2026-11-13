@@ -39,7 +39,7 @@ const serial = <T>(task: () => T | PromiseLike<T>): Promise<T> => {
   operation = next.catch(error => showNotice(errorMessage(error), true));
   return next;
 };
-const { request, requestFor, connect } = createPanelClient(
+const { request, requestFor, start } = createPanelClient(
   windowId,
   message => {
     void serial(() => receiveBackgroundMessage(message));
@@ -466,9 +466,8 @@ noticeOpen.onclick = () => {
 };
 retry.onclick = () => {
   void serial(async () => {
-    select(await request('PANEL_READY'));
+    select(await start());
     if (active.state.url) active.load(active.state.url);
-    connect();
   });
 };
 document.addEventListener('keydown', event => {
@@ -481,7 +480,7 @@ document.addEventListener('keydown', event => {
   }
 });
 
-await serial(async () => {
-  select(await request('PANEL_READY'));
-  connect();
+// serial reports startup failures in the panel; do not also reject module evaluation.
+void serial(async () => {
+  select(await start());
 });

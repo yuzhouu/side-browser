@@ -120,6 +120,9 @@
   "errorChromeVersion": {
     "message": "Impossible de lire la version du navigateur. La demande de site mobile n’a pas été activée."
   },
+  "errorBackgroundUnavailable": {
+    "message": "Impossible de contacter le service en arrière-plan de l’extension. Désactivez puis réactivez SideBrowser dans la page des extensions du navigateur, puis rouvrez le panneau latéral."
+  },
   "errorExtensionUnavailable": {
     "message": "L’extension ne répond pas. Réessayez."
   },

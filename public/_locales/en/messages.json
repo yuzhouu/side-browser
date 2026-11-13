@@ -122,6 +122,9 @@
   "errorChromeVersion": {
     "message": "Could not read the browser version. Request mobile site has not been enabled."
   },
+  "errorBackgroundUnavailable": {
+    "message": "Cannot connect to the extension background. Turn SideBrowser off and on in the browser’s extensions page, then reopen the side panel."
+  },
   "errorExtensionUnavailable": {
     "message": "The extension did not respond. Try again."
   },

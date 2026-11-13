@@ -120,6 +120,9 @@
   "errorChromeVersion": {
     "message": "Die Browserversion konnte nicht gelesen werden. Die mobile Website wurde nicht angefordert."
   },
+  "errorBackgroundUnavailable": {
+    "message": "Keine Verbindung zum Erweiterungshintergrund. Schalte SideBrowser in der Erweiterungsverwaltung des Browsers aus und wieder ein. Öffne dann die Seitenleiste erneut."
+  },
   "errorExtensionUnavailable": {
     "message": "Die Erweiterung antwortet nicht. Versuche es erneut."
   },

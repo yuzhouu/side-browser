@@ -120,6 +120,9 @@
   "errorChromeVersion": {
     "message": "No se pudo leer la versión del navegador. No se ha activado la solicitud de sitio móvil."
   },
+  "errorBackgroundUnavailable": {
+    "message": "No se puede conectar con el servicio en segundo plano de la extensión. Desactiva y vuelve a activar SideBrowser en la página de extensiones del navegador y luego abre de nuevo el panel lateral."
+  },
   "errorExtensionUnavailable": {
     "message": "La extensión no responde. Inténtalo de nuevo."
   },
