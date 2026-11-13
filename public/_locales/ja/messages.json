@@ -25,6 +25,9 @@
   "navigation": {
     "message": "ページのナビゲーション"
   },
+  "goHome": {
+    "message": "ホームに戻る"
+  },
   "back": {
     "message": "戻る"
   },

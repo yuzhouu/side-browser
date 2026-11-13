@@ -25,6 +25,9 @@
   "navigation": {
     "message": "Navigation dans les pages"
   },
+  "goHome": {
+    "message": "Revenir à l’accueil"
+  },
   "back": {
     "message": "Précédent"
   },

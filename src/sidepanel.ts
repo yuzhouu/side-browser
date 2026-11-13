@@ -102,12 +102,16 @@ function render(page = active) {
   recentMenu.render(state);
   autocomplete.sync();
   favoriteList.render(state.favorites);
-  const favorite = element<HTMLButtonElement>('#favorite');
   const saved = state.favorites.some(item => item.url === state.url);
-  favorite.disabled = !state.url;
-  favorite.setAttribute('aria-pressed', String(saved));
-  favorite.title = t(saved ? 'removeFavorite' : 'addFavorite');
-  element('#favorite-label').textContent = favorite.title;
+  const favoriteTitle = t(saved ? 'removeFavorite' : 'addFavorite');
+  for (const selector of ['#favorite', '#favorite-current']) {
+    const favorite = element<HTMLButtonElement>(selector);
+    favorite.disabled = !state.url;
+    favorite.setAttribute('aria-pressed', String(saved));
+    favorite.setAttribute('aria-label', favoriteTitle);
+    favorite.title = favoriteTitle;
+  }
+  element('#favorite-label').textContent = favoriteTitle;
   document.body.classList.toggle('mobile', state.mode === 'mobile');
   document.body.dataset.scope = state.tabId === null ? 'shared' : 'bound';
   document.body.dataset.tabId = String(state.tabId ?? 'shared');
@@ -139,7 +143,7 @@ function render(page = active) {
   element('#binding-label').textContent = t(bound ? 'unbindTab' : 'bindTab');
   element<HTMLButtonElement>('#back').disabled = state.historyIndex <= 0;
   element<HTMLButtonElement>('#forward').disabled = state.historyIndex >= state.history.length - 1;
-  element<HTMLButtonElement>('#close-current').disabled = !state.url;
+  element<HTMLButtonElement>('#home').disabled = !state.url;
   element<HTMLButtonElement>('#external').disabled = !state.url;
   element<HTMLButtonElement>('#close-page').disabled = !state.url;
   emptyCurrent.disabled = false;
@@ -408,9 +412,9 @@ function closeCurrentPage() {
     if (page === active) address.focus();
   });
 }
-element<HTMLButtonElement>('#close-current').onclick = closeCurrentPage;
+element<HTMLButtonElement>('#home').onclick = closeCurrentPage;
 element<HTMLButtonElement>('#close-page').onclick = closeCurrentPage;
-element('#favorite').onclick = () => {
+function toggleFavorite() {
   const page = active;
   const url = page.state.url;
   const saved = page.state.favorites.some(item => item.url === url);
@@ -424,7 +428,9 @@ element('#favorite').onclick = () => {
         });
     setFavorites(favorites);
   });
-};
+}
+element('#favorite').onclick = toggleFavorite;
+element('#favorite-current').onclick = toggleFavorite;
 element('#help').onclick = () => {
   void serial(() => chrome.tabs.create({ windowId, url: chrome.runtime.getURL('help.html') }));
 };

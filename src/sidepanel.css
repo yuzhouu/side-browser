@@ -102,7 +102,8 @@ input {
 input::placeholder {
   color: var(--placeholder);
 }
-#recent {
+#recent,
+#favorite-current {
   width: 24px;
   height: 24px;
   border-radius: 3px;
@@ -454,10 +455,12 @@ main {
   outline-offset: 2px;
   border-radius: 3px;
 }
-#more-menu #favorite[aria-pressed='true'] {
+#more-menu #favorite[aria-pressed='true'],
+#favorite-current[aria-pressed='true'] {
   color: var(--accent-strong);
 }
-#favorite[aria-pressed='true'] svg {
+#favorite[aria-pressed='true'] svg,
+#favorite-current[aria-pressed='true'] svg {
   fill: currentColor;
 }
 #favorites {

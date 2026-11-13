@@ -22,6 +22,17 @@
         </svg>
       </button>
       <span class="toolbar-separator" aria-hidden="true"></span>
+      <button
+        id="home"
+        type="button"
+        data-i18n-aria-label="goHome"
+        data-i18n-title="goHome"
+        disabled
+      >
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="m3 10 9-7 9 7M5 9v12h14V9M9 21v-8h6v8" />
+        </svg>
+      </button>
       <button id="back" type="button" data-i18n-aria-label="back" data-i18n-title="back" disabled>
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14 6-6 6 6 6M8 12h12" /></svg>
       </button>
@@ -33,17 +44,6 @@
         disabled
       >
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m10 6 6 6-6 6M4 12h12" /></svg>
-      </button>
-      <button
-        id="close-current"
-        type="button"
-        data-i18n-aria-label="closePage"
-        data-i18n-title="closePageTitle"
-        disabled
-      >
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <path d="m6 6 12 12M18 6 6 18" />
-        </svg>
       </button>
       <form id="navigate">
         <input
@@ -58,6 +58,18 @@
           spellcheck="false"
           enterkeyhint="go"
         /><button
+          id="favorite-current"
+          type="button"
+          aria-pressed="false"
+          data-i18n-aria-label="addFavorite"
+          data-i18n-title="addFavorite"
+          disabled
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2-5.6-3-5.6 3 1.1-6.2L3 9.6l6.2-.9Z" />
+          </svg>
+        </button>
+        <button
           id="recent"
           type="button"
           popovertarget="recent-menu"

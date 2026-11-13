@@ -20,8 +20,7 @@ export async function checkFavorites({
     api.evaluate(`chrome.windows.getCurrent().then(window =>
     chrome.runtime.sendMessage({ type: ${JSON.stringify(type)}, windowId: window.id, ...${JSON.stringify(data)} }))`);
   const favorite = async () => {
-    await panel.click('#more');
-    await panel.click('#favorite');
+    await panel.click('#favorite-current');
   };
   const close = async () => {
     await panel.click('#more');
@@ -33,7 +32,7 @@ export async function checkFavorites({
   };
   assert(
     await panel.evaluate(
-      "document.querySelector('#favorite').disabled && document.querySelector('#favorites').hidden"
+      "document.querySelector('#favorite-current').disabled && document.querySelector('#favorites').hidden"
     )
   );
   const first = `${base}/favorite-first`;
@@ -54,7 +53,7 @@ export async function checkFavorites({
   assert.equal(await frame.evaluate('window.token'), token);
   assert(
     await panel.evaluate(
-      "document.querySelector('#favorite').getAttribute('aria-pressed') === 'true'"
+      "document.querySelector('#favorite-current').getAttribute('aria-pressed') === 'true'"
     )
   );
   await panel.click('#more');
@@ -71,7 +70,7 @@ export async function checkFavorites({
     'favorite title independent of recents'
   );
   await favorite();
-  await poll(async () => !(await state()).favorites.length, 'favorite menu removes');
+  await poll(async () => !(await state()).favorites.length, 'favorite toolbar button removes');
   await favorite();
   await poll(async () => (await state()).favorites.length === 1, 'favorite can be added again');
   // Internal navigation must save its own title, even without a recent entry.
@@ -162,9 +161,9 @@ export async function checkFavorites({
   await poll(
     () =>
       panel.evaluate(
-        "document.querySelector('#favorite').getAttribute('aria-pressed') === 'false'"
+        "document.querySelector('#favorite-current').getAttribute('aria-pressed') === 'false'"
       ),
-    'remote removal updates menu'
+    'remote removal updates toolbar'
   );
   assert.equal((await state()).url, first);
   await favorite();

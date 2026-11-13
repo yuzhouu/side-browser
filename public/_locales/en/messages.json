@@ -25,6 +25,9 @@
   "navigation": {
     "message": "Page navigation"
   },
+  "goHome": {
+    "message": "Go to home"
+  },
   "back": {
     "message": "Back"
   },

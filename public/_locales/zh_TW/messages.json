@@ -25,6 +25,9 @@
   "navigation": {
     "message": "網頁導覽"
   },
+  "goHome": {
+    "message": "回到首頁"
+  },
   "back": {
     "message": "上一頁"
   },

@@ -94,10 +94,10 @@ export async function checkSearchEngine({
   frame = await loaded(engines.duckduckgo + encodeURIComponent('example.com/docs'));
   await navigate(`${base}/search-close`);
   const closing = await state();
-  await panel.click('#close-current');
+  await panel.click('#home');
   await poll(
     () => panel.evaluate("!document.querySelector('#empty').hidden"),
-    'toolbar close returns to welcome'
+    'toolbar home returns to welcome'
   );
   const closed = await state();
   assert.equal(closed.url, '');
@@ -106,12 +106,12 @@ export async function checkSearchEngine({
   assert.deepEqual(closed.favorites, closing.favorites);
   assert(
     await panel.evaluate(
-      "document.querySelector('#close-current').disabled && !document.querySelector('#web').hasAttribute('src') && !document.querySelector('#address-suggestions').matches(':popover-open')"
+      "document.querySelector('#home').disabled && !document.querySelector('#web').hasAttribute('src') && !document.querySelector('#address-suggestions').matches(':popover-open')"
     )
   );
-  await screenshot('toolbar-close-welcome');
+  await screenshot('toolbar-home-welcome');
   await options.close();
   console.log(
-    'PASS Search engine settings, persistence, live updates without reload, all four search URLs in iframe (fixture responses), plain Enter/search action and toolbar close'
+    'PASS Search engine settings, persistence, live updates without reload, all four search URLs in iframe (fixture responses), plain Enter/search action and toolbar home'
   );
 }

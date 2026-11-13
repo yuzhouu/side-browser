@@ -423,7 +423,7 @@ try {
     await panel.evaluate(
       "[...document.querySelector('header').children].map(element => element.id || element.className)"
     ),
-    ['current', 'toolbar-separator', 'back', 'forward', 'close-current', 'navigate', 'more']
+    ['current', 'toolbar-separator', 'home', 'back', 'forward', 'navigate', 'more']
   );
   pass('Panel identity, localized empty state and toolbar order');
   await screenshot('native-empty');
@@ -965,7 +965,7 @@ try {
     assert(
       await panel.evaluate(`document.querySelector('#address').value === '' &&
       document.querySelector('#notice').hidden &&
-      ['back', 'forward', 'close-current', 'external', 'close-page'].every(id =>
+      ['back', 'forward', 'home', 'external', 'close-page'].every(id =>
         document.getElementById(id).disabled)`)
     );
     assert.deepEqual((await state()).history, []);

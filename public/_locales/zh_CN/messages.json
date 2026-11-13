@@ -25,6 +25,9 @@
   "navigation": {
     "message": "网页导航"
   },
+  "goHome": {
+    "message": "回到首页"
+  },
   "back": {
     "message": "后退"
   },
